@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>duanju OpsPilot</title>
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg: #0b1020;
+      --bg-card: #131b33;
+      --bg-elevated: #182342;
+      --border: #2a396b;
+      --border-subtle: #1e2d52;
+      --text: #eef3ff;
+      --text-muted: #99a7d1;
+      --text-dim: #6b7db3;
+      --accent: #5473ff;
+      --accent-glow: rgba(84, 115, 255, 0.15);
+      --ok: #2bd576;
+      --ok-bg: rgba(43, 213, 118, 0.1);
+      --warn: #ffcc66;
+      --warn-bg: rgba(255, 204, 102, 0.1);
+      --bad: #ff6b6b;
+      --bad-bg: rgba(255, 107, 107, 0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', sans-serif;
+      --mono: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Reset ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* ── Layout ── */
+    .app { display: flex; min-height: 100vh; }
+    
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+    .brand { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .brand-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 32px; }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+    .nav-item:hover { background: var(--bg-elevated); color: var(--text); }
+    .nav-item.active { background: var(--accent-glow); color: var(--accent); }
+    .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      margin-left: 200px;
+      padding: 24px 32px;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .header h1 { font-size: 24px; font-weight: 600; }
+    .header-actions { display: flex; gap: 12px; }
+
+    /* ── Stats Grid ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: all 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .stat-value { font-size: 28px; font-weight: 700; font-family: var(--mono); }
+    .stat-change { font-size: 12px; margin-top: 4px; }
+    .stat-change.up { color: var(--ok); }
+    .stat-change.down { color: var(--bad); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── Panel ── */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Dashboard Grid ── */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── Channel Cards ── */
+    .channel-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .channel-card:hover { border-color: var(--accent); }
+    .channel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .channel-name { font-size: 13px; font-weight: 600; }
+    .channel-lang { font-size: 10px; padding: 2px 6px; background: var(--accent-glow); border-radius: 4px; color: var(--accent); }
+    .channel-stats { display: flex; gap: 16px; }
+    .channel-stat { display: flex; flex-direction: column; }
+    .channel-stat-val { font-size: 14px; font-weight: 600; font-family: var(--mono); }
+    .channel-stat-label { font-size: 10px; color: var(--text-muted); }
+
+    /* ── Table ── */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 10px 12px; font-size: 11px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }
+    .data-table tr:hover { background: var(--bg-elevated); }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #4161ee; }
+    .btn-secondary { background: var(--bg-elevated); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    /* ── Filter ── */
+    .filters { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-label { font-size: 11px; color: var(--text-muted); }
+    .filter-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+
+    /* ── Tier Badge ── */
+    .tier-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .tier-top { background: rgba(255, 215, 0, 0.15); color: #ffd700; }
+    .tier-head { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+    .tier-mid { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .tier-rising { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .tier-new { background: rgba(107, 114, 128, 0.15); color: #6b7280; }
+
+    /* ── AI Chat Popup ── */
+    .ai-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(84, 115, 255, 0.4);
+      transition: all 0.2s;
+      z-index: 1000;
+    }
+    .ai-float:hover { transform: scale(1.1); }
+    .ai-float .icon { font-size: 24px; }
+
+    .ai-popup {
+      position: fixed;
+      bottom: 96px;
+      right: 24px;
+      width: 380px;
+      height: 500px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+    }
+    .ai-popup.active { display: flex; }
+    .ai-popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ai-popup-title { font-size: 14px; font-weight: 600; }
+    .ai-popup-close { cursor: pointer; font-size: 18px; color: var(--text-muted); }
+    .ai-messages { flex: 1; overflow-y: auto; padding: 16px; }
+    .ai-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .ai-input-row input { flex: 1; }
+
+    /* ── Loading ── */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(11, 16, 32, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .loading-overlay.active { display: flex; }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; padding: 16px 8px; }
+      .brand-sub, .nav-item span:not(.icon) { display: none; }
+      .main { margin-left: 60px; padding: 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+</div>
+
+<div class="app">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="brand">Duanju</div>
+    <div class="brand-sub">短剧出海运营系统</div>
+
+    <div class="nav-item active" onclick="showPanel('dashboard')" id="nav-dashboard">
+      <span class="icon">📊</span>
+      <span>仪表盘</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('upload')" id="nav-upload">
+      <span class="icon">▲</span>
+      <span>上架助手</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('channel')" id="nav-channel">
+      <span class="icon">📺</span>
+      <span>自有频道</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('competitor')" id="nav-competitor">
+      <span class="icon">🔎</span>
+      <span>竞品频道</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('distill')" id="nav-distill">
+      <span class="icon">🧪</span>
+      <span>蒸馏数据</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('youtube')" id="nav-youtube">
+      <span class="icon">▶</span>
+      <span>YouTube</span>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Dashboard -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="header">
+        <h1>📊 仪表盘</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary" onclick="refreshDashboard()">刷新</button>
+        </div>
+      </div>
+      <div class="stats-grid" id="dashboard-stats"></div>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-title">📺 自有频道</div>
+          <div id="dashboard-channels"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔎 竞品分布</div>
+          <div id="dashboard-competitor"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Assistant -->
+    <div class="panel" id="panel-upload">
+      <div class="header">
+        <h1>▲ 上架助手</h1>
+      </div>
+      <div class="card">
+        <div class="card-title">生成上架方案</div>
+        <div id="upload-form"></div>
+      </div>
+    </div>
+
+    <!-- Channel Analysis -->
+    <div class="panel" id="panel-channel">
+      <div class="header">
+        <h1>📺 自有频道分析</h1>
+      </div>
+      <div class="tabs">
+        <div class="tab active" onclick="switchChannelView('overview')">总览</div>
+        <div class="tab" onclick="switchChannelView('daily')">日报</div>
+      </div>
+      <div id="channel-overview"></div>
+      <div id="channel-daily" style="display:none;"></div>
+    </div>
+
+    <!-- Competitor Channels -->
+    <div class="panel" id="panel-competitor">
+      <div class="header">
+        <h1>🔎 竞品频道分析</h1>
+        <button class="btn btn-secondary" onclick="loadCompetitorChannels(true)">刷新</button>
+      </div>
+      <div class="filters" id="competitor-filters"></div>
+      <div id="competitor-content"></div>
+    </div>
+
+    <!-- Distill Data -->
+    <div class="panel" id="panel-distill">
+      <div class="header">
+        <h1>🧪 蒸馏数据</h1>
+      </div>
+      <div id="distill-content"></div>
+    </div>
+
+    <!-- YouTube OAuth -->
+    <div class="panel" id="panel-youtube">
+      <div class="header">
+        <h1>▶ YouTube 频道授权</h1>
+      </div>
+      <div class="card">
+        <div class="card-title">OAuth 授权管理</div>
+        <p style="color: var(--text-muted); font-size: 13px;">
+          授权后可查看频道详细数据、分析报告等。
+        </p>
+        <div id="youtube-auth"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- AI Float Button -->
+  <div class="ai-float" onclick="toggleAI()">
+    <span class="icon">💬</span>
+  </div>
+
+  <!-- AI Popup -->
+  <div class="ai-popup" id="ai-popup">
+    <div class="ai-popup-header">
+      <div class="ai-popup-title">AI 助手</div>
+      <div class="ai-popup-close" onclick="toggleAI()">×</div>
+    </div>
+    <div class="ai-messages" id="ai-messages"></div>
+    <div class="ai-input-row">
+      <input type="text" id="ai-input" placeholder="输入消息..." onkeypress="if(event.key==='Enter')sendAI()">
+      <button class="btn btn-primary" onclick="sendAI()">发送</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let currentPanel = 'dashboard';
+let dashboardData = null;
+let channelData = null;
+let competitorData = null;
+
+// ── Panel Switching ──
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  document.getElementById(`nav-${name}`).classList.add('active');
+  currentPanel = name;
+  
+  // Lazy load data
+  if (name === 'dashboard' && !dashboardData) loadDashboard();
+  if (name === 'channel' && !channelData) loadChannelData();
+  if (name === 'competitor' && !competitorData) loadCompetitorChannels();
+}
+
+// ── Dashboard ──
+async function loadDashboard() {
+  try {
+    const [dashRes, channelRes, compRes] = await Promise.all([
+      fetch('/api/dashboard'),
+      fetch('/api/channel-analysis'),
+      fetch('/api/competitor-channels')
+    ]);
+    
+    const dash = await dashRes.json();
+    const channel = await channelRes.json();
+    const comp = await compRes.json();
+    
+    dashboardData = { dash, channel, comp };
+    renderDashboard();
+  } catch (e) {
+    console.error('Dashboard load error:', e);
+  }
+}
+
+function renderDashboard() {
+  if (!dashboardData) return;
+  const { dash, channel, comp } = dashboardData;
+  
+  // Stats
+  const statsHtml = `
+    <div class="stat-card">
+      <div class="stat-label">自有频道</div>
+      <div class="stat-value">${channel.channels?.length || 0}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">竞品频道</div>
+      <div class="stat-value">${comp.total || 0}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">蒸馏规则</div>
+      <div class="stat-value">${dash.rules_total || 0}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">采集视频</div>
+      <div class="stat-value">${formatNumber(dash.videos_collected || 0)}</div>
+    </div>
+  `;
+  document.getElementById('dashboard-stats').innerHTML = statsHtml;
+  
+  // Channels
+  const channelsHtml = (channel.channels || []).map(ch => `
+    <div class="channel-card">
+      <div class="channel-header">
+        <div class="channel-name">${ch.name}</div>
+        <div class="channel-lang">${ch.language || ''}</div>
+      </div>
+      <div class="channel-stats">
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.subscribers || 0)}</div>
+          <div class="channel-stat-label">订阅</div>
+        </div>
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.total_views || 0)}</div>
+          <div class="channel-stat-label">播放</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('dashboard-channels').innerHTML = channelsHtml || '<div style="color:var(--text-muted)">暂无数据</div>';
+  
+  // Competitor distribution
+  const tiers = comp.tier_distribution || {};
+  const langs = comp.by_language || {};
+  const compHtml = `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Tier 分布</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${Object.entries(tiers).map(([t, n]) => `<span class="tier-badge tier-${t}">${t}: ${n}</span>`).join('')}
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">语种分布</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${Object.entries(langs).map(([l, n]) => `<span style="font-size:11px;padding:2px 8px;background:var(--bg-elevated);border-radius:4px;">${l}: ${n}</span>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('dashboard-competitor').innerHTML = compHtml;
+}
+
+function refreshDashboard() {
+  dashboardData = null;
+  loadDashboard();
+}
+
+// ── Channel Analysis ──
+async function loadChannelData() {
+  try {
+    const res = await fetch('/api/channel-analysis');
+    channelData = await res.json();
+    renderChannelOverview();
+  } catch (e) {
+    console.error('Channel load error:', e);
+  }
+}
+
+function renderChannelOverview() {
+  if (!channelData) return;
+  const html = (channelData.channels || []).map(ch => `
+    <div class="channel-card">
+      <div class="channel-header">
+        <div class="channel-name">${ch.name}</div>
+        <div class="channel-lang">${ch.language || ''}</div>
+      </div>
+      <div class="channel-stats">
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.subscribers || 0)}</div>
+          <div class="channel-stat-label">订阅</div>
+        </div>
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.total_views || 0)}</div>
+          <div class="channel-stat-label">播放</div>
+        </div>
+        <div class="channel-stat">
+          <div class="channel-stat-val">${ch.avg_engagement || '0%'}</div>
+          <div class="channel-stat-label">赞率</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('channel-overview').innerHTML = html || '<div style="color:var(--text-muted)">暂无数据</div>';
+}
+
+function switchChannelView(view) {
+  document.querySelectorAll('#panel-channel .tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('channel-overview').style.display = view === 'overview' ? 'block' : 'none';
+  document.getElementById('channel-daily').style.display = view === 'daily' ? 'block' : 'none';
+}
+
+// ── Competitor Channels ──
+async function loadCompetitorChannels(force = false) {
+  if (competitorData && !force) {
+    renderCompetitorChannels();
+    return;
+  }
+  try {
+    const res = await fetch('/api/competitor-channels?_t=' + Date.now());
+    competitorData = await res.json();
+    renderCompetitorChannels();
+  } catch (e) {
+    console.error('Competitor load error:', e);
+  }
+}
+
+function renderCompetitorChannels() {
+  if (!competitorData) return;
+  const channels = competitorData.channels || [];
+  
+  // Filters
+  const tiers = {};
+  const langs = {};
+  channels.forEach(c => {
+    tiers[c.tier] = (tiers[c.tier] || 0) + 1;
+    langs[c.language] = (langs[c.language] || 0) + 1;
+  });
+  
+  const filtersHtml = `
+    <div class="filter-group">
+      <span class="filter-label">Tier:</span>
+      ${Object.entries(tiers).map(([t, n]) => `<span class="filter-btn" onclick="filterCompetitor('tier','${t}')">${t} (${n})</span>`).join('')}
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">语种:</span>
+      ${Object.entries(langs).map(([l, n]) => `<span class="filter-btn" onclick="filterCompetitor('lang','${l}')">${l} (${n})</span>`).join('')}
+    </div>
+  `;
+  document.getElementById('competitor-filters').innerHTML = filtersHtml;
+  
+  // Channels
+  const html = channels.map(ch => `
+    <div class="channel-card">
+      <div class="channel-header">
+        <div class="channel-name">${ch.name}</div>
+        <span class="tier-badge tier-${ch.tier}">${ch.tier}</span>
+      </div>
+      <div class="channel-stats">
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.subscribers || 0)}</div>
+          <div class="channel-stat-label">订阅</div>
+        </div>
+        <div class="channel-stat">
+          <div class="channel-stat-val">${formatNumber(ch.avg_views || 0)}</div>
+          <div class="channel-stat-label">均播</div>
+        </div>
+        <div class="channel-stat">
+          <div class="channel-stat-val">${ch.language || ''}</div>
+          <div class="channel-stat-label">语种</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('competitor-content').innerHTML = html || '<div style="color:var(--text-muted)">暂无数据</div>';
+}
+
+function filterCompetitor(type, value) {
+  // TODO: Implement filtering
+  console.log('Filter:', type, value);
+}
+
+// ── AI Chat ──
+let aiOpen = false;
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-popup').classList.toggle('active', aiOpen);
+}
+
+async function sendAI() {
+  const input = document.getElementById('ai-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  
+  input.value = '';
+  appendMessage('user', msg);
+  
+  try {
+    const res = await fetch('/api/nuwa_chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg })
+    });
+    const data = await res.json();
+    appendMessage('ai', data.response || '抱歉，我无法回答这个问题。');
+  } catch (e) {
+    appendMessage('ai', '请求失败，请重试。');
+  }
+}
+
+function appendMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.textContent = text;
+  document.getElementById('ai-messages').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Utils ──
+function formatNumber(n) {
+  if (n >= 10000) return (n / 10000).toFixed(1) + '万';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function showLoading(text = '加载中...') {
+  document.getElementById('loading').classList.add('active');
+}
+
+function hideLoading() {
+  document.getElementById('loading').classList.remove('active');
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboard();
+});
+</script>
+
+</body>
+</html>

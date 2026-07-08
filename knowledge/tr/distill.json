@@ -1,0 +1,731 @@
+{
+  "why": {
+    "title": [
+      {
+        "principle": "身份反转要写成\"被误判后的当场翻盘\"，不是只写高贵身份",
+        "psychology": "高播放标题常把Kurye、Taksi Şoförü、Stajyer、Gerçek Mirasçı、Milyarder Varis放在同一句里。观众点击的不是身份本身，而是想看到轻视者被打脸的瞬间。identity钩子均播21,978，高于所有其他钩子类型。",
+        "application": "标题前半句压低主角身份（Kız kurye、Fakir taksici、Stajyer kız），后半句揭露高位真相（milyarder çıktı、CEO sahneye çıktı、kimliğini öğrenen herkes şoke oldu）。封面必须给出身份锚点：工装、出租车、结婚证、豪宅、CEO西装。反例：只写\"她其实很厉害\"没有谁误判她、在哪里揭露、谁震惊。"
+      },
+      {
+        "principle": "关系冲突必须绑定反转承诺——单纯虐恋不如\"背叛后她转身升级\"",
+        "psychology": "relationship钩子出现49次，常与reversal共现。观众被背叛、退婚、离婚吸引，但真正促成点击的是\"她会怎样报复/被谁宠爱/真相如何揭开\"。emotion+relationship是出现频率最高的组合（32次），因为关系中的反转最能触发共情。",
+        "application": "不要只写Kocası onu terk etti；要写成Kocası onu başka kadın için terk etti, gerçeği öğrenince geri dönmek için diz çöktü。前半句制造不公，后半句给补偿或反转。关系冲突后必须接补偿：被宠、暴富、结婚、身份曝光、众人震惊。"
+      },
+      {
+        "principle": "标题是浓缩剧情而非广告语——用逗号分号串联3-4个情节节点，让观众5秒内\"看完\"一个故事骨架",
+        "psychology": "高播放标题多用逗号、分号、破折号串联多个剧情节点：目睹凶案→以为会死→结婚→被宠爱；被陷害→CEO登场→秘密曝光。观众被快速卷入微型故事中，自动产生想知道完整版的冲动。信息密度越高（但不混乱），点击率越高。",
+        "application": "标题至少包含3个节点：【低位处境】+【危机事件】+【反转结果】。段与段之间用逗号、分号或省略号连接。不要写Tehlikeli Aşk，要写Cinayeti gördü, ölür sandı ama mafya patronu onunla evlenip onu şımarttı。"
+      },
+      {
+        "principle": "\"Şoke oldu / herkes dondu / gerçeği öğrenince\" 是土耳其市场的情绪放大器",
+        "psychology": "这些词不是简单夸张，而是在承诺观众一个集体见证的揭露时刻：所有轻视者同时失语，满足补偿心理和围观心理。蔡格尼克效应：省略号在转折前制造\"欲言又止\"的强迫性关注，感叹号在反转后标记\"这里发生了大事\"。",
+        "application": "用省略号（…）在情节转折前悬停：Nişanlısı düğünü sürekli erteledi…；用感叹号（！）在反转后释放：Herkes Şoke Oldu！。在标题后半段放入gerçeği öğrenince、herkes şoke oldu、donup kaldı、ortaya çıkan sır作为结尾钩子，但前面必须先埋一个具体误判。不要在标题开头用感叹号，留给最后的反转。"
+      },
+      {
+        "principle": "具体身份标签 + 超自然能力绑定情感结果 = 点击加速器",
+        "psychology": "具体标签让观众在0.5秒内完成角色归类：CEO=权力+财富+冷漠，kurye=卑微+善良+勤劳。每个标签自带人设预期。超自然能力（读心、复制、神力）本身不是卖点，观众点击是因为能力如何改变关系和阶层。",
+        "application": "优先使用CEO、mafya patronu、kurye、taksici、stajyer、mirasçı、hizmetçi等具体标签，避免zengin adam、güzel kız等泛化描述。能力词要和结果绑定：düşüncelerini okuyunca onu kraliçe gibi şımarttı、kopyalama gücüyle bir gecede milyarder oldu。封面用发光手、魔法光束、震惊表情证明能力已触发。"
+      }
+    ],
+    "thumbnail": [
+      {
+        "principle": "封面不要复述标题，要定格标题里最危险或最羞辱的一秒",
+        "psychology": "最高播放封面不是普通情侣照，而是枪口、结婚证、雨夜、围观、跪地保护等高冲突瞬间。观众先被视觉危险吸住，再用标题理解反转。互补加工理论：标题说清\"发生了什么\"，封面定格\"那一刻的样子\"。",
+        "application": "标题写目睹杀人后被宠爱→封面给枪和结婚证；标题写实习生被陷害→封面给围观人群和CEO护她；标题写真千金被丢街头→封面给雪地倒地和男性救援。封面不需传达完整信息，只需传达\"最紧张的那一秒\"。"
+      },
+      {
+        "principle": "中心构图在高播放样本中更适合\"反转证据\"",
+        "psychology": "中心构图均播38,645，是对比构图的2.2倍。YouTube缩略图平均被注视不到1秒，中心构图减少了视觉搜索成本。对比构图虽戏剧性更强但在手机小屏幕上信息传达效率低。",
+        "application": "身份揭露、英雄救美、危险宠爱默认用中心构图，把核心冲突（枪口、跪地、拥抱、推搡）放在画面几何中心。如果必须用对比构图（离婚、拉扯、对峙），确保两人之间的\"冲突道具\"足够醒目。背景保持简洁。"
+      },
+      {
+        "principle": "冷色暗示宿命感，暖金暗示阶层爽感——但要服务于同一钩子",
+        "psychology": "高播放封面中冷色调样本均播45,664，是暖色调的2.8倍。冷蓝、灰、黑与\"未知\"\"危险\"\"深度\"关联，触发探索欲。豪宅暖金则在身份揭露、残疾CEO题材中提供财富暗示。冷暖对比优于单一色调。",
+        "application": "虐恋反转用蓝黑雨夜、雪地、医院冷白，用暖色点缀焦点（红结婚证、暖黄灯光）；豪门宠爱用金色大厅、深棕家具、礼服；逆袭男频用高饱和黄色、金色物件、闪电特效。避免全暖色调——冷峻基调暗示\"有故事要发生\"。"
+      },
+      {
+        "principle": "双人构图是短剧封面的力量密码",
+        "psychology": "观众看到双人构图会自动判断\"这是什么关系\"和\"他们之间发生了什么\"——这个判断过程本身就是吸引力。三人以上信息过载，单人构图缺乏关系张力。两人的肢体距离传递关系信息：紧贴=亲密/威胁，对峙=冲突，一跪一立=权力反转。",
+        "application": "封面优先使用双人构图。女频用一强一弱的男女主关系，通过肢体距离表达：男主保护/占有/冷漠，女主受伤/坚定/转身。如果加第三人，放在背景虚化位置作为\"旁观者/见证者\"。服装对比（西装vs破衣、华丽vs朴素）暗示身份差距。"
+      },
+      {
+        "principle": "封面必须有\"可命名的情绪道具\"——枪、结婚证、轮椅、光效比纯表情更有记忆点",
+        "psychology": "抽象情绪（紧张、甜蜜）需要通过具体道具视觉化。观众记不住脸，但会记住'那个拿枪抵着自己头同时搂着新娘的男人'。道具是情绪的物化载体，每张封面应只放1-2个关键物证。",
+        "application": "枪=危险；结婚证=婚姻反转；轮椅=残疾CEO反差；家庭合照=真假千金；光效=超能力觉醒；围观人群=公开羞辱与打脸。道具要大、醒目、在视觉中心。"
+      }
+    ],
+    "tags_and_distribution": [
+      {
+        "principle": "标签要先解决语言与品类识别，再补充情绪题材。",
+        "psychology": "描述标签高频集中在MiniDizi、TürkçeDublaj、KısaDizi、RomantikDizi、DramaSerisi，说明用户和算法首先需要确认这是土耳其语短剧，而不是普通影视剪辑。",
+        "application": "固定底座使用【MiniDizi + TürkçeDublaj + KısaDizi + DramaSerisi + RomantikDizi】，再根据剧情添加【CEO】、【Cinderella】、【AşkVeİhanet】、【GizliAşk】等。"
+      },
+      {
+        "principle": "跨剧种热词可以截流，但不能替代本地语言标签。",
+        "psychology": "Cdrama、ChineseDrama、Kdrama、KoreanDrama等高播放标签说明土耳其观众会通过亚洲剧种心智进入内容，但标题和核心标签仍需土耳其语承接。",
+        "application": "描述标签可混合【Cdrama】、【ChineseDrama】、【KoreanDrama】、【Kdrama】与【Türkçe】、【Kısa】、【MiniDizi】；标题中不建议大量英文标签，避免破坏剧情沉浸。"
+      },
+      {
+        "principle": "情绪标签要围绕“爱、背叛、隐藏、困难关系”成组出现。",
+        "psychology": "标签组合Top10高度集中，说明算法更偏好稳定语义簇，而不是每条视频随意换一批标签。",
+        "application": "女频虐恋用【AşkVeİhanet + KırıkKalpler + YasakAşk + ZorAşk】；甜宠用【TatlıAşk + AşkınGücü + BeklenmedikAşk】；身份隐藏用【GizliAşk + Cinderella + CEO】。"
+      },
+      {
+        "principle": "标题内嵌标签不明显，描述区才是标签主战场。",
+        "psychology": "标题内嵌标签统计为空，说明高播放样本更重视标题的叙事完整性，而不是把标题位置让给#标签。",
+        "application": "标题优先写满剧情钩子；标签统一放描述末尾。只有系列编号或活动需要时才在标题尾部少量加入，不要挤占前60字符的剧情信息。"
+      }
+    ],
+    "market_insights": {
+      "gender_bias": "数据强烈偏向女频：emotion钩子占65.4%、relationship占60.5%，Top10标题全部以女性视角为核心。女频核心是关系误会、先虐后宠、身份差恋爱——CEO、Mafya、Milyarder等强者男性与弱势女主的反转宠爱。男频内容极少，主要出现在'超能力觉醒'和'底层逆袭'题材。建议：新频道80%内容聚焦女频（CEO恋爱、婚姻反转、身份揭露），20%尝试男频女看的交叉题材（女主获得超能力后碾压反派——既满足女性代入感，又有男频打脸爽感）。",
+      "emerging_trends": "新兴趋势有两类：是“身份揭露时刻”，不只说她是继承人，而是强调在婚礼、街头、公司围观场景中当场揭露；二是“能力解封/觉醒”，如读心、复制、神力、魔法光束，但这些能力需要绑定离婚、被弃、复仇、暴富等现实爽点。",
+      "content_quality_signals": "土耳其市场尚未形成明确的FULL/HD质量词体系。但有两个隐性信号：①频道名自带内容定位（如Kalp Atışı kısa drama、Gül Tiyatrosu），观众通过频道名判断内容和质量预期；②描述中的Güncelleme Uyarısı和固定更新承诺暗示内容持续性。标题更依赖剧情信号而非质量词；若使用FULL/HD，应放描述而非标题。建议：建立频道品牌名+固定更新频率承诺，用描述区synopsis提升均播（含synopsis的均播81,751 vs 不含约35,000）。"
+    }
+  },
+  "what": [
+    {
+      "name": "危险强者反向宠爱",
+      "template": "【弱势女主】看到【危险强者】的【致命秘密】，以为自己会死，没想到他却和她【建立亲密关系】并把她【极致宠爱】。",
+      "why_it_works": "它把恐惧、悬念、权力差和甜宠补偿压缩在一句里，形成危险浪漫的强点击动机。",
+      "sub_genre": "黑帮爱情、CEO甜宠、契约婚姻、危险恋人",
+      "examples": [
+        "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlenip onu çok şımarttı！",
+        "Kız kurye CEO'nun panzehiri oldu, onun saflığına aşık oldu, hamile kaldı ve onu çok şımarttı！"
+      ]
+    },
+    {
+      "name": "背叛退婚后的替代升级",
+      "template": "【未婚夫/丈夫】为了【另一个女人】不断伤害她，真相曝光后，她转身和【更高价值对象】结婚，让所有人【震惊/后悔】。",
+      "why_it_works": "观众先被不公激怒，再期待女主用更高价值关系完成报复和自我证明。",
+      "sub_genre": "退婚逆袭、离婚打脸、豪门虐恋",
+      "examples": [
+        "Nişanlısı düğünü sürekli erteledi… gerçeği öğrenince gidip bir yabancıyla evlendi!",
+        "Evliliği, kocası ve babasının başka bir kadın için kurduğu bir oyundu… o ise gitti!"
+      ]
+    },
+    {
+      "name": "低位身份被救后真相揭露",
+      "template": "被所有人当成【低位/可抛弃的人】的【真实高贵身份者】遭遇危机，被【冷酷强者】救下；当她的身份曝光，所有人都【震惊/跪求原谅】。",
+      "why_it_works": "低位受辱与高位真相的落差越大，观众越想看揭露后的集体打脸。",
+      "sub_genre": "真假千金、隐藏继承人、灰姑娘、豪门认亲",
+      "examples": [
+        "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu!",
+        "Dağda Büyüyen Fubao, Gerçek Ailesini Kurtarıp Sahte Ebeveynleri Deşifre Etti!"
+      ]
+    },
+    {
+      "name": "被羞辱底层职业一夜暴富",
+      "template": "被抛弃的【底层职业者】因为【隐藏能力/偶然善举】触发命运反转，一夜之间成为【财富/权力顶层】，让曾经看不起他的人【后悔】。",
+      "why_it_works": "男频爽点集中在低位羞辱、能力触发、财富跃迁和即时打脸，节奏越短越强。",
+      "sub_genre": "男频逆袭、都市奇遇、能力觉醒、暴富爽剧",
+      "examples": [
+        "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu!",
+        "Fakir taksici yaşlı adama yardım etti, adam milyarder çıktı: Bir anda servet sahibi oldu!"
+      ]
+    },
+    {
+      "name": "被陷害弱者等来强权护短",
+      "template": "【低位女主】被【众人/反派】当众陷害，所有人都以为她完了，直到【CEO/隐藏强者】出现并揭开【秘密】。",
+      "why_it_works": "当众羞辱制造强共情，强者护短提供即时情绪补偿。",
+      "sub_genre": "职场陷害、CEO护妻、豪门秘密、真假身份",
+      "examples": [
+        "Stajyer Kıza İftira Atıldı, CEO Sahneye Çıktı—Ortaya Çıkan Dörtlü Sır Herkesi Şoke Etti!",
+        "Çirkin Denilen Kadın, Asıl Kimliğiyle Şok Etti; Eşi Gizli Milyarder Çıktı"
+      ]
+    },
+    {
+      "name": "重生复仇碾压型",
+      "template": "上一世被【反派们】联手设局害死，重生后的【主角】不再隐忍——先果断跟【错的人】离婚，再一步步揭穿所有人真面目，最终让所有亏欠她的人付出代价！",
+      "why_it_works": "二次机会叙事+全知视角的掌控快感+从被动受害者到主动猎人的身份转换，满足'如果能重来一定不会再犯同样的错'的普遍幻想。",
+      "sub_genre": "重生复仇、逆袭打脸、婚姻修复",
+      "examples": [
+        "Geçmiş hayatta tuzağa düşürülüp öldü, dirilince hemen boşanmak istedi！",
+        "30 Yıl Sonra Metresi İçin Sokağa Atıldı, 3 Geliniyle Yükselip İş Kraliçesi Oldu—"
+      ]
+    }
+  ],
+  "how": {
+    "title_skeletons": [
+      {
+        "name": "低位误判到高位揭露型",
+        "narrative_pattern": "主角先被贴上低价值标签，如快递员、出租车司机、实习生、乡下女孩、被丢弃的继承人；随后通过一个公共场景揭露真实身份或被强者承认，完成从被轻视到被仰视的阶层跃迁。",
+        "psychological_hook": "观众期待看到轻视者在真相面前失语，这满足补偿心理和身份逆袭快感。",
+        "sub_genre": "真假千金、隐藏富豪、灰姑娘、都市逆袭",
+        "avg_views": 21978,
+        "count": 40,
+        "examples": [
+          "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu!",
+          "Fakir taksici yaşlı adama yardım etti, adam milyarder çıktı: Bir anda servet sahibi oldu!",
+          "Stajyer Kıza İftira Atıldı, CEO Sahneye Çıktı—Ortaya Çıkan Dörtlü Sır Herkesi Şoke Etti!"
+        ],
+        "rules": [
+          "可变的是低位标签、揭露场景和高位身份；不能变的是“先误判、后公开翻盘”的顺序。",
+          "身份必须具象化：Varis、Milyarder、CEO、Mafya比抽象的güçlü/özel更有效。",
+          "反例：只写【她其实很厉害】但没有谁误判她、在哪里揭露、谁震惊，会缺少爽点落点。"
+        ]
+      },
+      {
+        "name": "关系背叛到替代补偿型",
+        "narrative_pattern": "亲密关系中的男方、未婚夫或家庭成员先制造伤害，如退婚、离婚、另选他人、利用婚姻；女主随后离开或嫁给更强对象，形成情感价值和社会价值的双重补偿。",
+        "psychological_hook": "背叛激起愤怒，替代升级提供复仇式满足，观众想看伤害者后悔。",
+        "sub_genre": "退婚、离婚、替嫁、豪门虐恋",
+        "avg_views": 18864,
+        "count": 49,
+        "examples": [
+          "Nişanlısı düğünü sürekli erteledi… gerçeği öğrenince gidip bir yabancıyla evlendi!",
+          "Evliliği, kocası ve babasının başka bir kadın için kurduğu bir oyundu… o ise gitti!",
+          "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı!"
+        ],
+        "rules": [
+          "可变的是背叛方式：退婚、延期、出轨、误会、父亲合谋；不能变的是女主必须有明确反击或转身。",
+          "后半句要给补偿结果，如evlendi、şımarttı、kraliçe gibi、herkes şoke oldu。",
+          "反例：只写持续受虐没有后续反转，会降低点击期待。"
+        ]
+      },
+      {
+        "name": "危险权力差甜宠型",
+        "narrative_pattern": "女主误入危险男性的秘密世界，如黑帮、冷酷CEO、残疾CEO、恶魔王；开局是威胁、误会或契约，结局却转为独占、保护和宠爱。",
+        "psychological_hook": "危险感带来刺激，宠爱反转消解恐惧，形成“只有她能软化强者”的幻想。",
+        "sub_genre": "黑帮恋人、霸总甜宠、契约婚姻、超自然爱情",
+        "avg_views": 18190,
+        "count": 53,
+        "examples": [
+          "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlenip onu çok şımarttı！",
+          "Kız kurye CEO'nun panzehiri oldu, onun saflığına aşık oldu, hamile kaldı ve onu çok şımarttı！",
+          "Şeytan Kral, kurtardığı kızla hızla evlendi ve doğaüstü bir aşk hikayesi başladı!"
+        ],
+        "rules": [
+          "可变的是强者类型：Mafya、CEO、Şeytan Kral、Milyarder；不能变的是强者必须从危险/冷漠转为偏爱。",
+          "标题要同时出现危险前提和甜宠结果，否则会偏惊悚或偏平淡。",
+          "反例：男主只强不宠、只威胁无情感转向，会失去女频核心吸引力。"
+        ]
+      },
+      {
+        "name": "能力觉醒即时逆袭型",
+        "narrative_pattern": "主角处在被抛弃、被欺负、被误解的低谷，突然获得读心、复制、神力、武力等能力；能力不是展示用，而是立刻改变财富、关系或权力格局。",
+        "psychological_hook": "能力觉醒让普通人的无力感被瞬间解除，观众期待直接打脸和命运改写。",
+        "sub_genre": "都市异能、男频逆袭、奇幻甜宠、重生能力",
+        "avg_views": 19984,
+        "count": 45,
+        "examples": [
+          "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı!",
+          "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu!",
+          "Dağda Büyüyen Fubao, Gerçek Ailesini Kurtarıp Sahte Ebeveynleri Deşifre Etti!"
+        ],
+        "rules": [
+          "可变的是能力形式；不能变的是能力必须导致可见结果：暴富、揭穿、被宠、反杀。",
+          "封面必须用光效、手势、震惊表情证明能力已触发。",
+          "反例：只写能力名称但不写它改变了什么，会像设定介绍而不是短剧钩子。"
+        ]
+      },
+      {
+        "name": "当众陷害到强者护短型",
+        "narrative_pattern": "弱势角色在办公室、婚礼、豪门现场被多人围观羞辱或指控，局面失控时，高权力角色出现站队，并牵出更大的秘密。",
+        "psychological_hook": "围观羞辱放大委屈，强者公开护短让观众获得即时安全感和爽感。",
+        "sub_genre": "职场短剧、CEO护妻、婚礼打脸、豪门秘密",
+        "avg_views": 18190,
+        "count": 53,
+        "examples": [
+          "Stajyer Kıza İftira Atıldı, CEO Sahneye Çıktı—Ortaya Çıkan Dörtlü Sır Herkesi Şoke Etti!",
+          "Çirkin Denilen Kadın, Asıl Kimliğiyle Şok Etti; Eşi Gizli Milyarder Çıktı",
+          "Damatı Tam Nikâhta Şok Etti: Hizmetçi Sanılan Gelin Aslında Milyarder Varis!"
+        ],
+        "rules": [
+          "可变的是陷害场景：婚礼、公司、家宴、医院；不能变的是必须有旁观者和公开翻案。",
+          "标题里要写出【İftira Atıldı】、【Tam Nikâhta】、【Sahneye Çıktı】这类场景动作。",
+          "反例：私下误会没有围观压力，打脸力度会变弱。"
+        ]
+      }
+    ],
+    "hook_combination": {
+      "核心发现": "土耳其短剧市场最有效的钩子遵循'情感锚点+情节引擎'双层结构：先用emotion/relationship建立情感投入，再用reversal/identity提供'不得不点击'的理由。identity钩子是最强的'升级器'——当与其他任何钩子组合时都能提升均播。单一钩子天花板有限，双钩子组合才能突破均播2万瓶颈。",
+      "最强配对": [
+        "emotion+relationship",
+        "emotion+identity",
+        "emotion+reversal",
+        "relationship+reversal"
+      ],
+      "低效组合": [
+        "单独time钩子",
+        "只有romance无reversal",
+        "只有能力设定无情感后果"
+      ],
+      "规则": [
+        "先用emotion制造心疼或愤怒，再用reversal承诺结局反转。",
+        "identity不要孤立出现，最好和当众羞辱、婚礼、街头、公司围观场景绑定。",
+        "relationship冲突后必须接补偿：被宠、暴富、结婚、身份曝光、众人震惊。",
+        "time钩子如5年后、30年后、重生，应作为辅助强化命运感，不宜单独承担点击。"
+      ],
+      "hook_types": {
+        "emotion": {
+          "definition": "通过羞辱、抛弃、被陷害、宠爱、心疼等情绪触发观众共鸣。",
+          "examples": [
+            "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlenip onu çok şımarttı！",
+            "Kız kurye CEO'nun panzehiri oldu, onun saflığına aşık oldu, hamile kaldı ve onu çok şımarttı！"
+          ]
+        },
+        "identity": {
+          "definition": "利用外界认知与真实身份之间的落差制造打脸期待。",
+          "examples": [
+            "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu!",
+            "Hizmetçi Sanılan Gelin Aslında Milyarder Varis!"
+          ]
+        },
+        "relationship": {
+          "definition": "围绕夫妻、未婚夫妻、家庭、恋人中的背叛、误会、保护和宠爱建立冲突。",
+          "examples": [
+            "Nişanlısı düğünü sürekli erteledi… gerçeği öğrenince gidip bir yabancıyla evlendi!",
+            "Evliliği, kocası ve babasının başka bir kadın için kurduğu bir oyundu… o ise gitti!"
+          ]
+        },
+        "reversal": {
+          "definition": "通过“以为A，结果B”“真相曝光后局势逆”的结构制造意外。",
+          "examples": [
+            "Kadınlara ilgisiz zengin adam onun deli olduğunu sandı… sonra bu kıza yavaş yavaş aşık oldu",
+            "Fakir taksici yaşlı adama yardım etti, adam milyarder çıktı: Bir anda servet sahibi oldu!"
+          ]
+        },
+        "compensation": {
+          "definition": "主角受苦后获得加倍宠爱、财富、地位或复仇成功。",
+          "examples": [
+            "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı!",
+            "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu!"
+          ]
+        },
+        "time": {
+          "definition": "用多年后、重生、回到过去、短时间暴富等时间跨度放大命运反差。",
+          "examples": [
+            "5 Yıl Sonra Ülkenin En Zengin CEO'su Oldu, Eski Karısının Gizli Çocuğunu Görünce",
+            "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu!"
+          ]
+        }
+      },
+      "emergent_hooks": [
+        {
+          "name": "身份揭露时刻",
+          "definition": "不只是说明主角有隐藏身份，而是预告在婚礼、公司、街头、被救现场等高压场景中身份被公开，局势瞬间逆转。",
+          "examples": [
+            "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu!",
+            "Damatı Tam Nikâhta Şok Etti: Hizmetçi Sanılan Gelin Aslında Milyarder Varis!"
+          ]
+        },
+        {
+          "name": "能力解封/觉醒",
+          "definition": "主角在低谷时触发超常能力，并用能力直接完成打脸、暴富、揭穿或关系逆转。",
+          "examples": [
+            "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu!",
+            "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı!"
+          ]
+        }
+      ],
+      "hook_stats": {
+        "emotion_count": 53,
+        "emotion_rate": 65.4,
+        "emotion_avg_views": 18190,
+        "relationship_count": 49,
+        "relationship_rate": 60.5,
+        "relationship_avg_views": 18864,
+        "reversal_count": 45,
+        "reversal_rate": 55.6,
+        "reversal_avg_views": 19984,
+        "compensation_count": 41,
+        "compensation_rate": 50.6,
+        "compensation_avg_views": 13104,
+        "identity_count": 40,
+        "identity_rate": 49.4,
+        "identity_avg_views": 21978,
+        "time_count": 15,
+        "time_rate": 18.5,
+        "time_avg_views": 12293
+      }
+    },
+    "title_constraints": {
+      "avg_length": 0,
+      "emoji_rate": 4.2,
+      "top_emojis": [
+        "🔥",
+        "💞"
+      ],
+      "title_structure": "标题呈'三段式叙事链'：第一段锁定身份/处境（Mafya patronunun / Kız kurye / Nişanlısı），第二段描述转折事件（cinayetini gördü / CEO'nun panzehiri oldu），第三段揭示反转结果（ölür sandı ama evlendi / hamile kaldı / herkes şoke oldu）。段与段之间用逗号、分号或省略号连接。前60字符应出现核心身份词和冲突词，结尾用Şoke Oldu、Şımarttı、Milyarder Oldu收束。高播放标题信息密度极高，一句话包含3-4个情节节点。",
+      "key_words": [
+        "CEO",
+        "Mafya",
+        "Kurye",
+        "Taksi Şoförü",
+        "Milyarder",
+        "Varis",
+        "Evlendi",
+        "Boşanma",
+        "İftira",
+        "Gerçeği",
+        "Şoke",
+        "Aşık",
+        "Şımarttı",
+        "Reenkarne"
+      ]
+    },
+    "emoji_strategy": {
+      "best_position": "数据中emoji使用率极低（4.2%），且有emoji的视频均播为0（样本极小，仅约2条视频）。当前土耳其短剧市场的主流做法是不使用emoji，标题完全依赖文字传达信息。",
+      "rules": [
+        "默认不使用emoji——土耳其短剧观众习惯纯文字标题，emoji可能降低标题的'剧情感'和'严肃感'",
+        "如果一定要用，仅限🔥（强调戏剧性/热度）和💞（强调爱情），放在标题末尾而非开头",
+        "不要在标题中使用超过1个emoji——过多emoji会让标题看起来像社交媒体帖子而非剧情简介",
+        "描述中的emoji使用可以更自由（如✨用于欢迎语），但标题保持克制"
+      ]
+    },
+    "hashtag_strategy": {
+      "title_tags": [],
+      "description_tags": [
+        "MiniDizi",
+        "TürkçeDublaj",
+        "KısaDizi",
+        "RomantikDizi",
+        "DramaSerisi",
+        "AşkDizisi",
+        "YeniBölüm",
+        "DiziSeverler",
+        "MiniFilm",
+        "MiniSeri",
+        "TatlıAşk",
+        "AşkınGücü",
+        "İlkAşk",
+        "BeklenmedikAşk",
+        "GizliAşk",
+        "ZorAşk",
+        "AşkVeİhanet",
+        "KalpAğrısı",
+        "KırıkKalpler",
+        "YasakAşk",
+        "Cdrama",
+        "ChineseDrama",
+        "CEO",
+        "Cinderella",
+        "Kdrama"
+      ],
+      "combination_pattern": "固定基线5标签（MiniDizi+TürkçeDublaj+KısaDizi+RomantikDizi+DramaSerisi）+ 题材特异性\"尖刺\"标签（5-10个与当集剧情相关）。在此基础上叠加英语/全球截流标签（Cdrama、ChineseDrama、Kdrama、CEO、Cinderella）——Cdrama标签均播43,286，远高于纯土耳其语。",
+      "trend_hijacking": "用Cdrama、ChineseDrama、KoreanDrama、Kdrama承接亚洲短剧受众搜索，用Türkçe、TürkçeDublaj、MiniDizi完成本地化匹配；不要把英文剧种词放进标题核心叙事区。",
+      "rules": [
+        "标题内不放标签——土耳其市场标准做法是标签全部放在描述中。",
+        "描述标签分三层：品类识别层（MiniDizi/TürkçeDublaj/KısaDizi）、题材情绪层（AşkVeİhanet/Cinderella/CEO）、跨剧种截流层（Cdrama/Kdrama/ChineseDrama）。",
+        "每条视频使用15-20个描述标签，不要少于10个也不要超过25个。",
+        "标签必须与视频内容实质相关——YouTube算法会惩罚标签与内容不匹配。",
+        "定期更新标签库，关注新兴题材标签（如超能力/重生相关）。"
+      ]
+    },
+    "description_template": {
+      "structure": "描述呈'欢迎语→频道定位→内容声明→更新提醒→标签'的五段式结构。从数据看，包含剧情简介（synopsis）的描述均播81,751，远高于其他模板类型（welcome/subscribe/links均播约35,000），说明观众在点击前会扫一眼描述来确认剧情是否值得看。",
+      "template_types": [
+        {
+          "name": "剧情简介型（效果最佳）",
+          "pattern": "欢迎语 + 频道定位 + 2-3句剧情简介（不剧透核心反转） + 内容免责声明 + 订阅引导 + 标签",
+          "适用场景": "所有视频——这是均播最高的描述模板"
+        },
+        {
+          "name": "频道品牌型",
+          "pattern": "\"Merhaba! [频道名] kanalımıza hoş geldiniz! ✨ Burada, kalp atışlarınızı hızlandıran sevimli kısa diziler bulacaksınız\" + 更新提醒 + 订阅引导 + 标签",
+          "适用场景": "频道建立初期，需要反复强化品牌认知"
+        },
+        {
+          "name": "免责声明型",
+          "pattern": "\"✨ Bu dizinin içeriği tamamen kurgusaldır ve yalnızca eğlence amaçlıdır\" + 法律声明 + 标签",
+          "适用场景": "涉及敏感题材（暴力、犯罪、家庭冲突）的视频"
+        },
+        {
+          "name": "更新提醒型",
+          "pattern": "用Güncelleme Uyarısı、Her gün yeni bölüm、Abone olmayı unutmayın等句式强化连续观看预期。",
+          "适用场景": "连续剧、多集拆条、日更频道"
+        }
+      ],
+      "rules": [
+        "每条视频的描述必须包含剧情简介——这是提升均播的最低成本手段",
+        "描述第一行用频道欢迎语建立品牌记忆",
+        "必须包含内容免责声明（'内容纯属虚构'）以规避潜在投诉",
+        "描述末尾固定区域放标签，格式统一",
+        "提到更新频率（'Her gün yeni bölüm'）以培养观众期待"
+      ]
+    },
+    "thumbnail_guidelines": {
+      "composition": "优先使用中心构图呈现身份揭露、救援、强宠和关键物证；使用左右对比构图呈现离婚、对峙、能力冲突。人物与道具要形成清晰视线链，如脸—枪—结婚证，手部光效—震惊表情，倒地女主—救援男主。",
+      "figures": "主封面以2-3人为主：女频用一强一弱的男女主关系，必要时加第三者或围观者；男频用主角与反派/见证者对抗。多人场景只作为背景压迫，不要抢走主角焦点。",
+      "colors": "危险虐恋用冷蓝、雨夜、雪地、医院白；豪门身份用暖金、深棕、礼服黑白；男频逆袭用高饱和金色、黄色、闪电蓝。冷暖对撞优于单一柔美色。",
+      "emotion": "核心情绪是tension（紧张感）——tension均播24,520。在tension基础上叠加romance（tension+romance 111,585为最高）或power（tension+power 39,022）。避免纯power（仅12,521）和纯romance无冲突。封面文字不超过6个土耳其词，优先写身份或反转词如【Gerçek Varis】【CEO Kurtardı】。如果必须加文字，字体要大到手机缩略图可读。",
+      "visual_symbols": "高价值符号包括枪、结婚证、轮椅、豪宅、家庭合照、病号服、工装、出租车、红圈标记、发光手、魔法光束、围观人群、雨夜伞、雪地倒地。",
+      "text": "封面文字应少于6个土耳其词，优先写身份或反转词，如【Gerçek Varis】、【CEO Kurtardı】、【Şoke Eden Sır】、【Milyarder Çıktı】；不要把完整标题塞进封面。"
+    },
+    "cover_title_synergy": {
+      "rule": "标题负责解释身份差、前因后果和反转承诺；封面负责证明冲突真实存在，并把最有张力的一瞬间视觉化。互补优于重复。",
+      "hook_cover_mapping": [
+        {
+          "hook_type": "identity",
+          "title_pattern": "卑微身份标签 + 被轻视/羞辱 + 真实身份揭露 + 旁观者震惊",
+          "cover_pattern": "主角穿着与其'隐藏身份'不符的卑微服装，但身处奢华环境或被强者人物围绕；或直接展示'揭露瞬间'——CEO单膝跪地、众人目瞪口呆",
+          "avg_views": 58810,
+          "count": 4,
+          "example_title": "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu！",
+          "example_cover": "军装男性在雪地中保护倒地的素衣女性，冷蓝背景+暖黄灯光，中心三角构图，暗示'英雄救美+身份揭露'的双重张力"
+        },
+        {
+          "hook_type": "relationship",
+          "title_pattern": "亲密关系中的背叛/阴谋 + 发现真相 + 离开/反击",
+          "cover_pattern": "男女近距离对峙，肢体语言表达'亲密中的冲突'——一人前倾一人后退、一人抓握一人挣脱。雨夜/婚礼现场等高情绪密度场景",
+          "avg_views": 89069,
+          "count": 3,
+          "example_title": "Nişanlısı düğünü sürekli erteledi… gerçeği öğrenince gidip bir yabancıyla evlendi！",
+          "example_cover": "白西装男性与黑裙女性在雨夜中对峙，服装黑白对比暗示对立，冷色调+雨丝营造忧郁压抑氛围"
+        },
+        {
+          "hook_type": "reversal",
+          "title_pattern": "以为A…没想到B / 本以为会X，结果Y",
+          "cover_pattern": "画面中同时呈现两个矛盾的元素（枪+结婚证、病号服+超能力光效），用视觉冲突直接表达'反转'",
+          "avg_views": 111585,
+          "count": 2,
+          "example_title": "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlendi ve onu çok şımarttı！",
+          "example_cover": "男性一手持枪抵住自己头颅（危险），一手搂住女性（保护），女性手持结婚证（婚姻），三个矛盾元素同框——一张图讲清整个故事的反转"
+        },
+        {
+          "hook_type": "emotion",
+          "title_pattern": "强烈的感情词（心疼/愤怒/甜蜜/感动）+ 主角的具体遭遇",
+          "cover_pattern": "人物特写表情+戏剧性光影。不是'好看的脸'，而是'有故事的脸'——震惊、含泪、愤怒、深情，每个表情都要传递一个可命名的情绪",
+          "avg_views": 39022,
+          "count": 2,
+          "example_title": "Engelli CEO'nun kötü eşi olarak reenkarne oldum. Boşanmak istiyordu, şimdi bana aşık oldu.",
+          "example_cover": "轮椅上的男性与女性暧昧对峙，暖金色奢华环境，轮椅作为核心视觉符号直击'残疾CEO'设定"
+        },
+        {
+          "hook_type": "compensation",
+          "title_pattern": "受辱/被抛弃 + 获得力量/地位 + 让对方后悔/受到惩罚",
+          "cover_pattern": "从低到高的视觉对比——主角从跪着到站着、从破衣到华服、从角落到中心。或直接展示'碾压瞬间'——众人跪地、对手震惊",
+          "avg_views": 24989,
+          "count": 2,
+          "example_title": "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu！",
+          "example_cover": "肌肉男性举斧怒吼vs女性震惊阻止，金色龙龟雕像在中心发光，暖色调+夸张动作，直接视觉化'逆袭爆发'的瞬间"
+        },
+        {
+          "hook_type": "能力解封/觉醒",
+          "title_pattern": "主角因能力改变命运，如读心、复制、神力觉醒，直接导致暴富或关系逆转。",
+          "cover_pattern": "使用发光手、闪电、魔法光束、震惊脸、中心道具来表现能力已经发动。",
+          "example_title": "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı!",
+          "example_cover": "病房中女主伸手发光，男主震惊后退，医生在背景见证异常事件。"
+        }
+      ],
+      "patterns": [
+        {
+          "name": "标题给反转，封面给证据",
+          "description": "标题说明“原来她是继承人/他是亿万富翁”，封面用豪宅、合照、礼服、红圈等证明这个反转可信。",
+          "example": "标题【Gerçek Mirasçı】+封面【雪地被救与豪宅暖光】。"
+        },
+        {
+          "name": "封面定格冲突高潮，标题补全前因后果",
+          "description": "封面只展示枪、跪地、围观、倒地等高压画面，标题解释为什么会发生以及结局如何反转。",
+          "example": "标题【目睹黑帮杀人却被宠爱】+封面【枪口与结婚证同框】。"
+        },
+        {
+          "name": "关系距离视觉化",
+          "description": "男女主靠近但表情冲突，或一方保护另一方，用肢体距离表达爱恨纠葛。",
+          "example": "标题【退婚真相后嫁给陌生人】+封面【雨夜中黑白服装男女对峙】。"
+        },
+        {
+          "name": "奇观服务爽点",
+          "description": "光效、魔法、闪电不是装饰，必须指向揭穿、暴富、读心、复仇等剧情结果。",
+          "example": "标题【kopyalama gücüyle bir gecede milyarder oldu】+封面【金色物件和闪电特效】。"
+        }
+      ],
+      "anti_patterns": [
+        {
+          "name": "只美不钩",
+          "description": "男女主精修合照但没有身份物证、冲突动作或反转道具，无法解释标题中的戏剧性。"
+        },
+        {
+          "name": "标题有爆点封面无证据",
+          "description": "标题写Milyarder Varis或Mafya，但封面没有豪宅、黑帮、枪、保镖、西装等视觉锚点。"
+        },
+        {
+          "name": "信息过散",
+          "description": "封面放太多人、太多道具、太多文字，移动端无法一眼识别核心钩子。"
+        },
+        {
+          "name": "情绪错位",
+          "description": "标题是背叛复仇，封面却是甜蜜拥抱；标题是危险强制，封面却像普通婚纱照。"
+        }
+      ],
+      "female_freq": "女频封面标题协同应围绕关系张力、身份差和情绪反转：标题写背叛/误会/宠爱，封面给强者保护、肢体拉扯、婚姻道具、雨夜或豪门场景。",
+      "male_freq": "男频协同应围绕低位受辱、隐藏强者和瞬间打脸：标题写Kurye/Taksi Şoförü被弃后暴富或觉醒，封面给工装、金色财富物、反派震惊脸和能力光效。"
+    },
+    "publish_time": {
+      "best_hours": [
+        15,
+        12,
+        10,
+        14,
+        16
+      ],
+      "best_weekdays": [
+        "Friday",
+        "Thursday",
+        "Wednesday"
+      ],
+      "rules": [
+        "首选周五15:00 UTC——土耳其时间18:00（周五傍晚），观众下班/放学后的黄金放松时段",
+        "次选周四/周三12:00 UTC——土耳其时间15:00（午后），午休后刷手机的高峰期",
+        "避免周末早间和深夜——土耳其观众的周末观看习惯集中在傍晚和晚间",
+        "保持固定更新节奏比单次选对时间更重要——'每天同一时间更新'比'偶尔选对最佳时间'对频道增长的贡献更大"
+      ]
+    },
+    "growth_strategy": [
+      "频道命名策略：使用包含'kısa drama'（短剧）/ 'MiniDizi'（迷你剧）的土耳其语频道名，让观众在搜索结果中一眼识别内容类型。参考成功案例：'Kalp Atışı kısa drama'、'Gül Tiyatrosu'、'Etkileyici Dizi Kulübü'",
+      "系列化运营：将同一故事线的多集内容标记为系列（playlist），利用YouTube的自动播放功能提升完播率和观看时长。每集结尾用悬念引导观众点击下一集",
+      "封面风格统一：建立可识别的视觉品牌——固定色调（冷色底+暖色点缀）、固定构图（中心双人）、固定情绪基调（tension为主）。让观众在推荐流中一眼认出'这是XX频道的视频'",
+      "标签矩阵扩展：除了核心土耳其语标签，积极使用Cdrama/Kdrama/ChineseDrama等跨文化标签截流。土耳其短剧观众与中国/韩国短剧受众高度重叠，利用这个交叉流量池",
+      "描述优化优先级：第一步加剧情简介（均播从35K提升到82K），第二步加免责声明（规避投诉风险），第三步优化标签组合（基线+尖刺+截流三层结构）",
+      "发布时间纪律化：固定在每周三/四/五的土耳其时间15:00-18:00（UTC 12:00-15:00）发布，建立观众期待。宁可提前录制也不要错过固定发布时间",
+      "互动引导：描述中加入'Yorumlarda hangi karakteri daha çok sevdinizi yazın！'（在评论区告诉我你最喜欢哪个角色）等互动问题，提升评论率以获得算法加权",
+      "封面生产建立道具库：结婚证、枪、轮椅、豪宅、家庭合照、病号服、工装、发光手、雨夜、雪地，按钩子快速组合。",
+      "描述区固定本地化标签底座，标题区保持剧情自然语言，避免过度#化。",
+      "每周至少测试1条能力觉醒/超自然反转，因为该趋势能连接男频逆袭和女频关系反转。",
+      "用系列化频道包装提升复访：同一频道描述、更新提醒、标签结构保持一致，让观众形成“土耳其语短剧日更”预期。"
+    ],
+    "rhetorical_patterns": {
+      "sentence_structures": [
+        {
+          "name": "目睹-以为-反转句式",
+          "pattern": "{主角}{反派的危险行为} gördü, {极端预期} sandı ama {完全相反的结果}！",
+          "example": "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlendi ve onu çok şımarttı！",
+          "avg_views": 111585,
+          "count": 3,
+          "when_to_use": "危险爱情/黑帮题材——用'以为会死→反而被宠'的极端反转制造最大的情绪落差"
+        },
+        {
+          "name": "身份揭露震惊句式",
+          "pattern": "{卑微身份描述}，{强大角色} tarafından {行为}；{揭露方式}，Herkes Şoke Oldu！",
+          "example": "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu！",
+          "avg_views": 58810,
+          "count": 5,
+          "when_to_use": "身份逆袭/灰姑娘题材——前半句建立身份落差，后半句预告揭露时刻和群体震惊反应"
+        },
+        {
+          "name": "抛弃-觉醒-碾压句式",
+          "pattern": "{被抛弃的方式}，{觉醒/获得能力}，{碾压性的结果}！",
+          "example": "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu！",
+          "avg_views": 24989,
+          "count": 6,
+          "when_to_use": "逆袭复仇/超能力题材——三段式递进：低谷→转折→巅峰，压缩在一句话内完成情绪过山车"
+        },
+        {
+          "name": "离婚后悔追妻句式",
+          "pattern": "{离婚/分手行为}，{发现隐藏真相}后 Şoke Oldu ve {疯狂弥补/宠爱行为}！",
+          "example": "Boşanmaya Kalktı, CEO Düşüncelerini Okuyunca Şoke Oldu ve Onu Kraliçe Gibi Şımarttı！",
+          "avg_views": 58936,
+          "count": 4,
+          "when_to_use": "婚姻逆袭/追妻题材——前半句是'他做了蠢事'，后半句是'他后悔了'，中间真相揭露是转折点"
+        },
+        {
+          "name": "阴谋-发现-反击句式",
+          "pattern": "{表面的亲密关系}，{背后隐藏的多方阴谋}… o ise {果断的反击行动}！",
+          "example": "Evliliği, kocası ve babasının başka bir kadın için kurduğu bir oyundu… o ise gitti！",
+          "avg_views": 27096,
+          "count": 3,
+          "when_to_use": "阴谋/背叛题材——省略号前是'真相令人窒息'，省略号后是'她选择了行动'，停顿处制造最大悬念"
+        },
+        {
+          "name": "数字冲击句式",
+          "pattern": "{具体数字/时间} {极端动作/变化}，{连锁反应}！",
+          "example": "Köyden gelen bu kız 100 adamı yere serdi… ülkenin en soğuk CEO'su bile ona aşık oldu！",
+          "avg_views": 22146,
+          "count": 4,
+          "when_to_use": "逆袭打脸/能力展示题材——具体数字（100人、一夜之间、10年）提供可信度和冲击力，比'很多人'、'很快'有效得多"
+        }
+      ],
+      "punctuation_strategy": {
+        "逗号(,)用于事件链串联": "逗号连接因果相关的多个情节节点，模拟短剧的快速叙事节奏：'gördü, sandı ama evlendi ve şımarttı'——四个动作用四个逗号压缩在一句话里",
+        "分号(;)用于幕间分割": "分号将标题分为'前因'和'后果'两幕，暗示中间有一个重大转折：'Kimliğini Öğrenen Herkes Şoke Oldu;'前是故事，后是结果",
+        "省略号(…)用于转折前悬停": "省略号停在情节的关键转折点或高潮前，制造'欲言又止'的悬停感，迫使观众因好奇而点击。'o ise gitti…'——然后呢？必须点进去看",
+        "感叹号(！)用于情绪释放": "感叹号放在标题最末尾，标记情绪的最高点和故事的最终结果。不要在标题中间使用感叹号——把唯一的感叹号留给最后的反转",
+        "问号(?)极少使用": "土耳其短剧标题几乎不用问号——这个市场偏好陈述句式的剧情预告，而非提问式的悬念（与英语市场不同）"
+      },
+      "visual_elements": {
+        "中心道具": "结婚证、枪、轮椅、家庭合照、豪宅、金色财富物能让身份与关系钩子一眼成立。",
+        "围观人群": "办公室、婚礼、家宴中的围观者能放大羞辱与公开打脸的爽感。",
+        "天气氛围": "雨夜和雪地强化背叛、被弃、救援、宿命感，在高播放样本中反复出现。",
+        "服装反差": "西装/军装/礼服对比快递服、病号服、素裙、工装，能快速建立阶层差。",
+        "光效能力": "发光手、魔法光束、闪电应只用于能力觉醒或奇幻揭露，不宜滥用在普通虐恋。"
+      },
+      "progression_techniques": [
+        {
+          "name": "身份阶梯递进",
+          "pattern": "从最低身份标签逐级上升到最高身份标签：Sokağa Atılan → Gerçek Mirasçı → CEO Tarafından Kurtarıldı",
+          "example": "Sokağa Atılan Gerçek Mirasçı, Soğuk CEO Tarafından Kurtarıldı; Kimliğini Öğrenen Herkes Şoke Oldu！"
+        },
+        {
+          "name": "情感强度递进",
+          "pattern": "情绪从负极到正极逐步升级：İftira Atıldı（被陷害）→ CEO Sahneye Çıktı（CEO登场保护）→ Şoke Etti（震惊全场）",
+          "example": "Stajyer Kıza İftira Atıldı, CEO Sahneye Çıktı—Ortaya Çıkan Dörtlü Sır Herkesi Şoke Etti！"
+        },
+        {
+          "name": "时间压缩递进",
+          "pattern": "在极短时间内发生极端变化：terk edildi（被抛弃）→ kopyalama gücüyle（获得能力）→ bir gecede milyarder（一夜暴富）",
+          "example": "Terk edilen kurye, kopyalama gücüyle bir gecede milyarder oldu！"
+        },
+        {
+          "name": "见证者递进",
+          "pattern": "从个人经历到群体反应的递进：个人遭遇→关键人物介入→所有人震惊。'Herkes Şoke Oldu'（所有人都震惊了）是终极放大器",
+          "example": "Hakaret Ettikleri Taksi Şoförü Trilyonluk Mirasçı Çıkınca Herkes Donup Kaldı！"
+        },
+        {
+          "name": "期望-反转递进",
+          "pattern": "先建立一个'合乎逻辑的预期'，再用'ama/ancak/ve'给出完全相反的结果：ölür sandı ama evlendi（以为会死却结婚了）",
+          "example": "Mafya patronunun cinayetini gördü, ölür sandı ama onunla evlendi ve onu çok şımarttı！"
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "sample_size_warning": "样本量为48个视频，能判断土耳其短剧标题、标签和封面的大方向，尤其是女频CEO/身份反转/关系背叛模式；但频道数为0、有效描述仅15条、封面有效样本29个（冷色调封面仅3个），细分到具体发布时间和单一封面类型时应继续用A/B测试验证。合并说明：stats.avg_title_length取MiMo计算值88（GPT与两版constraints均为0异常）；stats.emoji_rate取GPT 4.2（与constraints一致，MiMo stats=2.1与自身constraints=4.2矛盾）；stats.key_words取GPT土耳其实际标题词（MiMo为中文题材分类词）；why.title融合GPT\"Şoke oldu情绪放大器\"和MiMo\"省略号/感叹号策略\"；title_skeletons采用GPT 5类聚类（比MiMo 5类更全面，多出当众陷害护短型与关系背叛补偿型的细粒度区分）；what补入MiMo独有\"重生复仇碾压型\"；cover_title_synergy用MiMo含均播/计数的数据映射+GPT能力觉醒条目；hook_combination以GPT扩展格式为主并补入MiMo\"双层结构\"核心发现。",
+    "missing_fields": [
+      "频道数据",
+      "真实标题平均字符数",
+      "标题内嵌标签统计",
+      "标签语义分组",
+      "完整封面人物数量均播",
+      "CTR",
+      "完播率",
+      "观众性别年龄",
+      "视频时长",
+      "发布时间对应单条表现"
+    ]
+  },
+  "stats": {
+    "avg_title_length": 88,
+    "emoji_rate": 2.1,
+    "top_emojis": [
+      "🔥"
+    ],
+    "best_hours": [
+      15,
+      12,
+      10,
+      14,
+      16
+    ],
+    "best_weekdays": [
+      "Friday",
+      "Thursday",
+      "Wednesday"
+    ],
+    "key_words": [
+      "CEO",
+      "Mafya",
+      "Kurye",
+      "Taksi Şoförü",
+      "Milyarder",
+      "Varis",
+      "Evlendi",
+      "Boşanma",
+      "İftira",
+      "Gerçeği",
+      "Şoke",
+      "Aşık",
+      "Şımarttı",
+      "Reenkarne"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "default_provider": "local",
+  "routing": {
+    "text_reasoning": "text_small_brain",
+    "vision_frame_understanding": "vision_frame_brain",
+    "advanced_video_reasoning": "advanced_video_brain"
+  },
+  "models": {
+    "text_small_brain": {
+      "model": "gemma-3-4b-it",
+      "provider": "local",
+      "endpoint": "http://127.0.0.1:11434",
+      "use_cases": ["comments_summary", "report_builder", "signal_engine"]
+    },
+    "vision_frame_brain": {
+      "model": "qwen2.5-vl-3b-instruct",
+      "provider": "local",
+      "endpoint": "http://127.0.0.1:8000",
+      "use_cases": ["frame_understanding", "cover_alignment_check"]
+    },
+    "advanced_video_brain": {
+      "model": "minicpm-v-4.5-int4",
+      "provider": "local",
+      "endpoint": "http://127.0.0.1:8001",
+      "use_cases": ["highlight_packaging", "advanced_video_summary"]
+    }
+  }
+}

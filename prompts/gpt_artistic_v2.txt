@@ -1,0 +1,28 @@
+AI Cover Prompt — "以千金之名" (GPT/DALL-E 3)
+
+Shattered glass collage, 16:9 horizontal. Fuse Acts 1-3 into temporal-misalignment with transparency overlays. East Asian actress resembling Hong Kong stars (Angela Yuen / Zhou Dongyu), realistic.
+
+Act 1 (Left): Teen protagonist semi-transparent + rusty shovel + DNA half-buried + soil bokeh.
+Act 2 (Center): Protagonist sharp focus + false heiress (right edge, shocked) + black card raised specular + luxury bag + floating docs + golden bokeh.
+Act 3 (Right): Male lead Ke Han soft-focus silhouette + wine splash frozen + suit coat draped + false heiress toppled + dark gold/wine-red lighting.
+
+Composition: Three overlapping glass panes cracked but fused. Light bleed at cracks with feathered edges. Background: abstract circular bokeh (amber, 60-80% opacity).
+
+Face: Centered upper third, min 60% area. East Asian Hong Kong actress natural beauty. Tri-zone Rembrandt: left earthy fill 30%, center golden key 80%, right rim dark gold + wine-red 50%.
+
+Props Z-flow:
+1. Shovel bottom-left
+2. DNA report right adjacent
+3. Black card center-upper specular
+4. Floating docs 2-3 sheets
+5. Wine splash arc motion blur
+6. Suit coat draped right shoulder
+7. False heiress right edge (<15% frame)
+8. Luxury bag in hand subtle logo
+
+Variants:
+A (Protect): Dark Gold (#B8860B) + Wine Red (#722F37) high contrast. Chiaroscuro rim light. Weights: Wine > Suit > DNA.
+B (Face-Slap): Pure Gold (#FFD700) + White (#FFFFFF) dazzling. High-key sparkling bokeh. Weights: Black Card > Docs > DNA.
+C (Awakening): Earth Brown (#8B7355) → Amber (#FFBF00) gradient. Diagonal sweep lighting. Weights: Shovel > DNA > Black Card.
+
+Technical: 1280×720 (16:9). Title zone bottom 15% metallic shadow. FULL EPISODES capsule top-left. Abstract bokeh background. No text/UI except title zone.

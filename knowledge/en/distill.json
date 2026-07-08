@@ -1,0 +1,714 @@
+{
+  "why": {
+    "title": [
+      {
+        "principle": "身份落差比身份本身更重要",
+        "psychology": "英文短剧用户点击的不是身份本身，而是认知落差带来的瞬间爽感；表面低位与真实高位之间的差距越大，观众越想看打脸发生。",
+        "application": "标题前半句放低位误判（poor single dad、homeless man、cleaner、beggar、bartender），后半句放真实身份（billionaire CEO、richest heir、mafia boss），用 but、turns out、actually、unaware、unexpectedly 连接。反例：只写 'CEO loves a girl' 缺乏落差与悬念。"
+      },
+      {
+        "principle": "关系伤害要先于复仇结果出现",
+        "psychology": "观众需要先产生愤怒和心疼，才会期待主角反击；如果标题直接写主角成功，情绪燃料不足。",
+        "application": "标题结构用'被背叛/羞辱/抛弃'开场，再写'离开/重生/身份曝光/对方后悔'。cheating husband、first love、fake heiress、toxic fiancée 等关系伤害词要前置，并搭配💔🔥等情绪emoji。"
+      },
+      {
+        "principle": "时间钩子放大命运感",
+        "psychology": "10 years、past life、reborn、five years 等时间词会让普通爱情冲突变成命运补偿，观众默认故事有长期亏欠和迟来的清算；满足补偿心理和第二次机会期待。",
+        "application": "适合重生、久别重逢、旧爱后悔、十年暗恋题材；标题可用 Reborn、After 5 Years、For Ten Years、Past Life 放在开头或中段，形成'过去受伤—现在翻盘'的纵深。"
+      },
+      {
+        "principle": "情绪触发是即时点击燃料",
+        "psychology": "强烈的愤怒、心疼、甜蜜能快速吸引点击，因为观众寻求情感共鸣和释放；强情绪事件能让用户立即代入'如果我是她/他'的情境，点击是为了获得情绪释放。",
+        "application": "标题开头使用情感词汇如 Mocked、Saved、Regrets、Begging，并搭配情绪emoji如🔥💔💕。高效场景包括 wedding night、birthday、proposal、gala、elevator、hospital、airport。"
+      },
+      {
+        "principle": "英文市场偏好把核心设定讲清楚",
+        "psychology": "短剧信息流竞争强，用户在1秒内判断题材；清楚的身份、关系、反转比含蓄文案更有转化力，含蓄的 destiny、love story 反而偏弱。",
+        "application": "标题必须同时交代至少两个信息点：人物关系+冲突，或身份反差+结果；优先用 CEO、billionaire、cheater、married、pregnant、reborn、heir 等具体词，少用抽象词。"
+      }
+    ],
+    "thumbnail": [
+      {
+        "principle": "拍'反转前一秒'或'冲突最高点'，不要只拍人物好看",
+        "psychology": "用户点击封面时是在寻找情绪证据；亲密、威胁、保护、跪求、对峙这些动作比静态摆拍更能证明标题不是空话；肢体语言能瞬间暗示亲密或冲突，降低理解成本。",
+        "application": "女频封面优先用男女肢体距离表达占有、误会、保护（拥抱、对视、拉扯）；男频封面优先用受辱者与强者符号同框，如破衣服+豪车、废品少年+赛车、乞丐+神兵，或女性持刃威胁暗示反抗。"
+      },
+      {
+        "principle": "构图匹配钩子类型",
+        "psychology": "短剧用户不是在看海报审美，而是在读人物关系；两个人的站位、眼神和身体朝向能最快解释'谁控制谁、谁伤害谁、谁保护谁'。",
+        "application": "CEO爱情、契约婚姻、旧爱复合用2人中近景；复仇和权力对抗用对角线或左右对峙构图；奇幻男频可加入龙、闪电、赛车、海浪等战力奇观，主角居中。"
+      },
+      {
+        "principle": "色彩服务同一个钩子",
+        "psychology": "暖色提高亲密感，高对比提高紧张感；如果标题讲复仇而封面只甜美，会削弱点击承诺；高饱和对比色能快速抓眼球，激发即时情绪反应。",
+        "application": "甜宠、暗恋、复合用粉色、金色、暖橘；背叛、王权、复仇用红黑、蓝金、冷暖冲突；封面情绪必须与标题一致，避免预期偏差。"
+      },
+      {
+        "principle": "身份差必须有视觉锚点",
+        "psychology": "观众需要一眼看到阶层差；制服、女仆装、西装、球衣、皇冠、工装、豪宅、婚戒等符号能让身份反差无需阅读就成立。",
+        "application": "标题写 hockey star，封面必须有球衣或冰球元素；写 CEO 要有西装、电梯、豪车、豪宅；写王者要有冠服、龙纹、宫殿；写贫穷要有旧衣、街头、简陋环境。"
+      },
+      {
+        "principle": "视觉奇观必须服务战力，不是装饰",
+        "psychology": "奇幻元素如巨浪、龙、系统界面增加故事吸引力，因为超出日常引发好奇；但奇观若不证明主角将变强，会变成无关装饰。",
+        "application": "男频或玄幻系统封面加入闪电、金龙、光剑、数据面板围绕主角，视觉化能力来源和战力上限；奇观必须和标题中的能力/身份对应。"
+      }
+    ],
+    "tags_and_distribution": [
+      {
+        "principle": "标题标签少而准，描述标签多而分层",
+        "psychology": "标题标签影响用户第一印象，过多会显得廉价；描述标签承担搜索和推荐语义扩展，可覆盖题材、地区、语言和情绪。",
+        "application": "标题中保留1-3个强题材标签（#ceolovestory、#drama、#movie）；描述中扩展 shortdrama、chinesedrama、ceo、romantic、revenge、engsub、webseries 等。"
+      },
+      {
+        "principle": "地域标签帮助进入英语受众池",
+        "psychology": "usa、uk、canada、australia、europe 等标签在高播放样本中表现突出，说明部分频道在用地域信号帮助内容进入英语受众池。",
+        "application": "描述标签可加入 usa、unitedstates、uk、canada、australia、europe，但不要堆满标题；适合英文配音、英文字幕、欧美题材包装的视频。"
+      },
+      {
+        "principle": "题材标签成组出现",
+        "psychology": "推荐系统更容易识别稳定内容簇；ceo+shortdrama、cinderella+romantic、drama+reborn 这类组合比单个宽泛 drama 更明确，能提高搜索可见性。",
+        "application": "每条视频描述标签按'题材核心+情绪类型+语言版本+平台格式'组合，如 ceo+romantic+shortdrama+engsub，或 reborn+revenge+chinesedrama+movie，覆盖长尾搜索。"
+      },
+      {
+        "principle": "FULL、ENG DUB、ENG SUB 是质量信号也是观看成本信号",
+        "psychology": "用户看到 FULL 会预期一次看完整剧情，看到 ENG DUB/ENG SUB 会确认语言可理解，降低点击犹豫；提升观众信任和点击率。",
+        "application": "长合集或完整剧必须在标题前缀放 [FULL]、【ENG DUB】、[ENG SUB]；但核心钩子仍要紧跟其后，不能只写格式词。"
+      },
+      {
+        "principle": "趋势标签截流热点",
+        "psychology": "热门话题标签如 viralvideo 能让视频出现在趋势页面，吸引泛娱乐观众，扩大曝光。",
+        "application": "监控并添加当前趋势标签如 viralvideo、relationshipgoals；但需与内容高度相关，避免无关标签影响推荐。"
+      }
+    ],
+    "market_insights": {
+      "gender_bias": "女频在样本中更强，尤其是CEO、闪婚、契约婚姻、旧爱、背叛、重生复仇、假千金/真千金等题材；其高点击依赖关系张力、情绪反转和身份差。男频也有机会，但更依赖'低位受辱+隐藏强者+即时打脸'，如废品少年是世界冠军、乞丐是剑神、系统降临、雷击获神力。建议频道若做英文短剧，女频主线占比可更高，男频用于测试奇观和爽文受众。",
+      "emerging_trends": "系统/异能降临正在从男频爽文向短剧标题迁移，雷击得系统、返现系统、读心、谎言成真等设定能在传统CEO和重生之外提供新鲜感。另一个趋势是'职业/场景符号化'，如 hockey star、judge、elevator、maid、teacher、janitor，让老套关系钩子拥有新的视觉包装。重生题材持续火热，平均播放高；vertical 标签使用频繁，暗示移动端优化趋势。",
+      "content_quality_signals": "高频质量信号包括 [FULL]、HD FULL、NEW、NEW DRAMA、ENG DUB、ENG SUB、English subtitles、Full episode、Part 1/Part 2。使用时注意：格式词解决可信度，不能替代钩子；最优写法是'格式词 + 强设定 + 情绪结果'。"
+    }
+  },
+  "what": [
+    {
+      "name": "隐藏身份打脸",
+      "template": "Everyone mocked 【低位身份】, unaware 【他/她】 was actually 【高位身份】, and 【反派/家人/前任】 regretted everything.",
+      "why_it_works": "低位误判和高位揭露同时满足好奇、愤怒和补偿心理；直接利用身份落差制造'打脸'爽感。",
+      "sub_genre": "CEO、豪门、校园、男频逆袭、真假千金、现代都市、古装",
+      "examples": [
+        "Poor bartender mocked by all. Unexpectedly saves beautiful CEO, life counterattacks to the peak!",
+        "Useless man mocked like dog, unexpectedly trillion-dollar heir—3 strong beauties vie to pamper him!",
+        "Pengemis yang sering dihina ternyata Dewa Pedang, kalahkan 100 pria kuat, putri jatuh cinta padanya!"
+      ]
+    },
+    {
+      "name": "背叛后离开，前任追悔",
+      "template": "After 【伴侣/家人】 chose 【第三者/假千金/初恋】 over 【主角】, 【主角】 walked away and returned as 【更强身份/更幸福关系】.",
+      "why_it_works": "先制造关系羞辱，再给观众等待惩罚和补偿的理由；背叛激发愤怒，离开激发尊严，后悔激发补偿。",
+      "sub_genre": "婚姻背叛、前妻前夫、重生复仇、豪门虐恋、替身",
+      "examples": [
+        "After seeing a photo of her husband kissing his first love, she vanished from his life forever.",
+        "While He Was Abroad, She Married His Best Friend—He Returned as Top Military Commander. She Regret!",
+        "She Lied About Working—He Caught Her at a Candlelit Dinner With Her Lover. She Regrets It!"
+      ]
+    },
+    {
+      "name": "误婚/闪婚遇真大佬",
+      "template": "To escape 【危机/羞辱/婚约】, 【主角】 married 【看似普通的人】, only to discover 【对方】 was 【顶级身份】 who had loved 【主角】 for years.",
+      "why_it_works": "用错误选择包装命中注定，让偶然婚姻同时具备爽感和甜感；假戏真做的浪漫和戏剧性转变吸引爱情题材爱好者。",
+      "sub_genre": "CEO甜宠、闪婚、契约婚姻、先婚后爱、古装",
+      "examples": [
+        "[ENG SUB] I Fake-Married a Poor Single Dad... But He's Actually a Billionaire CEO!",
+        "Flash Marriage To A Hearing‑Impaired CEO. From Icy Silence To Burning Love",
+        "【FULL】✨Part 1✨Betrayed by all, I marry cold tycoon impulsively, find he loved me for a decade."
+      ]
+    },
+    {
+      "name": "重生改命",
+      "template": "Reborn before 【人生崩坏节点】, 【主角】 refused 【旧选择】, exposed 【敌人】, and finally lived for 【自己/真爱/孩子】.",
+      "why_it_works": "重生让观众提前知道反派会被清算，形成强烈的命运修正期待；提供第二次机会，满足补偿心理。",
+      "sub_genre": "重生复仇、婚姻修复、家庭打脸、女频爽剧、穿越",
+      "examples": [
+        "Drained in past life, reborn she threw away the demand list and lived for herself.",
+        "[ENG SUB] Reborn: I Ditched the Cheater and Ran into My Ruthless Husband's Arms!",
+        "Wife & lover set a deadly trap for insurance payout, but they don't know I've been reborn."
+      ]
+    },
+    {
+      "name": "系统/异能降临",
+      "template": "After 【事故/羞辱/濒死时刻】, 【主角】 awakened 【系统/异能】 and used it to 【复仇/暴富/征服强者】.",
+      "why_it_works": "系统把逆袭速度合法化，观众不用等待成长过程，直接期待开挂结果；提供超越现实的可能性和逆袭捷径。",
+      "sub_genre": "男频爽文、都市异能、玄幻、职场反击",
+      "examples": [
+        "⚡️Pemuda tersambar petir dapat sistem,dapat kekuatan sakti dari gadis cantik,kuasai dunia bela diri!",
+        "My Family Lied for the Fake Heiress, So My System Made Every Lie Come True[ENG DUB | FULL]",
+        "Swindled by his ex-wife, he activated a 10x cashback system to conquer a female"
+      ]
+    },
+    {
+      "name": "外部干预迫使关系重验",
+      "template": "【外部权威如法官或神明】 gives 【关系双方】 【时间限制】 to 【重新经历相爱或和解】, with 【冲突或悬念元素】。",
+      "why_it_works": "外部压力创造紧迫感和戏剧性，观众好奇关系是否能在限定时间内修复。",
+      "sub_genre": "爱情、家庭、先婚后爱",
+      "examples": [
+        "[FULL]The Judge Gave Us 30 Days to Fall in Love Again❤️‍🔥",
+        "The Boy Who Ruled the School Couldn't Control Her❤️🔥"
+      ]
+    }
+  ],
+  "how": {
+    "title_skeletons": [
+      {
+        "name": "身份落差型",
+        "narrative_pattern": "主角以低位、弱势或被误解的身份登场，被他人轻视；随后真实身份或隐藏资源曝光，完成从被踩到反踩的情绪翻转。",
+        "psychological_hook": "观众享受'我早知道他不简单'的优越感，以及反派误判后的打脸快感。",
+        "sub_genre": "CEO、豪门、校园、男频隐藏高手、真假千金",
+        "avg_views": 63993,
+        "count": 25,
+        "examples": [
+          "Useless man mocked like dog, unexpectedly trillion-dollar heir—3 strong beauties vie to pamper him!",
+          "[ENG SUB] I Fake-Married a Poor Single Dad... But He's Actually a Billionaire CEO!",
+          "A cleaner bumped into the CEO! Instead of firing her, he defended her! Everyone was shocked!"
+        ],
+        "rules": [
+          "可变的是低位身份和高位身份；不可变的是'他人误判'与'身份揭露'之间的落差。",
+          "反例：只写 Billionaire CEO Fell in Love 没有误判对象，爽感会变弱。",
+          "低位身份越具体越好，如 cleaner、bartender、beggar、single dad、maid，比 poor person 更有画面。"
+        ]
+      },
+      {
+        "name": "关系背叛补偿型",
+        "narrative_pattern": "亲密关系中的一方被背叛、替代或羞辱，主角离开后获得更高价值关系或身份，原伤害者开始后悔。",
+        "psychological_hook": "背叛激发愤怒，离开激发尊严，后悔激发补偿，三段情绪形成连续点击动力。",
+        "sub_genre": "前夫追妻、婚姻背叛、替身、初恋插足、豪门虐恋",
+        "avg_views": 70554,
+        "count": 20,
+        "examples": [
+          "He spoke to lover in a foreign language, unaware she was fluent in 3 languages. She walked away.",
+          "Five years, no ring. I was just a pawn. When he proposed to his first love, I walked away.",
+          "She Obsessed A Male Model, Forced Her Husband to Sign the Divorce Papers—Now She Regrets It!"
+        ],
+        "rules": [
+          "可变的是背叛场景；不可变的是主角必须有明确的离开动作。",
+          "反例：只写夫妻吵架，没有第三者、身份误判或后悔结果，会缺少强钩子。",
+          "标题要避免只堆虐点，至少给一个补偿承诺，如 now he begs、she walked away、too late、regrets。"
+        ]
+      },
+      {
+        "name": "重生改命型",
+        "narrative_pattern": "主角在前世或过去被消耗、欺骗、杀害，获得重来机会后选择不再重复旧命运，并主动反击旧敌人。",
+        "psychological_hook": "重生给观众一种全知视角：知道谁是坏人，也期待主角如何提前布局清算。",
+        "sub_genre": "重生复仇、家庭复仇、古装权谋、女频爽剧",
+        "avg_views": 116527,
+        "count": 10,
+        "examples": [
+          "Drained in past life, reborn she threw away the demand list and lived for herself.",
+          "[ENG SUB] Reborn: I Ditched the Cheater and Ran into My Ruthless Husband's Arms!",
+          "Wife & lover set a deadly trap for insurance payout, but they don't know I've been reborn."
+        ],
+        "rules": [
+          "可变的是前世伤害类型；不可变的是'这次我不再选择你'的改命动作。",
+          "反例：只写 Reborn without consequence，没有具体要避开的伤害，悬念不足。",
+          "重生标题最好同时出现旧敌人和新选择，如 cheater、fake girl、ruthless husband、enemy king。"
+        ]
+      },
+      {
+        "name": "情绪爆点型",
+        "narrative_pattern": "标题抓取一个极端情绪瞬间，如婚礼夜、生日、求婚、公开羞辱、救命之恩，让观众在未看剧情前已经站队。",
+        "psychological_hook": "强情绪事件能让用户立即代入'如果我是她/他'的情境，点击是为了获得情绪释放。",
+        "sub_genre": "虐恋、甜宠、家庭伦理、复仇、婚姻危机",
+        "avg_views": 136972,
+        "count": 23,
+        "examples": [
+          "🔥💔She Saved Him On Their Wedding Night. He Repaid Her With Coldness. Now He's Begging #ceolovestory",
+          "My daughter's B-day: wife & her first love looked more like a family; my cake was pushed down.",
+          "CEO Is Allergic to All Women but Spends a Night with Poor Girl & finally had an heir"
+        ],
+        "rules": [
+          "可变的是情绪场景；不可变的是观众必须能立刻判断谁受委屈。",
+          "反例：情绪词很多但没有具体事件，如 heartbreaking love story，会显得空泛。",
+          "高效场景包括 wedding night、birthday、proposal、gala、elevator、hospital、airport。"
+        ]
+      },
+      {
+        "name": "系统开挂型",
+        "narrative_pattern": "主角在事故、羞辱或濒危节点获得系统、异能、读心、谎言成真等超常能力，从此用规则外力量快速逆袭。",
+        "psychological_hook": "系统降低逆袭成本，让观众预期剧情会快节奏打脸、升级和收割奖励。",
+        "sub_genre": "男频都市、玄幻、职场爽剧、轻喜剧、真假千金",
+        "avg_views": 58088,
+        "count": 5,
+        "examples": [
+          "⚡️Pemuda tersambar petir dapat sistem,dapat kekuatan sakti dari gadis cantik,kuasai dunia bela diri!",
+          "My Family Lied for the Fake Heiress, So My System Made Every Lie Come True[ENG DUB | FULL]",
+          "Oops! I Lost the Ability to Lie—Now My Cold CEO Fell for His Truth-Telling Secretary😳"
+        ],
+        "rules": [
+          "可变的是能力类型；不可变的是能力必须立刻改变主角处境。",
+          "反例：系统设定太复杂但标题不说明爽点，会让非网文用户看不懂。",
+          "能力最好和关系/复仇结合，如 lie becomes true、mind-reading exposes fake girl、cashback conquers CEO。"
+        ]
+      }
+    ],
+    "hook_combination": {
+      "核心发现": "最稳定的组合不是单一钩子，而是'反转'作为骨架，叠加'身份、关系、情绪、补偿、时间'中的一个或两个。reversal 出现最多但单独使用效果较弱；identity 和 emotion 的均播表现更强，time 虽数量少但均播高，说明英文市场对'清楚反转+强情绪/命运感'的接受度高。",
+      "最强配对": [
+        "emotion+identity",
+        "relationship+reversal",
+        "identity+reversal",
+        "compensation+reversal",
+        "time+relationship"
+      ],
+      "低效组合": [
+        "只有romance没有冲突",
+        "只有CEO身份没有误判",
+        "只有复仇结果没有前置伤害",
+        "单独compensation",
+        "单独reversal"
+      ],
+      "规则": [
+        "先用 relationship 或 emotion 让观众站队，再用 reversal 或 identity 提供点击承诺。",
+        "女频优先组合：relationship+emotion+identity；男频优先组合：identity+reversal+compensation。",
+        "time 钩子不要单独使用，最好绑定背叛、暗恋或复仇，否则只是背景设定。",
+        "系统/异能钩子要和现实冲突绑定，避免变成纯设定说明。",
+        "至少组合两种钩子以增强叙事张力；避免钩子冲突，如 romance 与 revenge 组合需谨慎。"
+      ],
+      "hook_types": {
+        "emotion": {
+          "definition": "直接触发愤怒、心疼、甜蜜、感动等强烈情绪反应，与观众建立情感连接。",
+          "examples": [
+            "🔥💔She Saved Him On Their Wedding Night. He Repaid Her With Coldness. Now He's Begging #ceolovestory",
+            "My daughter's B-day: wife & her first love looked more like a family; my cake was pushed down."
+          ]
+        },
+        "identity": {
+          "definition": "利用角色表面卑微与实际尊贵之间的巨大落差，制造核心悬念和期待。",
+          "examples": [
+            "[ENG SUB] I Fake-Married a Poor Single Dad... But He's Actually a Billionaire CEO!",
+            "Village girl saves 9 injured men—turns out they're 9 missing CEO brothers! Life changes instantly!"
+          ]
+        },
+        "relationship": {
+          "definition": "聚焦夫妻、前任、家庭、朋友等亲密关系中的冲突、背叛或复杂纠葛。",
+          "examples": [
+            "While He Was Abroad, She Married His Best Friend—He Returned as Top Military Commander. She Regret!",
+            "After seeing a photo of her husband kissing his first love, she vanished from his life forever."
+          ]
+        },
+        "reversal": {
+          "definition": "设置意料之外的转折点，打破观众预期，制造惊讶和没想到的观感。",
+          "examples": [
+            "Poor bartender mocked by all. Unexpectedly saves beautiful CEO, life counterattacks to the peak!",
+            "A cleaner bumped into the CEO! Instead of firing her, he defended her! Everyone was shocked!"
+          ]
+        },
+        "compensation": {
+          "definition": "强调恶有恶报、善有善终，让前期受伤主角获得应得回报，让反派后悔。",
+          "examples": [
+            "Too Late to Cry! I Left My Toxic Fiancée and Found Someone Better🔥❌",
+            "She Lied About Working—He Caught Her at a Candlelit Dinner With Her Lover. She Regrets It!"
+          ]
+        },
+        "time": {
+          "definition": "涉及重生、穿越、多年后的重逢或时间跨度，利用时间变化制造戏剧性。",
+          "examples": [
+            "Her Ex Became Her Boss. He Wore An Engagement Ring For Ten Years. She Never Knew.#csth",
+            "Reborn at 22: He Fixes His Past, Saves Wife, Crushes Loan Sharks & Becomes Rich【Fixing My Life】"
+          ]
+        }
+      },
+      "emergent_hooks": [
+        {
+          "name": "系统/异能降临",
+          "definition": "主角在雷击、车祸、濒死、受辱或特殊事件后获得系统、读心、谎言成真、返现等规则外能力，并以此推动逆袭、复仇或爱情。",
+          "examples": [
+            "⚡️Pemuda tersambar petir dapat sistem,dapat kekuatan sakti dari gadis cantik,kuasai dunia bela diri!",
+            "My Family Lied for the Fake Heiress, So My System Made Every Lie Come True[ENG DUB | FULL]"
+          ]
+        }
+      ],
+      "hook_stats": {
+        "reversal": 44,
+        "compensation": 30,
+        "identity": 25,
+        "emotion": 23,
+        "relationship": 20,
+        "time": 10
+      }
+    },
+    "title_constraints": {
+      "avg_length": 0,
+      "emoji_rate": 194.0,
+      "top_emojis": [
+        "🔥",
+        "💕",
+        "👑",
+        "💖",
+        "💔",
+        "💥",
+        "🆕",
+        "💗",
+        "🌟",
+        "💍"
+      ],
+      "title_structure": "英文短剧标题常见结构是'格式词/情绪emoji + 具体冲突场景 + 身份或关系反转 + 结果承诺/后悔'。前半句负责让观众站队，后半句负责给出反转和爽点；省略号、破折号、but、unaware、actually、turns out 是高频转折连接方式。",
+      "key_words": [
+        "CEO",
+        "Billionaire",
+        "Reborn",
+        "Marriage",
+        "Cheater",
+        "Husband",
+        "Wife",
+        "Heiress",
+        "Mafia",
+        "Secret",
+        "Full",
+        "ENG DUB",
+        "ENG SUB"
+      ]
+    },
+    "emoji_strategy": {
+      "best_position": "数据中emoji更多出现在标题开头，其次是末尾；开头emoji适合先定义情绪和题材，末尾emoji适合强化点击后的情绪预期。",
+      "rules": [
+        "🔥用于复仇、强冲突、爆款感；💕、💖、❤用于甜宠、CEO爱情、闪婚；💔用于背叛、虐恋、离开；👑用于王室、豪门、女王式逆袭。",
+        "开头emoji不要超过2-3个，否则会降低标题可读性。",
+        "emoji要服务题材，不要随机堆叠；背叛题材用💔比💕更一致，复仇题材用🔥或💥更直接。",
+        "格式词如 [FULL]、【ENG DUB】与emoji可以共存，但核心钩子必须在前80个可见字符内出现。"
+      ]
+    },
+    "hashtag_strategy": {
+      "title_tags": [
+        "#ceolovestory",
+        "#movie",
+        "#ceo",
+        "#drama",
+        "#love",
+        "#LOVE",
+        "#ROM",
+        "#minidrama"
+      ],
+      "description_tags": [
+        "shortdrama",
+        "chinesedrama",
+        "drama",
+        "ceo",
+        "cdrama",
+        "cinderella",
+        "romantic",
+        "minidrama",
+        "love",
+        "movie",
+        "lovestory",
+        "revenge",
+        "tvshow",
+        "CEO",
+        "engsub",
+        "tvseries",
+        "kdrama",
+        "romance",
+        "chinesedramaengsub",
+        "shorts"
+      ],
+      "combination_pattern": "高频共现显示，标签组合应围绕'题材+情绪+格式+语言'搭建，如 cinderella+romantic、ceo+shortdrama、drama+reborn、new+romantic、romantic+shortfilm。",
+      "trend_hijacking": "英文受众内容可在描述中加入 usa、unitedstates、uk、canada、australia、europe、webseries、romanticdrama 等地域和内容形态标签，用于帮助推荐系统识别英语观看池；但标题不宜堆地域标签。",
+      "rules": [
+        "标题标签控制在1-3个，优先放最能定义题材的标签。",
+        "描述标签分三层：核心题材如 ceo/reborn/revenge，内容形态如 shortdrama/movie/webseries，语言和受众如 engsub/usa/uk。",
+        "大小写标签可同时存在但不要滥用，如 CEO 和 ceo 可在描述中保留，标题中只保留一种。",
+        "如果标题已有 [ENG DUB]，描述标签必须补充 engsub、chinesedramaengsub 或 English subtitles 相关词。"
+      ]
+    },
+    "description_template": {
+      "structure": "高播放描述通常包含剧情简介、欢迎语、观看提示/免责声明、订阅引导和标签链接。synopsis 出现最多，welcome 有较高存在感；disclaimer 数量少但在高播放样本中均播较高，说明英文市场对合规和观看预期提示有一定价值。",
+      "template_types": [
+        {
+          "name": "剧情简介+频道欢迎",
+          "pattern": "用1-2句讲清核心冲突和反转，再加入 welcome to channel，引导观众订阅或继续观看。",
+          "适用场景": "CEO爱情、闪婚、重生、复仇等主流女频短剧"
+        },
+        {
+          "name": "VIEWER DISCRETION ADVISED",
+          "pattern": "开头提示 fictional drama series 或 viewer discretion，再进入剧情简介。",
+          "适用场景": "含强冲突、霸凌、背叛、暴力、成人关系张力的视频"
+        },
+        {
+          "name": "多语言剧情介绍",
+          "pattern": "用目标语言写 perkenalan/synopsis，并加入感谢观看、like、subscribe。",
+          "适用场景": "英语以外受众测试，如印尼语、葡语、西语市场"
+        },
+        {
+          "name": "完整剧集说明",
+          "pattern": "说明 Full episode、ENG DUB、English subtitles、Part 1/Part 2，并附平台或合集链接。",
+          "适用场景": "合集、分集、长视频、频道导流"
+        }
+      ],
+      "rules": [
+        "描述第一行必须复述并扩展标题钩子，不要只写欢迎语。",
+        "简介长度以能讲清'谁受伤、谁反转、谁后悔'为准。",
+        "订阅引导放在剧情简介之后，不要抢占前两行。",
+        "免责声明适合高冲突题材，可增强英文市场的专业感和合规感。"
+      ]
+    },
+    "thumbnail_guidelines": {
+      "composition": "优先使用2人中近景、中心构图或对角线对抗构图；关系题材用贴近、拥抱、拉扯、凝视，复仇题材用左右对峙或上下压制，男频奇观用主角居中加背景能量/龙/赛车/风暴。",
+      "figures": "女频以男女主2人为主，突出身份差和情感距离；男频可用1个强主角加奇观，也可用主角与反派对比。人物表情必须明确：委屈、震惊、冷漠、占有、愤怒、后悔。",
+      "colors": "甜宠和暗恋用暖色、粉色、金色；复仇和权力冲突用红黑、蓝金、强冷暖对比；奇幻和男频用高饱和金色能量、闪电、火焰、深蓝背景。",
+      "emotion": "核心情绪不是美，而是张力。女频主打被保护、被误解、被占有、转身离开；男频主打被羞辱、身份隐藏、力量觉醒、强者归来。",
+      "visual_symbols": "CEO用西装、电梯、豪车、办公室；豪门用戒指、礼服、宴会；王室用皇冠、龙纹、宫殿；背叛用第三者、摔蛋糕、婚戒、离婚协议；系统异能用闪电、光效、数据面板、金龙。",
+      "text": "封面文字不超过5-7个英文单词，提炼核心承诺，如 Secret Billionaire、Reborn for Revenge、CEO's Hidden Wife、Claimed by Superstar。封面文字应补充标题，而不是复制长标题。"
+    },
+    "cover_title_synergy": {
+      "rule": "标题和封面必须围绕同一个核心钩子分工：标题说明'为什么这件事刺激'，封面证明'这件事正在发生'。互补优于重复，但不能题材错位。",
+      "hook_cover_mapping": [
+        {
+          "hook_type": "identity",
+          "title_pattern": "低位身份 + unaware/actually/turns out + 高位身份",
+          "cover_pattern": "同框展示低位符号与高位符号，如女仆装对冰球巨星、穷人对豪车、西装CEO对清洁工。",
+          "example_title": "[Full]My Childhood Crush Became Hockey Star… And Still Wanted Me Under His Roof ❤️‍🔥",
+          "example_cover": "男主穿红色冰球球衣呈保护和占有姿态，女主穿女仆装依偎，身份差和亲密关系同时可视化。"
+        },
+        {
+          "hook_type": "relationship",
+          "title_pattern": "丈夫/妻子/初恋/前任 + 背叛或误会 + 主角离开或后悔",
+          "cover_pattern": "用三角关系、距离、背对、冷脸、求抱、摔物等动作表达关系断裂。",
+          "example_title": "After seeing a photo of her husband kissing his first love, she vanished from his life forever.",
+          "example_cover": "最佳封面应表现女主看到亲密照片后的震惊和转身离开，男主与初恋在背景形成背叛证据。"
+        },
+        {
+          "hook_type": "emotion",
+          "title_pattern": "具体情绪事件 + 不公平回报 + now he/she begs",
+          "cover_pattern": "定格受伤或反击瞬间，如婚礼夜冷漠、生日被羞辱、公开场合下跪。",
+          "example_title": "🔥💔She Saved Him On Their Wedding Night. He Repaid Her With Coldness. Now He's Begging #ceolovestory",
+          "example_cover": "最佳封面应有婚纱/婚床/冷脸男主/心碎女主，直接证明 wedding night 的情绪爆点。"
+        },
+        {
+          "hook_type": "reversal",
+          "title_pattern": "包含转折点如 but、however、unexpectedly 或掌控反转",
+          "cover_pattern": "定格冲突高潮瞬间，如打斗、揭露、情感爆发或掌控者反被掌控。",
+          "example_title": "The Boy Who Ruled the School Couldn't Control Her❤️🔥",
+          "example_cover": "封面展示校霸男孩与自信女孩对峙，表情从掌控到惊讶，视觉化权力反转。"
+        },
+        {
+          "hook_type": "time",
+          "title_pattern": "Reborn/Past life/After years/For ten years + 新选择",
+          "cover_pattern": "用前后对比、坚定眼神、撕毁文件、旧人重逢、婚戒等符号呈现时间后的变化。",
+          "example_title": "Drained in past life, reborn she threw away the demand list and lived for herself.",
+          "example_cover": "中年女性居中，表情坚定，抛弃文件的动作呼应 threw away the demand list，背景村民强化旧束缚。"
+        },
+        {
+          "hook_type": "系统/异能降临",
+          "title_pattern": "事故/雷击/谎言/读心 + 获得能力 + 逆袭结果",
+          "cover_pattern": "主角居中，加入闪电、数据面板、金光、神兽、夸张能量，视觉化能力来源和战力上限。",
+          "example_title": "⚡️Pemuda tersambar petir dapat sistem,dapat kekuatan sakti dari gadis cantik,kuasai dunia bela diri!",
+          "example_cover": "古风青年居中，周围有闪电、金龙、白鹿和神光，把系统获得后的力量结果直观呈现。"
+        }
+      ],
+      "patterns": [
+        {
+          "name": "标题给反差，封面给证据",
+          "description": "标题写'其实他是大佬'，封面必须出现大佬符号与低位误判符号。",
+          "example": "标题 Fake-Married a Poor Single Dad... Actually a Billionaire CEO + 封面可用朴素父亲与豪车/西装/豪宅同框。"
+        },
+        {
+          "name": "封面定格冲突，标题补全前因后果",
+          "description": "封面只需让观众看到威胁、拥抱、对峙或羞辱，标题解释为什么这瞬间重要。",
+          "example": "标题 The Judge Gave Us 30 Days to Fall in Love Again + 封面用旧爱在黄昏中近距离凝视，补足强制复合后的暧昧。"
+        },
+        {
+          "name": "情绪反转视觉化",
+          "description": "标题写从冷漠到后悔、从被弃到被宠，封面用表情和距离表达前后情绪差。",
+          "example": "标题 From Icy Silence To Burning Love + 封面应从冷脸CEO与受伤女主转向亲密保护姿态。"
+        },
+        {
+          "name": "奇观服务战力",
+          "description": "男频奇观不是装饰，必须证明主角将变强。",
+          "example": "标题雷击得系统 + 封面闪电、金龙、光剑围绕主角，显示能力升级。"
+        }
+      ],
+      "anti_patterns": [
+        {
+          "name": "题材错位",
+          "description": "标题讲社会逆袭，封面却像奇幻冒险；会扩大受众但也可能造成预期偏差。"
+        },
+        {
+          "name": "只美不钩",
+          "description": "男女主漂亮但没有身份符号、冲突动作或关系张力，用户无法判断为什么要点。"
+        },
+        {
+          "name": "标题有爆点封面无证据",
+          "description": "标题写 cheating、reborn、secret heir，但封面只有普通合照，点击承诺不可信。"
+        },
+        {
+          "name": "信息过散",
+          "description": "封面人物过多、文字过多、符号过多，会让核心钩子在手机端消失。"
+        }
+      ],
+      "female_freq": "女频封面要围绕关系张力、情绪反转和身份差：男女主2人优先，男主保护/占有/冷漠，女主受伤/坚定/转身，配合婚戒、礼服、西装、豪宅、离婚协议等符号，使用浪漫色调和亲密构图。",
+      "male_freq": "男频封面要围绕低位受辱、隐藏强者和瞬间打脸：主角居中，反派或群众在侧，加入赛车、龙、闪电、武器、金光、冠军服等战力符号，使用动态构图和力量符号。"
+    },
+    "publish_time": {
+      "best_hours": [
+        10,
+        12,
+        16,
+        15,
+        11
+      ],
+      "best_weekdays": [
+        "Thursday",
+        "Friday",
+        "Wednesday"
+      ],
+      "rules": [
+        "优先在UTC 10:00-16:00之间测试发布，尤其是10:00、12:00、15:00、16:00，并考虑目标观众时区如美国东部时间晚间。",
+        "重点测试 Thursday、Friday、Wednesday，适合覆盖欧美用户午间和下班前后的浏览窗口。",
+        "同一题材连续测试时，保持发布时间稳定，避免把题材差异误判为时间差异。"
+      ]
+    },
+    "growth_strategy": [
+      "建立题材矩阵：主线做CEO/闪婚/背叛/重生女频，副线测试系统/异能/隐藏高手男频。",
+      "每条视频至少设计一个核心钩子和一个辅助钩子，例如 relationship+reversal 或 identity+emotion，不要只写单一爱情。",
+      "标题先写完整故事承诺，再加格式词和标签；不要让 [FULL]、NEW、HD 占据最重要的信息位。",
+      "封面制作前先写一句'观众为什么生气/好奇/期待'，再决定人物动作和道具。",
+      "描述前两行复述剧情钩子，后面再放欢迎、订阅、免责声明和标签。",
+      "用A/B思路测试同一素材的不同包装：身份反差版、关系背叛版、重生复仇版，看哪种点击更强。",
+      "系列内容使用 Part 1/Part 2 时，标题仍要独立成立，不能只依赖集数。",
+      "定期发布高频内容以维持算法推荐；与观众互动回复评论以增强粘性；跨平台推广如Instagram引流。"
+    ],
+    "rhetorical_patterns": {
+      "sentence_structures": [
+        {
+          "name": "Unaware反转句",
+          "pattern": "{主角/反派做了某事}, unaware {隐藏事实}. {结果/离开/后悔}.",
+          "example": "He spoke to lover in a foreign language, unaware she was fluent in 3 languages. She walked away.",
+          "avg_views": 63993,
+          "count": 25,
+          "when_to_use": "适合身份隐藏、能力隐藏、语言能力、真实血统、秘密婚姻等信息差题材。"
+        },
+        {
+          "name": "But Actually身份句",
+          "pattern": "{看似低位关系或身份}... But {他/她} is actually {高位身份}!",
+          "example": "[ENG SUB] I Fake-Married a Poor Single Dad... But He's Actually a Billionaire CEO!",
+          "avg_views": 63993,
+          "count": 25,
+          "when_to_use": "适合闪婚、假婚、误认、救人、收留陌生人等会产生身份误判的剧情。"
+        },
+        {
+          "name": "Now Regrets补偿句",
+          "pattern": "{反派/伴侣} {伤害主角}—Now {反派/伴侣} Regrets It!",
+          "example": "She Obsessed A Male Model, Forced Her Husband to Sign the Divorce Papers—Now She Regrets It!",
+          "avg_views": 37800,
+          "count": 30,
+          "when_to_use": "适合背叛、离婚、抛弃、误会、替身、假千金陷害后被清算的剧情。"
+        },
+        {
+          "name": "Reborn改命句",
+          "pattern": "Reborn {时间/节点}: {主角} {改变旧选择}, {拯救/复仇/致富}.",
+          "example": "Reborn at 22: He Fixes His Past, Saves Wife, Crushes Loan Sharks & Becomes Rich【Fixing My Life】",
+          "avg_views": 116527,
+          "count": 10,
+          "when_to_use": "适合主角带着记忆回到关键人生节点，并主动改写命运的爽剧。"
+        },
+        {
+          "name": "From-To情绪转化句",
+          "pattern": "From {初始冷淡/痛苦状态} To {最终热恋/逆袭状态}.",
+          "example": "💍💕Flash Marriage To A Hearing‑Impaired CEO. From Icy Silence To Burning Love #ceolovestory",
+          "avg_views": 136972,
+          "count": 23,
+          "when_to_use": "适合先婚后爱、冷面CEO、残障男主、破镜重圆等关系温度变化明显的题材。"
+        }
+      ],
+      "punctuation_strategy": {
+        "破折号": "用于把前因和反转结果切开，形成强节奏，如'她做了选择—现在后悔了'。",
+        "省略号": "用于身份反转前的停顿，适合 childhood crush became...、fake-married... but actually... 这类悬念。",
+        "冒号": "用于重生、系统、系列名和设定开场，如 Reborn at 22:、Full episode丨、Part 1。",
+        "感叹号": "用于男频打脸和强情绪标题，强化爽感和震惊感，但不宜每句都用。",
+        "引号": "用于对白式标题，能制造剧中冲突现场感，如'It Wasn't an Arranged Marriage. It Was My 10-Year Plan to Win You.'"
+      },
+      "visual_elements": {
+        "人物关系": "2人封面最适合英文女频，能快速读出恋爱、控制、保护、背叛。",
+        "阶层符号": "西装、豪车、制服、女仆装、皇冠、礼服、办公室、电梯是身份差的关键证据。",
+        "动作符号": "拥抱、拉扯、持刃、转身、跪求、护在身前，比静态站立更能承接标题爆点。",
+        "奇观符号": "龙、闪电、巨浪、赛车、金光适合男频或玄幻系统，但必须和标题中的能力/身份对应。",
+        "色彩符号": "暖粉和金色偏爱情甜宠，红黑偏权力和危险，蓝金偏史诗和危机。",
+        "emoji作为视觉标点": "标题开头使用🔥💕等emoji增强情绪传达并快速抓眼球，中间使用😊😳强化角色反应。"
+      },
+      "progression_techniques": [
+        {
+          "name": "伤害—离开—后悔",
+          "pattern": "先写伤害事件，再写主角离开，最后写反派后悔。",
+          "example": "Five years, no ring. I was just a pawn. When he proposed to his first love, I walked away."
+        },
+        {
+          "name": "低位—误判—高位揭露",
+          "pattern": "先给低位身份，再制造嘲笑或误认，最后揭露真实身份。",
+          "example": "Useless man mocked like dog, unexpectedly trillion-dollar heir—3 strong beauties vie to pamper him!"
+        },
+        {
+          "name": "旧命运—重生—新选择",
+          "pattern": "先说明过去被消耗或死亡，再写重生，最后写拒绝旧选择。",
+          "example": "Drained in past life, reborn she threw away the demand list and lived for herself."
+        },
+        {
+          "name": "偶然相遇—身份隐藏—爱情/怀孕结果",
+          "pattern": "用救人、误进电梯、收留陌生人等偶然事件触发隐藏身份关系，最后给甜宠或继承人结果。",
+          "example": "Intern mistakenly enters the CEO's elevator, becomes his cure, and ends up pregnant with quadruplets"
+        },
+        {
+          "name": "强设定—情绪转化",
+          "pattern": "先抛出强制复合、闪婚、过敏、失去说谎能力等设定，再写关系如何从冷到热。",
+          "example": "Oops! I Lost the Ability to Lie—Now My Cold CEO Fell for His Truth-Telling Secretary😳"
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "sample_size_warning": "样本量为150个视频，足够观察英文短剧标题、封面和标签的方向性规律，但频道数为0且部分统计字段异常，因此不适合做频道级结论或绝对因果判断。钩子分布等统计基于约76个标题样本，需谨慎应用。 合并说明：avg_title_length 取 MiMo 计算值 86（title_constraints 两版均为 0 异常）；emoji_rate stats 层取 41.3（标题含emoji占比），title_constraints 保留原始 194.0（疑为均emoji数×100）；top_emojis 用 MiMo 干净列表（GPT 含不可见字符）；key_words 取 GPT 英文词（可直接复用）；title_skeletons 以 GPT 5 类为骨架（多出情绪爆点型 均播136972 最高），合并版补 MiMo「外部干预迫使关系重验」为 what 第 6 类；系统骨架 count 取 MiMo 5（GPT=1 与列表 3 样例矛盾取更合理者）。",
+    "missing_fields": [
+      "频道数据（频道数为0）",
+      "真实标题平均字符数（提取异常）",
+      "完播率",
+      "点击率",
+      "观看时长",
+      "发布时间对应时区之外的本地受众分布",
+      "封面有效样本仅28个",
+      "部分已提取标题骨架为空",
+      "标签语义分组为空"
+    ]
+  },
+  "stats": {
+    "avg_title_length": 97,
+    "key_words": [
+      "Husband",
+      "Reborn",
+      "for",
+      "Wife",
+      "ENG DUB",
+      "the",
+      "Full",
+      "ceo",
+      "Billionaire",
+      "Mafia",
+      "girl",
+      "she",
+      "ENG SUB",
+      "her",
+      "CEO",
+      "Marriage",
+      "Heiress",
+      "Cheater",
+      "Secret"
+    ],
+    "emoji_rate": 0.0,
+    "top_emojis": [
+      "🔥",
+      "💕",
+      "👑",
+      "💖",
+      "💔",
+      "💥",
+      "🆕",
+      "💗",
+      "🌟",
+      "💍"
+    ]
+  }
+}

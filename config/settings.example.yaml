@@ -1,0 +1,125 @@
+# 短剧出海配置文件模板
+# 复制此文件为 settings.yaml 并填入你的配置
+
+# 基础配置
+app:
+  name: "duanju"
+  version: "1.0.0"
+  environment: "development"  # development/staging/production
+
+# 频道配置
+channels:
+  indo_ceo:
+    name: "DramaIndo-CEO"
+    region: "ID"
+    language: "id"
+    category: "Entertainment"
+    description: "Film drama pendek CEO terbaru dan terpanas"
+    tags: ["drama pendek", "CEO", "romantis"]
+    youtube_channel_id: "YOUR_CHANNEL_ID"
+    youtube_playlist_id: "YOUR_PLAYLIST_ID"
+    upload_schedule: "daily"
+    upload_time: "19:00"
+    max_videos_per_day: 2
+
+# 翻译配置
+translation:
+  source_language: "zh-cn"
+  target_languages:
+    - "zh-tw"
+    - "zh-hk"
+    - "id"
+    - "pt"
+  
+  service: "llm"
+  api_key: "YOUR_API_KEY"
+  
+  dubbing:
+    enabled: true
+    service: "elevenlabs"
+    api_key: "YOUR_API_KEY"
+    voices:
+      id: "indonesian_male"
+      pt: "brazilian_female"
+
+# 标题生成配置
+title_generation:
+  min_conflict_points: 3
+
+# 封面生成配置
+cover_generation:
+  style: "movie_poster"
+  variants: 3
+  tools:
+    - "doubao"
+
+# 视频剪辑配置
+video_editing:
+  target_duration: 600
+  structure:
+    intro: 30
+    highlights: 5
+    outro: 30
+  
+  narration:
+    enabled: true
+    min_duration: 300
+
+# 合规检查配置
+compliance:
+  copyright_music:
+    enabled: true
+    service: "acrcloud"
+    api_key: "YOUR_API_KEY"
+    action: "mute"
+  
+  content_check:
+    violence: true
+    sexual_content: true
+    black_screen: true
+    silent_audio: true
+
+# 数据分析配置
+analytics:
+  burst_formula:
+    weights:
+      ctr: 0.3
+      watch_time: 0.25
+      rpm: 0.25
+      first_day_views: 0.2
+    
+    thresholds:
+      burst: 5.0
+      potential: 2.0
+      eliminate: 0.0
+
+# 素材库配置
+material_library:
+  sources:
+    - "hongguo"
+    - "douyin"
+  
+  hongguo:
+    api_key: "YOUR_API_KEY"
+    categories: ["all", "romance", "revenge", "fantasy"]
+
+# 日志配置
+logging:
+  level: "INFO"
+  file: "logs/duanju.log"
+
+# 输出目录
+output:
+  videos: "output/videos"
+  subtitles: "output/subtitles"
+  covers: "output/covers"
+  titles: "output/titles"
+  reports: "output/reports"
+
+# 数据目录
+data:
+  analytics: "data/analytics"
+  comments: "data/comments"
+  research: "data/research"
+  hongguo: "data/hongguo"
+  douyin: "data/douyin"

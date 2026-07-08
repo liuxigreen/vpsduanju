@@ -1,0 +1,50 @@
+default_provider: local
+routing:
+  text_reasoning: text_small_brain
+  vision_frame_understanding: vision_frame_brain
+  advanced_video_reasoning: advanced_video_brain
+
+models:
+  text_small_brain:
+    model: gemma-3-4b-it
+    provider: local
+    endpoint: http://127.0.0.1:11434
+    use_cases:
+      - comments_summary
+      - report_builder
+      - signal_engine
+      - weekly_monthly_distill_digest
+      - manifest_reasoning
+  vision_frame_brain:
+    model: qwen2.5-vl-3b-instruct
+    provider: local
+    endpoint: http://127.0.0.1:8000
+    use_cases:
+      - frame_understanding
+      - ocr_assisted_scene_parsing
+      - cover_alignment_check
+      - key_scene_detection
+      - title_cover_alignment
+  advanced_video_brain:
+    model: minicpm-v-4.5-int4
+    provider: local
+    endpoint: http://127.0.0.1:8001
+    use_cases:
+      - highlight_packaging
+      - multi_frame_reasoning
+      - advanced_video_summary
+
+hardware_profiles:
+  workstation_3060_12g:
+    gpu_memory_gb: 12
+    recommended_default_path: frame_first
+  m4_12g:
+    unified_memory_gb: 12
+    recommended_default_path: frame_first
+
+policy:
+  default_video_path: frame_first
+  allow_full_video_direct_inference: false
+  escalation_rules:
+    - when: "frame_summary_confidence < 0.6"
+      action: "escalate_to_advanced_video_brain"

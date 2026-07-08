@@ -1,0 +1,19 @@
+# 频道配置模板
+# 每个地区一个频道
+
+channels:
+  indo_drama:
+    name: "DramaIndo"
+    region: ID
+    language: id
+    category: Entertainment
+    description: "Film drama pendek terbaru dan terpanas"
+    tags: ["drama pendek", "film romantis", "CEO drama"]
+    
+  brazil_drama:
+    name: "DramaBrasil"
+    region: BR
+    language: pt
+    category: Entertainment
+    description: "Dramas curtos mais quentes e novos"
+    tags: ["drama curto", "novela", "CEO"]

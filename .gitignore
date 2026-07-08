@@ -1,0 +1,166 @@
+# 短剧出海.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日志
+logs/*.log
+logs/*.log.*
+
+# 敏感配置（含API Key等）
+.env
+config/settings.yaml
+config/youtube_credentials.json
+config/api_keys.json
+api_key.txt
+api_keys.json
+cookies.txt
+
+# 但保留模板
+!config/*.example.yaml
+!config/*.example.json
+
+# 数据文件（大文件/动态数据）
+data/analytics/*.json
+data/comments/*.json
+data/research/*.json
+data/hongguo/*.json
+data/douyin/*.json
+data/channel_analysis/*.json
+data/channel_diagnosis/*.json
+data/channel_snapshots/*.json
+data/channel_search/
+data/channel_samples_api/
+data/channel_samples_new/
+data/channel_enriched/
+data/channel_samples/
+data/channel_brain/
+data/collected/
+data/competitor_data/
+data/competitor_insights/
+data/competitor_snapshots/
+data/competitor_tracking/
+data/competitor_registry.json
+data/competitor_tiers.json
+data/competitor_tiers.json.bak*
+data/competitor_tiers_*.json
+data/competitors_channels_all.json
+data/competitors_50channels.json
+data/competitor_channels.json
+data/channels_database.json
+data/diagnosis_report_*.json
+data/discovered_channels/
+data/drama_analysis/
+data/feedback/
+data/genre_cover_patterns/
+data/manifests/
+data/market_insights_*.json
+data/materials_structured/
+data/own/
+data/panel/
+data/proposal_history/
+data/registry_collected/
+data/thumbnails/
+data/yt_search_log.json
+data/_pipeline_state.json
+data/test_caption.*
+data/feishu_*.json
+data/drama_rules.json
+
+# 输出文件
+output/
+raw/
+
+# 分析/研究
+analysis/
+research/
+references/
+sources/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.temp
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Understand-Anything
+.understand-anything/
+
+# 临时数据/生成文件（不提交）
+panel/web_runs/
+*.log
+*.csv
+*.bak
+*.bak.*
+
+# 蒸馏旧版本
+distill_old_*/
+
+# 临时脚本/一次性工具
+scripts/oneoff/
+scripts/archived/
+
+# cookies
+cookies.txt
+
+# Hermes Agent
+.hermes/
+
+# Firecrawl
+.firecrawl/
+
+# 整个数据目录
+data/
+
+# 蒸馏数据
+distill/
+
+# 敏感数据（cookies、频道配置）
+cookies_new.txt
+panel/channel_setup/
+
+# API keys
+config/gpt55_api_key.txt
+config/*api_key*.txt
+config/*secret*.txt

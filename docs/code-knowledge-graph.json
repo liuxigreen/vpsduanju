@@ -1,0 +1,3310 @@
+{
+  "nodes": [
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": " AGENTS.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": " README.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 138,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:sooul_ux_evaluation.md",
+      "type": "document",
+      "name": "sooul_ux_evaluation.md",
+      "filePath": "sooul_ux_evaluation.md",
+      "summary": " sooul_ux_evaluation.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "config:config/channels.example.yaml",
+      "type": "config",
+      "name": "channels.example.yaml",
+      "filePath": "config/channels.example.yaml",
+      "summary": " channels.example.yaml",
+      "tags": [
+        "配置",
+        "YAML",
+        "频道",
+        "YouTube"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:config/distill_settings.example.yaml",
+      "type": "config",
+      "name": "distill_settings.example.yaml",
+      "filePath": "config/distill_settings.example.yaml",
+      "summary": " distill_settings.example.yaml",
+      "tags": [
+        "配置",
+        "YAML",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:config/model_registry.example.json",
+      "type": "config",
+      "name": "model_registry.example.json",
+      "filePath": "config/model_registry.example.json",
+      "summary": " model_registry.example.json",
+      "tags": [
+        "配置",
+        "JSON"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:config/model_registry.example.yaml",
+      "type": "config",
+      "name": "model_registry.example.yaml",
+      "filePath": "config/model_registry.example.yaml",
+      "summary": " model_registry.example.yaml",
+      "tags": [
+        "配置",
+        "YAML"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 50,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:config/pipeline.example.yaml",
+      "type": "config",
+      "name": "pipeline.example.yaml",
+      "filePath": "config/pipeline.example.yaml",
+      "summary": " pipeline.example.yaml",
+      "tags": [
+        "配置",
+        "YAML"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 41,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:config/settings.example.yaml",
+      "type": "config",
+      "name": "settings.example.yaml",
+      "filePath": "config/settings.example.yaml",
+      "summary": " settings.example.yaml",
+      "tags": [
+        "配置",
+        "YAML"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 125,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/印尼/covers.json",
+      "type": "config",
+      "name": "covers.json",
+      "filePath": "distill/evidence/印尼/covers.json",
+      "summary": " covers.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 2467,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/印尼/tag_groups.json",
+      "type": "config",
+      "name": "tag_groups.json",
+      "filePath": "distill/evidence/印尼/tag_groups.json",
+      "summary": " tag_groups.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标签",
+        "分类"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 3233,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/印尼/title_skeletons.json",
+      "type": "config",
+      "name": "title_skeletons.json",
+      "filePath": "distill/evidence/印尼/title_skeletons.json",
+      "summary": " title_skeletons.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 4504,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/繁中/covers.json",
+      "type": "config",
+      "name": "covers.json",
+      "filePath": "distill/evidence/繁中/covers.json",
+      "summary": " covers.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 334,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/繁中/tag_groups.json",
+      "type": "config",
+      "name": "tag_groups.json",
+      "filePath": "distill/evidence/繁中/tag_groups.json",
+      "summary": " tag_groups.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标签",
+        "分类"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 7157,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/繁中/title_skeletons.json",
+      "type": "config",
+      "name": "title_skeletons.json",
+      "filePath": "distill/evidence/繁中/title_skeletons.json",
+      "summary": " title_skeletons.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 1009,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/英文/covers.json",
+      "type": "config",
+      "name": "covers.json",
+      "filePath": "distill/evidence/英文/covers.json",
+      "summary": " covers.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 841,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/英文/tag_groups.json",
+      "type": "config",
+      "name": "tag_groups.json",
+      "filePath": "distill/evidence/英文/tag_groups.json",
+      "summary": " tag_groups.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标签",
+        "分类"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 7709,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/英文/title_skeletons.json",
+      "type": "config",
+      "name": "title_skeletons.json",
+      "filePath": "distill/evidence/英文/title_skeletons.json",
+      "summary": " title_skeletons.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 1407,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/葡萄牙/covers.json",
+      "type": "config",
+      "name": "covers.json",
+      "filePath": "distill/evidence/葡萄牙/covers.json",
+      "summary": " covers.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 727,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/葡萄牙/tag_groups.json",
+      "type": "config",
+      "name": "tag_groups.json",
+      "filePath": "distill/evidence/葡萄牙/tag_groups.json",
+      "summary": " tag_groups.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标签",
+        "分类"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 1929,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/葡萄牙/title_skeletons.json",
+      "type": "config",
+      "name": "title_skeletons.json",
+      "filePath": "distill/evidence/葡萄牙/title_skeletons.json",
+      "summary": " title_skeletons.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 1500,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/西语/covers.json",
+      "type": "config",
+      "name": "covers.json",
+      "filePath": "distill/evidence/西语/covers.json",
+      "summary": " covers.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 631,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/西语/tag_groups.json",
+      "type": "config",
+      "name": "tag_groups.json",
+      "filePath": "distill/evidence/西语/tag_groups.json",
+      "summary": " tag_groups.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标签",
+        "分类"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 2015,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:distill/evidence/西语/title_skeletons.json",
+      "type": "config",
+      "name": "title_skeletons.json",
+      "filePath": "distill/evidence/西语/title_skeletons.json",
+      "summary": " title_skeletons.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 1014,
+      "fileCategory": "config"
+    },
+    {
+      "id": "document:docs/account_strategy_review_2026-04-29.md",
+      "type": "document",
+      "name": "account_strategy_review_2026-04-29.md",
+      "filePath": "docs/account_strategy_review_2026-04-29.md",
+      "summary": " account_strategy_review_2026-04-29.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/architecture_recommendations_2026-04-29.md",
+      "type": "document",
+      "name": "architecture_recommendations_2026-04-29.md",
+      "filePath": "docs/architecture_recommendations_2026-04-29.md",
+      "summary": " architecture_recommendations_2026-04-29.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 67,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/cover_prompt_v2_README.md",
+      "type": "document",
+      "name": "cover_prompt_v2_README.md",
+      "filePath": "docs/cover_prompt_v2_README.md",
+      "summary": "封面相关文件",
+      "tags": [
+        "文档",
+        "Markdown",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/dual-channel-config.md",
+      "type": "document",
+      "name": "dual-channel-config.md",
+      "filePath": "docs/dual-channel-config.md",
+      "summary": " dual-channel-config.md",
+      "tags": [
+        "文档",
+        "Markdown",
+        "频道",
+        "YouTube"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 160,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/dubbing_system_design.md",
+      "type": "document",
+      "name": "dubbing_system_design.md",
+      "filePath": "docs/dubbing_system_design.md",
+      "summary": " dubbing_system_design.md",
+      "tags": [
+        "文档",
+        "Markdown",
+        "翻译",
+        "本地化"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 433,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/faq.md",
+      "type": "document",
+      "name": "faq.md",
+      "filePath": "docs/faq.md",
+      "summary": " faq.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 448,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/full-framework.md",
+      "type": "document",
+      "name": "full-framework.md",
+      "filePath": "docs/full-framework.md",
+      "summary": " full-framework.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 254,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/operation-framework.md",
+      "type": "document",
+      "name": "operation-framework.md",
+      "filePath": "docs/operation-framework.md",
+      "summary": " operation-framework.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 176,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/operation-sop.md",
+      "type": "document",
+      "name": "operation-sop.md",
+      "filePath": "docs/operation-sop.md",
+      "summary": " operation-sop.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 354,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/project-summary.md",
+      "type": "document",
+      "name": "project-summary.md",
+      "filePath": "docs/project-summary.md",
+      "summary": " project-summary.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 230,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/risk-assessment.md",
+      "type": "document",
+      "name": "risk-assessment.md",
+      "filePath": "docs/risk-assessment.md",
+      "summary": " risk-assessment.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 375,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/single-drama-pipeline.md",
+      "type": "document",
+      "name": "single-drama-pipeline.md",
+      "filePath": "docs/single-drama-pipeline.md",
+      "summary": " single-drama-pipeline.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 362,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/system-analysis-20260611.md",
+      "type": "document",
+      "name": "system-analysis-20260611.md",
+      "filePath": "docs/system-analysis-20260611.md",
+      "summary": " system-analysis-20260611.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 493,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/system-architecture.md",
+      "type": "document",
+      "name": "system-architecture.md",
+      "filePath": "docs/system-architecture.md",
+      "summary": " system-architecture.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 276,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/system-audit-20260612.md",
+      "type": "document",
+      "name": "system-audit-20260612.md",
+      "filePath": "docs/system-audit-20260612.md",
+      "summary": " system-audit-20260612.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 339,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/technical-architecture.md",
+      "type": "document",
+      "name": "technical-architecture.md",
+      "filePath": "docs/technical-architecture.md",
+      "summary": " technical-architecture.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 772,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/tools-list.md",
+      "type": "document",
+      "name": "tools-list.md",
+      "filePath": "docs/tools-list.md",
+      "summary": " tools-list.md",
+      "tags": [
+        "文档",
+        "Markdown"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 325,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:docs/youtube-channel-setup.md",
+      "type": "document",
+      "name": "youtube-channel-setup.md",
+      "filePath": "docs/youtube-channel-setup.md",
+      "summary": " youtube-channel-setup.md",
+      "tags": [
+        "文档",
+        "Markdown",
+        "频道",
+        "YouTube"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 280,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-zh-CN.md",
+      "type": "document",
+      "name": "distill-zh-CN.md",
+      "filePath": "panel/data/distill-zh-CN.md",
+      "summary": "zh-CN语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 126,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-印尼.md",
+      "type": "document",
+      "name": "distill-印尼.md",
+      "filePath": "panel/data/distill-印尼.md",
+      "summary": "印尼语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 102,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-繁中.md",
+      "type": "document",
+      "name": "distill-繁中.md",
+      "filePath": "panel/data/distill-繁中.md",
+      "summary": "繁中语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 74,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-英文.md",
+      "type": "document",
+      "name": "distill-英文.md",
+      "filePath": "panel/data/distill-英文.md",
+      "summary": "英文语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-葡萄牙.md",
+      "type": "document",
+      "name": "distill-葡萄牙.md",
+      "filePath": "panel/data/distill-葡萄牙.md",
+      "summary": "葡萄牙语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 97,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/data/distill-西语.md",
+      "type": "document",
+      "name": "distill-西语.md",
+      "filePath": "panel/data/distill-西语.md",
+      "summary": "西语语言蒸馏知识文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "数据",
+        "蒸馏",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 115,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:panel/frontend/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "panel/frontend/README.md",
+      "summary": "前端项目说明文档",
+      "tags": [
+        "文档",
+        "Markdown",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 5,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "file:panel/frontend/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "panel/frontend/index.html",
+      "summary": "前端资源文件",
+      "tags": [
+        "标记",
+        "HTML",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "html",
+      "sizeLines": 16,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "config:panel/frontend/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "panel/frontend/package.json",
+      "summary": "前端项目包配置：Vue 3 + Vite + vue-router",
+      "tags": [
+        "配置",
+        "JSON",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "id": "file:panel/web/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "panel/web/index.html",
+      "summary": "Panel Web 主页",
+      "tags": [
+        "标记",
+        "HTML",
+        "Web",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "html",
+      "sizeLines": 735,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "file:panel/web/index_v2.html",
+      "type": "file",
+      "name": "index_v2.html",
+      "filePath": "panel/web/index_v2.html",
+      "summary": "Panel Web v2 页面",
+      "tags": [
+        "标记",
+        "HTML",
+        "Web",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "html",
+      "sizeLines": 161,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "file:panel/web/index_v3.html",
+      "type": "file",
+      "name": "index_v3.html",
+      "filePath": "panel/web/index_v3.html",
+      "summary": "Panel Web v3 页面",
+      "tags": [
+        "标记",
+        "HTML",
+        "Web",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "html",
+      "sizeLines": 3048,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "file:panel/web/index_v4.html",
+      "type": "file",
+      "name": "index_v4.html",
+      "filePath": "panel/web/index_v4.html",
+      "summary": "Panel Web v4 页面（最新）",
+      "tags": [
+        "标记",
+        "HTML",
+        "Web",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "html",
+      "sizeLines": 732,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "config:scripts/covers/cover_复仇_midjourney_20260421_133319.json",
+      "type": "config",
+      "name": "cover_复仇_midjourney_20260421_133319.json",
+      "filePath": "scripts/covers/cover_复仇_midjourney_20260421_133319.json",
+      "summary": "封面生成配置（cover_复仇_midjourney_20260421_133319.json）",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "id": "document:scripts/covers/cover_复仇_midjourney_20260421_133319_midjourney_prompt.txt",
+      "type": "document",
+      "name": "cover_复仇_midjourney_20260421_133319_midjourney_prompt.txt",
+      "filePath": "scripts/covers/cover_复仇_midjourney_20260421_133319_midjourney_prompt.txt",
+      "summary": "封面生成提示词（cover_复仇_midjourney_20260421_133319_midjourney_prompt.txt）",
+      "tags": [
+        "文档",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "txt",
+      "sizeLines": 0,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "config:scripts/covers/cover_重生_心声_doubao_20260421_133309.json",
+      "type": "config",
+      "name": "cover_重生_心声_doubao_20260421_133309.json",
+      "filePath": "scripts/covers/cover_重生_心声_doubao_20260421_133309.json",
+      "summary": "封面生成配置（cover_重生_心声_doubao_20260421_133309.json）",
+      "tags": [
+        "配置",
+        "JSON",
+        "封面",
+        "豆包",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "id": "document:scripts/covers/cover_重生_心声_doubao_20260421_133309_doubao_prompt.txt",
+      "type": "document",
+      "name": "cover_重生_心声_doubao_20260421_133309_doubao_prompt.txt",
+      "filePath": "scripts/covers/cover_重生_心声_doubao_20260421_133309_doubao_prompt.txt",
+      "summary": "封面生成提示词（cover_重生_心声_doubao_20260421_133309_doubao_prompt.txt）",
+      "tags": [
+        "文档",
+        "封面",
+        "豆包",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "txt",
+      "sizeLines": 0,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "file:config/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "config/.gitkeep",
+      "summary": "Git 目录占位文件",
+      "tags": [
+        "代码"
+      ],
+      "complexity": "simple",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:docs/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "docs/.gitkeep",
+      "summary": "Git 目录占位文件",
+      "tags": [
+        "代码"
+      ],
+      "complexity": "simple",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "id": "config:knowledge/en/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/en/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 713,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/es/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/es/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 647,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/id/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/id/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 708,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/jp/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/jp/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 705,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/pt/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/pt/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 692,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/tr/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/tr/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 730,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:knowledge/繁中/distill.json",
+      "type": "config",
+      "name": "distill.json",
+      "filePath": "knowledge/繁中/distill.json",
+      "summary": " distill.json",
+      "tags": [
+        "配置",
+        "JSON",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "simple",
+      "language": "json",
+      "sizeLines": 715,
+      "fileCategory": "config"
+    },
+    {
+      "id": "file:main.py",
+      "type": "file",
+      "name": "main.py",
+      "filePath": "main.py",
+      "summary": "Python脚本 main.py",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 298,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/api/index.js",
+      "type": "file",
+      "name": "index.js",
+      "filePath": "panel/frontend/src/api/index.js",
+      "summary": "前端资源文件",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "moderate",
+      "language": "javascript",
+      "sizeLines": 139,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/App.vue",
+      "type": "file",
+      "name": "App.vue",
+      "filePath": "panel/frontend/src/App.vue",
+      "summary": "Vue 应用根组件，定义全局布局和路由视图",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "moderate",
+      "language": "vue",
+      "sizeLines": 180,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/main.js",
+      "type": "file",
+      "name": "main.js",
+      "filePath": "panel/frontend/src/main.js",
+      "summary": "前端入口文件，初始化 Vue 应用、路由和状态管理",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/router.js",
+      "type": "file",
+      "name": "router.js",
+      "filePath": "panel/frontend/src/router.js",
+      "summary": "Vue Router 路由配置，定义页面导航和导航项",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "javascript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/stores/store.js",
+      "type": "file",
+      "name": "store.js",
+      "filePath": "panel/frontend/src/stores/store.js",
+      "summary": "Pinia 状态管理，提供 Toast/Loading 等全局状态",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/style.css",
+      "type": "file",
+      "name": "style.css",
+      "filePath": "panel/frontend/src/style.css",
+      "summary": "全局样式表",
+      "tags": [
+        "标记",
+        "CSS",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "css",
+      "sizeLines": 774,
+      "fileCategory": "markup"
+    },
+    {
+      "id": "file:panel/frontend/src/utils.js",
+      "type": "file",
+      "name": "utils.js",
+      "filePath": "panel/frontend/src/utils.js",
+      "summary": "前端工具函数：格式化数字、日期、频道等级、HTML转义",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "javascript",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/ChannelAnalysis.vue",
+      "type": "file",
+      "name": "ChannelAnalysis.vue",
+      "filePath": "panel/frontend/src/views/ChannelAnalysis.vue",
+      "summary": "频道数据分析页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "complex",
+      "language": "vue",
+      "sizeLines": 1006,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/CompetitorChannels.vue",
+      "type": "file",
+      "name": "CompetitorChannels.vue",
+      "filePath": "panel/frontend/src/views/CompetitorChannels.vue",
+      "summary": "竞品频道分析页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "complex",
+      "language": "vue",
+      "sizeLines": 520,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/Distill.vue",
+      "type": "file",
+      "name": "Distill.vue",
+      "filePath": "panel/frontend/src/views/Distill.vue",
+      "summary": "知识蒸馏结果查看页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "complex",
+      "language": "vue",
+      "sizeLines": 354,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/Review.vue",
+      "type": "file",
+      "name": "Review.vue",
+      "filePath": "panel/frontend/src/views/Review.vue",
+      "summary": "内容审核/回顾页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "moderate",
+      "language": "vue",
+      "sizeLines": 207,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/Upload.vue",
+      "type": "file",
+      "name": "Upload.vue",
+      "filePath": "panel/frontend/src/views/Upload.vue",
+      "summary": "短剧上传操作页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "complex",
+      "language": "vue",
+      "sizeLines": 343,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/src/views/YouTube.vue",
+      "type": "file",
+      "name": "YouTube.vue",
+      "filePath": "panel/frontend/src/views/YouTube.vue",
+      "summary": "YouTube 频道视频浏览页面",
+      "tags": [
+        "代码",
+        "Vue",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "complex",
+      "language": "vue",
+      "sizeLines": 309,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:panel/frontend/vite.config.js",
+      "type": "file",
+      "name": "vite.config.js",
+      "filePath": "panel/frontend/vite.config.js",
+      "summary": "Vite 构建配置",
+      "tags": [
+        "代码",
+        "JavaScript",
+        "前端",
+        "Vue3",
+        "Panel"
+      ],
+      "complexity": "simple",
+      "language": "javascript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "id": "config:panel/panel_config.example.yaml",
+      "type": "config",
+      "name": "panel_config.example.yaml",
+      "filePath": "panel/panel_config.example.yaml",
+      "summary": "Panel 系统配置文件（YAML），定义面板全局参数",
+      "tags": [
+        "配置",
+        "YAML"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 16,
+      "fileCategory": "config"
+    },
+    {
+      "id": "config:panel/panel_ultra_simple.yaml",
+      "type": "config",
+      "name": "panel_ultra_simple.yaml",
+      "filePath": "panel/panel_ultra_simple.yaml",
+      "summary": "Panel 极简配置文件",
+      "tags": [
+        "配置",
+        "YAML"
+      ],
+      "complexity": "simple",
+      "language": "yaml",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "id": "document:prompts/gpt_artistic_v2.txt",
+      "type": "document",
+      "name": "gpt_artistic_v2.txt",
+      "filePath": "prompts/gpt_artistic_v2.txt",
+      "summary": " gpt_artistic_v2.txt",
+      "tags": [
+        "文档"
+      ],
+      "complexity": "simple",
+      "language": "txt",
+      "sizeLines": 27,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "document:prompts/jimeng_optimized_v2.txt",
+      "type": "document",
+      "name": "jimeng_optimized_v2.txt",
+      "filePath": "prompts/jimeng_optimized_v2.txt",
+      "summary": " jimeng_optimized_v2.txt",
+      "tags": [
+        "文档"
+      ],
+      "complexity": "simple",
+      "language": "txt",
+      "sizeLines": 33,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "file:scripts/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "scripts/.gitkeep",
+      "summary": "Git 目录占位文件",
+      "tags": [
+        "代码"
+      ],
+      "complexity": "simple",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/add_edgefn_config.py",
+      "type": "file",
+      "name": "add_edgefn_config.py",
+      "filePath": "scripts/add_edgefn_config.py",
+      "summary": "EdgeFn 配置添加：动态添加模型配置",
+      "tags": [
+        "代码",
+        "Python",
+        "模型路由",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/analyze_video.py",
+      "type": "file",
+      "name": "analyze_video.py",
+      "filePath": "scripts/analyze_video.py",
+      "summary": "视频分析：抽帧+字幕解析+精彩片段提取",
+      "tags": [
+        "代码",
+        "Python",
+        "视频制作"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 186,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/apocalyptic_diagnosis.py",
+      "type": "file",
+      "name": "apocalyptic_diagnosis.py",
+      "filePath": "scripts/apocalyptic_diagnosis.py",
+      "summary": "末日题材诊断：针对末日/末世题材的专项分析",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析",
+        "末日题材",
+        "专题"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 313,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/auth_youtube.py",
+      "type": "file",
+      "name": "auth_youtube.py",
+      "filePath": "scripts/auth_youtube.py",
+      "summary": "YouTube OAuth 认证模块：PKCE 授权流程、Token 管理、多账号支持",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 384,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/batch_cover_analysis.py",
+      "type": "file",
+      "name": "batch_cover_analysis.py",
+      "filePath": "scripts/batch_cover_analysis.py",
+      "summary": "批量封面分析：批处理封面质量评估",
+      "tags": [
+        "代码",
+        "Python",
+        "封面"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 298,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/channel_weekly_snapshot.py",
+      "type": "file",
+      "name": "channel_weekly_snapshot.py",
+      "filePath": "scripts/channel_weekly_snapshot.py",
+      "summary": "频道周报快照：采集频道数据、分析增长趋势、生成面板 JSON",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "快照",
+        "数据采集"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 869,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/check_cover.py",
+      "type": "file",
+      "name": "check_cover.py",
+      "filePath": "scripts/check_cover.py",
+      "summary": "封面检查脚本：封面质量和规格验证",
+      "tags": [
+        "代码",
+        "Python",
+        "封面"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/classify_languages.py",
+      "type": "file",
+      "name": "classify_languages.py",
+      "filePath": "scripts/classify_languages.py",
+      "summary": "语言分类：自动识别短剧对话语言",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 263,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/clean_non_drama.py",
+      "type": "file",
+      "name": "clean_non_drama.py",
+      "filePath": "scripts/clean_non_drama.py",
+      "summary": "非短剧清理：过滤非短剧类型视频",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/collect_yt_analytics.py",
+      "type": "file",
+      "name": "collect_yt_analytics.py",
+      "filePath": "scripts/collect_yt_analytics.py",
+      "summary": "YouTube 分析数据采集：获取频道分析指标",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 328,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor_analysis/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "scripts/competitor_analysis/__init__.py",
+      "summary": "模块包初始化文件",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor_analysis/distill.py",
+      "type": "file",
+      "name": "distill.py",
+      "filePath": "scripts/competitor_analysis/distill.py",
+      "summary": "知识蒸馏主脚本：从原始数据提取结构化知识",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 139,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor_analysis/llm_analyze.py",
+      "type": "file",
+      "name": "llm_analyze.py",
+      "filePath": "scripts/competitor_analysis/llm_analyze.py",
+      "summary": "LLM 分析：使用大模型进行内容智能分析",
+      "tags": [
+        "代码",
+        "Python",
+        "LLM",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor_analysis/market_insights.py",
+      "type": "file",
+      "name": "market_insights.py",
+      "filePath": "scripts/competitor_analysis/market_insights.py",
+      "summary": "市场洞察分析：市场趋势和机会评估",
+      "tags": [
+        "代码",
+        "Python",
+        "市场",
+        "竞品"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "scripts/competitor/__init__.py",
+      "summary": "模块包初始化文件",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor/collect.py",
+      "type": "file",
+      "name": "collect.py",
+      "filePath": "scripts/competitor/collect.py",
+      "summary": "数据采集：从 YouTube API 收集视频和频道数据",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 228,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor/screen.py",
+      "type": "file",
+      "name": "screen.py",
+      "filePath": "scripts/competitor/screen.py",
+      "summary": "内容筛选：根据规则筛选短剧内容",
+      "tags": [
+        "代码",
+        "Python",
+        "筛选",
+        "搜索"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 649,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/competitor/search.py",
+      "type": "file",
+      "name": "search.py",
+      "filePath": "scripts/competitor/search.py",
+      "summary": "内容搜索：跨平台搜索短剧素材",
+      "tags": [
+        "代码",
+        "Python",
+        "筛选",
+        "搜索"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 328,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/core/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "scripts/core/__init__.py",
+      "summary": "核心模块初始化",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/core/api_client.py",
+      "type": "file",
+      "name": "api_client.py",
+      "filePath": "scripts/core/api_client.py",
+      "summary": "API 客户端封装：统一的第三方 API 调用接口",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 175,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/core/config.py",
+      "type": "file",
+      "name": "config.py",
+      "filePath": "scripts/core/config.py",
+      "summary": "配置管理：集中管理项目配置参数",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/core/llm_client.py",
+      "type": "file",
+      "name": "llm_client.py",
+      "filePath": "scripts/core/llm_client.py",
+      "summary": "LLM 客户端核心模块：edgefn API 调用、模型路由（flash/pro/glm/minimax）、JSON 解析",
+      "tags": [
+        "代码",
+        "Python",
+        "LLM",
+        "AI"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 148,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/core/logger.py",
+      "type": "file",
+      "name": "logger.py",
+      "filePath": "scripts/core/logger.py",
+      "summary": "日志模块：统一的日志记录和管理",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/cover_analysis_own.py",
+      "type": "file",
+      "name": "cover_analysis_own.py",
+      "filePath": "scripts/cover_analysis_own.py",
+      "summary": "自有频道封面分析：分析自有频道封面表现",
+      "tags": [
+        "代码",
+        "Python",
+        "封面"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 293,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/cover_analyzer_free.py",
+      "type": "file",
+      "name": "cover_analyzer_free.py",
+      "filePath": "scripts/cover_analyzer_free.py",
+      "summary": "封面分析器（免费版）：无依赖封面评估",
+      "tags": [
+        "代码",
+        "Python",
+        "封面"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 426,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/cover_analyzer.py",
+      "type": "file",
+      "name": "cover_analyzer.py",
+      "filePath": "scripts/cover_analyzer.py",
+      "summary": "封面分析器：AI 驱动的封面质量评估",
+      "tags": [
+        "代码",
+        "Python",
+        "封面"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 339,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/daily_pipeline_v2.py",
+      "type": "file",
+      "name": "daily_pipeline_v2.py",
+      "filePath": "scripts/daily_pipeline_v2.py",
+      "summary": "日常管道 v2：改进版每日自动化流程",
+      "tags": [
+        "代码",
+        "Python",
+        "日常管道",
+        "自动化"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/daily_pipeline.py",
+      "type": "file",
+      "name": "daily_pipeline.py",
+      "filePath": "scripts/daily_pipeline.py",
+      "summary": "日常管道：每日自动化处理流程",
+      "tags": [
+        "代码",
+        "Python",
+        "日常管道",
+        "自动化"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 3240,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/diagnose_apocalyptic.py",
+      "type": "file",
+      "name": "diagnose_apocalyptic.py",
+      "filePath": "scripts/diagnose_apocalyptic.py",
+      "summary": "末日题材诊断引擎：末日短剧的内容和分发策略诊断",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析",
+        "末日题材",
+        "专题"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 397,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/diagnose_channel.py",
+      "type": "file",
+      "name": "diagnose_channel.py",
+      "filePath": "scripts/diagnose_channel.py",
+      "summary": "Python脚本 diagnose_channel.py",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "诊断",
+        "分析"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 2901,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/diagnosis_engine.py",
+      "type": "file",
+      "name": "diagnosis_engine.py",
+      "filePath": "scripts/diagnosis_engine.py",
+      "summary": "诊断引擎：系统化频道问题检测和根因分析",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 744,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/distill_competitors.py",
+      "type": "file",
+      "name": "distill_competitors.py",
+      "filePath": "scripts/distill_competitors.py",
+      "summary": "竞品蒸馏：从竞品数据中提取可操作洞察",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取",
+        "市场",
+        "竞品"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 1064,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/distill_operations_director.py",
+      "type": "file",
+      "name": "distill_operations_director.py",
+      "filePath": "scripts/distill_operations_director.py",
+      "summary": "运营总监蒸馏：高级运营策略知识提取",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 248,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/distill_skill_v2.py",
+      "type": "file",
+      "name": "distill_skill_v2.py",
+      "filePath": "scripts/distill_skill_v2.py",
+      "summary": "Python脚本 distill_skill_v2.py",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 788,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/distill_skill.py",
+      "type": "file",
+      "name": "distill_skill.py",
+      "filePath": "scripts/distill_skill.py",
+      "summary": "Python脚本 distill_skill.py",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 519,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/doubao_api.py",
+      "type": "file",
+      "name": "doubao_api.py",
+      "filePath": "scripts/doubao_api.py",
+      "summary": "豆包 API 封装：AI 视频理解和内容分析接口",
+      "tags": [
+        "代码",
+        "Python",
+        "豆包",
+        "AI"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/doubao_chat.py",
+      "type": "file",
+      "name": "doubao_chat.py",
+      "filePath": "scripts/doubao_chat.py",
+      "summary": "豆包对话：与豆包 AI 进行内容相关对话",
+      "tags": [
+        "代码",
+        "Python",
+        "豆包",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 89,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/doubao_search.py",
+      "type": "file",
+      "name": "doubao_search.py",
+      "filePath": "scripts/doubao_search.py",
+      "summary": "豆包搜索：通过豆包进行内容素材搜索",
+      "tags": [
+        "代码",
+        "Python",
+        "筛选",
+        "搜索",
+        "豆包",
+        "AI"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/drama_db_builder.py",
+      "type": "file",
+      "name": "drama_db_builder.py",
+      "filePath": "scripts/drama_db_builder.py",
+      "summary": "Python脚本 drama_db_builder.py",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 209,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/edgefn_models_adapter.py",
+      "type": "file",
+      "name": "edgefn_models_adapter.py",
+      "filePath": "scripts/edgefn_models_adapter.py",
+      "summary": "EdgeFn 模型适配器：将模型调用适配到统一接口",
+      "tags": [
+        "代码",
+        "Python",
+        "模型路由",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/edgefn_models.py",
+      "type": "file",
+      "name": "edgefn_models.py",
+      "filePath": "scripts/edgefn_models.py",
+      "summary": "EdgeFn 模型配置：多模型接入和路由配置",
+      "tags": [
+        "代码",
+        "Python",
+        "模型路由",
+        "AI"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 174,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/feishu_bitable.py",
+      "type": "file",
+      "name": "feishu_bitable.py",
+      "filePath": "scripts/feishu_bitable.py",
+      "summary": "飞书多维表格：数据写入飞书 Bitable 进行协作",
+      "tags": [
+        "代码",
+        "Python",
+        "飞书",
+        "协作"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 441,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/feishu_report.py",
+      "type": "file",
+      "name": "feishu_report.py",
+      "filePath": "scripts/feishu_report.py",
+      "summary": "飞书报告：生成和发送飞书运营报告",
+      "tags": [
+        "代码",
+        "Python",
+        "飞书",
+        "协作"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 453,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/filter_channels.py",
+      "type": "file",
+      "name": "filter_channels.py",
+      "filePath": "scripts/filter_channels.py",
+      "summary": "频道过滤器：根据多维度条件筛选目标频道",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "筛选",
+        "搜索"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/generate_channel_setup.py",
+      "type": "file",
+      "name": "generate_channel_setup.py",
+      "filePath": "scripts/generate_channel_setup.py",
+      "summary": "频道配置生成：自动生成 YouTube 频道设置",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "生成",
+        "AI"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 379,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/generate_cover_structured.py",
+      "type": "file",
+      "name": "generate_cover_structured.py",
+      "filePath": "scripts/generate_cover_structured.py",
+      "summary": "结构化封面生成：参数化封面模板生成",
+      "tags": [
+        "代码",
+        "Python",
+        "封面",
+        "生成",
+        "AI"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 319,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/generate_cover.py",
+      "type": "file",
+      "name": "generate_cover.py",
+      "filePath": "scripts/generate_cover.py",
+      "summary": "封面生成器：AI 驱动的短剧封面制作",
+      "tags": [
+        "代码",
+        "Python",
+        "封面",
+        "生成",
+        "AI"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 691,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/generate_title.py",
+      "type": "file",
+      "name": "generate_title.py",
+      "filePath": "scripts/generate_title.py",
+      "summary": "标题生成器：基于题材和内容生成优化标题",
+      "tags": [
+        "代码",
+        "Python",
+        "标题",
+        "生成",
+        "AI"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 719,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/global_channel_search.sh",
+      "type": "file",
+      "name": "global_channel_search.sh",
+      "filePath": "scripts/global_channel_search.sh",
+      "summary": "全球频道搜索：Shell 脚本搜索全球 YouTube 频道",
+      "tags": [
+        "脚本",
+        "Shell",
+        "频道",
+        "YouTube",
+        "筛选",
+        "搜索"
+      ],
+      "complexity": "simple",
+      "language": "shell",
+      "sizeLines": 103,
+      "fileCategory": "script"
+    },
+    {
+      "id": "file:scripts/gpt55_distill.py",
+      "type": "file",
+      "name": "gpt55_distill.py",
+      "filePath": "scripts/gpt55_distill.py",
+      "summary": "GPT 蒸馏：使用 GPT 模型的知识蒸馏",
+      "tags": [
+        "代码",
+        "Python",
+        "蒸馏",
+        "知识提取"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 306,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/keep_alive.sh",
+      "type": "file",
+      "name": "keep_alive.sh",
+      "filePath": "scripts/keep_alive.sh",
+      "summary": "进程保活脚本：保持长时间运行的任务不中断",
+      "tags": [
+        "脚本",
+        "Shell",
+        "运维",
+        "保活"
+      ],
+      "complexity": "simple",
+      "language": "shell",
+      "sizeLines": 14,
+      "fileCategory": "script"
+    },
+    {
+      "id": "file:scripts/keychain_helper.py",
+      "type": "file",
+      "name": "keychain_helper.py",
+      "filePath": "scripts/keychain_helper.py",
+      "summary": "Keychain 助手：macOS 钥匙串中的密钥管理",
+      "tags": [
+        "代码",
+        "Python",
+        "密钥",
+        "安全"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 158,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/llm_analyze_channel.py",
+      "type": "file",
+      "name": "llm_analyze_channel.py",
+      "filePath": "scripts/llm_analyze_channel.py",
+      "summary": "LLM 频道分析：用大模型分析频道特征和策略",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "LLM",
+        "AI"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 464,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/market_insights.py",
+      "type": "file",
+      "name": "market_insights.py",
+      "filePath": "scripts/market_insights.py",
+      "summary": "市场洞察分析：市场趋势和机会评估",
+      "tags": [
+        "代码",
+        "Python",
+        "市场",
+        "竞品"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 429,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/material_structurer.py",
+      "type": "file",
+      "name": "material_structurer.py",
+      "filePath": "scripts/material_structurer.py",
+      "summary": "素材结构化：将原始素材转换为结构化数据",
+      "tags": [
+        "代码",
+        "Python",
+        "素材",
+        "结构化"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 235,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/model_router.py",
+      "type": "file",
+      "name": "model_router.py",
+      "filePath": "scripts/model_router.py",
+      "summary": "模型统一路由器：按 capability 解析模型配置，支持 YAML/JSON 注册表",
+      "tags": [
+        "代码",
+        "Python",
+        "模型路由",
+        "AI"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/multi_signal_filter.py",
+      "type": "file",
+      "name": "multi_signal_filter.py",
+      "filePath": "scripts/multi_signal_filter.py",
+      "summary": "多信号过滤：综合多个信号源筛选高质量频道",
+      "tags": [
+        "代码",
+        "Python",
+        "筛选",
+        "搜索",
+        "信号",
+        "筛选"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 250,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/nuwa_api.py",
+      "type": "file",
+      "name": "nuwa_api.py",
+      "filePath": "scripts/nuwa_api.py",
+      "summary": "Nuwa API 封装：专家脑模型调用接口",
+      "tags": [
+        "代码",
+        "Python",
+        "Skill",
+        "专家系统"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 249,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/own_channel/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "scripts/own_channel/__init__.py",
+      "summary": "自有频道模块初始化",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/own_channel/diagnosis.py",
+      "type": "file",
+      "name": "diagnosis.py",
+      "filePath": "scripts/own_channel/diagnosis.py",
+      "summary": "频道诊断脚本：分析频道健康度和问题",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/own_channel/snapshot.py",
+      "type": "file",
+      "name": "snapshot.py",
+      "filePath": "scripts/own_channel/snapshot.py",
+      "summary": "频道快照：定期采集频道和视频元数据",
+      "tags": [
+        "代码",
+        "Python",
+        "快照",
+        "数据采集"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/panel_v3.py",
+      "type": "file",
+      "name": "panel_v3.py",
+      "filePath": "scripts/panel_v3.py",
+      "summary": "Panel v3 后端：升级版面板后端，更多功能和优化",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 2201,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/panel/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "scripts/panel/__init__.py",
+      "summary": "Panel 模块初始化",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/pre_upload_pipeline.py",
+      "type": "file",
+      "name": "pre_upload_pipeline.py",
+      "filePath": "scripts/pre_upload_pipeline.py",
+      "summary": "预上传检查管道：上传前的完整质量检查流程",
+      "tags": [
+        "代码",
+        "Python",
+        "上传",
+        "YouTube"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 477,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/run_apocalyptic_diagnosis.py",
+      "type": "file",
+      "name": "run_apocalyptic_diagnosis.py",
+      "filePath": "scripts/run_apocalyptic_diagnosis.py",
+      "summary": "末日题材诊断运行器：执行末日题材诊断流程",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析",
+        "末日题材",
+        "专题"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 473,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/run_competitor_pipeline.py",
+      "type": "file",
+      "name": "run_competitor_pipeline.py",
+      "filePath": "scripts/run_competitor_pipeline.py",
+      "summary": "竞品管道执行器：运行完整的竞品分析流程",
+      "tags": [
+        "代码",
+        "Python",
+        "市场",
+        "竞品"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 261,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/run_zhuju_diagnosis.py",
+      "type": "file",
+      "name": "run_zhuju_diagnosis.py",
+      "filePath": "scripts/run_zhuju_diagnosis.py",
+      "summary": "逐剧诊断：逐剧内容质量和分发效果诊断",
+      "tags": [
+        "代码",
+        "Python",
+        "诊断",
+        "分析"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 375,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/skill_router.py",
+      "type": "file",
+      "name": "skill_router.py",
+      "filePath": "scripts/skill_router.py",
+      "summary": "Skill 路由引擎：四层对齐(rules/evidence/skill/meta)，统一接入脚本",
+      "tags": [
+        "代码",
+        "Python",
+        "Skill",
+        "专家系统"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 332,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/smart_filter_channels.py",
+      "type": "file",
+      "name": "smart_filter_channels.py",
+      "filePath": "scripts/smart_filter_channels.py",
+      "summary": "智能频道过滤：基于 AI 的频道质量评估",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "筛选",
+        "搜索"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 179,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/tag_filter_channels.py",
+      "type": "file",
+      "name": "tag_filter_channels.py",
+      "filePath": "scripts/tag_filter_channels.py",
+      "summary": "标签频道过滤：基于标签规则筛选频道",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "筛选",
+        "搜索",
+        "标签",
+        "分类"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 188,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/tag_group_by_rules.py",
+      "type": "file",
+      "name": "tag_group_by_rules.py",
+      "filePath": "scripts/tag_group_by_rules.py",
+      "summary": "标签分组规则引擎：按规则对频道进行标签分组",
+      "tags": [
+        "代码",
+        "Python",
+        "标签",
+        "分类"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 565,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/upload_youtube.py",
+      "type": "file",
+      "name": "upload_youtube.py",
+      "filePath": "scripts/upload_youtube.py",
+      "summary": "YouTube 上传脚本：视频上传、标题/描述/标签设置",
+      "tags": [
+        "代码",
+        "Python",
+        "频道",
+        "YouTube",
+        "上传",
+        "YouTube"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 160,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:templates/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": "templates/.gitkeep",
+      "summary": "Git 目录占位文件",
+      "tags": [
+        "代码"
+      ],
+      "complexity": "simple",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "id": "document:templates/title_patterns.md",
+      "type": "document",
+      "name": "title_patterns.md",
+      "filePath": "templates/title_patterns.md",
+      "summary": " title_patterns.md",
+      "tags": [
+        "文档",
+        "Markdown",
+        "标题"
+      ],
+      "complexity": "simple",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "id": "file:test_deepseek.py",
+      "type": "file",
+      "name": "test_deepseek.py",
+      "filePath": "test_deepseek.py",
+      "summary": "Python脚本 test_deepseek.py",
+      "tags": [
+        "代码",
+        "Python"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "id": "file:translate_to_indonesian.py",
+      "type": "file",
+      "name": "translate_to_indonesian.py",
+      "filePath": "translate_to_indonesian.py",
+      "summary": "Python脚本 translate_to_indonesian.py",
+      "tags": [
+        "代码",
+        "Python",
+        "翻译",
+        "本地化"
+      ],
+      "complexity": "moderate",
+      "language": "python",
+      "sizeLines": 207,
+      "fileCategory": "code"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:panel/frontend/vite.config.js",
+      "target": "config:panel/frontend/package.json",
+      "type": "configures",
+      "label": "构建",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/web/index_v4.html",
+      "target": "file:panel/web/index_v3.html",
+      "type": "supersedes",
+      "label": "升级",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/web/index_v3.html",
+      "target": "file:panel/web/index_v2.html",
+      "type": "supersedes",
+      "label": "升级",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/web/index_v2.html",
+      "target": "file:panel/web/index.html",
+      "type": "supersedes",
+      "label": "升级",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/main.js",
+      "target": "file:panel/frontend/src/App.vue",
+      "type": "mounts",
+      "label": "挂载",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/main.js",
+      "target": "file:panel/frontend/src/router.js",
+      "type": "imports",
+      "label": "路由",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/main.js",
+      "target": "file:panel/frontend/src/stores/store.js",
+      "type": "imports",
+      "label": "状态",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/App.vue",
+      "target": "file:panel/frontend/src/router.js",
+      "type": "depends_on",
+      "label": "路由",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/YouTube.vue",
+      "target": "file:panel/frontend/src/api/index.js",
+      "type": "calls",
+      "label": "API",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/Upload.vue",
+      "target": "file:panel/frontend/src/api/index.js",
+      "type": "calls",
+      "label": "API",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/Distill.vue",
+      "target": "file:panel/frontend/src/api/index.js",
+      "type": "calls",
+      "label": "API",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/ChannelAnalysis.vue",
+      "target": "file:panel/frontend/src/api/index.js",
+      "type": "calls",
+      "label": "API",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/CompetitorChannels.vue",
+      "target": "file:panel/frontend/src/api/index.js",
+      "type": "calls",
+      "label": "API",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/ChannelAnalysis.vue",
+      "target": "file:panel/frontend/src/utils.js",
+      "type": "imports",
+      "label": "工具",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/CompetitorChannels.vue",
+      "target": "file:panel/frontend/src/utils.js",
+      "type": "imports",
+      "label": "工具",
+      "direction": "forward"
+    },
+    {
+      "source": "file:panel/frontend/src/views/YouTube.vue",
+      "target": "file:panel/frontend/src/utils.js",
+      "type": "imports",
+      "label": "工具",
+      "direction": "forward"
+    },
+    {
+      "source": "config:panel/panel_ultra_simple.yaml",
+      "target": "config:panel/panel_config.example.yaml",
+      "type": "variant",
+      "label": "变体",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/pre_upload_pipeline.py",
+      "target": "file:scripts/check_cover.py",
+      "type": "calls",
+      "label": "检查",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/batch_cover_analysis.py",
+      "target": "file:scripts/cover_analyzer.py",
+      "type": "calls",
+      "label": "分析",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/run_apocalyptic_diagnosis.py",
+      "target": "file:scripts/apocalyptic_diagnosis.py",
+      "type": "calls",
+      "label": "运行",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/feishu_report.py",
+      "target": "file:scripts/channel_weekly_snapshot.py",
+      "type": "depends_on",
+      "label": "数据",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/cover_analysis_own.py",
+      "target": "file:scripts/cover_analyzer.py",
+      "type": "calls",
+      "label": "分析",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/skill_router.py",
+      "target": "file:scripts/core/llm_client.py",
+      "type": "depends_on",
+      "label": "LLM",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/model_router.py",
+      "target": "file:scripts/core/llm_client.py",
+      "type": "depends_on",
+      "label": "LLM",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/doubao_api.py",
+      "target": "file:scripts/core/llm_client.py",
+      "type": "depends_on",
+      "label": "LLM",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/nuwa_api.py",
+      "target": "file:scripts/core/llm_client.py",
+      "type": "depends_on",
+      "label": "LLM",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/run_apocalyptic_diagnosis.py",
+      "target": "file:scripts/diagnose_apocalyptic.py",
+      "type": "calls",
+      "label": "引擎",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/smart_filter_channels.py",
+      "target": "file:scripts/filter_channels.py",
+      "type": "extends",
+      "label": "增强",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/feishu_report.py",
+      "target": "file:scripts/feishu_bitable.py",
+      "type": "calls",
+      "label": "表格",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/panel_v3.py",
+      "target": "file:scripts/core/llm_client.py",
+      "type": "depends_on",
+      "label": "LLM",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/edgefn_models_adapter.py",
+      "target": "file:scripts/edgefn_models.py",
+      "type": "adapts",
+      "label": "适配",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/distill_operations_director.py",
+      "target": "file:scripts/generate_title.py",
+      "type": "uses",
+      "label": "标题",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/distill_operations_director.py",
+      "target": "file:scripts/generate_cover.py",
+      "type": "uses",
+      "label": "封面",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/run_competitor_pipeline.py",
+      "target": "file:scripts/distill_competitors.py",
+      "type": "runs",
+      "label": "执行",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/daily_pipeline_v2.py",
+      "target": "file:scripts/daily_pipeline.py",
+      "type": "supersedes",
+      "label": "升级",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/pre_upload_pipeline.py",
+      "target": "file:scripts/upload_youtube.py",
+      "type": "calls",
+      "label": "上传",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/multi_signal_filter.py",
+      "target": "file:scripts/smart_filter_channels.py",
+      "type": "calls",
+      "label": "过滤",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/multi_signal_filter.py",
+      "target": "file:scripts/tag_filter_channels.py",
+      "type": "calls",
+      "label": "过滤",
+      "direction": "forward"
+    },
+    {
+      "source": "file:scripts/tag_group_by_rules.py",
+      "target": "file:scripts/tag_filter_channels.py",
+      "type": "calls",
+      "label": "分组",
+      "direction": "forward"
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:panel",
+      "name": "面板层",
+      "description": "Web面板前端和后端，用户交互界面",
+      "nodeIds": [
+        "document:panel/data/distill-zh-CN.md",
+        "document:panel/data/distill-印尼.md",
+        "document:panel/data/distill-繁中.md",
+        "document:panel/data/distill-英文.md",
+        "document:panel/data/distill-葡萄牙.md",
+        "document:panel/data/distill-西语.md",
+        "document:panel/frontend/README.md",
+        "file:panel/frontend/index.html",
+        "config:panel/frontend/package.json",
+        "file:panel/web/index.html",
+        "file:panel/web/index_v2.html",
+        "file:panel/web/index_v3.html",
+        "file:panel/web/index_v4.html",
+        "file:panel/frontend/src/api/index.js",
+        "file:panel/frontend/src/App.vue",
+        "file:panel/frontend/src/main.js",
+        "file:panel/frontend/src/router.js",
+        "file:panel/frontend/src/stores/store.js",
+        "file:panel/frontend/src/style.css",
+        "file:panel/frontend/src/utils.js",
+        "file:panel/frontend/src/views/ChannelAnalysis.vue",
+        "file:panel/frontend/src/views/CompetitorChannels.vue",
+        "file:panel/frontend/src/views/Distill.vue",
+        "file:panel/frontend/src/views/Review.vue",
+        "file:panel/frontend/src/views/Upload.vue",
+        "file:panel/frontend/src/views/YouTube.vue",
+        "file:panel/frontend/vite.config.js",
+        "config:panel/panel_config.example.yaml",
+        "config:panel/panel_ultra_simple.yaml",
+        "file:scripts/panel_v3.py",
+        "file:scripts/panel/__init__.py"
+      ]
+    },
+    {
+      "id": "layer:core",
+      "name": "核心层",
+      "description": "共享配置、API客户端、LLM客户端、日志",
+      "nodeIds": [
+        "file:scripts/core/__init__.py",
+        "file:scripts/core/api_client.py",
+        "file:scripts/core/config.py",
+        "file:scripts/core/llm_client.py",
+        "file:scripts/core/logger.py",
+        "file:scripts/edgefn_models_adapter.py",
+        "file:scripts/edgefn_models.py",
+        "file:scripts/keychain_helper.py",
+        "file:scripts/model_router.py",
+        "file:scripts/skill_router.py"
+      ]
+    },
+    {
+      "id": "layer:diagnosis",
+      "name": "诊断层",
+      "description": "频道诊断、数据分析、封面分析",
+      "nodeIds": [
+        "file:scripts/apocalyptic_diagnosis.py",
+        "file:scripts/batch_cover_analysis.py",
+        "file:scripts/competitor_analysis/llm_analyze.py",
+        "file:scripts/cover_analysis_own.py",
+        "file:scripts/cover_analyzer_free.py",
+        "file:scripts/cover_analyzer.py",
+        "file:scripts/diagnose_apocalyptic.py",
+        "file:scripts/diagnose_channel.py",
+        "file:scripts/diagnosis_engine.py",
+        "file:scripts/llm_analyze_channel.py",
+        "file:scripts/own_channel/diagnosis.py",
+        "file:scripts/run_apocalyptic_diagnosis.py",
+        "file:scripts/run_zhuju_diagnosis.py"
+      ]
+    },
+    {
+      "id": "layer:collection",
+      "name": "采集层",
+      "description": "竞品采集、自有频道快照、YouTube Analytics",
+      "nodeIds": [
+        "file:scripts/channel_weekly_snapshot.py",
+        "file:scripts/collect_yt_analytics.py",
+        "file:scripts/competitor/collect.py",
+        "file:scripts/competitor/screen.py",
+        "file:scripts/competitor/search.py",
+        "file:scripts/own_channel/snapshot.py"
+      ]
+    },
+    {
+      "id": "layer:generation",
+      "name": "生成层",
+      "description": "标题生成、封面生成、上架方案",
+      "nodeIds": [
+        "file:scripts/generate_channel_setup.py",
+        "file:scripts/generate_cover_structured.py",
+        "file:scripts/generate_cover.py",
+        "file:scripts/generate_title.py",
+        "file:scripts/pre_upload_pipeline.py",
+        "file:scripts/upload_youtube.py"
+      ]
+    },
+    {
+      "id": "layer:distillation",
+      "name": "蒸馏层",
+      "description": "竞品蒸馏、知识提取、市场洞察",
+      "nodeIds": [
+        "config:config/distill_settings.example.yaml",
+        "config:distill/evidence/印尼/covers.json",
+        "config:distill/evidence/印尼/tag_groups.json",
+        "config:distill/evidence/印尼/title_skeletons.json",
+        "config:distill/evidence/繁中/covers.json",
+        "config:distill/evidence/繁中/tag_groups.json",
+        "config:distill/evidence/繁中/title_skeletons.json",
+        "config:distill/evidence/英文/covers.json",
+        "config:distill/evidence/英文/tag_groups.json",
+        "config:distill/evidence/英文/title_skeletons.json",
+        "config:distill/evidence/葡萄牙/covers.json",
+        "config:distill/evidence/葡萄牙/tag_groups.json",
+        "config:distill/evidence/葡萄牙/title_skeletons.json",
+        "config:distill/evidence/西语/covers.json",
+        "config:distill/evidence/西语/tag_groups.json",
+        "config:distill/evidence/西语/title_skeletons.json",
+        "config:knowledge/en/distill.json",
+        "config:knowledge/es/distill.json",
+        "config:knowledge/id/distill.json",
+        "config:knowledge/jp/distill.json",
+        "config:knowledge/pt/distill.json",
+        "config:knowledge/tr/distill.json",
+        "config:knowledge/繁中/distill.json",
+        "file:scripts/competitor_analysis/__init__.py",
+        "file:scripts/competitor_analysis/distill.py",
+        "file:scripts/competitor_analysis/market_insights.py",
+        "file:scripts/distill_competitors.py",
+        "file:scripts/distill_operations_director.py",
+        "file:scripts/distill_skill_v2.py",
+        "file:scripts/distill_skill.py",
+        "file:scripts/gpt55_distill.py",
+        "file:scripts/market_insights.py"
+      ]
+    },
+    {
+      "id": "layer:integration",
+      "name": "集成层",
+      "description": "飞书、YouTube API、外部服务集成",
+      "nodeIds": [
+        "document:docs/youtube-channel-setup.md",
+        "config:scripts/covers/cover_重生_心声_doubao_20260421_133309.json",
+        "document:scripts/covers/cover_重生_心声_doubao_20260421_133309_doubao_prompt.txt",
+        "file:scripts/auth_youtube.py",
+        "file:scripts/doubao_api.py",
+        "file:scripts/doubao_chat.py",
+        "file:scripts/doubao_search.py",
+        "file:scripts/feishu_bitable.py",
+        "file:scripts/feishu_report.py",
+        "file:scripts/nuwa_api.py"
+      ]
+    },
+    {
+      "id": "layer:config",
+      "name": "配置层",
+      "description": "配置文件、设置、示例",
+      "nodeIds": [
+        "config:config/channels.example.yaml",
+        "config:config/model_registry.example.json",
+        "config:config/model_registry.example.yaml",
+        "config:config/pipeline.example.yaml",
+        "config:config/settings.example.yaml",
+        "config:scripts/covers/cover_复仇_midjourney_20260421_133319.json"
+      ]
+    },
+    {
+      "id": "layer:docs",
+      "name": "文档层",
+      "description": "README、文档、说明",
+      "nodeIds": [
+        "document:AGENTS.md",
+        "document:README.md",
+        "document:sooul_ux_evaluation.md",
+        "document:docs/account_strategy_review_2026-04-29.md",
+        "document:docs/architecture_recommendations_2026-04-29.md",
+        "document:docs/cover_prompt_v2_README.md",
+        "document:docs/dual-channel-config.md",
+        "document:docs/dubbing_system_design.md",
+        "document:docs/faq.md",
+        "document:docs/full-framework.md",
+        "document:docs/operation-framework.md",
+        "document:docs/operation-sop.md",
+        "document:docs/project-summary.md",
+        "document:docs/risk-assessment.md",
+        "document:docs/single-drama-pipeline.md",
+        "document:docs/system-analysis-20260611.md",
+        "document:docs/system-architecture.md",
+        "document:docs/system-audit-20260612.md",
+        "document:docs/technical-architecture.md",
+        "document:docs/tools-list.md",
+        "document:scripts/covers/cover_复仇_midjourney_20260421_133319_midjourney_prompt.txt",
+        "document:prompts/gpt_artistic_v2.txt",
+        "document:prompts/jimeng_optimized_v2.txt",
+        "document:templates/title_patterns.md"
+      ]
+    },
+    {
+      "id": "layer:data",
+      "name": "数据层",
+      "description": "知识库、蒸馏数据、模板",
+      "nodeIds": [
+        "file:templates/.gitkeep"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "项目概览",
+      "description": "了解短剧出海分发系统的整体架构",
+      "nodeIds": [
+        "document:README.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "面板入口",
+      "description": "Web面板是用户交互的主要界面",
+      "nodeIds": [
+        "file:panel_v3.py"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "核心配置",
+      "description": "配置管理、API客户端、LLM调用",
+      "nodeIds": [
+        "file:scripts/core/config.py",
+        "file:scripts/core/llm_client.py"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "频道诊断",
+      "description": "分析频道数据，生成优化建议",
+      "nodeIds": [
+        "file:scripts/diagnose_channel.py",
+        "file:scripts/diagnosis_engine.py"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "竞品分析",
+      "description": "采集和分析竞品频道数据",
+      "nodeIds": [
+        "file:scripts/competitor_analysis/distill.py",
+        "file:scripts/competitor_analysis/llm_analyze.py"
+      ]
+    },
+    {
+      "order": 6,
+      "title": "内容生成",
+      "description": "AI生成标题、封面、上架方案",
+      "nodeIds": [
+        "file:scripts/generate_title.py",
+        "file:scripts/generate_cover.py"
+      ]
+    },
+    {
+      "order": 7,
+      "title": "数据采集",
+      "description": "YouTube Analytics数据采集和缓存",
+      "nodeIds": [
+        "file:scripts/collect_yt_analytics.py",
+        "file:scripts/channel_weekly_snapshot.py"
+      ]
+    }
+  ],
+  "project": {
+    "name": "duanju",
+    "description": "短剧出海YouTube分发系统 - 竞品分析、频道诊断、内容生成、数据采集",
+    "languages": [
+      "python",
+      "javascript",
+      "vue",
+      "html",
+      "css",
+      "yaml",
+      "json",
+      "markdown"
+    ],
+    "frameworks": [
+      "FastAPI",
+      "Vue.js",
+      "FFmpeg"
+    ],
+    "analyzedAt": "2026-06-28T02:20:45.077083",
+    "gitCommitHash": "9601dd4d87e15d8c73b5ab457256408d3dda48ce"
+  }
+}

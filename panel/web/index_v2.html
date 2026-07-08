@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>duanju Panel v2</title>
+  <style>
+    :root{--bg:#0b1020;--p:#131b33;--l:#2a396b;--t:#eef3ff;--m:#99a7d1;--ok:#2bd576;--w:#ffcc66;--bad:#ff6b6b;--btn:#5473ff;}
+    *{box-sizing:border-box}body{margin:0;font:14px/1.4 ui-monospace,sfmono,menlo,monospace;background:var(--bg);color:var(--t);padding:10px}
+    #app{max-width:1200px;margin:0 auto}
+    .bar{display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid var(--l);padding-bottom:10px}
+    .bar button{background:var(--btn);color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer}
+    .bar button.active{outline:3px solid var(--ok)}
+    .panel{display:none;background:var(--p);padding:16px;border-radius:8px;margin-bottom:16px}
+    .panel.active{display:block}
+    textarea,select,input{background:#1a2340;border:1px solid var(--l);color:var(--t);padding:6px;border-radius:4px;margin-right:8px}
+    textarea{width:100%;height:120px;margin:8px 0}
+    .row{margin:8px 0}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{border:1px solid var(--l);padding:8px;text-align:left}
+    th{background:#1a2340}
+    pre{background:#1a2340;padding:10px;border-radius:4px;overflow:auto;font-size:12px;white-space:pre-wrap;word-break:break-word}
+    img{max-width:200px;border-radius:6px}
+    .tag{display:inline-block;background:#1a2340;padding:2px 6px;border-radius:3px;margin:2px;font-size:12px}
+    .badge{background:var(--bad);padding:2px 6px;border-radius:3px;font-size:12px}
+    .badge.ok{background:var(--ok)}
+    .flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:12px}
+    .card{background:var(--p);border:1px solid var(--l);border-radius:8px;padding:12px}
+    .card .title{font-weight:bold;margin-bottom:4px;color:#ffcc66}
+    .card .meta{color:var(--m);font-size:12px;margin-bottom:8px}
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="bar">
+    <button id="tab-run" class="active" onclick="show('run')">▶ 运行台</button>
+    <button id="tab-output" onclick="show('output')">📁 内容库</button>
+    <button id="tab-rules" onclick="show('rules')">📖 规则库</button>
+  </div>
+
+  <div id="panel-run" class="panel active">
+    <div class="row">
+      <label>任务名称</label>
+      <input id="task" placeholder="demo_drama" style="width:200px" />
+    </div>
+    <div class="row">
+      <label>通道</label>
+      <select id="channel" style="width:180px">
+        <option value="hk_main">hk_main</option>
+        <option value="hk_female">hk_female</option>
+        <option value="tw_main">tw_main</option>
+      </select>
+      <label>地区</label>
+      <select id="region" style="width:140px">
+        <option value="hk">香港</option>
+        <option value="tw">台湾</option>
+        <option value="sg">新加坡</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>模式</label>
+      <select id="mode" style="width:160px">
+        <option value="manual">manual (仅manifest)</option>
+        <option value="semi-auto">semi-auto (自动生成title/cover/edit/subtitle)</option>
+        <option value="auto">auto (全流程)</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>输入文件</label>
+      <textarea id="files" placeholder="raw/video.mp4&#10;raw/subtitle.srt"></textarea>
+    </div>
+    <div class="row">
+      <button style="font-size:16px;padding:10px 24px" onclick="runTask()">🚀 启动任务</button>
+      <span id="run-status" class="badge"></span>
+    </div>
+  </div>
+
+  <div id="panel-output" class="panel">
+    <div class="bar" style="border-bottom:0;margin-bottom:10px">
+      <button class="active" onclick="loadOutput('manifests')">Manifests</button>
+      <button onclick="loadOutput('titles')">Titles</button>
+      <button onclick="loadOutput('covers')">Covers</button>
+      <button onclick="loadOutput('videos')">Videos</button>
+    </div>
+    <div id="output-list" class="grid"></div>
+    <div id="output-detail" style="margin-top:16px"></div>
+  </div>
+
+  <div id="panel-rules" class="panel">
+    <div class="flex" style="margin-bottom:16px">
+      <select id="expert-select" onchange="loadExpert()" style="width:240px">
+        <option value="">选择专家…</option>
+      </select>
+    </div>
+    <div id="rules-list" class="grid"></div>
+    <div id="rule-detail" style="margin-top:16px"></div>
+  </div>
+
+</div>
+
+<script>
+const API={async get(p){const r=await fetch('/api'+p);return r.json()},async post(p,b){const r=await fetch('/api'+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});return r.json()}};
+function show(tab){['run','output','rules'].forEach(x=>document.getElementById('panel-'+x).classList.remove('active'));document.querySelectorAll('.bar button').forEach(b=>b.classList.remove('active'));document.getElementById('panel-'+tab).classList.add('active');document.getElementById('tab-'+tab).classList.add('active');if(tab==='output')loadOutput('manifests');if(tab==='rules')loadExperts();}
+
+async function runTask(){
+  const btn=event.target; btn.disabled=true; btn.textContent='⏳ 启动…';
+  const payload={task_name:document.getElementById('task').value,target_channel:document.getElementById('channel').value,target_region:document.getElementById('region').value,files:document.getElementById('files').value.split(/[\n\r]+/).filter(s=>s.trim()),mode:document.getElementById('mode').value};
+  const res=await API.post('/run',payload);
+  document.getElementById('run-status').textContent=res.job_id?'✅ 已提交':'❌ '+JSON.stringify(res);
+  btn.disabled=false; btn.textContent='🚀 启动任务';
+}
+
+let curKind='manifests';
+async function loadOutput(kind){
+  curKind=kind; const list=document.getElementById('output-list'); list.innerHTML='<p>加载…</p>';
+  const res=await API.get(`/outputs?kind=${kind}&limit=30`);
+  list.innerHTML=''; const arr=res[kind]||[];
+  if(!arr.length){list.innerHTML='<p>暂无数据</p>';return}
+  arr.forEach(item=>{
+    const card=document.createElement('div'); card.className='card';
+    let meta=`<div class="meta">📁 ${item.file} · ${item.mtime?.slice(0,10)}</div>`;
+    if(kind==='manifests'){
+      card.innerHTML=`<div class="title">${item.task} · ${item.channel}@${item.region}</div>${meta}<div class="flex">${(item.files||[]).map(f=>`<span class="tag">${f.split('/').pop()}</span>`).join('')}</div>`;
+      card.onclick=()=>{document.getElementById('output-detail').innerHTML='<h3>📋 Manifest 详情</h3><pre>'+JSON.stringify(item,null,2)+'</pre>';};
+    }else if(kind==='titles'){
+      card.innerHTML=`<div class="title">📄 ${item.file.split('/').pop()}</div>${meta}`;
+      card.onclick=()=>{fetch('/'+item.file).then(r=>r.text()).then(t=>{document.getElementById('output-detail').innerHTML='<h3>📝 '+item.file.split('/').pop()+'</h3><pre>'+t+'</pre>';});};
+    }else if(kind==='covers'){
+      card.innerHTML=`<div class="title covers"><img src="/${item.file}" loading="lazy" onerror="this.style.display='none'"></div>${meta}`;
+    }else if(kind==='videos'){
+      card.innerHTML=`<div class="title">🎬 ${item.file.split('/').pop()}</div>${meta}`;
+    }
+    list.appendChild(card);
+  });
+}
+
+async function loadExperts(){
+  const sel=document.getElementById('expert-select'); sel.innerHTML='<option value="">选择专家…</option>';
+  const res=await API.get('/rules');
+  res.experts.forEach(e=>{const opt=document.createElement('option'); opt.value=e.slug; opt.textContent=e.name+` (${e.rules}条)`; sel.appendChild(opt);});
+}
+async function loadExpert(){
+  const slug=document.getElementById('expert-select').value;
+  if(!slug) return;
+  const list=document.getElementById('rules-list'); list.innerHTML='<p>加载…</p>';
+  const res=await API.get(`/rules?expert=${slug}`);
+  list.innerHTML=''; res.rules.forEach(r=>{
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`<div class="title">${r.id} · ${r.name}</div>
+      <div class="meta">模块:${r.module} · 样本:${r.sample_size||'—'} · 置信:${r.confidence||'—'}</div>
+      <div><b>条件:</b><pre>${r.condition}</pre></div>
+      <div><b>执行:</b><pre>${r.action}</pre></div>
+      ${r.check?`<div><b>检查:</b><pre>${r.check}</pre></div>`:''}`;
+    list.appendChild(card);
+  });
+}
+show('run');
+</script>
+</body>
+</html>

@@ -1,0 +1,648 @@
+{
+  "why": {
+    "title": [
+      {
+        "principle": "西语短剧标题的核心不是介绍人物，而是制造“表面身份”和“真实价值”的落差。",
+        "psychology": "观众点击的不是“CEO”“富豪”本身，而是等待真相揭开后的羞辱反转、后悔和打脸时刻。identity+reversal在样本中高频共现，说明身份差必须和反转绑定才有爆发力。",
+        "application": "标题前半句写低位处境，如被嘲笑、被抛弃、穿破衣、像乞丐；后半句写隐藏身份或意外能力，如 heredero rico、hija de multimillonario、leyenda marcial、sistema VIP。不要只写“CEO爱上她”，要写“他以为她很穷，结果她才是真正的上位者”。"
+      },
+      {
+        "principle": "情绪伤害要具体，报复回报要明确。",
+        "psychology": "西语观众对背叛、羞辱、被逐出家门、婚姻出轨等强情绪场景反应明显，但真正驱动完播和点击的是“她让他们付出代价”的补偿感。",
+        "application": "标题中使用 traicionada、humillada、echada、ridiculizan、abandonada 等伤害词，再接 recuperar bienes、hacer pagar、arrepentirse、se arrodilla 等补偿词。伤害负责拉怒气，补偿负责给爽点。"
+      },
+      {
+        "principle": "时间钩子要服务命运改写，而不是单纯说明几年后。",
+        "psychology": "重生、穿越、十二年等待、五年婚姻这些时间词能让观众立刻感知命运跨度，但只有当时间带来选择权、复仇权或身份升级时才会形成点击冲动。",
+        "application": "使用 Tras renacer、Ocho años después、5 años de matrimonio、viaja a época de hambruna 等开头时，必须补上“这次她选择谁”“她如何反击”“她带着系统改变什么”。避免只写“多年后重逢”，要写“多年后她回来让他们后悔”。"
+      },
+      {
+        "principle": "标题信息密度可以高，但必须保持两段式因果清晰。",
+        "psychology": "样本标题均长87字符，说明西语市场接受较长标题；但高播放标题通常不是堆元素，而是形成“受辱/误判 → 真相/逆袭”的单线推进。",
+        "application": "用逗号、分号、省略号或冒号把标题拆成两段：前段放冲突现场，后段放反转结果。例如“被当成穷人羞辱；结果他是继承人”。不要同时塞入太多人物关系、多个反派和多个时间线。"
+      }
+    ],
+    "thumbnail": [
+      {
+        "principle": "封面要定格“冲突发生的那一秒”，而不是展示男女主好看。",
+        "psychology": "高播放封面多为tension和contrast：被嘲笑、跪地、对峙、婚礼羞辱、前任恐慌。这类画面让观众不用读完标题就能感知矛盾。",
+        "application": "封面优先选对峙、跪求、被围观、被逐出、被保护、打电话揭身份等瞬间。人物表情要有明确方向：一方得意或轻蔑，一方隐忍或震惊。"
+      },
+      {
+        "principle": "身份差必须有可见符号，不能只靠标题解释。",
+        "psychology": "观众在3秒内无法理解抽象设定，必须通过衣服、场景、姿态、道具判断谁低位、谁高位、谁即将反转。",
+        "application": "低位符号可用破衣、麻袋、乞丐装、乡村鱼摊、地上文件；高位符号可用西装、婚礼厅、豪车、保镖、办公室、校园女王。标题写“富豪伪装穷人”，封面就必须让“穷外表”和“豪华环境”同框。"
+      },
+      {
+        "principle": "男女主关系用肢体距离表达，反派用位置表达。",
+        "psychology": "女频观众会快速读取亲密、保护、抛弃和争夺关系；封面中公主抱、依偎、半蹲保护、前任跪地都能一眼说明情感权力变化。",
+        "application": "甜宠题材让男主靠近、扶起、抱住女主；复仇题材让前任或家人跪在画面低处；契约婚姻题材用同框但有距离制造“假婚真爱”的悬念。"
+      },
+      {
+        "principle": "互补优于重复：标题说前因后果，封面给情绪证据。",
+        "psychology": "如果标题和封面完全重复，信息增量不足；如果题材错位，信任感下降。最佳组合是同一个钩子下的不同信息分工。",
+        "application": "标题写“被抛弃后嫁给残疾CEO”，封面可展示婚后被宠的甜蜜；标题写“父亲富豪装穷被羞辱”，封面展示婚礼现场的尴尬和对峙。"
+      }
+    ],
+    "tags_and_distribution": [
+      {
+        "principle": "标题内标签适合抢题材心智，描述标签适合扩展搜索面。",
+        "psychology": "标题内高频标签集中在#dramachino、#cdrama、#kdrama、#amor，说明用户会用剧种和情感标签识别内容；描述中则出现peliculacompleta、cenicienta、accion、artesmarciales等更细分搜索词。",
+        "application": "标题尾部保留1-3个核心标签，如#dramachino #cdrama #amor；描述区再补充完整题材标签，如peliculacompleta、cenicienta、ceo、Venganzafemenina、artesmarciales。"
+      },
+      {
+        "principle": "标签组合要围绕一个主情绪，不要把所有热门词混在一起。",
+        "psychology": "高频共现是amor+drama、amor+peliculacompleta、amor+dramachino，说明西语短剧的基础入口是情感剧，而不是泛娱乐标签堆叠。",
+        "application": "女频甜虐用 amor+drama+ceo+cenicienta；复仇用 drama+Venganzafemenina+peliculacompleta；男频战力反转用 accion+artesmarciales+dramachino。"
+      },
+      {
+        "principle": "描述里放订阅链接和片名，不只是SEO，而是建立频道资产。",
+        "psychology": "高播放描述样本普遍使用片名+Película/Peliculas Completas+订阅链接结构，降低用户对盗版搬运感的怀疑，也能引导后续关注。",
+        "application": "描述首行放西语片名或合集名，第二行放Película Completa/Dramas，第三行放订阅链接，再放标签。不要把描述只写成一串无语义标签。"
+      }
+    ],
+    "market_insights": {
+      "gender_bias": "女频在样本中占比更高，核心是CEO、婚姻、背叛、重生、被宠、前任后悔，适合用relationship+emotion+reversal；男频爆点虽少但头部强，如校园受辱继承人、隐藏武林高手、系统穿越，适合用identity+reversal+compensation。建议频道以女频稳定供给，穿插男频隐藏强者和系统题材做爆款测试。",
+      "emerging_trends": "新兴题材是“时空系统/SVIP”，把重生、穿越、荒岛、生存、饥荒与系统能力结合，标题会出现sistema VIP、sistema de supervivencia、viaja a época等。它比传统重生更游戏化，适合男频和轻奇幻短剧。",
+      "content_quality_signals": "有效质量信号包括Dub español、Finalizado、Película Completa、Peliculas Completas、Doblado Esp、Temp.1、HD感的正式片名、订阅链接。它们向观众传达“能完整看完、语言可理解、不是片段诈骗”。"
+    }
+  },
+  "what": [
+    {
+      "name": "低位受辱后的隐藏身份反转",
+      "template": "【主角】穿着【低位符号】来到【高压场景】被【反派群体】羞辱，结果他竟是【顶级身份】，让所有人当场后悔。",
+      "why_it_works": "它把羞辱、身份误判和打脸兑现压缩在一句话里，点击动力非常直接。",
+      "sub_genre": "男频逆袭、校园、豪门、婚礼、家族冲突",
+      "examples": [
+        "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo",
+        "Padre super rico viste humilde en boda de su hijo, inesperadamente es humillado y echado por suegros"
+      ]
+    },
+    {
+      "name": "背叛婚姻后的女性复仇",
+      "template": "【女主】忍受【婚姻年限】的背叛，亲眼看见【丈夫/未婚夫】偏爱【第三者】，她转身夺回【资源/尊严】，让他们付出代价。",
+      "why_it_works": "先制造愤怒，再承诺补偿，满足女频观众对正义回报的期待。",
+      "sub_genre": "女频复仇、婚姻背叛、都市情感",
+      "examples": [
+        "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar",
+        "Renuncié a mi trabajo después de la traición de mi esposo… y lo perdieron todo #dramachino #cdrama"
+      ]
+    },
+    {
+      "name": "误救弱者却捡到强者",
+      "template": "【高位角色】在【危机场景】向【低位职业者】求救，没想到对方其实是【隐藏能力者】，不仅救了他，还改变了两人的命运。",
+      "why_it_works": "表面弱者和真实强者的反差让观众期待能力暴露的爽点。",
+      "sub_genre": "隐藏高手、武侠都市、CEO遇险、乡村奇人",
+      "examples": [
+        "CEO cazado pide ayuda a aldeana pescadera; resulta ser experta marcial, lo salva y se vuelve esposa",
+        "CEO cazada pide ayuda al vendedor de bao; inesperadamente es leyenda de artes marciales y la salva"
+      ]
+    },
+    {
+      "name": "被抛弃后被更高价值对象宠爱",
+      "template": "【女主】被【前任/家人】抛弃和羞辱，转身遇到【更高权力男性/家族】，对方不仅保护她，还把她宠成【高价值身份】。",
+      "why_it_works": "它利用“你不要的，被更强的人珍惜”制造前任后悔和情绪补偿。",
+      "sub_genre": "CEO甜宠、豪门婚恋、灰姑娘、真假千金",
+      "examples": [
+        "Chica es humillada y echada de casa por familia, inesperadamente multimillonario la recoge y la mima",
+        "Tras ser abandonada por un canalla,se casó con un CEO discapacitado que la trató como a una princesa"
+      ]
+    },
+    {
+      "name": "重生穿越加系统改命",
+      "template": "【主角】穿越到【极端困境时代/场景】并激活【系统能力】，用【现代优势】拯救【家庭/团队】，最终获得【爱情/权力/财富】。",
+      "why_it_works": "系统把命运改写变成可预期的升级游戏，既有爽感又有连续追看动力。",
+      "sub_genre": "穿越、重生、系统、生存、荒岛、饥荒年代",
+      "examples": [
+        "Joven viaja a época de hambruna con sistema VIP, salva a familia del hambre y consigue esposa bella",
+        "Pobre en isla desierta, activa sistema de supervivencia y 4 bellas compiten por"
+      ]
+    }
+  ],
+  "how": {
+    "title_skeletons": [
+      {
+        "name": "身份落差型",
+        "narrative_pattern": "角色被外界按照低位外表误判，在公开场合遭到羞辱或轻视；随后真实身份、家世、财富或能力被揭开，原本占上风的人瞬间失势。",
+        "psychological_hook": "观众期待“真相揭开后所有人后悔”的瞬间，身份反转比身份本身更能触发点击。",
+        "sub_genre": "男频逆袭、豪门、校园、婚礼、隐藏富豪",
+        "avg_views": 190315,
+        "count": 28,
+        "examples": [
+          "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo",
+          "Padre super rico viste humilde en boda de su hijo, inesperadamente es humillado y echado por suegros",
+          "💕CEO pensaba que la mujer a la que salvó era pobre, ¡pero resultó ser la hija de un multimillonario!"
+        ],
+        "rules": [
+          "能变的是场景、低位伪装和真实身份；不能变的是“误判→羞辱→揭露”的顺序。",
+          "反例：只写“他是富豪”但没有被误判和被羞辱，会失去打脸期待。"
+        ]
+      },
+      {
+        "name": "情绪伤害补偿型",
+        "narrative_pattern": "主角先遭遇背叛、抛弃、羞辱或长期压迫，随后通过离婚、夺回资产、遇到更强保护者或复仇行动获得情绪补偿。",
+        "psychological_hook": "观众先被不公平激怒，再被“让他们付出代价”安抚，形成强烈爽感闭环。",
+        "sub_genre": "女频复仇、婚姻背叛、家族虐恋、灰姑娘",
+        "avg_views": 302886,
+        "count": 11,
+        "examples": [
+          "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar",
+          "Renuncié a mi trabajo después de la traición de mi esposo… y lo perdieron todo #dramachino #cdrama",
+          "💖Al ver a la chica abrazar al CEO más poderoso, su exnovio traidor entra en pánico. ¡Se arrodilla!"
+        ],
+        "rules": [
+          "伤害必须具体到动作或场景，如出轨、赶出家门、当众羞辱；补偿必须具体到结果，如夺回财产、下跪、失去一切。",
+          "反例：只写“她很惨后来变强”太抽象，缺乏愤怒锚点和爽点兑现。"
+        ]
+      },
+      {
+        "name": "契约误会甜宠型",
+        "narrative_pattern": "男女主因契约、误会、被迫婚姻、替嫁或交易关系绑定，起初关系冷淡或不平等，后续逐渐暴露男主深情、保护欲或隐藏爱意。",
+        "psychological_hook": "观众想看“假关系变真爱”和“冷漠强者只为她破例”的情感反差。",
+        "sub_genre": "CEO甜宠、契约婚姻、先婚后爱、残疾CEO、替嫁",
+        "avg_views": 52067,
+        "count": 11,
+        "examples": [
+          "Dub español💘Tres años de matrimonio por contrato... y nació el amor.#cdrama #kdrama #amor",
+          "💖El frío CEO ciego rechaza a todos, pero se enamora de la chica que se casa con él por 300 millones!",
+          "Tras ser abandonada por un canalla,se casó con un CEO discapacitado que la trató como a una princesa"
+        ],
+        "rules": [
+          "能变的是契约理由、男主缺陷和女主困境；不能变的是“冷/假/被迫”到“宠//唯一”的转化。",
+          "反例：封面只拍甜蜜合照而标题没有误会或阻碍，会显得普通恋爱而非短剧钩子。"
+        ]
+      },
+      {
+        "name": "重生穿越改命型",
+        "narrative_pattern": "主角带着前世记忆、未来知识或系统能力回到过去/异时空，在原本必输的家庭、婚姻或生存困境中重新选择并扭转命运。",
+        "psychological_hook": "观众被“如果人生能重来一次”的幻想吸引，并期待主角提前避坑、复仇或升级。",
+        "sub_genre": "重生、穿越、年代、系统、生存、复仇",
+        "avg_views": 114190,
+        "count": 11,
+        "examples": [
+          "Dub español💘Tras renacer, me convertí en el amor de su vida.#cdrama #kdrama #amor",
+          "Renací… y esta vez elegí al hombre más temido del mundo #dramachino #cdrama",
+          "Joven viaja a época de hambruna con sistema VIP, salva a familia del hambre y consigue esposa bella"
+        ],
+        "rules": [
+          "时间设定必须带来新选择、新资源或新能力；不要只把重生当背景词。",
+          "反例：只写“她重生了”但不说明这次如何改变关系或命运，点击动机不足。"
+        ]
+      },
+      {
+        "name": "隐藏强者救援型",
+        "narrative_pattern": "高位人物在危机中向看似低微的人求助，后者暴露武力、医术、财富或特殊能力，救援行为进一步触发婚恋、报恩或权力重排。",
+        "psychological_hook": "观众享受“被低估者突然出手”的能力爽感，也期待被救者如何回报。",
+        "sub_genre": "武术、神医、乡村高手、CEO遇险、男频爽剧",
+        "avg_views": 144858,
+        "count": 27,
+        "examples": [
+          "CEO cazado pide ayuda a aldeana pescadera; resulta ser experta marcial, lo salva y se vuelve esposa",
+          "CEO cazada pide ayuda al vendedor de bao; inesperadamente es leyenda de artes marciales y la salva",
+          "Parecía mendigo, resulta ser Médico Divino ermitaño: La CEO le entrega cuerpo y"
+        ],
+        "rules": [
+          "低位职业要足够具体，如 pescadera、vendedor de bao、mendigo；隐藏能力要足够强，如 experta marcial、leyenda、Médico Divino。",
+          "反例：只写“普通人救了CEO”但没有能力反差，无法形成奇观和爽点。"
+        ]
+      }
+    ],
+    "hook_combination": {
+      "核心发现": "最有效的标题不是单钩子，而是“身份误判+反转揭露”作为底盘，再叠加情绪伤害或补偿兑现。identity+reversal出现17次，是最稳定的结构；compensation虽然出现次数较少，但均播最高，适合作为爆点加速器。",
+      "最强配对": [
+        "identity+reversal",
+        "compensation+identity",
+        "compensation+emotion",
+        "reversal+time"
+      ],
+      "低效组合": [
+        "纯romance无冲突",
+        "单独emoji+泛爱情色彩",
+        "只有时间跨度但没有命运改写"
+      ],
+      "规则": [
+        "先选一个主钩子，再加一个功能钩子：identity负责好奇，emotion负责代入，compensation负责爽感，time负责命运感。",
+        "女频优先relationship+emotion+reversal，男频优先identity+reversal+compensation。",
+        "标题最多承载2-3个钩子，超过后会变成信息噪音。"
+      ],
+      "hook_types": {
+        "emotion": {
+          "definition": "通过背叛、羞辱、心疼、甜蜜等强情绪让观众迅速站队。",
+          "examples": [
+            "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar",
+            "Chica es humillada y echada de casa por familia, inesperadamente multimillonario la recoge y la mima"
+          ]
+        },
+        "identity": {
+          "definition": "强调表面身份和真实身份的巨大落差，制造揭露真相的期待。",
+          "examples": [
+            "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo",
+            "💕CEO pensaba que la mujer a la que salvó era pobre, ¡pero resultó ser la hija de un multimillonario!"
+          ]
+        },
+        "relationship": {
+          "definition": "用婚姻、恋人、前任、家人、契约等关系冲突驱动点击。",
+          "examples": [
+            "Dub español💘Tres años de matrimonio por contrato... y nació el amor.#cdrama #kdrama #amor",
+            "Tras ser abandonada por un canalla,se casó con un CEO discapacitado que la trató como a una princesa"
+          ]
+        },
+        "reversal": {
+          "definition": "标题中明确暗示意外结果、隐藏真相或关系反转。",
+          "examples": [
+            "💖El frío CEO ciego rechaza a todos, pero se enamora de la chica que se casa con él por 300 millones!",
+            "CEO cazada pide ayuda al vendedor de bao; inesperadamente es leyenda de artes marciales y la salva"
+          ]
+        },
+        "compensation": {
+          "definition": "承诺主角让伤害者后悔、下跪、失去一切或受到惩罚。",
+          "examples": [
+            "Renuncié a mi trabajo después de la traición de mi esposo… y lo perdieron todo #dramachino #cdrama",
+            "💖Al ver a la chica abrazar al CEO más poderoso, su exnovio traidor entra en pánico. ¡Se arrodilla!"
+          ]
+        },
+        "time": {
+          "definition": "用重生、穿越、多年后、长期等待等时间跨度制造命运感。",
+          "examples": [
+            "Dub español💘Me esperó doce años sin dejar de amarme.#cdrama #kdrama #amor",
+            "Renací… y esta vez elegí al hombre más temido del mundo #dramachino #cdrama"
+          ]
+        }
+      },
+      "emergent_hooks": [
+        {
+          "name": "时空系统",
+          "definition": "将重生、穿越或极端生存环境与系统、VIP、任务化能力结合，让主角获得明确外挂并改写命运。",
+          "examples": [
+            "Joven viaja a época de hambruna con sistema VIP, salva a familia del hambre y consigue esposa bella",
+            "Pobre en isla desierta, activa sistema de supervivencia y 4 bellas compiten por"
+          ]
+        }
+      ],
+      "hook_stats": {
+        "identity_count": 28,
+        "identity_avg_views": 190315,
+        "reversal_count": 27,
+        "reversal_avg_views": 144858,
+        "emotion_count": 16,
+        "emotion_avg_views": 113375,
+        "relationship_count": 11,
+        "relationship_avg_views": 52067,
+        "compensation_count": 11,
+        "compensation_avg_views": 302886,
+        "time_count": 11,
+        "time_avg_views": 114190
+      }
+    },
+    "title_constraints": {
+      "avg_length": 87,
+      "emoji_rate": 58.7,
+      "top_emojis": [
+        "💔",
+        "🔥",
+        "💖",
+        "💘",
+        "💕",
+        "🧡",
+        "💥",
+        "🗂",
+        "💋",
+        "😫"
+      ],
+      "title_structure": "主流结构是长标题两段式：前半句给低位困境、背叛、羞辱或危机场景，后半句用 resulta、inesperadamente、tras、pero、y 等连接反转、补偿或甜宠结果。西语标题允许较高信息密度，但必须保持单一主线。",
+      "key_words": [
+        "CEO",
+        "renacer",
+        "traicionada",
+        "humillada",
+        "matrimonio",
+        "esposo",
+        "millonario",
+        "pobre",
+        "heredero",
+        "sistema"
+      ]
+    },
+    "emoji_strategy": {
+      "best_position": "数据中emoji主要出现在标题开头，用于快速标记情绪类型；但有Emoji均播低于无Emoji，说明emoji不能替代强钩子。",
+      "rules": [
+        "女频甜宠、虐恋、婚姻题材可在开头使用💖、💕、💘、💔强化情绪分类。",
+        "男频逆袭、隐藏强者、系统题材不必强行加emoji，保持信息硬度更重要。",
+        "emoji最多1-2个，放在标题开头或关键情绪词前，不要让emoji切断因果句。",
+        "如果标题已有强身份反转和补偿爽点，可以不用emoji。"
+      ]
+    },
+    "hashtag_strategy": {
+      "title_tags": [
+        "#dramachino",
+        "#cdrama",
+        "#kdrama",
+        "#amor",
+        "#ai",
+        "#drama"
+      ],
+      "description_tags": [
+        "amor",
+        "peliculacompleta",
+        "drama",
+        "cenicienta",
+        "kdrama",
+        "romance",
+        "accion",
+        "artesmarciales",
+        "amorpropio",
+        "español",
+        "ceo",
+        "novelatormentosa",
+        "amorenaccion",
+        "Venganzafemenina",
+        "película"
+      ],
+      "combination_pattern": "高频组合以amor+drama、amor+peliculacompleta、amor+dramachino为基础；细分题材再叠加ceo、cenicienta、accion、artesmarciales或Venganzafemenina。",
+      "trend_hijacking": "用#dramachino和#cdrama承接中短剧总流量，用#kdrama和#amor截取泛亚洲恋爱剧兴趣人群；当题材是系统、武力、复仇时，在描述区增加accion、artesmarciales、Venganzafemenina做细分搜索。",
+      "rules": [
+        "标题标签控制在1-3个，避免挤占核心剧情信息。",
+        "描述标签分三层：剧种标签、情绪标签、题材标签。",
+        "不要把不相关的kdrama、accion、romance全部堆在同一条，标签要和封面及标题一致。",
+        "完整剧集使用peliculacompleta、película、Finalizado等词提高信任感。"
+      ]
+    },
+    "description_template": {
+      "structure": "高播放描述常见结构是：片名或剧名 + Película/Peliculas Completas/Dramas + 订阅链接 + 社媒链接或标签。描述中有synopsis的比例最高，带links的描述均播更高。",
+      "template_types": [
+        {
+          "name": "片名订阅型",
+          "pattern": "【西语剧名】 | Película Completa | ► Suscríbete al canal: 【链接】",
+          "适用场景": "完整短剧、电影化合集、需要沉淀频道订阅的内容"
+        },
+        {
+          "name": "剧情简介型",
+          "pattern": "【1-2句西语剧情简介，突出背叛/反转/甜宠】\\n#dramachino #cdrama #amor #peliculacompleta",
+          "适用场景": "标题信息较压缩，需要在描述补充人物关系和题材关键词"
+        },
+        {
+          "name": "合集季播型",
+          "pattern": "【Finalizado/Temp.1/Doblado Esp】 【剧名】 | Dramas en español | ► Suscríbete: 【链接】",
+          "适用场景": "分季内容、完结合集、西语配音内容"
+        }
+      ],
+      "rules": [
+        "首行不要只放标签，先给片名或内容承诺。",
+        "订阅链接建议放在前两行，减少折叠后不可见。",
+        "描述标签要补充标题没法承载的搜索词，如peliculacompleta、cenicienta、ceo、artesmarciales。",
+        "如果标题是女频复仇，描述第一句应重复情绪关键词，如traición、venganza、amor propio。"
+      ]
+    },
+    "thumbnail_guidelines": {
+      "composition": "优先使用contrast对峙构图或中心三角构图。高播放封面常把低位主角和高位群体放在左右两侧，形成清晰权力对比；甜宠题材可用中心双人构图，但必须保留关系张力。",
+      "figures": "2-4人最适合表达关系冲突；男频打脸可增加围观者制造公开羞辱感；女频三角关系可用女主、CEO、前任三人构图，让前任处于低位或边缘。",
+      "colors": "mixed色彩表现较好，推荐冷暖对比：冷色背景配暖色人物光，或豪华暖色场景配破旧低位服装。纯暖浪漫封面适合甜宠，但如果没有冲突容易弱。",
+      "emotion": "优先tension，其次romance。高播放封面多为羞辱、震惊、跪求、保护、对峙；纯甜蜜要靠标题补充背叛或反转。",
+      "visual_symbols": "常用符号包括破衣、麻袋、婚纱、西装、豪车、办公室、保镖、跪地、文件、电话、校园、鱼摊、包子摊、系统/荒岛/篝火等。",
+      "text": "封面文字不宜复述完整标题，只放2-5个西语强词，如“TRAICIÓN”“HEREDERO”“CEO”“RENACÍ”“SE ARRODILLA”。文字服务钩子，不遮挡表情。"
+    },
+    "cover_title_synergy": {
+      "rule": "标题和封面必须围绕同一个核心钩子分工：标题负责解释身份差、前因后果和反转结果，封面负责把最有情绪密度的一秒视觉化。",
+      "hook_cover_mapping": [
+        {
+          "hook_type": "identity",
+          "title_pattern": "看似贫穷、卑微或普通，结果是继承人、富豪之女、武林高手。",
+          "cover_pattern": "低位服装和高位场景同框，主角被围观或被轻视，反派表情得意。",
+          "example_title": "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo",
+          "example_cover": "校园对峙，破旧男孩面对精致校园女王和跟随者，形成阶级与权力反差。"
+        },
+        {
+          "hook_type": "emotion",
+          "title_pattern": "被背叛、被抛弃、被羞辱后触发强烈心疼或愤怒。",
+          "cover_pattern": "女主交叉双臂、流泪、被指责或与背叛者对峙，画面中有明显冲突动作。",
+          "example_title": "Renuncié a mi trabajo después de la traición de mi esposo… y lo perdieron todo #dramachino #cdrama",
+          "example_cover": "男女在暖色办公室中紧张对峙，女主防御而强硬，男方慌张前倾。"
+        },
+        {
+          "hook_type": "relationship",
+          "title_pattern": "契约婚姻、被迫结婚、前任背叛、CEO宠爱、家族关系冲突。",
+          "cover_pattern": "用公主抱、依偎、半蹲保护、前任跪地等肢体位置表达关系权力变化。",
+          "example_title": "💖Al ver a la chica abrazar al CEO más poderoso, su exnovio traidor entra en pánico. ¡Se arrodilla!",
+          "example_cover": "CEO抱着女主站在中心，前男友跪在地上，背景人群围观。"
+        },
+        {
+          "hook_type": "time",
+          "title_pattern": "Tras renacer、años después、me esperó doce años、viaja a época等时间跨度。",
+          "cover_pattern": "用新旧身份对比、男女表情对抗或时代场景差异表现命运被改写。",
+          "example_title": "Dub español💘Tras renacer, me convertí en el amor de su vida.#cdrama #kdrama #amor",
+          "example_cover": "男女面部特写分割构图，男方痛苦流泪，女方冷峻掌控，暗示重生后权力反转。"
+        },
+        {
+          "hook_type": "compensation",
+          "title_pattern": "让背叛者付出代价、失去一切、下跪、后悔。",
+          "cover_pattern": "反派处于低位，如跪地、惊恐、被围观；主角或新保护者处于中心高位。",
+          "example_title": "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar",
+          "example_cover": "适合展示妻子冷静站立、丈夫和第三者慌乱、文件或财产象征散落的画面。"
+        }
+      ],
+      "patterns": [
+        {
+          "name": "标题给反差，封面给证据",
+          "description": "标题写真实身份或隐藏能力，封面展示低位外表被羞辱的现场，让观众相信反转即将发生。",
+          "example": "“Padre super rico viste humilde...” + 婚礼厅中衣着朴素父亲被家人轻视。"
+        },
+        {
+          "name": "封面定格高潮，标题补全前因后果",
+          "description": "封面展示跪地、抱起、对峙等高潮动作，标题说明为什么会发生以及后续反转。",
+          "example": "“exnovio traidor entra en pánico. ¡Se arrodilla!” + 前任跪地看着女主被CEO抱住。"
+        },
+        {
+          "name": "视觉甜蜜与文字创伤互补",
+          "description": "封面展示被宠爱后的结果，标题说明她此前被抛弃或背叛，制造从苦到甜的情绪落差。",
+          "example": "“Tras ser abandonada...” + 女主依偎在CEO怀中。"
+        }
+      ],
+      "anti_patterns": [
+        {
+          "name": "只美不钩",
+          "description": "封面只有高颜值情侣和暖色背景，但没有背叛、身份差、冲突或反派，容易被当普通爱情内容。"
+        },
+        {
+          "name": "标题有爆点封面无证据",
+          "description": "标题写继承人、复仇、下跪，但封面没有低位羞辱或权力反转，点击承诺不可信。"
+        },
+        {
+          "name": "钩子错位",
+          "description": "标题是武力救援或系统生存，封面却是纯办公室甜宠，会让用户预期混乱。"
+        },
+        {
+          "name": "人物过散",
+          "description": "封面人物太多但没有明确中心，会削弱3秒识别效率。"
+        }
+      ],
+      "female_freq": "女频封面重点表达关系张力：女主受伤、CEO保护、前任后悔、家人羞辱。标题负责补充婚姻年限、契约关系、重生选择和被宠结果。",
+      "male_freq": "男频封面重点表达低位受辱和隐藏强者：破衣、乞丐、乡村摊贩、被追杀CEO、围观人群。标题负责揭露继承人、神医、武林高手、系统外挂。"
+    },
+    "publish_time": {
+      "best_hours": [
+        16,
+        14,
+        12,
+        21,
+        15
+      ],
+      "best_weekdays": [
+        "Thursday",
+        "Friday",
+        "Wednesday"
+      ],
+      "rules": [
+        "优先在UTC 12:00-16:00之间测试主力更新，覆盖西语市场午间到下午活跃窗口。",
+        "21:00 UTC可用于强情绪女频或完结合集，适合晚间观看场景。",
+        "周三、周四、周五发布重点内容，周末前积累推荐信号。",
+        "同一题材至少连续测试3-5条，不要因单条波动立刻否定题材。"
+      ]
+    },
+    "growth_strategy": [
+      "建立三条稳定内容线：女频CEO甜虐、女频复仇重生、男频隐藏强者/系统逆袭，用不同封面风格区分受众。",
+      "每条视频标题只优化一个主钩子，不要把CEO、重生、系统、黑帮、契约婚姻全部塞在同一条。",
+      "用完结、配音、完整电影化描述提升信任感，减少用户担心内容不完整。",
+      "把高播放封面的结构复用为视觉骨架：对峙、跪地、保护、公开羞辱，但人物关系、场景和道具必须创新。",
+      "做A/B测试时优先测试标题后半句的反转结果，其次测试封面表情和人物位置，最后才测试emoji和标签。"
+    ],
+    "rhetorical_patterns": {
+      "sentence_structures": [
+        {
+          "name": "受辱结果式",
+          "pattern": "{主角} {低位行为/外表} y lo/la {羞辱动作}, resulta es {真实高位身份} y {反派反应}",
+          "example": "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo",
+          "avg_views": 190315,
+          "count": 28,
+          "when_to_use": "适合身份落差、男频逆袭、隐藏富豪、校园或婚礼羞辱。"
+        },
+        {
+          "name": "长期压迫复仇式",
+          "pattern": "{时间长度} de {关系}, {背叛动作}; {主角} {夺回资源} y {惩罚结果}",
+          "example": "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar",
+          "avg_views": 302886,
+          "count": 11,
+          "when_to_use": "适合婚姻背叛、离婚复仇、财产争夺、女性成长。"
+        },
+        {
+          "name": "Tras转折式",
+          "pattern": "Tras {创伤/重生/分手}, {主角} {新选择/新关系/新命运}",
+          "example": "Tras una ruptura y perder su empleo,fue cortejada por un CEO que laamaba en secreto desde hacía años",
+          "avg_views": 114190,
+          "count": 11,
+          "when_to_use": "适合重生、分手后逆袭、暗恋成真、命运改写。"
+        },
+        {
+          "name": "冷酷强者破例式",
+          "pattern": "El {强者特质} {拒绝/厌恶所有人}, pero {为某个女主破例并爱上她}",
+          "example": "💖El frío CEO ciego rechaza a todos, pero se enamora de la chica que se casa con él por 300 millones!",
+          "avg_views": 52067,
+          "count": 11,
+          "when_to_use": "适合CEO、契约婚姻、残疾男主、先婚后爱、唯一偏爱。"
+        },
+        {
+          "name": "危机求救隐藏强者式",
+          "pattern": "{高位角色} pide ayuda a {低位职业者}; inesperadamente es {隐藏能力}, {救援结果}",
+          "example": "CEO cazada pide ayuda al vendedor de bao; inesperadamente es leyenda de artes marciales y la salva",
+          "avg_views": 144858,
+          "count": 27,
+          "when_to_use": "适合武术、神医、乡村高手、CEO遇险、男频爽剧。"
+        }
+      ],
+      "punctuation_strategy": {
+        "逗号和分号": "用于分隔“受辱/背叛现场”和“反转/补偿结果”，适合长标题保持可读性。",
+        "省略号": "常用于第一人称经历和情绪悬念，如Renuncié、Renací、Creí，制造未完待续感。",
+        "感叹号": "用于强调下跪、发现真相、被宠等强情绪结果，但不宜整句全靠感叹号。",
+        "【Finalizado】和Temp.1": "用于传达完整性和合集属性，适合完结剧或系列内容。",
+        "井号标签": "多放在标题末尾，作为流量入口，不应打断剧情主句。"
+      },
+      "visual_elements": {
+        "对峙构图": "高播放封面反复出现左右阵营对立，适合身份反转和公开羞辱。",
+        "低位姿态": "跪地、倒地、被围观、缩肩抱膝能快速传达弱势和冲突。",
+        "高位符号": "西装、婚礼厅、办公室、豪车、保镖、校园女王用于建立权力差。",
+        "亲密动作": "公主抱、搂抱、半蹲保护用于表达CEO偏爱和前任后悔。",
+        "冷暖冲突": "mixed色彩和tension情绪更适合反转标题，纯暖色更适合甜宠但需要标题补冲突。"
+      },
+      "progression_techniques": [
+        {
+          "name": "伤害到补偿",
+          "pattern": "先写具体伤害，再写明确惩罚或被宠结果。",
+          "example": "5 años de matrimonio, esposo duerme con pasante frente a ella; ella recupera bienes y lo hace pagar"
+        },
+        {
+          "name": "低位到高位",
+          "pattern": "先写贫穷、破旧、普通或被羞辱，再写继承人、CEO、富豪之女、武林高手。",
+          "example": "Va a escuela con un saco y lo ridiculizan, resulta es heredero rico y reina del campus lo llama amo"
+        },
+        {
+          "name": "假关系到真爱",
+          "pattern": "先写契约、被迫、交易或误会，再写爱上、等待多年、无限宠爱。",
+          "example": "Dub español💘Tres años de matrimonio por contrato... y nació el amor.#cdrama #kdrama #amor"
+        },
+        {
+          "name": "时间重置到命运改写",
+          "pattern": "先写重生、穿越或多年后，再写这次的选择、复仇、系统能力或新身份。",
+          "example": "Renací… y esta vez elegí al hombre más temido del mundo #dramachino #cdrama"
+        },
+        {
+          "name": "危机到能力暴露",
+          "pattern": "先写追杀、求救、饥荒、荒岛等极端困境，再写隐藏强者或系统外挂出手。",
+          "example": "Joven viaja a época de hambruna con sistema VIP, salva a familia del hambre y consigue esposa bella"
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "sample_size_warning": "样本量为109个视频，足以判断标题钩子、标签和发布时间的方向性规律；但封面有效样本只有21个，封面结论应作为优先测试假设，而不是绝对定论。 合併說明：stats.emoji_rate取GPT 58.7（與constraints一致，MiMo stats=24.8與自身constraints=58.7矛盾）；top_emojis取MiMo乾淨列表；key_words取GPT西语實際標題詞。",
+    "missing_fields": [
+      "频道维度数据为0个频道",
+      "观众性别与年龄数据",
+      "完播率",
+      "点击率CTR",
+      "平均观看时长",
+      "视频时长",
+      "真实发布时间的本地时区",
+      "封面文字OCR完整数据",
+      "标签语义分组为空"
+    ]
+  },
+  "stats": {
+    "avg_title_length": 87,
+    "emoji_rate": 24.8,
+    "top_emojis": [
+      "💔",
+      "🔥",
+      "💖",
+      "💘",
+      "💕",
+      "🧡",
+      "💥",
+      "🗂",
+      "💋",
+      "😫"
+    ],
+    "best_hours": [
+      16,
+      14,
+      12,
+      21,
+      15
+    ],
+    "best_weekdays": [
+      "Thursday",
+      "Friday",
+      "Wednesday"
+    ],
+    "key_words": [
+      "CEO",
+      "renacer",
+      "traicionada",
+      "humillada",
+      "matrimonio",
+      "esposo",
+      "millonario",
+      "pobre",
+      "heredero",
+      "sistema"
+    ]
+  }
+}

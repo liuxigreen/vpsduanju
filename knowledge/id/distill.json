@@ -1,0 +1,709 @@
+{
+  "why": {
+    "title": [
+      {
+        "principle": "身份反转：低位身份被高位身份翻转",
+        "psychology": "观众点击的核心来自认知落差：先看到角色被羞辱、抛弃、误解，再被告知真实身份远超预期，形成强烈打脸期待；人类对逆袭和隐藏力量有天然好奇。",
+        "application": "标题前半句写低位处境（dihina、diusir、miskin、petugas kebersihan、satpam、pengemis），后半句写高位反转（ternyata CEO、Miliarder、Dewa Perang、orang terkaya）。封面必须给出阶层证据（西装团队、豪车、直升机、黑卡、保镖），并用破旧vs华服强化对比。"
+      },
+      {
+        "principle": "\"Tak disangka / Ternyata / Malah\" 是印尼市场高频反转按钮",
+        "psychology": "这些词让观众自动生成一个问题：前面明明是A，为什么结果变成B？未完成的信息缺口会推动点击。",
+        "application": "标题结构建议采用\"前提误判 + Tak disangka/Ternyata + 高能真相\"。反例：只写\"CEO爱上女孩\"缺乏反转；应写\"Gadis miskin ditolak semua, tak disangka CEO miliarder justru memanjakannya\"。"
+      },
+      {
+        "principle": "情绪爆点要先于剧情解释出现",
+        "psychology": "短剧用户不是先理解世界观才点击，而是先被愤怒、心疼、心动、震惊抓住；3秒内需判断内容是否值得看。",
+        "application": "标题开头优先使用强情绪动作词：Dihina、Diusir、Dikhianati、Campakkan、Hancur hati、Dimanjakan、Gila!。剧情设定和身份解释放后半句。封面人物表情要极端（愤怒、震惊），颜色饱和度高。"
+      },
+      {
+        "principle": "女频靠关系误会驱动，男频靠受辱打脸驱动",
+        "psychology": "女频观众关注\"他到底爱不爱我、为什么背叛我、什么时候后悔\"；男频观众关注\"我被看低后如何瞬间碾压\"。两类都需要反转，但情绪入口完全不同。",
+        "application": "女频标题多用suami、istri、mantan、hamil、cerai、dimanjakan；男频标题多用Dewa Perang、turun gunung、dihina、pukulan、musuh、preman。不要把男频封面做成纯甜宠，也不要把女频封面做成纯战力展示。"
+      },
+      {
+        "principle": "具体数字和时间词增强真实感和紧迫感",
+        "psychology": "数字（如3 tahun、1 Milyar）和年龄词提供认知锚点，降低观看门槛，让观众快速理解剧情规模；时间词如Hari pertama营造即时性；省略号制造未完成信息缺口驱动点击。",
+        "application": "标题中嵌入具体数字或时间点（如selama 3 tahun、tiga anak、sejak itu），并与身份反差/反转结合；封面可通过道具（如金额文件）或场景（如钟表、三个孩子同框）可视化。"
+      }
+    ],
+    "thumbnail": [
+      {
+        "principle": "封面必须把标题里的\"反转证据\"视觉化",
+        "psychology": "观众看到标题中的身份反差后，会立刻寻找可信证据；封面如果用视觉符号证明反转，点击信心会提高。",
+        "application": "身份反转题材用直升机、豪车、保镖、西装团队、黑卡、豪宅、跪地人群；战神题材用倒地敌人、金光、拳风、锁链、血迹；甜宠题材用玫瑰、机场、床边、西装男守护。"
+      },
+      {
+        "principle": "对比构图比单人美照更有效",
+        "psychology": "短剧封面不是演员海报，而是冲突广告。左右对峙、强弱反差、站立与跪地、富人与穷人同框，能在一秒内传递故事张力，减少认知负荷。",
+        "application": "优先采用contrast构图：左侧放施压者或傲慢群体，右侧放受害者/隐藏强者，中间放导火索道具（离婚协议、受伤父亲、孩子、玫瑰、黑卡）。女频用2-4人关系对峙，男频用主角居中+敌人跪地/包围。"
+      },
+      {
+        "principle": "Tension情绪优先于纯romance情绪",
+        "psychology": "数据中tension类封面均播高于纯romance，说明观众更愿意点击\"关系快要爆炸\"的瞬间，而不是已经圆满的甜蜜。",
+        "application": "甜宠也要拍成拉扯：女主要逃、男主要追；女主以为被讨厌，男主却下跪送花；妻子拿离婚协议，丈夫震惊。避免只有拥抱、亲吻、微笑而无冲突。"
+      },
+      {
+        "principle": "封面文字和画面互补不重复",
+        "psychology": "如果标题已经说清\"她被赶出家门\"，封面再只放哭泣会浪费信息；更强做法是封面展示\"被CEO团队接走\"的结果，让观众同时获得前因+后果。",
+        "application": "标题写前因，封面给高潮；标题写身份，封面给阶层证据；标题写误会，封面给情绪爆发。封面文字应短于标题，只提炼一个核心词（CEO、MILIARDER、CERAI、DEWA PERANG、DIHINA）。"
+      },
+      {
+        "principle": "情绪化面部+符号化道具强化共识",
+        "psychology": "人类天生对表情敏感，夸张表情让观众瞬间代入角色处境；符号化道具（直升机象征财富、系统界面象征金手指）是观众识别剧情类型的视觉捷径。",
+        "application": "封面聚焦人物面部，表情要极端（眼泪、瞪眼、宠溺）；配合标题情绪词。添加视觉符号：女频用珠宝、婚纱、黑卡；男频用战甲、武器、直升机；系统流用虚拟界面、光效。道具要清晰可见但不遮挡人物。"
+      }
+    ],
+    "tags_and_distribution": [
+      {
+        "principle": "标题标签用于识别内容类型，描述标签用于扩大搜索入口。",
+        "psychology": "印尼短剧用户会通过#Full、#Minidrama、#drama、#cdrama快速判断这是不是完整短剧、是否有字幕/配音、是否符合观看习惯。",
+        "application": "标题中少量使用#Full、#Minidrama、#drama、#cdrama即可；描述中扩展使用drama、ceo、filmcina、cinta、chinesedrama、shortdrama、dracin、romansa等语义标签。"
+      },
+      {
+        "principle": "高播放标签往往绑定“语种适配”和“题材承诺”。",
+        "psychology": "IndoDub、DramaSubIndo、DramaCina、Kdrama、ChineseDrama等词降低理解门槛；FaceSlapping、WanitaHebat、KisahInspiratif则直接承诺爽点。",
+        "application": "如果是配音，标题或描述明确写【INDO DUB】；如果是字幕，写【IndoSub】或【Indo Sub】；如果是打脸逆袭，描述中加入FaceSlapping、WanitaHebat、KisahInspiratif。"
+      },
+      {
+        "principle": "标签组合要覆盖“题材 + 情绪 + 来源感”。",
+        "psychology": "单个标签只能抓一类入口，组合标签能同时命中搜索、推荐和同类内容关联。",
+        "application": "推荐组合：ceo+cinta+romansa、drama+terbaru、filmcina+dramakoreasubindo、dramapendek+dramapendekpopuler。不要堆无关热词。"
+      }
+    ],
+    "market_insights": {
+      "gender_bias": "女频主导：数据中超过70%标题涉及CEO romance、情感背叛、契约婚姻等女频主题。女频核心是关系误会、先虐后宠、身份差恋爱（suami、istri、hamil、cerai、dimanjakan、miliarder）；男频中Dewa Perang、turun gunung、preman、pukulan、dihina、keluarga dibully更容易制造高爽点。建议频道不要混乱发布：女频封面用2-4人关系张力，男频封面用多人压迫和主角碾压。",
+      "emerging_trends": "新兴趋势包括系统/空间金手指、系统驱动逆袭、超自然与现代CEO混搭、亲子血缘悬念、家族亲情救赎。它们的共同点是给传统打脸结构增加一个更具体的“爽感工具”，如系统、读心、神医、会说话的动物、三个相似孩子。",
+      "content_quality_signals": "高频质量信号包括【INDO DUB】、【IndoSub】、【Indo Sub】、#Full、#Minidrama、#drama、#cdrama、Full、DUBBED。它们的作用不是剧情钩子，而是降低用户风险感：观众知道这是完整内容、可理解、有本地化处理。"
+    }
+  },
+  "what": [
+    {
+      "name": "被羞辱后被顶级强者接走",
+      "template": "【弱势角色】被【家人/恋人/同学】羞辱并赶走，没想到【顶级身份人物】当众接走她，还把她宠成【高价值身份】。",
+      "why_it_works": "先制造不公和心疼，再用高位宠爱完成补偿，兼具emotion、reversal、compensation。",
+      "sub_genre": "女频CEO甜宠、豪门逆袭、灰姑娘",
+      "examples": [
+        "Dihina dan diusir oleh Keluarganya, Tak disangka Gadis ini dipungut dan dimanjakan CEO Miliarder!",
+        "Gadis pikir suami CEO membencinya, siap kabur malah ditangkap dan dibawa pulang untuk dimanjakan! 💖"
+      ]
+    },
+    {
+      "name": "低位职业其实是隐藏王者",
+      "template": "Semua orang meremehkan 【低位职业/穷人身份】，ternyata dia adalah 【隐藏强者身份】，sekali bergerak langsung membuat 【敌人/富人/家族】 berlutut.",
+      "why_it_works": "职业低位和真实身份高位形成强落差，天然适合封面用阶层符号强化。",
+      "sub_genre": "男频战神、都市打脸、隐藏身份",
+      "examples": [
+        "Petugas kebersihan jatuh ke pelukan CEO, tapi CEO malah membelanya, semua terkejut!",
+        "Pengemis dihina selama 3 tahun ternyata kultivator sakti! Pukulan menerbangkan musuh, mengejutkan!"
+      ]
+    },
+    {
+      "name": "婚姻背叛后的冷静离场",
+      "template": "Saat 【丈夫/恋人】 memilih 【第三者/初恋】，【女主】 tidak menangis dan langsung 【离开/离婚】，baru kemudian 【男主/前任】 sadar bahwa dia kehilangan 【真正身份/真爱】.",
+      "why_it_works": "它满足观众对尊严反击和追悔莫及的双重期待。",
+      "sub_genre": "女频婚恋虐恋、追妻火葬场、离婚逆袭",
+      "examples": [
+        "【INDO DUB】Suamiku mengupaskan udang untuk wanita lain... aku langsung ajukan cerai! 😈🔥",
+        "【IN DUB】Hancur hati lihat dia jemput cinta pertama! Aku pergi, dia baru sadar!"
+      ]
+    },
+    {
+      "name": "意外怀孕/孩子相似引发血缘悬念",
+      "template": "【女主】突然发现自己【怀孕/带着孩子归来】，tak disangka 【孩子的父亲/长相相似的人】 ternyata adalah 【CEO/富豪/权势人物】.",
+      "why_it_works": "亲子悬念把爱情、血缘、身份反转绑定在一起，点击动机非常具体。",
+      "sub_genre": "带球跑、萌宝认亲、CEO甜宠",
+      "examples": [
+        "Dia hamil di luar dugaan, tak disangka ayah dari anaknya ternyata adalah seorang CEO miliarder.",
+        "CEO tidak bisa punya anak, dia terkejut melihat tiga anak mirip dirinya di taman kota! #drama"
+      ]
+    },
+    {
+      "name": "系统/神力觉醒后逆袭",
+      "template": "【低位角色】因为【电击/濒死/穿越/任务】激活【系统/神力/读心能力】，从此用【能力工具】打脸【欺负者】并获得【财富/爱情/地位】.",
+      "why_it_works": "金手指让逆袭路径更游戏化，观众不只想看结果，也想看能力如何被使用。",
+      "sub_genre": "系统流、玄幻都市、穿越种田、男频爽剧",
+      "examples": [
+        "Gila! Satpam miskin tersengat listrik bangunkan kemampuan kuno—siluman, tembus pandang, teleport!",
+        "🔥Bos wanita masuk zaman kuno dengan sistem. Dia ubah nasib keluarga miskin & besarkan 3 adik hebat!"
+      ]
+    },
+    {
+      "name": "契约婚姻真相",
+      "template": "【角色A】为【目的】与【角色B】契约结婚，起初互相看不顺眼，但后来发现【隐藏真相】，彼此真心相爱。",
+      "why_it_works": "契约设定提供冲突起点，从敌对到相爱的转变满足情感需求；真相揭露带来反转惊喜。",
+      "sub_genre": "甜宠短剧、都市爱情、豪门联姻",
+      "examples": [
+        "Gadis tak sengaja menikah dengan CEO, setelah menikah CEO jatuh cinta! Memberinya sayang tanpa batas!",
+        "Ratu kuno jadi istri jahat CEO! Niat cerai, CEO malah tergila-gila usai dengar isi hatinya!"
+      ]
+    }
+  ],
+  "how": {
+    "title_skeletons": [
+      {
+        "name": "身份落差型",
+        "narrative_pattern": "主角表面处于社会低位，被周围人轻视或羞辱；标题后半段揭示其真实身份、背后靠山或被高位人物选择，完成阶层反转。",
+        "psychological_hook": "观众会期待羞辱者被打脸，同时享受“原来他/她不是普通人”的惊喜。",
+        "sub_genre": "CEO、战神、豪门、隐藏身份",
+        "avg_views": 90829,
+        "count": 93,
+        "examples": [
+          "Campakkan kurir miskin demi mantan, di altar dia syok aku CEO triliuner!",
+          "Semua rendahkan satpam ini, dia ayah orang terkaya dunia, bahkan CEO cantik terpukau padanya.",
+          "CEO Wanita Dikejar minta tolong pada Penjual bakpao, ternyata ia legenda bela diri yang menolongnya!"
+        ],
+        "rules": [
+          "可变的是低位身份：kurir、satpam、pengemis、petugas kebersihan、desa；不可变的是高位真相必须足够夸张，如CEO、miliarder、Dewa Perang、orang terkaya。",
+          "必须给出被误判或被羞辱的前提，否则身份揭示没有爽感。",
+          "反例：只写“他其实是CEO”但没有人看不起他，会缺少打脸动力。"
+        ]
+      },
+      {
+        "name": "情绪受害补偿型",
+        "narrative_pattern": "角色先经历背叛、抛弃、受辱、误解等强情绪伤害，随后获得更高价值的爱、财富、身份或保护。",
+        "psychological_hook": "观众先产生愤怒和心疼，再通过补偿结局获得情绪释放。",
+        "sub_genre": "女频甜宠、婚恋、灰姑娘、家庭冲突",
+        "avg_views": 83535,
+        "count": 120,
+        "examples": [
+          "Dihina dan diusir oleh Keluarganya, Tak disangka Gadis ini dipungut dan dimanjakan CEO Miliarder!",
+          "【INDO DUB】Suami, anak, dan mertua bersatu menindasku… sampai aku berhenti memberi mereka uang! 😳🔥",
+          "Gadis miskin menolong Pria dari preman, tak diduga ia Miliarder yang rela nikahnya bak balasan!"
+        ],
+        "rules": [
+          "前半句必须让观众站队：谁被欺负、谁在欺负她、欺负方式是什么。",
+          "后半句补偿要具体：dimanjakan、dilamar、Black Card、mansion、CEO保护。",
+          "反例：只写“她很可怜后来幸福了”过于抽象，缺少点击画面。"
+        ]
+      },
+      {
+        "name": "反转递进型",
+        "narrative_pattern": "标题先建立一个错误预期或普通场景，再用Ternyata、Tak disangka、malah、rupanya等词突然转向完全相反的结果。",
+        "psychological_hook": "未完成的信息差迫使观众点击，想知道为什么剧情会反向发展。",
+        "sub_genre": "全题材通用，尤其适合CEO、奇幻、先婚后爱、带球跑",
+        "avg_views": 83477,
+        "count": 160,
+        "examples": [
+          "Gadis tak sengaja menikah dengan CEO,setelah menikah CEO jatuh cinta! Memberinya sayang tanpa batas!",
+          "CEO kena racun es! Pemuda miskin rupa-rupanya tabib dewa—sembuhkan dia & dapet Black Card lamaran!",
+          "Tabrak mobil CEO? Tipu? Bukan! Gurunya Dewa! Beresin klan, CEO nempel!"
+        ],
+        "rules": [
+          "A部分要足够日常或负面，B部分要足够意外或高价值。",
+          "反转词要靠近标题中段或后段，制造阅读节奏。",
+          "反例：标题一开始就把所有真相说完，后面没有新信息，会降低悬念。"
+        ]
+      },
+      {
+        "name": "亲情守护打脸型",
+        "narrative_pattern": "家人、父母、孩子或兄弟姐妹被欺负，隐藏强者因亲情被迫出手，完成守护和复仇。",
+        "psychological_hook": "亲情受辱比个人受辱更容易激发愤怒，守护家人的动机让暴力打脸更正当。",
+        "sub_genre": "男频战神、家族复仇、亲情救赎",
+        "avg_views": 107709,
+        "count": 92,
+        "examples": [
+          "Baru turun gunung, keluarga dibully! Satu pukulan habisi semua, musuh terkapar!",
+          "Dewa Perang Pulang Kampung Dengan Sepeda Tua, Temukan Ayahnya Dihina Dan Dibuang Mantan Istri",
+          "Untuk putrinya, dewa agung rela menutupi kekuatan dan jadi orang desa biasa"
+        ],
+        "rules": [
+          "被伤害对象最好是父母、孩子、妹妹、妻子，能快速建立正义感。",
+          "封面必须出现受害家人和压迫者，不要只放男主摆姿势。",
+          "反例：只有主角自己被骂，没有家人受害，亲情救赎钩子就不存在。"
+        ]
+      },
+      {
+        "name": "系统能力觉醒型",
+        "narrative_pattern": "普通人因事故、穿越、重生或任务获得系统/神力/读心等能力，能力成为改变命运、赚钱、复仇或恋爱的工具。",
+        "psychological_hook": "观众会被“能力怎么用、奖励怎么来、下一个升级是什么”吸引，形成连续观看动机。",
+        "sub_genre": "系统流、穿越、玄幻、种田、都市异能",
+        "avg_views": 42033,
+        "count": 47,
+        "examples": [
+          "Gila! Satpam miskin tersengat listrik bangunkan kemampuan kuno—siluman, tembus pandang, teleport!",
+          "Reborn, tunangan jahat jebak aku. Raja dingin dengar hatiku, bongkar rencananya—aku dimanja!",
+          "【Indo Sub】Makin rugi dengan sistem malah makin kaya dan rebut wanita #Full #Minidrama"
+        ],
+        "rules": [
+          "系统能力必须具体，如读心、空间、医疗仓库、赚钱返利、瞬移，不要只写“变强”。",
+          "最好把能力和现实回报绑定，如变富、救人、被CEO爱上、全家翻身。",
+          "反例：系统设定太复杂但标题没有展示收益，会让非核心用户看不懂。"
+        ]
+      }
+    ],
+    "hook_combination": {
+      "核心发现": "高播放标题很少只靠单一钩子，最常见是reversal作为骨架，emotion或identity作为入口，compensation作为结尾爽点。emotion+reversal出现83次，identity+reversal出现63次，说明“先让观众心疼/误判，再突然翻盘”是核心结构。",
+      "最强配对": [
+        "emotion+reversal",
+        "identity+reversal",
+        "compensation+identity",
+        "compensation+emotion"
+      ],
+      "低效组合": [
+        "time单独使用",
+        "relationship没有反转",
+        "romance没有冲突"
+      ],
+      "规则": [
+        "标题至少包含一个反转词或反转结构，如Tak disangka、Ternyata、malah、rupanya、Bukan。",
+        "女频优先组合emotion+relationship+reversal，男频优先组合identity+compensation+reversal。",
+        "系统流不要只写系统，要叠加具体回报或打脸对象。"
+      ],
+      "hook_types": {
+        "emotion": {
+          "definition": "直接激发观众的愤怒、心疼、心动、震惊或遗憾。",
+          "examples": [
+            "【INDO DUB】Suamiku mengupaskan udang untuk wanita lain... aku langsung ajukan cerai! 😈🔥",
+            "Gadis pikir suami CEO membencinya, siap kabur malah ditangkap dan dibawa pulang untuk dimanjakan! 💖"
+          ]
+        },
+        "identity": {
+          "definition": "通过表面身份和真实身份之间的巨大差异制造悬念。",
+          "examples": [
+            "Petugas kebersihan jatuh ke pelukan CEO, tapi CEO malah membelanya, semua terkejut!",
+            "Pengemis dihina selama 3 tahun ternyata kultivator sakti! Pukulan menerbangkan musuh, mengejutkan!"
+          ]
+        },
+        "relationship": {
+          "definition": "围绕夫妻、前任、姐妹、家人、亲子等关系制造误会、背叛或竞争。",
+          "examples": [
+            "Saat tahu CEO mencintai kakaknya, ia langsung pergi. CEO memohonnya tinggal, ini cuma salah paham!",
+            "Setelah bercerai, CEO yang juga sahabat masa kecilku melamarku!"
+          ]
+        },
+        "reversal": {
+          "definition": "剧情与角色或观众预期相反，通过没想到、原来、竟然等结构制造惊讶。",
+          "examples": [
+            "CEO kena racun es! Pemuda miskin rupa-rupanya tabib dewa—sembuhkan dia & dapet Black Card lamaran!",
+            "Gadis miskin menolong Pria dari preman, tak diduga ia Miliarder yang rela nikahnya bak balasan!"
+          ]
+        },
+        "compensation": {
+          "definition": "角色被欺负后获得财富、爱、权力或复仇胜利，让观众获得爽感回报。",
+          "examples": [
+            "Datang Reuni Dihina Teman, Gadis Miskin Bikin Semua Berlutut Saat Suami Miliarder Muncul!",
+            "Baru turun gunung, keluarga dibully! Satu pukulan habisi semua, musuh terkapar!"
+          ]
+        },
+        "time": {
+          "definition": "通过重生、穿越、回到过去或多年后归来提供改写命运的机会。",
+          "examples": [
+            "Dikhianati Suami dan Mertua, Ia Terlahir Kembali untuk Membalas Semuanya!",
+            "Reinkarnasi Jadi Pelayan Istana Kuno, Gadis Liar Bikin Putra Mahkota Dingin Batal Jadi Biksu Nikahi!"
+          ]
+        }
+      },
+      "emergent_hooks": [
+        {
+          "name": "具体物质奖励的承诺",
+          "definition": "标题直接承诺金钱、黑卡、巨额资产、豪宅等具体回报，让反转更可感知。",
+          "examples": [
+            "CEO kena racun es! Pemuda miskin rupa-rupanya tabib dewa—sembuhkan dia & dapet Black Card lamaran!"
+          ]
+        },
+        {
+          "name": "系统/空间金手指的设定",
+          "definition": "主角拥有系统、空间、读心或现代知识库，作为持续逆袭工具。",
+          "examples": [
+            "🔥Bos wanita masuk zaman kuno dengan sistem. Dia ubah nasib keluarga miskin & besarkan 3 adik hebat!"
+          ]
+        },
+        {
+          "name": "系统/能力激活",
+          "definition": "角色因电击、濒死、穿越等事件即时获得特殊能力。",
+          "examples": [
+            "Gila! Satpam miskin tersengat listrik bangunkan kemampuan kuno—siluman, tembus pandang, teleport!"
+          ]
+        },
+        {
+          "name": "家族/亲情救赎",
+          "definition": "主角因父母、孩子、兄弟姐妹受辱而出手，动机从个人复仇升级为守护家人。",
+          "examples": [
+            "Dewa Perang Pulang Kampung Dengan Sepeda Tua, Temukan Ayahnya Dihina Dan Dibuang Mantan Istri"
+          ]
+        },
+        {
+          "name": "亲子悬念流",
+          "definition": "通过孩子长相相似、突然出现、无法生育却有孩子等设定制造血缘谜题。",
+          "examples": [
+            "CEO tidak bisa punya anak, dia terkejut melihat tiga anak mirip dirinya di taman kota! #drama"
+          ]
+        }
+      ],
+      "hook_stats": {
+        "reversal_count": 160,
+        "reversal_rate": 65.3,
+        "reversal_avg_views": 83477,
+        "emotion_count": 120,
+        "emotion_rate": 49.0,
+        "emotion_avg_views": 83535,
+        "identity_count": 93,
+        "identity_rate": 38.0,
+        "identity_avg_views": 90829,
+        "compensation_count": 92,
+        "compensation_rate": 37.6,
+        "compensation_avg_views": 107709,
+        "time_count": 47,
+        "time_rate": 19.2,
+        "time_avg_views": 42033,
+        "relationship_count": 27,
+        "relationship_rate": 11.0,
+        "relationship_avg_views": 53358
+      }
+    },
+    "title_constraints": {
+      "avg_length": 88,
+      "emoji_rate": 70.0,
+      "top_emojis": [
+        "🔥",
+        "💖",
+        "💕",
+        "🤯",
+        "😈",
+        "💔",
+        "😳",
+        "💍",
+        "😍",
+        "🤰"
+      ],
+      "title_structure": "标题通常分为两段：前半段给出受辱、误会、意外、低位身份或关系危机；后半段用Tak disangka、Ternyata、malah、rupanya、Bukan等词揭示身份、宠爱、复仇或能力。高效标题不是短口号，而是一个压缩剧情梗概，平均长度约88字符，允许信息密度较高。",
+      "key_words": [
+        "CEO",
+        "Gadis",
+        "Dewa Perang",
+        "Miliarder",
+        "Suami",
+        "Istri",
+        "Tak disangka",
+        "Ternyata",
+        "Dihina",
+        "Dimanjakan",
+        "Miskin",
+        "Preman",
+        "Keluarga",
+        "Hamil",
+        "Cerai"
+      ]
+    },
+    "emoji_strategy": {
+      "best_position": "数据中emoji更多出现在标题开头和末尾，开头用于抢注意力，末尾用于标记情绪；中间使用较少。",
+      "rules": [
+        "甜宠和浪漫用💖、💕、❤️，放在末尾强化情绪承诺。",
+        "复仇、离婚、打脸用🔥、😈、💔，可放开头或末尾。",
+        "震惊、系统、超自然用😱、🤯、🔥，适合配合Gila!开头。",
+        "不要每个标题堆多个emoji，优先让emoji服务情绪分类，而不是装饰。"
+      ]
+    },
+    "hashtag_strategy": {
+      "title_tags": [
+        "#Full",
+        "#Minidrama",
+        "#drama",
+        "#cdrama"
+      ],
+      "description_tags": [
+        "drama",
+        "ceo",
+        "filmcina",
+        "cinta",
+        "chinesedrama",
+        "shortdrama",
+        "drakor",
+        "dramakoreasubindo",
+        "romansa",
+        "dracin",
+        "dramachina",
+        "dramapendek"
+      ],
+      "combination_pattern": "高频组合集中在drama+terbaru、cinta+filmcina、ceo+filmcina、ceo+cinta、dramapendek+dramapendekpopuler、ceo+romansa，说明标签应同时覆盖题材、情绪和剧集类型。",
+      "trend_hijacking": "用【INDO DUB】、【IndoSub】、DramaSubIndo、DramaCina、ChineseDrama、Kdrama等词截流本地化观看需求；用FaceSlapping、WanitaHebat、KisahInspiratif截流逆袭爽剧需求。",
+      "rules": [
+        "标题标签最多1-3个，避免挤压剧情信息。",
+        "描述标签可扩展到题材词、语种词、情绪词和来源词。",
+        "CEO甜宠建议组合ceo+cinta+romansa+shortdrama。",
+        "战神打脸建议组合drama+FaceSlapping+KisahInspiratif+DramaCina。"
+      ]
+    },
+    "description_template": {
+      "structure": "高播放描述不一定依赖长剧情简介，常见结构是欢迎/订阅/外链/版权声明/标签。subscribe和links模板的均播较高，说明描述区对转化和频道资产沉淀有价值。",
+      "template_types": [
+        {
+          "name": "订阅导流型",
+          "pattern": "► Subscribe channel: 【频道链接】 | Fanpage 【主页链接】 | Saksikan drama terbaru setiap hari.",
+          "适用场景": "频道已有稳定内容矩阵，希望把爆款流量导向订阅和社媒。"
+        },
+        {
+          "name": "版权声明型",
+          "pattern": "Selamat berlangganan saluran🔔💖 Semua konten adalah karya eksklusif dan asli. Pelanggaran hak cipta akan dituntut secara tegas.",
+          "适用场景": "原创或独家内容，需要建立可信度和版权边界。"
+        },
+        {
+          "name": "剧情简介+标签型",
+          "pattern": "Sinopsis: 【一句话概括受辱/误会/反转】. Tonton sampai akhir untuk melihat 【打脸/甜宠/真相】. #drama #ceo #cinta #shortdrama",
+          "适用场景": "新频道或搜索流量导向内容，需要让算法和观众快速理解题材。"
+        }
+      ],
+      "rules": [
+        "前两行优先放订阅、频道链接或核心剧情钩子，因为移动端折叠明显。",
+        "描述不要复述完整结局，只补充标题没有说完的观看理由。",
+        "标签按题材、情绪、语种、本地化四类组织，不要无序堆叠。"
+      ]
+    },
+    "thumbnail_guidelines": {
+      "composition": "优先使用contrast构图，其次center构图。女频用2-4人关系对峙，男频用主角居中+敌人跪地/包围。避免信息过散的拼贴，除非是背叛/初恋/多角关系题材。",
+      "figures": "女频常用2-3人：女主受伤或决绝、男主高位守护、第三者或家人制造压力。男频常用6-10人：主角、受害家人、黑衣敌人、围观者，形成压迫和反压迫。",
+      "colors": "mixed色彩表现较好，建议冷暖对比：蓝/黑代表压迫和神秘，金/红代表财富、权力、愤怒和爱情。暖色适合婚恋冲突，金光适合战神和玄幻。",
+      "emotion": "以tension为主，叠加power或romance。不要只做漂亮情侣照，要定格逃跑、下跪、举离婚协议、被围攻、当众羞辱、救人瞬间。",
+      "visual_symbols": "CEO题材用西装、豪车、黑卡、直升机、保镖、豪宅；婚恋题材用离婚协议、玫瑰、床、机场、婚礼；男频用拳风、锁链、血迹、跪地敌人、金龙、棍棒；亲子题材用相似孩子、孕肚、亲子同框。",
+      "text": "封面文字应短于标题，突出一个核心词：CEO、MILIARDER、CERAI、DEWA PERANG、DIHINA、3 ANAK。文字颜色用红、黄、白高对比，不要把完整标题塞进封面。"
+    },
+    "cover_title_synergy": {
+      "rule": "标题负责解释反差和因果，封面负责证明反差和定格情绪高潮；两者必须围绕同一个核心钩子分工，而不是重复同一句话。",
+      "hook_cover_mapping": [
+        {
+          "hook_type": "identity",
+          "title_pattern": "低位身份被羞辱，后半句揭示真实高位身份。",
+          "cover_pattern": "低位角色与高位符号同框，如穷女孩旁边出现CEO、西装团队、直升机或保镖。",
+          "example_title": "Dihina dan diusir oleh Keluarganya, Tak disangka Gadis ini dipungut dan dimanjakan CEO Miliarder!",
+          "example_cover": "落魄女子蜷缩在地，白衣男子戴墨镜站立，背景有直升机和黑西装团队，阶级反差强烈。"
+        },
+        {
+          "hook_type": "reversal",
+          "title_pattern": "以为A，没想到B；常用Tak disangka、Ternyata、malah。",
+          "cover_pattern": "画面直接展示B的证据，但保留A的痕迹，让观众想知道中间发生了什么。",
+          "example_title": "Gadis pikir suami CEO membencinya, siap kabur malah ditangkap dan dibawa pulang untuk dimanjakan! 💖",
+          "example_cover": "机场场景中女主蹲在行李旁，男主单膝跪地送玫瑰，逃跑和宠爱同时出现。"
+        },
+        {
+          "hook_type": "emotion",
+          "title_pattern": "背叛、离婚、心碎、受辱等情绪词先行。",
+          "cover_pattern": "人物表情夸张、动作明确，道具如离婚协议、第三者、哭泣特写强化情绪。",
+          "example_title": "【INDO DUB】Suamiku mengupaskan udang untuk wanita lain... aku langsung ajukan cerai! 😈🔥",
+          "example_cover": "妻子高举文件，丈夫和第三者坐在一侧震惊，三角关系和离婚动作一眼可见。"
+        },
+        {
+          "hook_type": "compensation",
+          "title_pattern": "被欺负后出现打脸、跪地、宠爱、财富或复仇结果。",
+          "cover_pattern": "主角站立或居中，敌人跪地/倒地/震惊，视觉上完成权力反转。",
+          "example_title": "Baru turun gunung, keluarga dibully! Satu pukulan habisi semua, musuh terkapar!",
+          "example_cover": "男主带血迹居中发力，周围黑衣敌人跪地，金光和龙形元素强化战力压制。"
+        },
+        {
+          "hook_type": "relationship",
+          "title_pattern": "夫妻、前任、初恋、第三者、姐妹之间的误会或背叛。",
+          "cover_pattern": "用人物距离表达关系：女主孤立，男主靠近第三者，或男主追逐女主，旁边放证据道具。",
+          "example_title": "【IN DUB】Hancur hati lihat dia jemput cinta pertama! Aku pergi, dia baru sadar!",
+          "example_cover": "悲伤女主特写占中心，旁边有亲密男女和背影男性，形成背叛关系网。"
+        }
+      ],
+      "patterns": [
+        {
+          "name": "标题给前因，封面给高潮",
+          "description": "标题写被赶走、被背叛、被围攻；封面展示被接走、提出离婚、反杀敌人。",
+          "example": "标题“Dihina dan diusir...” + 封面“直升机和CEO团队接走落魄女孩”。"
+        },
+        {
+          "name": "标题给身份，封面给阶层证据",
+          "description": "标题写CEO、miliarder、Dewa Perang；封面必须用豪车、保镖、黑卡、金光、跪地敌人证明。",
+          "example": "标题“kurir miskin ternyata CEO triliuner” + 封面“婚礼现场众人震惊、主角西装居中”。"
+        },
+        {
+          "name": "封面定格冲突，标题补全反转",
+          "description": "封面只展示一个极端瞬间，标题解释为什么会发生以及后面反转到哪里。",
+          "example": "封面“妻子举离婚协议” + 标题“丈夫给别的女人剥虾，我直接离婚”。"
+        }
+      ],
+      "anti_patterns": [
+        {
+          "name": "题材错位",
+          "description": "标题是战神打脸，封面却是甜蜜情侣；标题是离婚背叛，封面却无第三者和证据。"
+        },
+        {
+          "name": "只美不钩",
+          "description": "只放高颜值男女主微笑合照，没有冲突、身份符号或反转证据。"
+        },
+        {
+          "name": "信息过散",
+          "description": "封面人物太多且没有中心导火索，观众不知道该看谁、冲突是什么。"
+        },
+        {
+          "name": "标题有爆点封面无证据",
+          "description": "标题写Miliarder、Dewa Perang、3 anak、cerai，但封面没有财富、战力、孩子或离婚文件。"
+        }
+      ],
+      "female_freq": "女频协同应围绕关系张力：标题写误会、背叛、怀孕、离婚、被宠；封面用2-4人关系站位、眼神、距离和道具表达谁爱谁、谁误会谁、谁要离开。",
+      "male_freq": "男频协同应围绕低位受辱和瞬间碾压：标题写dihina、dibully、preman、Dewa Perang、satu pukulan；封面用主角居中、敌人跪地、家人受害、金光战力符号表达爽点。"
+    },
+    "publish_time": {
+      "best_hours": [
+        10,
+        11,
+        12,
+        4,
+        6
+      ],
+      "best_weekdays": [
+        "Friday",
+        "Thursday",
+        "Wednesday"
+      ],
+      "rules": [
+        "优先在UTC 10:00-12:00测试主力爆款题材。",
+        "UTC 4:00和6:00可作为补充发布时间，适合测试新题材或长尾内容。",
+        "周三、周四、周五优先发布强钩子内容，周末可复用表现好的题材做二次包装。"
+      ]
+    },
+    "growth_strategy": [
+      "频道初期不要同时混发太多类型，先选择CEO女频或战神男频建立算法标签。",
+      "每周固定复用3类高验证钩子：身份反转、情绪补偿、反转递进；每周只测试1类新兴钩子，如系统或亲子悬念。",
+      "封面建立统一识别：女频用金红暖调+关系对峙，男频用金光黑蓝+主角居中压制。",
+      "描述区固定加入订阅链接、社媒链接、语种标签和题材标签，把爆款流量沉淀为频道资产。",
+      "标题不要照抄竞品，要复用心理骨架：低位处境、反转词、高位回报、情绪结果。"
+    ],
+    "rhetorical_patterns": {
+      "sentence_structures": [
+        {
+          "name": "Tak disangka反转句",
+          "pattern": "{低位/负面处境}, tak disangka {真实身份/高价值结果}",
+          "example": "Dihina dan diusir oleh Keluarganya, Tak disangka Gadis ini dipungut dan dimanjakan CEO Miliarder!",
+          "avg_views": 83477,
+          "count": 160,
+          "when_to_use": "适合所有需要从误判转向高价值真相的题材，尤其是CEO、豪门、带球跑。"
+        },
+        {
+          "name": "Ternyata身份揭示句",
+          "pattern": "{角色被轻视/遇险}, ternyata {他/她是隐藏强者/高位人物}",
+          "example": "CEO Wanita Dikejar minta tolong pada Penjual bakpao, ternyata ia legenda bela diri yang menolongnya!",
+          "avg_views": 90829,
+          "count": 93,
+          "when_to_use": "适合隐藏身份、战神、神医、富豪伪装题材。"
+        },
+        {
+          "name": "Gila!震惊开头句",
+          "pattern": "Gila! {异常事件/能力激活}! {能力带来的结果}",
+          "example": "Gila! Satpam miskin tersengat listrik bangunkan kemampuan kuno—siluman, tembus pandang, teleport!",
+          "avg_views": 42033,
+          "count": 47,
+          "when_to_use": "适合系统、超自然、奇观、能力觉醒题材，用来快速建立夸张感。"
+        },
+        {
+          "name": "离场后追悔句",
+          "pattern": "{我/她} melihat {背叛证据}, langsung {离开/离婚}; {对方} baru sadar {真相/失去她}",
+          "example": "【IN DUB】Hancur hati lihat dia jemput cinta pertama! Aku pergi, dia baru sadar!",
+          "avg_views": 53358,
+          "count": 27,
+          "when_to_use": "适合追妻火葬场、离婚、前任、初恋回归、第三者冲突。"
+        },
+        {
+          "name": "数字亲子悬念句",
+          "pattern": "{CEO/男主} tidak bisa {生育/拥有孩子}, tiba-tiba melihat {数字} anak mirip dirinya di {地点}",
+          "example": "CEO tidak bisa punya anak, dia terkejut melihat tiga anak mirip dirinya di taman kota! #drama",
+          "avg_views": 83535,
+          "count": 120,
+          "when_to_use": "适合萌宝、带球跑、血缘反转，数字越具体越容易形成画面。"
+        }
+      ],
+      "punctuation_strategy": {
+        "感叹号高频用于制造即时情绪": "标题常用!强化震惊、打脸、愤怒或甜宠，如Gila!、musuh terkapar!、dimanjakan!",
+        "省略号用于情绪停顿和未完成感": "婚恋背叛类常用...制造心碎和话未说完的感觉，如“Suamiku mengupaskan udang untuk wanita lain...”",
+        "破折号用于强反转或能力解释": "系统和神医类可用—连接能力与结果，如“tabib dewa—sembuhkan dia & dapet Black Card”。",
+        "括号/方括号用于本地化标签": "【INDO DUB】、【IndoSub】、【Full】提供内容质量和语种识别。"
+      },
+      "visual_elements": {
+        "阶层符号要具体": "直升机、豪车、保镖、黑卡、西装团队比单写miliarder更有说服力。",
+        "关系冲突要有道具": "离婚协议、玫瑰、行李箱、病床、婚礼现场能让观众快速理解关系变化。",
+        "战力奇观要可视化": "金光、拳风、倒地敌人、锁链、血迹、巨型寄生虫等元素能把抽象能力变成点击理由。",
+        "人物站位表达权力": "站立者通常掌控局面，跪地/蜷缩/病床上的角色表示受压迫或被拯救。"
+      },
+      "progression_techniques": [
+        {
+          "name": "受辱到宠爱",
+          "pattern": "{被羞辱/赶走} → {被高位人物发现} → {被宠成高价值对象}",
+          "example": "Dihina dan diusir oleh Keluarganya, Tak disangka Gadis ini dipungut dan dimanjakan CEO Miliarder!"
+        },
+        {
+          "name": "误会到反追",
+          "pattern": "{以为被讨厌/要逃走} → {男主强势阻止} → {原来是宠爱}",
+          "example": "Gadis pikir suami CEO membencinya, siap kabur malah ditangkap dan dibawa pulang untuk dimanjakan! 💖"
+        },
+        {
+          "name": "低位到碾压",
+          "pattern": "{低位身份被欺负} → {真实身份揭示} → {敌人跪地/全场震惊}",
+          "example": "Pengemis dihina selama 3 tahun ternyata kultivator sakti! Pukulan menerbangkan musuh, mengejutkan!"
+        },
+        {
+          "name": "背叛到离场",
+          "pattern": "{看到背叛证据} → {不哭不闹直接离开} → {对方后悔}",
+          "example": "【IN DUB】Hancur hati lihat dia jemput cinta pertama! Aku pergi, dia baru sadar!"
+        },
+        {
+          "name": "事故到能力激活",
+          "pattern": "{意外事故/穿越/重生} → {系统或能力觉醒} → {财富/复仇/爱情回报}",
+          "example": "Gila! Satpam miskin tersengat listrik bangunkan kemampuan kuno—siluman, tembus pandang, teleport!"
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "sample_size_warning": "样本量为150个视频，足够观察印尼短剧YouTube标题、封面和标签的高频模式，但频道数量字段为0，无法做频道级权重或粉丝量影响判断；部分钩子统计来自245个标题的扩展统计口径，与150个视频样本不同，应用时应以趋势而非绝对值理解。合并说明：stats.emoji_rate 取GPT的70.0（与title_constraints一致，MiMo的stats=17.3与自身constraints=70.0矛盾故放弃）；stats.top_emojis取MiMo干净列表（GPT含❤️与❤重复）；stats.key_words取GPT印尼实际标题词（可直接复用）；why.title保留5条，融合GPT的'女频vs男频'和MiMo的'具体数字时间'洞察；title_skeletons以GPT 5类为骨架（多出反转递进型、情绪受害补偿型、亲情守护打脸型）；what补入MiMo独有的'契约婚姻真相'为第6类；hook_stats采用GPT含rate+均播的扩展格式。",
+    "missing_fields": [
+      "频道名称",
+      "频道粉丝数",
+      "发布时间原始明细",
+      "完播率",
+      "点击率CTR",
+      "观看时长",
+      "视频时长",
+      "封面图片完整样本",
+      "受众性别年龄",
+      "流量来源",
+      "标题骨架频率字段为空"
+    ]
+  },
+  "stats": {
+    "avg_title_length": 88,
+    "emoji_rate": 17.3,
+    "top_emojis": [
+      "🔥",
+      "💖",
+      "💕",
+      "🤯",
+      "😈",
+      "💔",
+      "😳",
+      "💍",
+      "😍",
+      "🤰"
+    ],
+    "best_hours": [
+      10,
+      11,
+      12,
+      4,
+      6
+    ],
+    "best_weekdays": [
+      "Friday",
+      "Thursday",
+      "Wednesday"
+    ],
+    "key_words": [
+      "CEO",
+      "Gadis",
+      "Dewa Perang",
+      "Miliarder",
+      "Suami",
+      "Istri",
+      "Tak disangka",
+      "Ternyata",
+      "Dihina",
+      "Dimanjakan",
+      "Miskin",
+      "Preman",
+      "Keluarga",
+      "Hamil",
+      "Cerai"
+    ]
+  }
+}

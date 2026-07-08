@@ -1,0 +1,41 @@
+presets:
+  fast_validation:
+    purpose: 快速测题材/地区/标题/封面
+    force_watch_first_30min: false
+    min_narration_minutes: 0
+    edit_duration_minutes: [3, 8]
+    title_conflict_points_target: 1
+    cover_strategy: click_test
+    metrics_focus: [ctr, retention_30s, comment_reaction]
+  full_rebuild:
+    purpose: 精品重构，剧情一致性优先
+    force_watch_first_30min: true
+    min_narration_minutes: 5
+    edit_duration_minutes: [5, 15]
+    title_conflict_points_target: 3
+    cover_strategy: story_consistency
+    metrics_focus: [ctr, avg_view_duration, conversion_to_subscribe]
+
+pipeline:
+  - analyze_video
+  - ad_materials
+  - title
+  - cover
+  - edit
+  - subtitle
+  - upload
+  - analytics
+  - comments
+  - signal
+
+distill_frequency:
+  analytics_comments: daily_or_every_2_days
+  weekly_signal_digest: weekly
+  mini_distill: weekly
+  full_distill: monthly
+  event_triggered:
+    - breakout_hit
+    - consecutive_failures
+    - ctr_drop
+    - new_region
+    - new_genre

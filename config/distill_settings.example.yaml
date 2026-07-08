@@ -1,0 +1,20 @@
+schedule:
+  mini_distill: weekly
+  full_distill: monthly
+  signal_digest: weekly
+
+triggers:
+  breakout_hit:
+    condition: "views_48h > channel_30d_avg * 3"
+  consecutive_failures:
+    condition: "fail_count_7d >= 3"
+  ctr_drop:
+    condition: "ctr_48h < channel_ctr_baseline * 0.7"
+  new_region:
+    condition: "manifest.target_region not in channel_brain.active_regions"
+  new_genre:
+    condition: "manifest.genre not in channel_brain.core_genres"
+
+output:
+  base_dir: distill/outputs
+  version_index: distill/versions/index.md
