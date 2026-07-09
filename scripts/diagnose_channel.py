@@ -776,16 +776,17 @@ def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", 
 ⚠️ 输出语言要求：所有分析文字（title_analysis、cover_synergy、issues、optimized的reason）必须用中文输出。只有优化标题本身保持对应语言（{lang_en}）。
 
 ## 象限对症纪律（必须遵守，覆盖以下所有通用规则）
-每条视频有一个"象限归类"，你的诊断和优化建议必须匹配它，不要给违反归类的建议：
+每条视频在数据区已标注"象限归类"（Python 层判定，你只解读，禁止重新归类）。
+**直接使用给定的象限，不要自行判断阈值。**各象限行动规则：
 
-- **爆款基因**（CTR≥标杆×1.3 且 AVD占比≥15%）：标题+封面都成立，issues 只列"可微调点"，optimized 出的两个新标题必须与原标题**同骨架同钩子**（复制模板量产），不要重构。
-- **标题超卖_开头型**（CTR≥标杆×1.2 但 1%留存<70%）：标题吸引点击但开头 hook 太弱→ issues 聚焦"标题承诺 vs 开头兑现"落差，optimized 给"降调版"（钩子强度降 20-30%，与开头能兑现的强度匹配）。**禁止只夸标题不改**。
-- **标题超卖_中段型**（CTR≥标杆×1.2 且 1%留存≥70% 但 AVD占比<10%）：标题+开头都 OK，中段掉链子 → issues 不要指标题问题，optimized 可以保留原标题，reason 写"标题保留，问题在中段节奏"。**禁止改标题**（改也白改）。
-- **门面拖累**（CTR<标杆×0.6 但 AVD占比≥15%）：内容好点击差 → issues 聚焦"标题+封面吸引力不足"，optimized 必须**大幅重写标题**（换骨架、加更强钩子），reason 说"重置门面"。
-- **选题失败**（CTR<标杆×0.6 且 AVD占比<8%）：题材本身不适合此频道 → issues 写"选题偏离定位"，optimized 给"如果非要拍此类题材应该怎么写"但明确标注"建议不再拍此类"。
-- **表现平庸**（其他）：常规优化建议。
-- **样本不足**（展示<500）：optimized 可以出，但 issues 里写"数据样本不足，仅供参考"，score 不能超过 6。
-- **数据异常待核实**（1%留存<5% 或其他极端）：不出 optimized 建议，issues 写"数据异常，需人工核实"。
+- **爆款基因**：标题+封面都成立，issues 只列"可微调点"，optimized 出的两个新标题必须与原标题**同骨架同钩子**（复制模板量产），不要重构。
+- **标题超卖_开头型**：标题吸引点击但开头 hook 太弱→ issues 聚焦"标题承诺 vs 开头兑现"落差，optimized 给"降调版"（钩子强度降 20-30%，与开头能兑现的强度匹配）。**禁止只夸标题不改**。
+- **标题超卖_中段型**：标题+开头都 OK，中段掉链子 → issues 不要指标题问题，optimized 可以保留原标题，reason 写"标题保留，问题在中段节奏"。**禁止改标题**（改也白改）。
+- **门面拖累**：内容好点击差 → issues 聚焦"标题+封面吸引力不足"，optimized 必须**大幅重写标题**（换骨架、加更强钩子），reason 说"重置门面"。
+- **选题失败**：题材本身不适合此频道 → issues 写"选题偏离定位"，optimized 给"如果非要拍此类题材应该怎么写"但明确标注"建议不再拍此类"。
+- **表现平庸**：常规优化建议。
+- **样本不足**：optimized 可以出，但 issues 里写"数据样本不足，仅供参考"，score 不能超过 6。
+- **数据异常待核实**：不出 optimized 建议，issues 写"数据异常，需人工核实"。
 
 ## 诊断框架：骨架 × 血肉 × 创新
 - **骨架**= 叙事原型（先抑后扬、低位闯高位、隐藏身份、第一人称极端遭遇等）。骨架是标题的叙事结构，决定观众的期待类型。
@@ -2955,15 +2956,17 @@ def _post_validate_diagnosis(parsed: dict, findings: dict) -> dict:
     problems = parsed.get("problems", []) or []
     strengths = parsed.get("strengths", []) or []
     orig_score = parsed.get("health_score", 5)
+    has_critical = any((p.get("severity") == "critical") for p in problems)
+    audit.append(f"后校验执行: score={orig_score}, critical={has_critical}, problems={len(problems)}, strengths={len(strengths)}")
 
     # 规则1: 有 critical 且 health_score > 6.5 → 封顶 6.5
-    has_critical = any((p.get("severity") == "critical") for p in problems)
     if has_critical and orig_score > 6.5:
         parsed["health_score"] = 6.5
         parsed["health_grade"] = "C"
         audit.append(f"critical 问题存在，health_score 由 {orig_score} 封顶到 6.5")
 
-    # 规则2: 冲突检测 — 同一维度既在 strengths 又在 problems（写入顶层 conflicts）
+    # 规则2: 冲突检测
+    # 2a: LLM 内部 — 同一维度既在 strengths 又在 problems
     strength_areas = {(s.get("area") or "").strip() for s in strengths}
     problem_areas = {(p.get("area") or "").strip() for p in problems}
     conflicts_set = (strength_areas & problem_areas) - {""}
@@ -2973,13 +2976,76 @@ def _post_validate_diagnosis(parsed: dict, findings: dict) -> dict:
         p_entry = next((p for p in problems if (p.get("area") or "").strip() == area), {})
         conflicts_list.append({
             "dimension": area,
+            "source": "llm_internal",
             "as_strength": s_entry.get("detail", ""),
             "as_problem": p_entry.get("detail", ""),
-            "resolution": "LLM 未消化数据，需人工判断哪边成立",
+            "resolution": "需人工判断哪边成立",
         })
+
+    # 2b: 跨层冲突 — Python 规则诊断 vs LLM 结论
+    # Python 规则诊断提取的事实（from findings / video_scores）
+    python_facts = []
+    # 四象限事实
+    q_status = (findings.get("quadrant") or {}).get("status", "ok")
+    if q_status == "ok":
+        q = findings.get("quadrant") or {}
+        for bucket in ["爆款基因", "标题超卖_开头型", "标题超卖_中段型", "门面拖累", "选题失败", "表现平庸"]:
+            vids = q.get(bucket, [])
+            if vids:
+                python_facts.append({"area": f"四象限·{bucket}", "detail": f"{len(vids)}条视频归入{bucket}"})
+    # CTR 事实
+    ctr = findings.get("ctr") or {}
+    ctr_median = ctr.get("channel", {}).get("median_ctr")
+    if ctr_median is not None:
+        if ctr_median >= 6:
+            python_facts.append({"area": "CTR", "detail": f"频道CTR中位数{ctr_median}%，处于健康区间"})
+        elif ctr_median < 2.5:
+            python_facts.append({"area": "CTR", "detail": f"频道CTR中位数{ctr_median}%，低于2.5%阈值"})
+
+    # 留存子类映射（不同子类不算冲突）
+    retention_subclasses = {"开头hook": "开头hook", "1分钟留存": "开头hook", "hook": "开头hook",
+                            "中段": "中段", "3分钟": "中段", "5分钟": "中段",
+                            "整体AVD": "整体AVD", "平均观看": "整体AVD", "AVD占比": "整体AVD"}
+
+    def _retention_subclass(area: str) -> str | None:
+        for keyword, subclass in retention_subclasses.items():
+            if keyword in area:
+                return subclass
+        return None
+
+    # 跨层比对：Python 事实 vs LLM problems
+    for p in problems:
+        p_area = (p.get("area") or "").strip()
+        if not p_area:
+            continue
+        for fact in python_facts:
+            f_area = fact["area"]
+            # 模糊匹配：area 有交集关键词
+            p_sub = _retention_subclass(p_area)
+            f_sub = _retention_subclass(f_area)
+            # 留存子类不同 → 不算冲突（方案要求：不同子类不构成矛盾）
+            if p_sub and f_sub and p_sub != f_sub:
+                continue
+            # 简单交集匹配
+            if any(kw in p_area for kw in f_area.split("·")) or any(kw in f_area for kw in p_area.split("·")):
+                conflicts_list.append({
+                    "dimension": f"Python/{f_area} vs LLM/{p_area}",
+                    "source": "cross_layer",
+                    "python_fact": fact["detail"],
+                    "llm_conclusion": p.get("detail", ""),
+                    "resolution": "两者均真时合并结论；Python优先（有数据支撑）",
+                })
+
     if conflicts_list:
         parsed["conflicts"] = conflicts_list
-        audit.append(f"检测到 strengths/problems 冲突维度: {sorted(conflicts_set)}")
+        llm_c = [c["dimension"] for c in conflicts_list if c.get("source") == "llm_internal"]
+        cross_c = [c["dimension"] for c in conflicts_list if c.get("source") == "cross_layer"]
+        parts = []
+        if llm_c:
+            parts.append(f"LLM内部: {sorted(llm_c)}")
+        if cross_c:
+            parts.append(f"跨层: {sorted(cross_c)}")
+        audit.append(f"冲突检测: {'; '.join(parts)}")
 
     # 规则3: 四象限 skipped 时禁止出现 CTR 相关的具体动作词
     q_status = (findings.get("quadrant") or {}).get("status", "ok")
