@@ -1,0 +1,4827 @@
+{
+  "channel_name": "追劇姐妹",
+  "language": "繁中",
+  "diagnosed_at": "2026-07-09T07:16:28.231720+00:00",
+  "video_llm_last_run": "2026-07-09T03:42:32.542392+00:00",
+  "channel_llm_last_run": "2026-07-09T07:16:28.231601+00:00",
+  "channel": {
+    "subscribers": "***",
+    "total_views": "***",
+    "total_videos": 41,
+    "avg_views": 1124,
+    "posting_pattern": {
+      "by_weekday": {
+        "Saturday": 3,
+        "Friday": 3,
+        "Thursday": 3,
+        "Sunday": 2,
+        "Tuesday": 2,
+        "Wednesday": 1,
+        "Monday": 1
+      },
+      "by_hour": {
+        "10": 12,
+        "23": 3
+      }
+    },
+    "duration_impact": {
+      "1-2hr": {
+        "count": 11,
+        "avg_views": 543,
+        "avg_like_rate": 0.7
+      },
+      "2hr+": {
+        "count": 4,
+        "avg_views": 540,
+        "avg_like_rate": 1.09
+      }
+    },
+    "view_distribution": {
+      "top3_ratio": 47.1,
+      "head_ratio": 47.1,
+      "tail_ratio": 17.1,
+      "cliff": false,
+      "cliff_ratio": 0.85,
+      "uniformity": 0.73,
+      "total_views": 8141,
+      "avg_views": 543
+    },
+    "engagement_funnel": {
+      "total_views": 8141,
+      "total_likes": 63,
+      "total_comments": 1,
+      "overall_like_rate": 0.77,
+      "overall_comment_rate": 0.012,
+      "comment_like_ratio": 1.6,
+      "zero_like_count": 1,
+      "zero_like_ratio": 0.07,
+      "high_engagement_count": 1,
+      "high_engagement_ratio": 0.07
+    },
+    "content_consistency": {
+      "top_tags": {},
+      "top_title_words": {
+        "火爆短劇全集": 15,
+        "被栽贓入獄的棄女歸來親手斬斷血脈": 1,
+        "慕家驚恐發現": 1,
+        "她才是賜予慕家榮耀的幕後天才": 1,
+        "真千金給養女頂罪入獄三年": 1,
+        "出獄後發現父母心懷鬼胎": 1,
+        "八個未婚夫追著養女跑": 1,
+        "她決定清算所有人": 1,
+        "重生後為逃離山村魔窟": 1,
+        "她撞進冷面少帥懷中": 1,
+        "一步步奪回被假千金霸佔的人生和婚約": 1,
+        "她被丈夫掃地出門": 1,
+        "六年後他看見縮小版的自己": 1,
+        "才知當年罵的野男人竟是他本尊": 1,
+        "她被逼嫁換彩禮": 1
+      },
+      "detected_types": {
+        "甜宠": 2,
+        "虐恋": 1,
+        "重生": 3
+      },
+      "primary_type": "重生",
+      "primary_ratio": 0.2,
+      "consistency_score": 0.2
+    },
+    "seo_analysis": {
+      "avg_tags_per_video": 0.0,
+      "videos_with_tags": 0,
+      "videos_without_tags": 15,
+      "top_tags": {}
+    },
+    "title_patterns": {
+      "avg_length": 48.0,
+      "min_length": 34,
+      "max_length": 69,
+      "emoji_ratio": 0.0,
+      "repeated_emoji": true,
+      "hook_words": {
+        "真相": 1,
+        "全集": 15
+      },
+      "repeated_starts": {},
+      "length_performance": {
+        "≤40": {
+          "count": 3,
+          "avg_like_rate": 1.3
+        },
+        "41-60": {
+          "count": 9,
+          "avg_like_rate": 0.69
+        },
+        "61-80": {
+          "count": 3,
+          "avg_like_rate": 0.65
+        },
+        ">80": {
+          "count": 0,
+          "avg_like_rate": 0
+        }
+      },
+      "best_length_bucket": "≤40",
+      "best_length_lr": 1.3
+    },
+    "diagnostics": [
+      {
+        "severity": "info",
+        "category": "互动深度",
+        "issue": "评论/点赞比仅0.0%",
+        "detail": "观众点赞但不评论，说明内容能看但缺乏讨论点。",
+        "action": "① 在视频中设置争议性问题\n② 在描述中提问引导评论"
+      },
+      {
+        "severity": "major",
+        "category": "SEO",
+        "issue": "平均每视频仅0.0个标签",
+        "detail": "15条视频无标签，SEO完全空白。",
+        "action": "① 每视频至少5个标签：题材词+情绪词+语言词+频道品牌词\n② 参考蒸馏数据的hashtag_strategy"
+      },
+      {
+        "severity": "major",
+        "category": "内容定位",
+        "issue": "内容混杂：主要类型'重生'仅占20%",
+        "detail": "YouTube算法需要一致的内容标签才能精准推荐。",
+        "action": "① 确定1个核心赛道，连续发布同类型内容\n② 用系列标题强化定位"
+      },
+      {
+        "severity": "info",
+        "category": "发布节奏",
+        "issue": "发布时段过度集中：80%在UTC 10点",
+        "detail": "建议分散发布时段，测试不同时段的表现差异。",
+        "action": "① 参考蒸馏数据的best_hours\n② 在最佳时段前后各测试1-2个新时段"
+      },
+      {
+        "severity": "critical",
+        "category": "留存",
+        "issue": "留存率 9.61% 低于同长度基准 15%",
+        "detail": "平均观看 11分9秒，视频预估 116.0 分钟。平均观看占比 9.61%，中段流失严重（AVD占比是整体指标，不代表开头hook问题）。",
+        "action": "① 每3-5分钟设置一次re-engagement hook\n② 检查中段是否有拖沓段落\n③ 分析留存曲线找到掉粉节点（1分钟留存判开头，3-5分钟判中段）"
+      },
+      {
+        "severity": "info",
+        "category": "SEO",
+        "issue": "搜索流量仅 0.8%",
+        "detail": "搜索优化不足，错失长尾流量。",
+        "action": "① 标题包含搜索关键词\n② 描述区前2行包含核心关键词\n③ 每视频至少5个标签"
+      }
+    ],
+    "market_context": {
+      "top_themes": [],
+      "audience": "",
+      "competition": [
+        {
+          "name": "剧好追",
+          "why_top": "订阅基数最大（204万），内容矩阵极深（27部长篇），精准卡位女性向全品类爽剧，标题和封面工业化程度最高，是市场标杆。",
+          "what_we_can_learn": "极致工业化：标题即完整剧情摘要，封面统一用核心演员情绪特写，专注于通过持续高频更新和稳定标签来维持基本盘，即使单集播放量见顶，总流量依然庞大。"
+        },
+        {
+          "name": "朝朝短剧",
+          "why_top": "平均播放量最高（9万+），单集爆款能力最强（最高44万播放），证明了'霸总甜宠+极致身份反转'这一公式在台湾市场的爆发力。",
+          "what_we_can_learn": "爆款公式的饱和攻击：固定演员、固定高冲突标题公式（一夜/背叛后遇大佬）、固定'全集'模式，在短时间内集中发布，可快速引爆频道，最大化抓取初期流量红利。"
+        }
+      ]
+    },
+    "growth": {
+      "sub_change": 2,
+      "view_change": 1314,
+      "sub_change_pct": 1.31,
+      "view_change_pct": 2.91
+    },
+    "video_trend": [
+      {
+        "date": "2026-06-25",
+        "title": "火爆短劇全集：生日目睹父親出軌，媽媽淨身出戶卻告訴她：我是富家千金！出軌父親帶人前來羞辱她們，反倒被",
+        "views": 372,
+        "like_rate": 1.08
+      },
+      {
+        "date": "2026-06-26",
+        "title": "火爆短劇全集：小偷冒充遠房親戚硬住我家，還要我嫁給她兒子？我忍無可忍了！",
+        "views": 161,
+        "like_rate": 0.62
+      },
+      {
+        "date": "2026-06-27",
+        "title": "火爆短劇全集：她淋水裝可憐，我直接掀桌：演夠了沒，今天讓你見識真手段",
+        "views": 437,
+        "like_rate": 0.69
+      },
+      {
+        "date": "2026-06-28",
+        "title": "火爆短劇全集：她被逼嫁換彩禮，逃進深山嫁給「野人」，卻不知他是讓豪門跪拜的修仙者！",
+        "views": 531,
+        "like_rate": 0.19
+      },
+      {
+        "date": "2026-06-30",
+        "title": "火爆短劇全集：重生後她裝睡看戲不動聲色，壽宴上親手撕開男友一家的勢利嘴臉！",
+        "views": 155,
+        "like_rate": 2.58
+      },
+      {
+        "date": "2026-07-01",
+        "title": "火爆短劇全集：京圈地下皇的女兒隱藏身分當賢妻，女兒病危飆車送醫，卻被父親女友攔路羞辱",
+        "views": 430,
+        "like_rate": 0.47
+      },
+      {
+        "date": "2026-07-02",
+        "title": "火爆短劇全集：上一世被親哥趕出家門慘死街頭，重生歸來她直接拒絕認親，轉身成為京城最狠豪門沈家的養女！",
+        "views": 246,
+        "like_rate": 0.81
+      },
+      {
+        "date": "2026-07-02",
+        "title": "火爆短劇全集：重生後為逃離山村魔窟，她撞進冷面少帥懷中，一步步奪回被假千金霸佔的人生和婚約。",
+        "views": 1139,
+        "like_rate": 0.61
+      },
+      {
+        "date": "2026-07-03",
+        "title": "火爆短劇全集：她被丈夫掃地出門，六年後他看見縮小版的自己，才知當年罵的野男人竟是他本尊！！！",
+        "views": 647,
+        "like_rate": 1.24
+      },
+      {
+        "date": "2026-07-03",
+        "title": "火爆短劇全集：真千金給養女頂罪入獄三年，出獄後發現父母心懷鬼胎，八個未婚夫追著養女跑，她決定清算所有",
+        "views": 1046,
+        "like_rate": 0.57
+      },
+      {
+        "date": "2026-07-04",
+        "title": "火爆短劇全集：所有人都認定她精神異常，只有她堅信自己是虐文悲劇女主，直到被豪門認回後她才醒悟，自己拿",
+        "views": 114,
+        "like_rate": 0.88
+      },
+      {
+        "date": "2026-07-04",
+        "title": "火爆短劇全集：被栽贓入獄的棄女歸來親手斬斷血脈，慕家驚恐發現，她才是賜予慕家榮耀的幕後天才！",
+        "views": 1650,
+        "like_rate": 1.03
+      },
+      {
+        "date": "2026-07-05",
+        "title": "火爆短劇全集：丈夫以為發生醫療事故的是岳母，於是包庇手下實習醫生，葬禮上揭開真相他當場崩潰！",
+        "views": 274,
+        "like_rate": 0.73
+      },
+      {
+        "date": "2026-07-06",
+        "title": "火爆短劇全集：正主被當成小三打進警局後，得知他早已騙簽離婚協議，原因竟是秘書為他打胎多次，面對前夫的",
+        "views": 72,
+        "like_rate": 0.0
+      },
+      {
+        "date": "2026-07-07",
+        "title": "火爆短劇全集：秦家棄養的福娃被她收留，隔天她買彩券中大獎 —— 秦家還不知道自己丟掉了什麼",
+        "views": 867,
+        "like_rate": 0.58
+      }
+    ],
+    "publish_frequency": {
+      "total_days": 12,
+      "total_videos": 15,
+      "avg_per_day": 1.25,
+      "avg_per_week": 8.8
+    },
+    "view_stats": {
+      "max": 1650,
+      "min": 72,
+      "median": 430,
+      "top5_avg": 1070,
+      "bottom5_avg": 150,
+      "top_bottom_ratio": 7.2
+    },
+    "like_rate_trend": {
+      "recent_10_avg": 0.69,
+      "min": 0.0,
+      "max": 1.24,
+      "trend": "上升"
+    },
+    "name": "[REDACTED]",
+    "videos": "***"
+  },
+  "channel_llm": {
+    "health_score": 6.0,
+    "health_grade": "B-",
+    "summary": "开头钩子极强但3分钟留存崩塌，内容中段质量拖累算法推荐，订阅增长缓慢。",
+    "strengths": [
+      {
+        "area": "开头1分钟留存",
+        "detail": "频道整体1%处留存高达98%，前1分钟钩子极强，观众几乎不流失，算法推荐信号好。",
+        "evidence": "OAuth分段留存1%处98%"
+      },
+      {
+        "area": "推荐流量占比",
+        "detail": "推荐流量占61.8%，CTR隐性健康，算法在主动推流，频道处于算法测试期且获得正向反馈。",
+        "evidence": "30天流量来源推荐61.8%，频道CTR中位数5.30%"
+      },
+      {
+        "area": "标题钩子质量",
+        "detail": "100%视频具备双重或三重钩子，情绪、身份、反转等钩子组合密集，点击率中位数5.3%健康。",
+        "evidence": "LLM钩子分析双重/三重占比100%，CTR中位数5.30%"
+      }
+    ],
+    "problems": [
+      {
+        "area": "3分钟留存崩塌",
+        "detail": "3分钟处留存仅19%，大量观众在1-3分钟内流失，中段内容质量极差，严重限制AVD和算法放大。",
+        "severity": "critical",
+        "evidence": "OAuth分段留存3分钟处19%，整体AVD占比约12.4%"
+      },
+      {
+        "area": "订阅转化不足",
+        "detail": "频道订阅转化率0.329%一般，总订阅仅155，距离YPP 1000门槛缺口845，变现进度慢。",
+        "severity": "major",
+        "evidence": "30天净增143订阅，总订阅155，转化率0.329%"
+      },
+      {
+        "area": "赞率偏低",
+        "detail": "整体赞率0.8%，低于1%基准，互动信号弱，可能影响算法对内容质量的判断。",
+        "severity": "major",
+        "evidence": "30天赞率0.8%，低于健康基准1%"
+      },
+      {
+        "area": "爆款依赖",
+        "detail": "头部3条视频播放占比47.1%，中尾部视频表现平庸，频道抗风险能力弱。",
+        "severity": "info",
+        "evidence": "播放分布头部3条占比47.1%"
+      },
+      {
+        "area": "系列化缺失",
+        "detail": "未使用系列化运营，短剧追剧心理未被充分利用，不利于提升观看时长和订阅粘性。",
+        "severity": "info",
+        "evidence": "无Part/Episode/第X集标记，无系列播放列表"
+      }
+    ],
+    "growth_diagnosis": {
+      "trend": "增长",
+      "root_cause": "3分钟留存崩塌导致AVD偏低，算法无法持续放大推荐，虽然开头钩子强带来初始曝光，但观众快速流失，形成高曝光低转化的循环。",
+      "bottleneck": "内容中段节奏与剧情质量"
+    },
+    "channel_weight": {
+      "level": "中",
+      "indicators": "[数据脱敏]",
+      "insight": "算法正在测试频道，给予较高推荐量，但留存差可能触发降权，需尽快提升3分钟留存以巩固权重。"
+    },
+    "monetization_readiness": {
+      "status": "较远",
+      "watch_hours": "[数据脱敏]",
+      "subscribers": "[数据脱敏]",
+      "gap": "主要卡在订阅数，需提升订阅转化率，预计按当前增速需约6个月达标"
+    },
+    "retention_diagnosis": {
+      "status": "严重偏低",
+      "evidence": "[数据脱敏]",
+      "hook_quality": "前1分钟钩子极强，但前3分钟内容未能延续吸引力，爽点/冲突兑现延迟，导致断崖式流失"
+    },
+    "traffic_analysis": {
+      "recommend_pct": "***",
+      "subscriber_pct": "***",
+      "search_pct": "***",
+      "health": "中",
+      "full_breakdown": "推荐视频61.8%，订阅29.8%，其他页面3.9%，无链接其他1.8%，搜索0.8%，片尾画面0.8%，频道页0.6%，外部0.3%，播放列表0.2%，标签0.0%，通知0.0%",
+      "insight": "算法推荐是主要流量来源，粉丝回访占比高，搜索几乎为零，SEO优化空间大。"
+    },
+    "audience_insight": {
+      "actual_profile": "[数据脱敏]",
+      "age_gender_breakdown": "[数据脱敏]",
+      "match_with_content": "高度匹配，内容为女频豪门、重生、打脸、家庭冲突，精准击中中老年女性爽点。"
+    },
+    "geo_strategy": {
+      "top_markets": "[数据脱敏]",
+      "growth_markets": "[数据脱敏]",
+      "opportunity_markets": "[数据脱敏]",
+      "insight": "繁中核心市场为台湾、香港、马来西亚，应优先强化；印尼、印度等非华语市场播放量高但留存极差，可能因语言障碍，不建议重点投入。"
+    },
+    "upload_pace": {
+      "current_rate": "[数据脱敏]",
+      "recommended_rate": "保持日更1条，确保内容质量优先",
+      "assessment": "高频更新匹配短剧频道特性，但需注意内容质量，避免因赶工导致中段节奏崩坏。"
+    },
+    "cover_title_synergy": {
+      "score": 7.3,
+      "assessment": "封面与标题协同良好，多数视频能围绕核心钩子分工，但部分视频封面情绪密度不足，身份视觉锚点可强化。",
+      "improvement": "强化封面中的身份反差视觉元素（如华服vs破衣、对峙瞬间），确保标题中的身份钩子在封面有对应证据。"
+    },
+    "series_analysis": {
+      "current_series": "未识别到系列化内容",
+      "series_count": 0,
+      "series_performance": "无系列数据",
+      "recommendation": "立即创建系列播放列表，按题材（重生复仇、豪门认亲、虐恋打脸）或按剧集系列化，利用短剧追剧心理提升观看时长和订阅转化。"
+    },
+    "actions": [
+      {
+        "priority": 1,
+        "action": "优化前3分钟内容节奏，确保核心冲突、身份揭露或爽点在3分钟内出现，减少1-3分钟断崖流失。",
+        "expected_impact": "3分钟留存从19%提升至30%+，AVD占比提升至15%+，带动算法推荐放量。",
+        "effort": "高"
+      },
+      {
+        "priority": 2,
+        "action": "创建系列播放列表，按题材分类（如重生、豪门、虐恋），并在视频结尾添加系列下一集卡片。",
+        "expected_impact": "提升观看时长和订阅转化，预计订阅转化率提升0.2-0.5个百分点。",
+        "effort": "中"
+      },
+      {
+        "priority": 3,
+        "action": "在视频前1分钟加入订阅引导（口播或文字提示），利用高留存窗口提升订阅转化。",
+        "expected_impact": "订阅转化率提升，加速达到1000订阅。",
+        "effort": "低"
+      },
+      {
+        "priority": 4,
+        "action": "针对台湾、香港、马来西亚市场优化标题用语，加入当地流行词汇，提升点击率。",
+        "expected_impact": "地域点击率提升，巩固核心市场。",
+        "effort": "低"
+      },
+      {
+        "priority": 5,
+        "action": "分析爆款基因视频的前3分钟结构，提炼模板，应用于新视频制作。",
+        "expected_impact": "复制高留存模式，系统性提升中段质量。",
+        "effort": "中"
+      }
+    ],
+    "ai_discoveries": [
+      {
+        "pattern": "有回弹的视频多达30条，但整体3分钟留存仍仅19%，说明中段虽有钩子拉回，但前期流失过于严重，回弹无法弥补。",
+        "evidence": "30条视频有回弹，但频道3分钟留存19%",
+        "insight": "必须在1-3分钟设置更强、更密集的钩子，不能依赖后期回弹。"
+      },
+      {
+        "pattern": "订阅转化率Top3视频均为重生/打脸/身份反转题材，且标题包含“重生”“撕開”“揭穿”等强反转词。",
+        "evidence": "Top3转化率1.342%、0.926%、0.825%，标题均含重生或打脸元素",
+        "insight": "重生打脸类题材最能带动订阅，应加大此类内容比例，并在标题中突出反转词。"
+      },
+      {
+        "pattern": "播放量前3的视频AVD占比均高于10%，且3分钟留存极高（87%-98%），与整体19%形成鲜明对比。",
+        "evidence": "M_QmPzqROoA 3m=87%, c0271n0jIuY 3m=94%, Yy5oN7wMO18 3m=98%",
+        "insight": "高质量视频能同时获得高CTR和高留存，形成爆款飞轮，应深度拆解这些视频的前3分钟节奏和冲突设置。"
+      }
+    ],
+    "ctr_status": "ok",
+    "quadrant_summary": {
+      "status": "ok",
+      "total_classified": 41,
+      "bucket_takeaways": [
+        {
+          "bucket": "爆款基因",
+          "count": 2,
+          "action": "继续剪同类，量产模板，复制高CTR高留存模式。"
+        },
+        {
+          "bucket": "标题超卖_中段型",
+          "count": 7,
+          "action": "标题OK，中段节奏需改，重点优化前3分钟冲突密度。"
+        },
+        {
+          "bucket": "选题失败",
+          "count": 1,
+          "action": "选题方向不适合此频道，避免低CTR低AVD的题材。"
+        },
+        {
+          "bucket": "表现平庸",
+          "count": 28,
+          "action": "需逐条分析，但整体应提升内容中段质量和标题钩子精准度。"
+        },
+        {
+          "bucket": "样本不足",
+          "count": 3,
+          "action": "等观察，暂不给具体动作。"
+        }
+      ],
+      "note": "只针对非空桶给出1句话takeaway。"
+    },
+    "sub_conversion_analysis": {
+      "channel_level": "一般",
+      "top_pattern": "重生打脸、身份反转类题材，标题包含“重生”“撕開”“揭穿”等强反转词，能有效带动订阅。",
+      "bottom_pattern": "样本不足视频转化率为0%，无法判断；但低播放量可能因选题或标题偏离核心受众。",
+      "action": "加大重生打脸类内容产出，标题强化反转钩子。"
+    },
+    "bottleneck": {
+      "primary": "AVD",
+      "evidence": "3分钟留存19%，AVD占比12.4%，远低于15-25%健康区间，直接限制算法推荐放大。",
+      "next_lever": "优化前3分钟内容节奏，确保核心爽点/冲突在3分钟内出现，将3分钟留存提升至30%以上。"
+    },
+    "monetization_detail": {
+      "subscribers": "[数据脱敏]",
+      "watch_hours_12mo": "[数据脱敏]",
+      "engagement_gate": "[数据脱敏]"
+    },
+    "delta": {
+      "vs_last_diagnosis": "首次诊断",
+      "moved_forward": [],
+      "regressed": [],
+      "note": "无历史诊断数据，本次为基线。"
+    },
+    "_audit_trail": [
+      "后校验执行: score=6.0, critical=True, problems=5, strengths=3"
+    ]
+  },
+  "distill_benchmark": {
+    "avg_title_length": "***",
+    "key_words": [],
+    "best_hours": []
+  },
+  "video_scores": [
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 5,
+      "scores": {
+        "llm": 5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "数据样本不足（播放70<500），以下诊断仅供参考"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题为剧情概述，缺乏钩子句式，信息过载导致焦点分散，核心反转（联系神秘人）未被强化为点击钩子"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面与标题后半段信息脱节，后半段反转无视觉锚点"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "多线概述型骨架（将剧情压缩为单句摘要，未提炼核心反转）",
+        "hooks": {
+          "emotion": true,
+          "identity": false,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:羞耻/愤怒（被当成第三者、打进警局）",
+          "反转:骗签离婚协议、原因竟是秘书打胎",
+          "冲突:威胁",
+          "关系:前夫、秘书、正主、神秘人",
+          "悬念:神秘人（未强化）"
+        ],
+        "packaging": "无标点策略，纯叙述句式，无钩子词，信息密度过高，缺少疑问/感叹/省略号制造悬念",
+        "missing": [
+          "悬念钩子未激活（神秘人部分只用陈述，没有引导好奇）",
+          "身份钩子缺失（正主与第三者的身份错位可以强化）",
+          "核心钩子被分散，缺乏爆点句式"
+        ]
+      },
+      "cover_synergy": {
+        "score": 7,
+        "synergy_pattern": "封面定格高潮标题补前因",
+        "anti_pattern": "信息略过散",
+        "assessment": "封面精准定格了'被当成小三打进警局'这一标题关键场景，多人物立场对应标题中原配、前夫、小三多重关系，协同度较高。但标题信息量过大(打胎/离婚协议/神秘人)，封面仅覆盖前段，后段反转未视觉化。",
+        "improvement": "可在封面加'被当小三押进警局'4-6字红白标题，或在角落露出'离婚协议'道具，呼应标题反转钩子。"
+      },
+      "needs_optimization": true,
+      "optimized_titles": [
+        {
+          "title": "被當成小三打進警局後，才知丈夫早已騙我離婚…秘書竟為他墮胎3次！面對威脅，我撥通了母親恩人的電話…👤",
+          "skeleton": "极端遭遇+反转揭秘+悬念钩子",
+          "hooks": "情绪钩子（被当小三、骗离婚、堕胎）+反转钩子（才知…竟…）+悬念钩子（母親恩人的電話结果未知）",
+          "reason": "将概述改为“极端遭遇→反转发现→悬念收尾”三段推进，用省略号和emoji制造停顿与好奇，删减次要信息，让神秘人成为未揭底的钩子。"
+        },
+        {
+          "title": "正主被當成第三者抓進警局，離婚協議竟是騙局！秘書為他墮胎3次的真相曝光後，前夫還想威脅我？我悄悄聯絡了母親當年資助的「他」",
+          "skeleton": "身份错位+骗局揭露+悬念身份",
+          "hooks": "身份钩子（正主/第三者错位）+反转钩子（骗局、堕胎真相）+关系钩子（前夫、秘书、神秘人）+悬念钩子（被引号强调的「他」）",
+          "reason": "强化身份错位的情绪冲突，用问句制造被威胁时的紧张感，通过引号放大神秘人的身份悬念，使标题前半段与封面契合，后半段用高悬念收尾。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.0,
+      "scores": {
+        "llm": 6.0
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题为概述型，一次性交代全部剧情，缺少悬念和留白，观众没有点击后才知道的期待感。"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀‘火爆短劇全集：’占用字符且削弱钩子强度，可删除或后置。"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "结尾‘她決定清算所有人’情绪力度不足，未将爽感或愤怒推到极致。"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面与标题协同较弱，封面未承接标题中的任何一个强反转点，导致整体吸引力平庸。"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "身份落差+极端遭遇+复仇清算",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": true,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "身份:真千金vs養女",
+          "反转:出獄後發現父母心懷鬼胎、未婚夫追養女",
+          "冲突:頂罪、清算",
+          "关系:父母、養女、未婚夫",
+          "情绪:憤怒、爽感",
+          "时间:入獄三年"
+        ],
+        "packaging": "概述型陈述，用「火爆短劇全集：」前缀，逗号分隔事件，无悬念留白",
+        "missing": [
+          "悬念钩子（标题直接交代全部剧情，缺乏‘为什么’‘然后怎样’的疑问）",
+          "钩子词（如‘竟’‘岂料’‘万万没想到’等强化反转的词汇）",
+          "情绪爆发点（结尾‘清算所有人’较平淡，可强化爽感或愤怒）"
+        ]
+      },
+      "cover_synergy": {
+        "score": 5,
+        "synergy_pattern": "阶层符号强化爽感",
+        "anti_pattern": "标题有爆点封面无",
+        "assessment": "标题信息量极大（顶罪入狱、父母算计、八个未婚夫、清算），但封面只呈现了'豪门女主归来'的静态氛围，未视觉化任何具体反转点，八个未婚夫的数量感也没被强调。",
+        "improvement": "增加清算符号（撕碎的判决书/手铐/账本）或让女主做出决绝动作，明确八人围绕的关系。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "真千金替養女頂罪入獄三年，出獄後八個未婚夫竟全追著養女跑！她冷笑：那就全部清算",
+          "skeleton": "身份落差+反转+复仇宣言",
+          "hooks": "身份钩子（真千金vs養女）、反转钩子（竟全追著養女跑）、情绪钩子（冷笑、清算）",
+          "reason": "删掉前缀，将‘發現’改为‘竟’强化反转感；结尾改为‘她冷笑：那就全部清算’增加情绪爆发和爽感，同时保留悬念（清算过程留给观众点击）。"
+        },
+        {
+          "title": "我替養女頂罪坐牢三年，出來後父母算計、八個未婚夫變心，我決定讓他們一個都逃不掉",
+          "skeleton": "第一人称极端遭遇+复仇倒计时",
+          "hooks": "身份钩子（我vs養女）、冲突钩子（頂罪、算計、變心）、情绪钩子（一個都逃不掉）",
+          "reason": "转换为第一人称增强代入感；用‘坐牢’更口语化；‘一個都逃不掉’比‘清算所有人’更具象、更有爽感，且留下执行过程的悬念。"
+        }
+      ],
+      "avg_view_duration": 6440,
+      "avg_view_pct": 380,
+      "retention_1pct": 1.009,
+      "retention_3min": 0.117,
+      "retention_5min": 0.102
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6,
+      "scores": {
+        "llm": 6
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题信息过载，几乎概述了全部剧情，缺少悬念和留白"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀“火爆短劇全集”降低点击欲，占用宝贵字符"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面只覆盖了“拦路羞辱”一个冲突点，未配合标题中的身份反转和女儿病危钩子"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "整体属于表现平庸，需常规优化，强化钩子密度和协同"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "隐藏身份+极端遭遇",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:女儿病危的恐惧与愤怒",
+          "身份:京圈地下皇女儿隐藏身份当贤妻",
+          "反转:飙车送医却遭拦路羞辱",
+          "冲突:被父亲女友拦路侮辱",
+          "关系:父亲女友"
+        ],
+        "packaging": "前缀“火爆短劇全集：”+逗号分隔长句，无emoji",
+        "missing": [
+          "悬念钩子",
+          "信息过载，缺少留白",
+          "未突出身份反转后的爽点"
+        ]
+      },
+      "cover_synergy": {
+        "score": 6,
+        "synergy_pattern": "封面定格高潮标题补前因",
+        "anti_pattern": "标题信息过载",
+        "assessment": "封面精准视觉化了'被父亲女友拦路羞辱'一幕，但标题信息过多（京圈+隐藏身份+女儿病危+羞辱），封面只覆盖了羞辱一点，隐藏身份与病危孩子未视觉化。",
+        "improvement": "可在车内加入病床/孩子虚影或女主眼含泪光看手机，暗示女儿病危的紧迫感。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "京圈地下皇女兒隱藏身分當賢妻，女兒病危飆車送醫，卻被父親女友攔路羞辱，下一秒真實身份曝光全場嚇傻！",
+          "skeleton": "隐藏身份+极端遭遇+反转打脸",
+          "hooks": "身份钩子+冲突钩子+反转钩子",
+          "reason": "去掉前缀，保留核心剧情，用“下一秒真實身份曝光全場嚇傻”制造爽感悬念，将信息焦点收束到羞辱与身份反转，弥补原标题缺少结果暗示的短板，长度适中（68字符）。"
+        },
+        {
+          "title": "隱藏身分當賢妻受盡冷眼，女兒病危她飆車送醫，卻被父親女友當街羞辱，她不知我的真實身份有多恐怖...",
+          "skeleton": "第一人称隐藏身份+极端遭遇",
+          "hooks": "身份钩子+情绪钩子+反转钩子",
+          "reason": "转为第一人称视角增强代入感，用“受盡冷眼”铺垫压抑情绪，“她不知我的真實身份有多恐怖”制造身份威胁感，结尾省略号留白，激发观众探索身份揭露的欲望，长度约76字符。"
+        }
+      ],
+      "avg_view_duration": 3903,
+      "avg_view_pct": 560,
+      "retention_1pct": 0.993,
+      "retention_3min": 0.118,
+      "retention_5min": 0.058
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题前缀【火爆短剧全集】属于频道标签，但放在开头削弱了钩子的第一眼冲击力，建议移到末尾或去掉"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题信息量充足但缺少悬念感，观众已知'她是天才'，没有留下'然后呢？'的疑问"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "表现平庸象限：标题钩子齐全但表述偏概述型，可增加具体场景或情绪冲击词提升点击率"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "身份反转+复仇",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": false,
+          "other": []
+        },
+        "hook_types_found": [
+          "身份:弃女→幕后天才",
+          "反转:岂料她才是",
+          "冲突:斩断血脉",
+          "情绪:弃女/惊恐"
+        ],
+        "packaging": "前缀【火爆短剧全集】+冒号分隔+身份反差+岂料反转词",
+        "missing": [
+          "缺少具体场景或悬念钩子",
+          "前缀【火爆短剧全集】削弱点击欲"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "标题给反差封面给证据+阶层符号强化爽感",
+        "anti_pattern": "无明显反模式",
+        "assessment": "标题点明'弃女归来+斩断血脉+幕后天才'三大钩子，封面用撕纸、惊恐家人、科技屏三个视觉证据一一对应，分工清晰。",
+        "improvement": "可加一句短标语如'弃女归来'强化第一眼识别。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "棄女出獄那天，慕家全族下跪求她原諒，豈料她冷冷撕碎族譜：你們的血脈，我不要了",
+          "skeleton": "身份反转+复仇",
+          "hooks": "身份:弃女→高位, 冲突:撕碎族谱/斩断血脉, 情绪:冷冷/下跪",
+          "reason": "保留原骨架（弃女归来+斩断血脉），去掉【火爆短剧全集】前缀，增加'出獄那天'时间锚点和'全族下跪求原諒'具体场景，用'冷冷撕碎族譜'强化情绪冲击，结尾留白'你們的血脈，我不要了'制造悬念"
+        },
+        {
+          "title": "被慕家栽贓入獄的棄女回來了，全族驚恐發現她才是幕後天才，她卻當眾斬斷血脈：從此再無關係",
+          "skeleton": "身份反转+复仇",
+          "hooks": "身份:弃女→天才, 反转:驚恐發現, 冲突:斬斷血脈",
+          "reason": "保留原标题核心信息，重组语序让钩子更靠前，用'當眾斬斷血脈'增加画面感，结尾'從此再無關係'强化决绝情绪，整体更紧凑"
+        }
+      ],
+      "avg_view_duration": 12806,
+      "avg_view_pct": 640,
+      "retention_1pct": 0.995,
+      "retention_3min": 0.179,
+      "retention_5min": 0.16
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题信息完整但缺乏情绪冲击词，前缀「火爆短劇全集」可能让观众误以为是合集而降低点击欲望，建议优化标题突出爽感。"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "重生逆袭 + 身份反转",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": true,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "时间:重生",
+          "身份:真假千金",
+          "冲突:逃离魔窟",
+          "关系:婚约"
+        ],
+        "packaging": "前缀「火爆短劇全集：」+ 情节叙述，逗号分隔，无情绪词",
+        "missing": [
+          "缺少情绪钩子词（如虐、爽、炸）",
+          "前缀可能降低点击欲望",
+          "可增加悬念结尾"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "封面定格高潮标题补前因",
+        "anti_pattern": "无",
+        "assessment": "标题交代重生逃离山村、撞进少帅怀中的情节，封面精准视觉化'撞进怀中+追兵在后'的高潮瞬间，阶层符号（军装vs破衣）强化爽感钩子，协同度高。",
+        "improvement": "可在封面加一句'少帅救我'或'逃出魔窟'的3-4字短语，进一步锁定点击。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "重生後逃離山村魔窟，她撞進冷面少帥懷中，真千金歸來一步步奪回被假千金霸佔的一切！",
+          "skeleton": "重生逆袭 + 身份反转",
+          "hooks": "时间钩子（重生）+ 身份钩子（真千金）",
+          "reason": "去掉频道前缀，将隐含的「真千金」身份明确点出，强化身份反转爽感，结尾用「一切」制造悬念。"
+        },
+        {
+          "title": "虐到爽！重生後她逃離魔窟撞進少帥懷中，揭穿假千金奪回婚約，結局太解氣！",
+          "skeleton": "重生逆袭 + 身份反转",
+          "hooks": "情绪钩子（虐到爽）+ 时间钩子（重生）",
+          "reason": "前置情绪钩子词「虐到爽」直接刺激点击，压缩前缀，用「結局太解氣」制造期待，保留核心剧情不编造。"
+        }
+      ],
+      "avg_view_duration": 3574,
+      "avg_view_pct": 254,
+      "retention_1pct": 0.967,
+      "retention_3min": 0.123,
+      "retention_5min": 0.079
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀「火爆短劇全集」占用标题开头黄金位置，降低直接冲击力"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题反转足够但可更直接点明「儿子」「前夫」等关系词，让身份反转更具体"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "整体属于表现平庸象限，需常规优化提升点击"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "身份反转+时间跨度",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": true,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "反转:真相揭露（野男人竟是他本尊）",
+          "身份:隐藏父亲（缩小版的自己）",
+          "时间:六年后",
+          "冲突:扫地出门",
+          "关系:夫妻/父子"
+        ],
+        "packaging": "前缀「火爆短劇全集：」+ 陈述句 + 三个感叹号强化情绪",
+        "missing": [
+          "前缀削弱点击欲望",
+          "可更直接点明「儿子」「前夫」等关系词增强代入感"
+        ]
+      },
+      "cover_synergy": {
+        "score": 9,
+        "synergy_pattern": "封面定格高潮标题补前因",
+        "anti_pattern": "无",
+        "assessment": "标题交代'扫地出门六年后男主发现缩小版自己'的前因，封面精准定格男主蹲下凝视儿子、女主居高俯视的相认高潮瞬间，阶层符号（豪车/礼服/豪门）强化爽感，协同度极高。",
+        "improvement": "可在封面加'儿子是你的'或'六年后'等3-4字短标签，进一步锁定悬念钩子。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "被丈夫掃地出門六年後，他看見一個縮小版的自己，才知當年罵的野男人竟是他本尊！！！",
+          "skeleton": "身份反转+时间跨度",
+          "hooks": "反转+身份+时间",
+          "reason": "去掉前缀，直接以剧情开头，缩短观众反应路径；保留核心反转和所有钩子，微调语序让时间冲击前置。"
+        },
+        {
+          "title": "六年前被掃地出門，六年後前夫看見兒子長得跟他一模一樣，才知當年罵的野男人竟是他自己！！！",
+          "skeleton": "身份反转+时间跨度",
+          "hooks": "反转+身份+关系（前夫/儿子）",
+          "reason": "明确「前夫」「儿子」关系词，将「缩小版的自己」具象化为「兒子長得跟他一模一樣」，增强身份反转的爽感和情绪冲击，同时保留时间跨度和打脸内核。"
+        }
+      ],
+      "avg_view_duration": 7076,
+      "avg_view_pct": 663,
+      "retention_1pct": 0.953,
+      "retention_3min": 0.154,
+      "retention_5min": 0.127
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面与标题严重错位，标题有强反转但封面完全未体现，是CTR平庸的主因。"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题前缀「火爆短劇全集：」在推荐流中占用首屏字符，可去掉以更快抛出钩子。"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题本身钩子丰富，但「修仙者」的震撼感可再强化，例如加入「隱世」「修真」等词增加神秘感。"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "隐藏身份反转（表面野人→真实修仙者）",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:被逼嫁的愤怒与绝望",
+          "身份:野人→修仙者的巨大落差",
+          "反转:却不知他是…",
+          "冲突:逼嫁换彩礼",
+          "关系:嫁娶关系"
+        ],
+        "packaging": "第三人称叙述，使用「野人」引号制造反差，转折词「卻不知」引出爽点，感叹号收尾。前缀「火爆短劇全集：」为频道标签，可能削弱标题在推荐流中的首屏冲击力。",
+        "missing": [
+          "前缀占用字符，可去掉以突出核心钩子",
+          "修仙者的震撼感可以更具体（如「讓豪門跪拜」已不错，但可加「隱世」「修真」等强化身份）"
+        ]
+      },
+      "cover_synergy": {
+        "score": 3,
+        "synergy_pattern": "无明显协同",
+        "anti_pattern": "题材错位+只美不钩",
+        "assessment": "标题主打'逼嫁—逃深山—嫁野人—隐藏修仙者'的多重反差，封面却呈现都市豪门夜景甜宠，完全没有野人、深山、修仙元素，视觉与标题严重错位。",
+        "improvement": "应把男主设计为狂野长发/兽皮/山林背景，配合金色灵气/符箓等修仙符号，制造'野人外表+仙气内核'的反差证据。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "她被逼嫁換彩禮，逃進深山嫁給「野人」，豈料他是讓豪門跪拜的隱世修仙者！",
+          "skeleton": "隐藏身份反转",
+          "hooks": "情绪+身份+反转+冲突+关系",
+          "reason": "去掉频道前缀，将「卻不知」换成「豈料」增强意外感，在「修仙者」前加「隱世」提升身份神秘度和爽感，整体更紧凑，钩子密度更高。"
+        },
+        {
+          "title": "豪門逼她換彩禮，她逃進深山嫁野人，卻不知他是修仙者，豪門見了都得跪！",
+          "skeleton": "隐藏身份反转",
+          "hooks": "情绪+身份+反转+冲突+关系",
+          "reason": "调整语序，用「豪門逼她」直接点出冲突方，强化对立；结尾「豪門見了都得跪」将爽感具象化，形成首尾呼应，情绪冲击更强。"
+        }
+      ],
+      "avg_view_duration": 2164,
+      "avg_view_pct": 243,
+      "retention_1pct": 1.019,
+      "retention_3min": 0.063,
+      "retention_5min": 0.053
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀‘火爆短劇全集’可能分散注意力，降低点击欲望"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题虽有多重钩子，但表述偏概述，缺少更强烈的情绪词或具体场景"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "破折号后的悬念可以更紧凑，制造更强的好奇缺口"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "身份落差+反转揭露",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:爽感（秦家后悔）",
+          "身份:弃养福娃（低位→福星高位）",
+          "反转:收留后中大奖",
+          "关系:秦家与福娃",
+          "冲突:弃养"
+        ],
+        "packaging": "前缀‘火爆短劇全集：’+ 剧情概述 + 破折号悬念",
+        "missing": [
+          "前缀削弱点击欲望",
+          "情绪冲击词不足",
+          "可增加更具体的场景细节"
+        ]
+      },
+      "cover_synergy": {
+        "score": 9,
+        "synergy_pattern": "标题给反差封面给证据+阶层符号强化爽感",
+        "anti_pattern": "无",
+        "assessment": "标题'弃养福娃+中大奖+秦家不知丢了什么'的三重钩子完全被封面视觉化：福娃的灿烂笑、彩券金光、钞票雨、秦家人的震惊后悔，一一对应，分工精准。",
+        "improvement": "补一句4-6字文字如'弃娃变财神'或'秦家肠子悔青'进一步强化点击。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "秦家棄養的福娃，被她收留後隔天中頭獎！他們還不知道自己丟了什麼…",
+          "skeleton": "身份落差+反转",
+          "hooks": "身份+反转+情绪",
+          "reason": "去掉前缀，直接以冲突身份开头；用‘中頭獎’强化反转；保留原悬念，整体更紧凑有力。"
+        },
+        {
+          "title": "被秦家丟棄的福娃，她收留後竟中大獎！全家後悔都來不及…",
+          "skeleton": "先抑后扬+反转",
+          "hooks": "身份+反转+情绪",
+          "reason": "用‘竟’强化意外反转，加入‘後悔都來不及’增强爽感情绪，同时保持原剧情的核心信息。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题本身钩子齐全，但表述偏平，缺少「具体场景」和「后果悬念」，点击冲动不够极致"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面视觉执行质量严重拖后腿，概念协同虽好但画面冲击力为零，导致整体吸引力下降"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀「火爆短劇全集：」占用字符且无钩子价值，可删除以释放空间给核心冲突"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "冲突对峙+秘密揭露（伪装被当场拆穿）",
+        "hooks": {
+          "emotion": true,
+          "identity": false,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": false,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:爽感（反击打脸）",
+          "冲突:掀桌对峙",
+          "反转:装可怜→真手段被揭穿"
+        ],
+        "packaging": "前缀「火爆短劇全集：」+ 冒号分隔的对话体，制造现场感",
+        "missing": [
+          "缺少具体场景细节（如场合、围观者反应），削弱了画面感",
+          "身份标签缺失（她是谁？我是什么角色？），降低了代入感",
+          "悬念收口太快，没有留下「然后呢」的钩子"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "标题给反差（装可怜 vs 真手段），封面给证据（掀桌的真手段）",
+        "anti_pattern": "无",
+        "assessment": "协同性优秀。标题清晰地建立了核心反差钩子：“她淋水装可怜”是伪装，“我直接掀桌”是反击手段。封面则完美地将标题中最有张力的“掀桌”瞬间视觉化，并提供了丰富的环境（宴席）和人物反应证据，使标题的承诺在视觉上落地。二者分工明确，共同指向“揭穿伪装，强势打脸”的核心爽点。",
+        "improvement": "若能以更精炼的封面文字（如“演完了？”或“真手段”）点题，协同性可达满分。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "她淋水裝可憐，我直接掀桌！全場都以為我瘋了，下一秒她臉色大變…",
+          "skeleton": "冲突对峙+反转悬念",
+          "hooks": "情绪（爽感）+冲突（掀桌）+反转（脸色大变）",
+          "reason": "保留原冲突骨架，删除无效前缀；增加「全場都以為我瘋了」制造围观反差，再用「下一秒她臉色大變」留下悬念，拉长期待，同时强化反转钩子。"
+        },
+        {
+          "title": "她淋水裝可憐博同情，我當眾掀桌：演夠了沒？今天讓你見識什麼叫真手段！",
+          "skeleton": "冲突对峙+秘密揭露",
+          "hooks": "情绪（爽感）+冲突（当众掀桌）+反转（真手段）",
+          "reason": "微调原句，加入「博同情」「當眾」补全场景和动机，使冲突更具体；保留原对话精髓，用感叹号强化情绪爆发力，整体更紧凑有力。"
+        }
+      ],
+      "avg_view_duration": 4843,
+      "avg_view_pct": 677,
+      "retention_1pct": 0.986,
+      "retention_3min": 0.117,
+      "retention_5min": 0.103
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题为完整故事概述，提前剧透所有反转，削弱了点击好奇心"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀“火爆短劇全集：”占用字符且无钩子价值，可删除或简化"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "信息过于平铺直叙，缺少“悬念缺口”（如只揭露到“我是富家千金”即止，留白后续打脸）"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "身份落差+反转打脸",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:爽感、愤怒",
+          "身份:隐藏富家千金",
+          "反转:净身出户→真实身份揭露→打脸",
+          "冲突:父亲变心、带人侮辱",
+          "关系:父女、母女、外公"
+        ],
+        "packaging": "前缀“火爆短劇全集：”+完整故事线概述，使用感叹号制造情绪，第三人称视角，信息密度高但悬念不足",
+        "missing": [
+          "悬念钩子（标题提前揭晓全部反转，缺乏“然后呢？”的留白）",
+          "具体场景细节（如生日现场、净身出户时的对话等可增强代入感）"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "标题给反差，封面给证据（身份证据与高潮瞬间）",
+        "anti_pattern": "题材错位（无）/ 只美不钩（基本无）/ 情绪不匹配（无）",
+        "assessment": "协同性很好。标题清晰交代了“出轨-净身出户-富家千金-打脸”的完整故事线和情绪反转。封面则完美视觉化了最富张力的“身份揭晓与对峙”瞬间：通过人物的华服、表情和站位，为“富家千金”身份提供了视觉证据，并将“当面打脸”的高潮戏定格。二者分工明确，信息互补。",
+        "improvement": "若封面能增加更强烈的“打脸”动作（如外公扇耳光、或女儿亮出某信物），或使反派父亲的表情更显狼狈，协同效果会更极致。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "生日目睹爸出軌，媽淨身出戶卻說：我是豪門千金！渣爹上門羞辱，下一秒首富外公現身全場傻眼",
+          "skeleton": "身份落差+反转打脸",
+          "hooks": "身份钩子+反转钩子+情绪钩子",
+          "reason": "保留原骨架，删除前缀，将“变心父親帶人前來侮辱”改为“渣爹上門羞辱”，更口语化；结尾用“下一秒”制造时间悬念，不直接说出反击结果，增强点击欲。"
+        },
+        {
+          "title": "生日當天爸變心，媽帶我淨身出戶，她卻偷偷告訴我：其實我是首富千金！渣爹帶人來鬧事，外公霸氣護女全場震撼",
+          "skeleton": "身份落差+反转打脸",
+          "hooks": "身份钩子+反转钩子+冲突钩子",
+          "reason": "改用第一人称“我”增强代入感，将“富家千金”升级为“首富千金”强化身份落差；保留打脸高潮但用“全場震撼”替代具体反击，留出想象空间。"
+        }
+      ],
+      "avg_view_duration": 4689,
+      "avg_view_pct": 768,
+      "retention_1pct": 0.948,
+      "retention_3min": 0.171,
+      "retention_5min": 0.141
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题前缀'火爆短劇全集：'占据前7字，在缩略图中完全无效，浪费黄金展示位"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面视觉质量0分，即使协同逻辑正确，也无法形成点击冲动"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题信息密度过高但缺乏节奏停顿，一口气读完压力大，缺少钩子词前置"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "表现平庸象限下，需同时优化门面（标题+封面）的吸引力，而非内容问题"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "先抑后扬·重生复仇",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": true,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:惨死街头的绝望与拒认亲的爽感",
+          "身份:被弃孤女→京城最狠豪门养女",
+          "反转:重生后直接拒绝认亲",
+          "时间:上一世→重生归来",
+          "冲突:被亲哥赶出家门惨死",
+          "关系:亲哥、豪门沈家养女"
+        ],
+        "packaging": "前缀+长句叙事，逗号分隔，无emoji",
+        "missing": [
+          "标题前缀'火爆短劇全集：'严重削弱点击欲，属于无效信息占位",
+          "缺少具体场景细节，如'拒认亲'的戏剧性瞬间",
+          "未使用任何标点强化情绪（如感叹号、省略号）"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "阶层符号强化爽感+肢体距离表达关系",
+        "anti_pattern": "无",
+        "assessment": "标题交代'拒认亲+成为沈家养女'的双反转，封面用左右阵营+服装阶层对比精准可视化这一瞬间，分工清晰。女主居中的冷漠正是拒认亲的高光定格。",
+        "improvement": "可加'拒不认亲'四字文字钩子，让路人不看标题也能秒懂。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "重生後我拒絕認親，轉身成為京城最狠豪門養女！上一世被親哥趕出家門慘死街頭",
+          "skeleton": "先抑后扬·重生复仇",
+          "hooks": "情绪+身份+反转+时间",
+          "reason": "将最强反转'拒绝认亲+成为豪门养女'前置，用感叹号强化爽感；把惨死背景后置作为因果补充，开头即爆点，去掉无效前缀，长度控制在80字符内。"
+        },
+        {
+          "title": "被親哥害死街頭，重生後我直接拒認親，沈家養女身份震驚全城！",
+          "skeleton": "先抑后扬·重生复仇",
+          "hooks": "冲突+情绪+身份+反转",
+          "reason": "用'被親哥害死'强化冲突钩子，'沈家養女身份震驚全城'制造社交震惊感，省略'上一世'直接进入重生爽点，节奏更快，适合短视频平台碎片化阅读。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题冲突明确但缺少悬念或反转钩子，结尾‘忍无可忍’仅表达情绪未暗示后续发展，削弱点击欲望"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀‘火爆短劇全集’占用宝贵字符且无钩子价值，建议移除或缩短"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面无任何文字引导，观众需自行脑补关联，在信息流中容易被划走"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "极端遭遇+身份冒充",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": false,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪:愤怒/忍无可忍",
+          "身份:小偷冒充远房亲戚",
+          "冲突:硬住+逼嫁",
+          "关系:远房亲戚/儿子"
+        ],
+        "packaging": "第一人称叙述，问号+感叹号强化情绪，前缀“火爆短劇全集”降低点击欲",
+        "missing": [
+          "缺少反转钩子（如揭穿后的意外反应）",
+          "缺少悬念钩子（结局未暗示）",
+          "前缀过长稀释核心冲突"
+        ]
+      },
+      "cover_synergy": {
+        "score": 6,
+        "synergy_pattern": "标题给反差，封面给证据",
+        "anti_pattern": "标题有爆点封面无（文字）",
+        "assessment": "协同基本成立。标题清晰地讲述了‘小偷冒充亲戚鸠占鹊巢并提出无理要求’的完整情节钩子，提供了巨大的身份反差和情绪爆点。封面则通过‘凌乱现场+三人对峙’的画面，提供了这个冲突瞬间的视觉证据，让抽象的文字描述变得具体可感。但协同效果因封面缺乏文字引导而打了折扣，观众需要自己将画面和标题紧密关联。",
+        "improvement": "在封面上添加一句简短、有力、与标题呼应的文字（如‘她竟住在我家？！’），能极大强化协同效应，降低观众的理解成本，提升点击欲望。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "小偷冒充遠房親戚硬住我家，還要逼我嫁她兒子？我忍無可忍說了一句話，她當場崩潰！",
+          "skeleton": "极端遭遇+悬念揭露",
+          "hooks": "身份钩子+冲突钩子+情绪钩子+反转钩子（一句话导致崩溃）",
+          "reason": "保留原冲突骨架，将‘忍无可忍’升级为具体行动‘说了一句话’，并给出反转结果‘当场崩溃’，增加悬念和爽感，同时不编造新剧情，仅将爆发点戏剧化。"
+        },
+        {
+          "title": "遠房親戚竟是小偷！硬住我家還逼我嫁她兒子，我忍無可忍一招反擊，她後悔莫及⋯⋯",
+          "skeleton": "身份揭露+冲突对峙",
+          "hooks": "身份钩子（小偷冒充）+冲突钩子+情绪钩子+悬念钩子（省略号留白）",
+          "reason": "调整叙述顺序，先抛出‘亲戚竟是小偷’的反转钩子，再展开冲突，结尾用‘一招反击’和省略号制造强悬念，引导点击。整体更紧凑，去掉前缀，字符数控制在80左右。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题已具备重生、反转、冲突等多重钩子，但情绪爆发词偏弱，「不动声色」削弱了爽感冲击"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "未充分利用封面已有的「证据礼盒」元素，标题与封面信息互补可更强"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀「火爆短劇全集：」占用字符，可精简以突出核心钩子"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "重生复仇·先抑后扬",
+        "hooks": {
+          "emotion": true,
+          "identity": false,
+          "reversal": true,
+          "time": true,
+          "conflict": true,
+          "relationship": false,
+          "other": []
+        },
+        "hook_types_found": [
+          "时间:重生",
+          "反转:装睡看戏→寿宴撕破脸",
+          "情绪:爽感、解气",
+          "冲突:撕开势利嘴脸"
+        ],
+        "packaging": "前缀「火爆短劇全集：」+ 剧情概述 + 感叹号结尾；信息密度中等，场景具体但情绪词偏弱",
+        "missing": [
+          "身份钩子（重生后隐藏实力、前世今生地位反差未点明）",
+          "更强的情绪爆发词（如「全场震惊」「跪求原谅」）",
+          "可呼应封面「证据礼盒」的细节"
+        ]
+      },
+      "cover_synergy": {
+        "score": 8,
+        "synergy_pattern": "封面定格高潮+标题补前因",
+        "anti_pattern": "无",
+        "assessment": "标题交代'重生装睡看戏'和'寿宴撕破嘴脸'的前因与爆点，封面精准定格寿宴上女主手持证据礼盒、对方一家惊慌的高潮瞬间，二者分工协作到位，阶层符号（豪门宴会）与爽感符号（礼服vs惊愕）都被视觉化。",
+        "improvement": "在封面右下或左上加3-5字爆点标语如'寿宴打脸'强化钩子；礼盒中的证据内容可再清晰些。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "重生後我裝睡看戲，壽宴上當眾甩出證據，撕開男友一家勢利嘴臉，全場驚呆！",
+          "skeleton": "重生复仇·先抑后扬",
+          "hooks": "时间（重生）+ 反转（装睡→甩证据撕脸）+ 情绪（全場驚呆）",
+          "reason": "保留原骨架，加入封面已有的「证据」细节增强协同；将「不动声色」升级为「甩出证据」的动作，并用「全场惊呆」强化爽感情绪钩子，标题更抓眼球。"
+        },
+        {
+          "title": "前世被看輕，重生後她冷眼看戲，壽宴上親手揭穿男友一家真面目，結局太解氣！",
+          "skeleton": "重生复仇·先抑后扬",
+          "hooks": "时间（前世→重生）+ 身份（被看輕→揭穿真面目）+ 情绪（太解氣）",
+          "reason": "增加「前世被看轻」的身份反差钩子，与重生后的逆袭形成对比；用「揭穿真面目」替代「撕開嘴臉」更具体，「结局太解气」做情绪收尾，提升点击欲望。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 6.5,
+      "scores": {
+        "llm": 6.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题属于概述型，完整讲述剧情梗概，提前释放‘真假千金’最终反转，悬念归零，点击驱动弱"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "封面只展现认亲高潮，未呼应标题中的‘精神异常’前半段，情绪递进断层，协同偏向单边"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "标题前缀‘火爆短劇全集’占据前面重要位置，削弱核心钩子的瞬间捕获力，且增加无效字符"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "长度超100字符，信息密度低，缺少悬念词（省略号/问号）和情绪爆发词"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "秘密揭露 × 身份反转",
+        "hooks": {
+          "emotion": true,
+          "identity": true,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "情绪: 被所有人认定精神异常的委屈与绝望 + 醒悟后的爽感",
+          "身份: 真假千金身份落差",
+          "反转: 从坚信是虐文女主到发现是真假千金人生剧本",
+          "冲突: 被集体误解、边缘化",
+          "关系: 豪门认亲"
+        ],
+        "packaging": "长句直述，逗号分隔，无标点符号悬念，无emoji，前缀‘火爆短劇全集’稀释核心钩子",
+        "missing": [
+          "悬念钩子：标题过早透露全部反转，观众失去点击动机",
+          "具体场景：缺少视觉化的瞬间（如信物、宴会、对话），偏向剧情梗概",
+          "标点策略：无省略号/问号制造好奇缺口",
+          "情绪峰值词：缺乏‘崩潰’‘瞬間’‘驚呆’等情绪爆发点"
+        ]
+      },
+      "cover_synergy": {
+        "score": 7,
+        "synergy_pattern": "标题给反转封面给证据",
+        "anti_pattern": "无明显反模式",
+        "assessment": "标题抛出'虐文女主其实是真千金'的双层反转钩子，封面用珍珠信物+众人震惊定格认亲高潮瞬间，属于'阶层符号强化爽感'。但封面未体现'被认定精神异常'的前情反差，信息略偏后段。",
+        "improvement": "可在封面加一行3-5字文字如'真千金现身'或'她才是正主'，并让女主眼神略带曾被误解的复杂感，呼应'精神异常'的前史。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "被全網嘲笑妄想症，她卻堅稱自己是虐文女主，直到豪門認親宴上，一枚珍珠信物讓所有人瞬間噤聲⋯⋯",
+          "skeleton": "身份反转 + 秘密揭露",
+          "hooks": "情绪（嘲笑、噤声）、身份（真假千金）、反转（珍珠信物证明）",
+          "reason": "删掉前缀和最终身份剧透，保留核心反转但用‘珍珠信物’（强关联封面）制造悬念；增加‘瞬間噤聲’提升爽感情绪爆发，省略号引发好奇；长度约70字符，符合最佳长度；同时强化封面与标题的协同——观众看到封面珍珠信物会立即产生‘这就是证明’的闭环快感。"
+        },
+        {
+          "title": "所有人都說她精神異常，她卻日日默唸虐文對白，直到豪門車隊出現，一張泛黃照片顛覆她所有認知⋯⋯",
+          "skeleton": "秘密揭露 + 身份反转",
+          "hooks": "情绪（精神异常、颠覆认知）、身份（真假千金）、反转（照片真相）",
+          "reason": "用‘日日默唸虐文對白’替代原句的坚持，增加生活化具体动作，让观众代入她的执着；‘豪門車隊出現’是视觉冲击强的场景，‘泛黃照片’提供身份证据但不直接说出真假千金，保留悬念；结尾‘顛覆所有認知’制造巨大反差暗示，驱动点击验证真相。"
+        }
+      ]
+    },
+    {
+      "video_id": "[REDACTED]",
+      "title": "[REDACTED]",
+      "views": "***",
+      "likes": "***",
+      "like_rate": "***",
+      "published_at": "***",
+      "score": 8.5,
+      "scores": {
+        "llm": 8.5
+      },
+      "issues": [
+        {
+          "dimension": "LLM诊断",
+          "issue": "前缀「火爆短劇全集」可缩短或删除，让核心钩子更靠前"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "「岳母」可替换为更口语化的「我妈/我母亲」以增强代入感"
+        },
+        {
+          "dimension": "LLM诊断",
+          "issue": "可微调加入「亲手」「跪地」等动作词，让崩溃画面更具体"
+        }
+      ],
+      "title_analysis": {
+        "skeleton": "秘密揭露 × 冲突对峙",
+        "hooks": {
+          "emotion": true,
+          "identity": false,
+          "reversal": true,
+          "time": false,
+          "conflict": true,
+          "relationship": true,
+          "other": []
+        },
+        "hook_types_found": [
+          "反转:以为医疗事故是岳母→葬礼揭真相崩溃",
+          "情绪:崩溃、包庇、当场崩溃的强烈情绪",
+          "关系:丈夫-岳母-实习医生的家庭与职场纠葛"
+        ],
+        "packaging": "前缀「火爆短劇全集」+ 冒号引出剧情，用「以為…於是…揭開真相…當場崩溃」的递进句式制造悬念，感叹号强化情绪冲击。",
+        "missing": [
+          "身份钩子可进一步强化（如点明丈夫是院长/权威医生，实习医生是其情人）",
+          "具体场景词可更视觉化（如「灵堂前」「遗照前」）"
+        ]
+      },
+      "cover_synergy": {
+        "score": 9,
+        "synergy_pattern": "封面定格高潮标题补前因",
+        "anti_pattern": "无",
+        "assessment": "标题交代'包庇实习医生+葬礼揭真相+当场崩溃'的前因逻辑，封面精准定格女主举证、丈夫崩溃、小三哭泣的爆点瞬间，两者高度互补，钩子闭环。",
+        "improvement": "可在封面加'真相''葬礼'2-3字爆点文字，让滑屏用户无需看标题即可秒懂冲突。"
+      },
+      "needs_optimization": false,
+      "optimized_titles": [
+        {
+          "title": "丈夫以為醫療事故死的是岳母，包庇實習醫生，葬禮上我揭開真相他當場跪地崩溃！",
+          "skeleton": "秘密揭露 × 冲突对峙",
+          "hooks": "反转+情绪+关系",
+          "reason": "保留原骨架和钩子组合，删除前缀，将「岳母」改为「死的是岳母」更直接，加入「跪地」强化崩溃的视觉冲击，仍保持同骨架同钩子。"
+        },
+        {
+          "title": "丈夫包庇實習醫生，以為出事的是岳母，豈料葬禮上我揭開真相，他當場崩溃！",
+          "skeleton": "秘密揭露 × 冲突对峙",
+          "hooks": "反转+情绪+关系",
+          "reason": "微调语序让「包庇」前置制造悬念，用「豈料」强化反转感，结尾保留「當場崩溃」的情绪爆点，完全复用原骨架与钩子。"
+        }
+      ],
+      "avg_view_duration": 2764,
+      "avg_view_pct": 655,
+      "retention_1pct": 0.929,
+      "retention_3min": 0.167,
+      "retention_5min": 0.171
+    }
+  ],
+  "summary": {
+    "total_videos": "***",
+    "avg_score": "***",
+    "needs_optimization": "***",
+    "avg_like_rate": "***",
+    "top_issues": [
+      {
+        "issue": "数据样本不足（播放70<500），以下诊断仅供参考",
+        "count": 1
+      },
+      {
+        "issue": "标题为剧情概述，缺乏钩子句式，信息过载导致焦点分散，核心反转（联系神秘人）未被强化为点击钩子",
+        "count": 1
+      },
+      {
+        "issue": "封面与标题后半段信息脱节，后半段反转无视觉锚点",
+        "count": 1
+      },
+      {
+        "issue": "标题为概述型，一次性交代全部剧情，缺少悬念和留白，观众没有点击后才知道的期待感。",
+        "count": 1
+      },
+      {
+        "issue": "前缀‘火爆短劇全集：’占用字符且削弱钩子强度，可删除或后置。",
+        "count": 1
+      },
+      {
+        "issue": "结尾‘她決定清算所有人’情绪力度不足，未将爽感或愤怒推到极致。",
+        "count": 1
+      },
+      {
+        "issue": "封面与标题协同较弱，封面未承接标题中的任何一个强反转点，导致整体吸引力平庸。",
+        "count": 1
+      },
+      {
+        "issue": "标题信息过载，几乎概述了全部剧情，缺少悬念和留白",
+        "count": 1
+      },
+      {
+        "issue": "前缀“火爆短劇全集”降低点击欲，占用宝贵字符",
+        "count": 1
+      },
+      {
+        "issue": "封面只覆盖了“拦路羞辱”一个冲突点，未配合标题中的身份反转和女儿病危钩子",
+        "count": 1
+      }
+    ]
+  },
+  "retention_data": {
+    "has_data": "***",
+    "period_days": "***",
+    "video_count": "***",
+    "skipped_count": "***",
+    "failed_count": "***",
+    "failed_video_ids": [],
+    "avg_retention_1pct": "***",
+    "avg_retention_3min": "***",
+    "avg_retention_5min": "***",
+    "videos": [
+      {
+        "video_id": "M_QmPzqROoA",
+        "views": 9625,
+        "avg_view_pct": 881,
+        "avg_view_duration": 141345,
+        "est_duration": 16044,
+        "retention_1pct": 0.872,
+        "retention_3min": 0.872,
+        "retention_5min": 0.872,
+        "min_retention": {
+          "ratio": 1,
+          "value": 0.107
+        },
+        "rebounds": [
+          {
+            "ratio": 0.14,
+            "value": 0.225
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.137
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.152
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.161
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.172
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.184
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.176
+          }
+        ]
+      },
+      {
+        "video_id": "c0271n0jIuY",
+        "views": 7410,
+        "avg_view_pct": 1054,
+        "avg_view_duration": 130192,
+        "est_duration": 12352,
+        "retention_1pct": 0.94,
+        "retention_3min": 0.94,
+        "retention_5min": 0.433,
+        "min_retention": {
+          "ratio": 0.77,
+          "value": 0.145
+        },
+        "rebounds": [
+          {
+            "ratio": 0.92,
+            "value": 0.182
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.204
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.216
+          }
+        ]
+      },
+      {
+        "video_id": "Yy5oN7wMO18",
+        "views": 5435,
+        "avg_view_pct": 677,
+        "avg_view_duration": 61372,
+        "est_duration": 9065,
+        "retention_1pct": 0.984,
+        "retention_3min": 0.984,
+        "retention_5min": 0.313,
+        "min_retention": {
+          "ratio": 0.66,
+          "value": 0.085
+        },
+        "rebounds": [
+          {
+            "ratio": 0.19,
+            "value": 0.145
+          },
+          {
+            "ratio": 0.27,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.35,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.12
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.098
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.095
+          },
+          {
+            "ratio": 0.82,
+            "value": 0.109
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.109
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.108
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.117
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.129
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.149
+          }
+        ]
+      },
+      {
+        "video_id": "3pP_sFYln6M",
+        "views": 1865,
+        "avg_view_pct": 347,
+        "avg_view_duration": 10800,
+        "est_duration": 3112,
+        "retention_1pct": 0.974,
+        "retention_3min": 0.116,
+        "retention_5min": 0.088,
+        "min_retention": {
+          "ratio": 0.65,
+          "value": 0.051
+        },
+        "rebounds": [
+          {
+            "ratio": 0.08,
+            "value": 0.095
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.081
+          },
+          {
+            "ratio": 0.21,
+            "value": 0.074
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.071
+          },
+          {
+            "ratio": 0.32,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.4,
+            "value": 0.058
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.064
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.69,
+            "value": 0.057
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.059
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.058
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.063
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.064
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.062
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.069
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.08
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.073
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.077
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.098
+          }
+        ]
+      },
+      {
+        "video_id": "Q51ZQ8iVqY0",
+        "views": 1733,
+        "avg_view_pct": 96,
+        "avg_view_duration": 2790,
+        "est_duration": 2906,
+        "retention_1pct": 0.993,
+        "retention_3min": 0.068,
+        "retention_5min": 0.07,
+        "min_retention": {
+          "ratio": 0.78,
+          "value": 0.011
+        },
+        "rebounds": [
+          {
+            "ratio": 0.09,
+            "value": 0.061
+          },
+          {
+            "ratio": 0.1,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.06
+          },
+          {
+            "ratio": 0.21,
+            "value": 0.03
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.25,
+            "value": 0.035
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.035
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.037
+          },
+          {
+            "ratio": 0.32,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.36,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.38,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.023
+          },
+          {
+            "ratio": 0.4,
+            "value": 0.027
+          },
+          {
+            "ratio": 0.44,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.52,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.56,
+            "value": 0.018
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.021
+          },
+          {
+            "ratio": 0.62,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.018
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.82,
+            "value": 0.015
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.022
+          },
+          {
+            "ratio": 1,
+            "value": 0.021
+          }
+        ]
+      },
+      {
+        "video_id": "Jub2rCr9Ixc",
+        "views": 1514,
+        "avg_view_pct": 352,
+        "avg_view_duration": 8895,
+        "est_duration": 2527,
+        "retention_1pct": 0.983,
+        "retention_3min": 0.149,
+        "retention_5min": 0.128,
+        "min_retention": {
+          "ratio": 0.55,
+          "value": 0.064
+        },
+        "rebounds": [
+          {
+            "ratio": 0.18,
+            "value": 0.125
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.28,
+            "value": 0.098
+          },
+          {
+            "ratio": 0.3,
+            "value": 0.105
+          },
+          {
+            "ratio": 0.38,
+            "value": 0.097
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.075
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.076
+          },
+          {
+            "ratio": 0.68,
+            "value": 0.075
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.077
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.081
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.083
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.085
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.093
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.083
+          }
+        ]
+      },
+      {
+        "video_id": "7gEdqXgEEts",
+        "views": 1400,
+        "avg_view_pct": 588,
+        "avg_view_duration": 13732,
+        "est_duration": 2335,
+        "retention_1pct": 0.97,
+        "retention_3min": 0.127,
+        "retention_5min": 0.124,
+        "min_retention": {
+          "ratio": 0.84,
+          "value": 0.074
+        },
+        "rebounds": [
+          {
+            "ratio": 0.14,
+            "value": 0.133
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.114
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.084
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.097
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.097
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.096
+          },
+          {
+            "ratio": 0.61,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.082
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.087
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.08
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.084
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.093
+          }
+        ]
+      },
+      {
+        "video_id": "VuuQ3-XUVfM",
+        "views": 1199,
+        "avg_view_pct": 640,
+        "avg_view_duration": 12806,
+        "est_duration": 2001,
+        "retention_1pct": 0.995,
+        "retention_3min": 0.179,
+        "retention_5min": 0.16,
+        "min_retention": {
+          "ratio": 0.56,
+          "value": 0.117
+        },
+        "rebounds": [
+          {
+            "ratio": 0.16,
+            "value": 0.159
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.158
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.164
+          },
+          {
+            "ratio": 0.57,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.143
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.14
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.152
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.164
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.175
+          }
+        ]
+      },
+      {
+        "video_id": "sOLpop4Q-Sg",
+        "views": 1034,
+        "avg_view_pct": 397,
+        "avg_view_duration": 6858,
+        "est_duration": 1727,
+        "retention_1pct": 0.952,
+        "retention_3min": 0.138,
+        "retention_5min": 0.106,
+        "min_retention": {
+          "ratio": 0.76,
+          "value": 0.068
+        },
+        "rebounds": [
+          {
+            "ratio": 0.18,
+            "value": 0.116
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.114
+          },
+          {
+            "ratio": 0.38,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.094
+          },
+          {
+            "ratio": 0.44,
+            "value": 0.088
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.094
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.091
+          },
+          {
+            "ratio": 0.53,
+            "value": 0.092
+          },
+          {
+            "ratio": 0.57,
+            "value": 0.091
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.095
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.075
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.084
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.077
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.09
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.096
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.107
+          }
+        ]
+      },
+      {
+        "video_id": "KUr-7xm4czo",
+        "views": 1015,
+        "avg_view_pct": 380,
+        "avg_view_duration": 6440,
+        "est_duration": 1695,
+        "retention_1pct": 1.009,
+        "retention_3min": 0.117,
+        "retention_5min": 0.102,
+        "min_retention": {
+          "ratio": 0.57,
+          "value": 0.071
+        },
+        "rebounds": [
+          {
+            "ratio": 0.14,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.108
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.093
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.094
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.085
+          },
+          {
+            "ratio": 0.52,
+            "value": 0.083
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.083
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.081
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.082
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.087
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.083
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.092
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.089
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.106
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.137
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.154
+          }
+        ]
+      },
+      {
+        "video_id": "LLNMzH3skVE",
+        "views": 927,
+        "avg_view_pct": 184,
+        "avg_view_duration": 2856,
+        "est_duration": 1552,
+        "retention_1pct": 0.999,
+        "retention_3min": 0.061,
+        "retention_5min": 0.059,
+        "min_retention": {
+          "ratio": 0.82,
+          "value": 0.03
+        },
+        "rebounds": [
+          {
+            "ratio": 0.13,
+            "value": 0.066
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.058
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.062
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.048
+          },
+          {
+            "ratio": 0.27,
+            "value": 0.051
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.35,
+            "value": 0.05
+          },
+          {
+            "ratio": 0.36,
+            "value": 0.058
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.048
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.52,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.051
+          },
+          {
+            "ratio": 0.61,
+            "value": 0.048
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.69,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.038
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.035
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.037
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.034
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.034
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.037
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.043
+          }
+        ]
+      },
+      {
+        "video_id": "viIZcY3Nn1k",
+        "views": 843,
+        "avg_view_pct": 254,
+        "avg_view_duration": 3574,
+        "est_duration": 1407,
+        "retention_1pct": 0.967,
+        "retention_3min": 0.123,
+        "retention_5min": 0.079,
+        "min_retention": {
+          "ratio": 0.95,
+          "value": 0.022
+        },
+        "rebounds": [
+          {
+            "ratio": 0.07,
+            "value": 0.181
+          },
+          {
+            "ratio": 0.1,
+            "value": 0.146
+          },
+          {
+            "ratio": 0.12,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.15,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.108
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.075
+          },
+          {
+            "ratio": 0.27,
+            "value": 0.064
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.061
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.053
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.037
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.03
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.034
+          },
+          {
+            "ratio": 0.82,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.031
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.031
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.03
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.035
+          }
+        ]
+      },
+      {
+        "video_id": "eROvGnjaZOE",
+        "views": 828,
+        "avg_view_pct": 270,
+        "avg_view_duration": 3731,
+        "est_duration": 1382,
+        "retention_1pct": 0.977,
+        "retention_3min": 0.058,
+        "retention_5min": 0.055,
+        "min_retention": {
+          "ratio": 0.76,
+          "value": 0.032
+        },
+        "rebounds": [
+          {
+            "ratio": 0.1,
+            "value": 0.065
+          },
+          {
+            "ratio": 0.12,
+            "value": 0.06
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.05
+          },
+          {
+            "ratio": 0.2,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.063
+          },
+          {
+            "ratio": 0.27,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.064
+          },
+          {
+            "ratio": 0.4,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.064
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.063
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.059
+          },
+          {
+            "ratio": 0.53,
+            "value": 0.057
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.053
+          },
+          {
+            "ratio": 0.65,
+            "value": 0.041
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.68,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.038
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.05
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.048
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.053
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.054
+          }
+        ]
+      },
+      {
+        "video_id": "qBXEwbQtAKk",
+        "views": 733,
+        "avg_view_pct": 595,
+        "avg_view_duration": 7280,
+        "est_duration": 1224,
+        "retention_1pct": 0.953,
+        "retention_3min": 0.135,
+        "retention_5min": 0.129,
+        "min_retention": {
+          "ratio": 1,
+          "value": 0.095
+        },
+        "rebounds": [
+          {
+            "ratio": 0.39,
+            "value": 0.125
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.142
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.15
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.159
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.174
+          },
+          {
+            "ratio": 0.62,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.113
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.108
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.111
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.111
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.124
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.145
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.154
+          }
+        ]
+      },
+      {
+        "video_id": "AvcQ8oo3ThE",
+        "views": 640,
+        "avg_view_pct": 663,
+        "avg_view_duration": 7076,
+        "est_duration": 1067,
+        "retention_1pct": 0.953,
+        "retention_3min": 0.154,
+        "retention_5min": 0.127,
+        "min_retention": {
+          "ratio": 0.78,
+          "value": 0.104
+        },
+        "rebounds": [
+          {
+            "ratio": 0.26,
+            "value": 0.129
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.142
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.119
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.119
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.131
+          },
+          {
+            "ratio": 0.65,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.112
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.116
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.112
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.123
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.126
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.132
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.124
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.132
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.132
+          }
+        ]
+      },
+      {
+        "video_id": "MRrDiDZGd-I",
+        "views": 555,
+        "avg_view_pct": 755,
+        "avg_view_duration": 6984,
+        "est_duration": 925,
+        "retention_1pct": 0.967,
+        "retention_3min": 0.149,
+        "retention_5min": 0.145,
+        "min_retention": {
+          "ratio": 0.87,
+          "value": 0.094
+        },
+        "rebounds": [
+          {
+            "ratio": 0.17,
+            "value": 0.158
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.145
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.127
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.132
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.103
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.112
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.127
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.134
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.147
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.158
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.172
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.147
+          }
+        ]
+      },
+      {
+        "video_id": "yA1wA0wMaRc",
+        "views": 534,
+        "avg_view_pct": 243,
+        "avg_view_duration": 2164,
+        "est_duration": 891,
+        "retention_1pct": 1.019,
+        "retention_3min": 0.063,
+        "retention_5min": 0.053,
+        "min_retention": {
+          "ratio": 0.76,
+          "value": 0.032
+        },
+        "rebounds": [
+          {
+            "ratio": 0.08,
+            "value": 0.089
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.066
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.066
+          },
+          {
+            "ratio": 0.19,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.074
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.061
+          },
+          {
+            "ratio": 0.34,
+            "value": 0.059
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.051
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.053
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.53,
+            "value": 0.057
+          },
+          {
+            "ratio": 0.57,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.65,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.68,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.034
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.82,
+            "value": 0.038
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.051
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.053
+          }
+        ]
+      },
+      {
+        "video_id": "VaGxdPufoIY",
+        "views": 485,
+        "avg_view_pct": 64,
+        "avg_view_duration": 520,
+        "est_duration": 812,
+        "retention_1pct": 1.004,
+        "retention_3min": 0.006,
+        "retention_5min": 0.006,
+        "min_retention": {
+          "ratio": 0.7,
+          "value": 0.004
+        },
+        "rebounds": [
+          {
+            "ratio": 0.06,
+            "value": 0.034
+          },
+          {
+            "ratio": 0.11,
+            "value": 0.023
+          },
+          {
+            "ratio": 0.12,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.16,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.19,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.2,
+            "value": 0.015
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.32,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.013
+          },
+          {
+            "ratio": 0.52,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.56,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.006
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.006
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.006
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.006
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.006
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.017
+          },
+          {
+            "ratio": 1,
+            "value": 0.011
+          }
+        ]
+      },
+      {
+        "video_id": "r2vGpUb_I6o",
+        "views": 454,
+        "avg_view_pct": 504,
+        "avg_view_duration": 3816,
+        "est_duration": 757,
+        "retention_1pct": 0.967,
+        "retention_3min": 0.118,
+        "retention_5min": 0.096,
+        "min_retention": {
+          "ratio": 0.63,
+          "value": 0.08
+        },
+        "rebounds": [
+          {
+            "ratio": 0.09,
+            "value": 0.131
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.116
+          },
+          {
+            "ratio": 0.19,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.12
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.122
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.114
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.116
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.109
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.105
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.111
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.122
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.57,
+            "value": 0.109
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.091
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.085
+          },
+          {
+            "ratio": 0.65,
+            "value": 0.093
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.098
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.105
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.098
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.102
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.107
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.12
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.125
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.125
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.14
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.14
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.149
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.165
+          }
+        ]
+      },
+      {
+        "video_id": "oTssOvjr53k",
+        "views": 429,
+        "avg_view_pct": 677,
+        "avg_view_duration": 4843,
+        "est_duration": 715,
+        "retention_1pct": 0.986,
+        "retention_3min": 0.117,
+        "retention_5min": 0.103,
+        "min_retention": {
+          "ratio": 0.51,
+          "value": 0.089
+        },
+        "rebounds": [
+          {
+            "ratio": 0.1,
+            "value": 0.19
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.183
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.167
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.136
+          },
+          {
+            "ratio": 0.3,
+            "value": 0.11
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.37,
+            "value": 0.11
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.122
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.44,
+            "value": 0.11
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.096
+          },
+          {
+            "ratio": 0.49,
+            "value": 0.106
+          },
+          {
+            "ratio": 0.52,
+            "value": 0.096
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.122
+          },
+          {
+            "ratio": 0.61,
+            "value": 0.101
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.108
+          },
+          {
+            "ratio": 0.68,
+            "value": 0.106
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.129
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.132
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.141
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.136
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.153
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.162
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.183
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.193
+          },
+          {
+            "ratio": 1,
+            "value": 0.183
+          }
+        ]
+      },
+      {
+        "video_id": "angV1sPoNp4",
+        "views": 418,
+        "avg_view_pct": 560,
+        "avg_view_duration": 3903,
+        "est_duration": 697,
+        "retention_1pct": 0.993,
+        "retention_3min": 0.118,
+        "retention_5min": 0.058,
+        "min_retention": {
+          "ratio": 0.45,
+          "value": 0.053
+        },
+        "rebounds": [
+          {
+            "ratio": 0.08,
+            "value": 0.159
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.099
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.101
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.113
+          },
+          {
+            "ratio": 0.25,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.28,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.113
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.099
+          },
+          {
+            "ratio": 0.32,
+            "value": 0.111
+          },
+          {
+            "ratio": 0.38,
+            "value": 0.092
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.072
+          },
+          {
+            "ratio": 0.44,
+            "value": 0.065
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.06
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.077
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.07
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.063
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.075
+          },
+          {
+            "ratio": 0.68,
+            "value": 0.072
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.077
+          },
+          {
+            "ratio": 0.74,
+            "value": 0.082
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.092
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.097
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.092
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.08
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.084
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.082
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.08
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.082
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.099
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.111
+          }
+        ]
+      },
+      {
+        "video_id": "2UHdjrRqrio",
+        "views": 366,
+        "avg_view_pct": 768,
+        "avg_view_duration": 4689,
+        "est_duration": 611,
+        "retention_1pct": 0.948,
+        "retention_3min": 0.171,
+        "retention_5min": 0.141,
+        "min_retention": {
+          "ratio": 0.63,
+          "value": 0.121
+        },
+        "rebounds": [
+          {
+            "ratio": 0.22,
+            "value": 0.158
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.166
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.169
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.177
+          },
+          {
+            "ratio": 0.42,
+            "value": 0.158
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.146
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.149
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.141
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.144
+          },
+          {
+            "ratio": 0.62,
+            "value": 0.155
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.135
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.149
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.16
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.152
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.16
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.163
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.177
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.199
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.218
+          }
+        ]
+      },
+      {
+        "video_id": "JFpXcUodESU",
+        "views": 362,
+        "avg_view_pct": 103,
+        "avg_view_duration": 623,
+        "est_duration": 605,
+        "retention_1pct": 1.014,
+        "retention_3min": 0.014,
+        "retention_5min": 0.006,
+        "min_retention": {
+          "ratio": 0.82,
+          "value": 0.006
+        },
+        "rebounds": [
+          {
+            "ratio": 0.07,
+            "value": 0.033
+          },
+          {
+            "ratio": 0.1,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.2,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.21,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.28,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.34,
+            "value": 0.019
+          },
+          {
+            "ratio": 0.36,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.38,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.61,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.62,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.69,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.011
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.79,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.008
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.014
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.022
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.017
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.022
+          }
+        ]
+      },
+      {
+        "video_id": "DO2sSl-9dCA",
+        "views": 331,
+        "avg_view_pct": 1033,
+        "avg_view_duration": 5699,
+        "est_duration": 552,
+        "retention_1pct": 0.975,
+        "retention_3min": 0.241,
+        "retention_5min": 0.209,
+        "min_retention": {
+          "ratio": 0.81,
+          "value": 0.184
+        },
+        "rebounds": [
+          {
+            "ratio": 0.12,
+            "value": 0.275
+          },
+          {
+            "ratio": 0.23,
+            "value": 0.244
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.209
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.199
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.212
+          }
+        ]
+      },
+      {
+        "video_id": "-sQjtPZqg1A",
+        "views": 317,
+        "avg_view_pct": 201,
+        "avg_view_duration": 1064,
+        "est_duration": 529,
+        "retention_1pct": 0.984,
+        "retention_3min": 0.029,
+        "retention_5min": 0.036,
+        "min_retention": {
+          "ratio": 0.62,
+          "value": 0.019
+        },
+        "rebounds": [
+          {
+            "ratio": 0.06,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.1,
+            "value": 0.065
+          },
+          {
+            "ratio": 0.13,
+            "value": 0.058
+          },
+          {
+            "ratio": 0.16,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.2,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.21,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.033
+          },
+          {
+            "ratio": 0.36,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.49,
+            "value": 0.033
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.033
+          },
+          {
+            "ratio": 0.56,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.023
+          },
+          {
+            "ratio": 0.65,
+            "value": 0.023
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.69,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.023
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.026
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.039
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.049
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.042
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.045
+          },
+          {
+            "ratio": 0.98,
+            "value": 0.055
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.062
+          }
+        ]
+      },
+      {
+        "video_id": "eDEb_1mDiwM",
+        "views": 295,
+        "avg_view_pct": 813,
+        "avg_view_duration": 3999,
+        "est_duration": 492,
+        "retention_1pct": 1.017,
+        "retention_3min": 0.138,
+        "retention_5min": 0.114,
+        "min_retention": {
+          "ratio": 0.82,
+          "value": 0.087
+        },
+        "rebounds": [
+          {
+            "ratio": 0.36,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.135
+          },
+          {
+            "ratio": 0.49,
+            "value": 0.125
+          },
+          {
+            "ratio": 0.56,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.114
+          },
+          {
+            "ratio": 0.61,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.111
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.107
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.097
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.104
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.093
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.107
+          },
+          {
+            "ratio": 0.86,
+            "value": 0.121
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.114
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.118
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.138
+          },
+          {
+            "ratio": 0.97,
+            "value": 0.149
+          }
+        ]
+      },
+      {
+        "video_id": "uCW8WHuPgS8",
+        "views": 290,
+        "avg_view_pct": 203,
+        "avg_view_duration": 981,
+        "est_duration": 483,
+        "retention_1pct": 0.993,
+        "retention_3min": 0.04,
+        "retention_5min": 0.029,
+        "min_retention": {
+          "ratio": 1,
+          "value": 0.022
+        },
+        "rebounds": [
+          {
+            "ratio": 0.08,
+            "value": 0.072
+          },
+          {
+            "ratio": 0.11,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.12,
+            "value": 0.065
+          },
+          {
+            "ratio": 0.15,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.19,
+            "value": 0.061
+          },
+          {
+            "ratio": 0.24,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.27,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.3,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.33,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.35,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.47,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.48,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.5,
+            "value": 0.054
+          },
+          {
+            "ratio": 0.53,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.54,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.56,
+            "value": 0.047
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.62,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.025
+          },
+          {
+            "ratio": 0.75,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.77,
+            "value": 0.029
+          },
+          {
+            "ratio": 0.8,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.043
+          },
+          {
+            "ratio": 0.84,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.88,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.92,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.94,
+            "value": 0.036
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.047
+          }
+        ]
+      },
+      {
+        "video_id": "nwOBvD_nvJI",
+        "views": 253,
+        "avg_view_pct": 655,
+        "avg_view_duration": 2764,
+        "est_duration": 422,
+        "retention_1pct": 0.929,
+        "retention_3min": 0.167,
+        "retention_5min": 0.171,
+        "min_retention": {
+          "ratio": 0.88,
+          "value": 0.159
+        },
+        "rebounds": [
+          {
+            "ratio": 0.08,
+            "value": 0.222
+          },
+          {
+            "ratio": 0.17,
+            "value": 0.194
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.194
+          },
+          {
+            "ratio": 0.25,
+            "value": 0.198
+          },
+          {
+            "ratio": 0.4,
+            "value": 0.179
+          },
+          {
+            "ratio": 0.41,
+            "value": 0.191
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.171
+          },
+          {
+            "ratio": 0.59,
+            "value": 0.186
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.198
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.198
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.186
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.182
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.198
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.238
+          },
+          {
+            "ratio": 0.82,
+            "value": 0.238
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.202
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.182
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.194
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.218
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.23
+          }
+        ]
+      },
+      {
+        "video_id": "Zx7O7m2E-l4",
+        "views": 251,
+        "avg_view_pct": 126,
+        "avg_view_duration": 530,
+        "est_duration": 421,
+        "retention_1pct": 1.008,
+        "retention_3min": 0.016,
+        "retention_5min": 0.016,
+        "min_retention": {
+          "ratio": 0.65,
+          "value": 0.008
+        },
+        "rebounds": [
+          {
+            "ratio": 0.06,
+            "value": 0.068
+          },
+          {
+            "ratio": 0.14,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.16,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.18,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.19,
+            "value": 0.044
+          },
+          {
+            "ratio": 0.22,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.25,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.26,
+            "value": 0.028
+          },
+          {
+            "ratio": 0.28,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.29,
+            "value": 0.028
+          },
+          {
+            "ratio": 0.31,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.36,
+            "value": 0.04
+          },
+          {
+            "ratio": 0.39,
+            "value": 0.032
+          },
+          {
+            "ratio": 0.43,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.45,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.46,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.51,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.55,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.57,
+            "value": 0.028
+          },
+          {
+            "ratio": 0.6,
+            "value": 0.028
+          },
+          {
+            "ratio": 0.63,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.66,
+            "value": 0.012
+          },
+          {
+            "ratio": 0.67,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.7,
+            "value": 0.012
+          },
+          {
+            "ratio": 0.71,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.72,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.73,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.76,
+            "value": 0.024
+          },
+          {
+            "ratio": 0.78,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.81,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.83,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.012
+          },
+          {
+            "ratio": 0.87,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.89,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.91,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.93,
+            "value": 0.016
+          },
+          {
+            "ratio": 0.95,
+            "value": 0.02
+          },
+          {
+            "ratio": 0.96,
+            "value": 0.028
+          },
+          {
+            "ratio": 0.99,
+            "value": 0.032
+          }
+        ]
+      },
+      {
+        "video_id": "_1NrT9CL2xI",
+        "views": 232,
+        "avg_view_pct": 474,
+        "avg_view_duration": 1834,
+        "est_duration": 387,
+        "retention_1pct": 1,
+        "retention_3min": 0.137,
+        "retention_5min": 0.119,
+        "min_retention": {
+          "ratio": 0.63,
+          "value": 0.106
+        },
+        "rebounds": [
+          {
+            "ratio": 0.19,
+            "value": 0.168
+          },
+          {
+            "ratio": 0.21,
+            "value": 0.168
+          },
+          {
+            "ratio": 0.32,
+            "value": 0.173
+          },
+          {
+            "ratio": 0.49,
+            "value": 0.142
+          },
+          {
+            "ratio": 0.58,
+            "value": 0.128
+          },
+          {
+            "ratio": 0.64,
+            "value": 0.115
+          },
+          {
+            "ratio": 0.85,
+            "value": 0.119
+          },
+          {
+            "ratio": 0.9,
+            "value": 0.119
+          },
+          {
+            "ratio": 1,
+            "value": 0.133
+          }
+        ]
+      }
+    ]
+  }
+}
