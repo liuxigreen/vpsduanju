@@ -1,0 +1,21 @@
+# META
+- expert: short-drama-expert
+- version: 1.2.0
+- schema_version: 1.1
+- generated_date: 2026-04-24
+- data_cutoff_date: 2026-04-24
+- baseline: v1 evidence（53频道/2531视频/9区域）
+- scope: 标题生成/封面设计/题材判断/剪辑结构/冲突提炼/合集规范
+- excluded: 不含 comments/analytics 实时蒸馏，封面视觉分析依赖标题推断
+- sample_sources: yt-dlp 直采 53 频道全量 metadata
+- sample_size: 2531 视频（繁体区为主 + 英/印尼/巴西/泰/西语辅助）
+- distill_sources: distill/sources/short-drama-expert/ + distill/evidence/competitor_60_analysis.md
+- distill_output: distill/outputs/short-drama-expert/rules.json + evidence.json + _v0.md
+- data_channels: hk(10)/tw(10)/sg(5)/mo(4)/en(2)/id(3)/th(3)/br(3)/es(3)
+- distill_rules: 周蒸馏增量 + 月蒸馏重构
+- known_issues: 非中文区样本量偏少(id/br/es)，封面分析无视觉模型验证
+- next_update_conditions: 爆款出现/连续扑街/CTR突降/新地区扩展/新题材验证
+- rule_count: 23
+- skill_integrated: true
+- api_tools: generate_title / generate_cover / analyze_drama
+- arbiter_priority: P1（内容质量终审权）

@@ -1,0 +1,21 @@
+# META
+- expert: hk-traditional-market-expert
+- version: 1.1.0
+- schema_version: 1.1
+- generated_date: 2026-04-24
+- data_cutoff_date: 2026-04-24
+- baseline: v1 evidence（53频道/2531视频，繁体区深度）
+- scope: 繁体本地化标题/封面文案/频道包装/搜索优化/评论语言信号/地区差异
+- excluded: 不含粤语配音vs国语配音CTR实测数据
+- sample_sources: 港澳新繁体样本 + 53频道繁体内容分析
+- sample_size: 2531视频中繁体区占比约60%
+- distill_sources: distill/evidence/competitor_60_analysis.md
+- distill_output: distill/outputs/hk-traditional-market-expert_v0.md
+- data_channels: hk(10)/tw(10)/sg(5)/mo(4)
+- distill_rules: 每周增量词表更新 + 每月风格重评
+- known_issues: 新马场景与港式语感存在差异，需分层维护
+- next_update_conditions: 新地区上线/评论语言偏移/CTR异常/双语策略验证
+- rule_count: 12
+- skill_integrated: true
+- api_tools: localize_title / check_language_signals / generate_channel_setup
+- arbiter_priority: P2（地区调性终审权，高于通用公式）

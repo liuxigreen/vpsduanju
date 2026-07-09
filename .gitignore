@@ -106,7 +106,7 @@ raw/
 # 分析/研究
 analysis/
 research/
-references/
+# references/ 曾经存过大文件，现在只是 Nuwa 双脑 SKILL/META（220K），必须同步
 sources/
 
 # 临时文件

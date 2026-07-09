@@ -1,0 +1,21 @@
+# META
+- expert: distribution-expert
+- version: 1.2.0
+- schema_version: 1.1
+- generated_date: 2026-04-24
+- data_cutoff_date: 2026-04-24
+- baseline: v1 evidence（53频道/2531视频/9区域）
+- scope: 发布频率/时段/冷启动/验证诊断/收入预估/SEO/搜索优化/Shorts策略
+- excluded: 不含 comments/analytics 实时蒸馏，CTR阈值基于推断非实测
+- sample_sources: yt-dlp 直采 53 频道发布节奏 + 14频道CTR回归
+- sample_size: 2531 视频发布数据 + 14频道频率对照
+- distill_sources: distill/sources/distribution-expert/ + distill/evidence/competitor_60_analysis.md
+- distill_output: distill/outputs/distribution-expert/rules.json + evidence.json + _v0.md
+- data_channels: DramaIndo/DramaTW(核心) + 51辅助频道
+- distill_rules: 48h/7d/30d 信号优先，周/月双频回灌
+- known_issues: 非中文区频率阈值待验证，Shorts最优时长待A/B测试
+- next_update_conditions: 冷启动阶段切换/频道增长拐点/发布时间失效/搜索流量占比变化
+- rule_count: 18
+- skill_integrated: true
+- api_tools: schedule_publish / analyze_metrics / cold_start_check
+- arbiter_priority: P1（发布策略终审权）
