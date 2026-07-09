@@ -16,11 +16,13 @@
   --accent3: #90b4d0;
   --accent4: #c8d080;
   --danger: #d4727a;
+  --warn: #e0b868;
   --success: #a0b47a;
   --radius: 12px;
   --radius-sm: 8px;
   --shadow: 0 2px 24px rgba(0,0,0,0.4);
   --shadow-sm: 0 1px 8px rgba(0,0,0,0.3);
+  --font-mono: 'SF Mono', 'JetBrains Mono', monospace;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -577,7 +579,7 @@ textarea { min-height: 120px; resize: vertical; }
   .brand, .brand-sub { display: none; }
   .nav-item {
     flex-shrink: 0;
-    padding: 4px 4px;
+    padding: 10px 6px;
     font-size: 10px;
     gap: 2px;
     white-space: nowrap;
@@ -585,7 +587,7 @@ textarea { min-height: 120px; resize: vertical; }
     flex-direction: column;
     text-align: center;
     min-width: 56px;
-    min-height: 25px;
+    min-height: 44px;
     justify-content: center;
     border-radius: 8px;
     position: relative;
