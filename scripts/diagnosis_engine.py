@@ -512,34 +512,22 @@ def generate_diagnostics(channel_data: dict) -> list:
             # 有短视频和长视频，对比表现
             short_count = sum(v.get("count", 0) for v in short_videos.values())
             long_count = sum(v.get("count", 0) for v in long_videos.values())
-            
-            if short_count > 0 and long_count > 0:
-                short_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0) 
-                                   for v in short_videos.values()) / short_count
-                long_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0) 
-                                  for v in long_videos.values()) / long_count
-            
-            if short_avg_rate > long_avg_rate * 1.5:  # 短视频点赞率比长视频高50%以上
-                issues.append({
-                    "severity": "info",
-                    "category": "内容策略",
-                    "issue": "预告片/片段点赞率高于完整短剧",
-                    "detail": f"短视频（<30min）平均点赞率{short_avg_rate:.2f}%，长视频（>60min）平均点赞率{long_avg_rate:.2f}%。预告片/片段可能更吸引观众互动。",
-                    "action": "① 考虑为每部短剧制作1-2分钟的预告片\n② 预告片可单独发布，提升频道互动率\n③ 预告片标题可加预告标签，避免与完整短剧混淆",
-                })
-            return issues
-        
-        # 如果只有长视频或只有短视频，跳过时长诊断（短剧时长固定，无法调整）
-        return issues
 
-        if best_dur[0] != worst_dur[0] and best_dur[1].get("avg_like_rate", 0) > 0:
-            issues.append({
-                "severity": "info",
-                "category": "视频时长",
-                "issue": f"时长{best_dur[0]}表现最好（点赞率{best_dur[1].get('avg_like_rate', 0)}%）",
-                "detail": f"时长{worst_dur[0]}表现最差（点赞率{worst_dur[1].get('avg_like_rate', 0)}%）。{best_dur[0]}区间有{best_dur[1].get('count', 0)}条视频，平均播放{best_dur[1].get('avg_views', 0):,}。",
-                "action": f"① 优先发布{best_dur[0]}时长的视频\n② 如果当前主要在{worst_dur[0]}区间，考虑剪辑调整时长",
-            })
+            if short_count > 0 and long_count > 0:
+                short_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0)
+                                   for v in short_videos.values()) / short_count
+                long_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0)
+                                  for v in long_videos.values()) / long_count
+
+                if short_avg_rate > long_avg_rate * 1.5:  # 短视频点赞率比长视频高50%以上
+                    issues.append({
+                        "severity": "info",
+                        "category": "内容策略",
+                        "issue": "预告片/片段点赞率高于完整短剧",
+                        "detail": f"短视频（<30min）平均点赞率{short_avg_rate:.2f}%，长视频（>60min）平均点赞率{long_avg_rate:.2f}%。预告片/片段可能更吸引观众互动。",
+                        "action": "① 考虑为每部短剧制作1-2分钟的预告片\n② 预告片可单独发布，提升频道互动率\n③ 预告片标题可加预告标签，避免与完整短剧混淆",
+                    })
+        # 时长桶单一（只有长视频或只有短视频）：无对比意义，不加 issue，继续走后面的周增长/评论等诊断
 
     # === 周增长 ===
     if growth.get("has_prev"):
@@ -654,8 +642,8 @@ def generate_diagnostics(channel_data: dict) -> list:
                     "severity": "critical",
                     "category": "留存",
                     "issue": f"留存率 {avg_pct}% 低于同长度基准 {bench_low}%",
-                    "detail": f"平均观看 {avg_dur//60}分{avg_dur%60}秒，视频预估 {est_video_dur//60} 分钟。前30秒hook可能不足。",
-                    "action": "① 前5秒必须有冲突/悬念（不要片头logo）\n② 前30秒设置第一个反转\n③ 分析留存曲线找到掉粉节点"
+                    "detail": f"平均观看 {avg_dur//60}分{avg_dur%60}秒，视频预估 {est_video_dur//60} 分钟。平均观看占比 {avg_pct}%，中段流失严重（AVD占比是整体指标，不代表开头hook问题）。",
+                    "action": "① 每3-5分钟设置一次re-engagement hook\n② 检查中段是否有拖沓段落\n③ 如需判断开头hook，请查看1分钟留存数据"
                 })
             elif avg_pct < bench_ok:
                 issues.append({
@@ -709,7 +697,7 @@ def generate_diagnostics(channel_data: dict) -> list:
                     "category": "流量",
                     "issue": f"推荐流量偏低 {browse}%",
                     "detail": "算法推荐不足，可能是CTR或留存低于同类频道。",
-                    "action": "① 优化标题钩子（至少命中2个钩子）\n② 封面增加情绪张力\n③ 确保前30秒留存"
+                    "action": "① 优化标题钩子（至少命中2个钩子）\n② 封面增加情绪张力\n③ 检查中段节奏（AVD占比反映整体，非前30秒）"
                 })
 
             if search < 5:

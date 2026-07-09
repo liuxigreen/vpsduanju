@@ -129,12 +129,13 @@ def collect_channel(slug, channel_id, access_token, period=30):
         log.error(f"[{slug}] daily error: {e}")
         report["daily"] = {"error": str(e)}
 
-    # 3. Top 视频
+    # 3. Top 视频（加 subscribersGained/Lost 用于订阅转化率）
     try:
         top = analytics_query(access_token, channel_id, start_date, end_date,
-            "views,likes,estimatedMinutesWatched,averageViewDuration,averageViewPercentage",
+            "views,likes,estimatedMinutesWatched,averageViewDuration,averageViewPercentage,"
+            "subscribersGained,subscribersLost",
             dimensions="video", sort="-views", max_results="50")
-        # 补充视频标题
+        # 补充视频标题+发布日期（发布日期用于留存90天约束）
         video_ids = [row[0] for row in top.get("rows", []) if row]
         if video_ids:
             try:
@@ -146,7 +147,8 @@ def collect_channel(slug, channel_id, access_token, period=30):
                     vid_data = json.loads(resp.read().decode())
                 title_map = {v["id"]: v["snippet"]["title"] for v in vid_data.get("items", [])}
                 thumb_map = {v["id"]: v["snippet"]["thumbnails"]["default"]["url"] for v in vid_data.get("items", [])}
-                report["video_meta"] = {"titles": title_map, "thumbnails": thumb_map}
+                published_map = {v["id"]: v["snippet"].get("publishedAt", "") for v in vid_data.get("items", [])}
+                report["video_meta"] = {"titles": title_map, "thumbnails": thumb_map, "published": published_map}
             except Exception:
                 report["video_meta"] = {}
         report["top_videos"] = top
@@ -205,23 +207,55 @@ def collect_channel(slug, channel_id, access_token, period=30):
     report["age_gender_watch"] = []
 
     # 8. 分段留存曲线（逐视频 audienceWatchRatio）
+    # 约束：仅「近90天发布 + 播放量Top30」；断点续传；失败标记；不阻塞
     try:
         top_rows = report.get("top_videos", {}).get("rows", [])
-        if top_rows:
-            retention_videos = []
-            for row in top_rows[:15]:  # 最多15条视频
-                vid_id, views = row[0], row[1]
-                avg_pct = row[4] if len(row) > 4 else 0
-                avg_dur = row[3] if len(row) > 3 else 0
-                est_duration = (avg_dur or 0) / ((avg_pct or 1) / 100) if avg_pct else 0
+        published_map = report.get("video_meta", {}).get("published", {})
+        # 90 天发布过滤
+        now = datetime.utcnow()
+        def is_recent(vid):
+            pub = published_map.get(vid, "")
+            if not pub:
+                return True  # 无发布日期视为近期，宁多勿少
+            try:
+                pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00")).replace(tzinfo=None)
+                return (now - pub_dt).days <= 90
+            except Exception:
+                return True
+        eligible = [row for row in top_rows if is_recent(row[0])][:30]  # Top30
+        skipped_count = len(top_rows) - len(eligible)
+
+        # 断点续传：读进度文件
+        progress_file = DATA_DIR / f"{slug}_retention_progress.json"
+        if progress_file.exists():
+            progress = json.loads(progress_file.read_text())
+            done_set = set(progress.get("done_video_ids", []))
+            existing_videos = progress.get("videos", [])
+            failed_set = set(progress.get("failed_video_ids", []))
+            log.info(f"[{slug}] 留存断点续传: 已完成 {len(done_set)}, 失败 {len(failed_set)}")
+        else:
+            done_set, existing_videos, failed_set = set(), [], set()
+
+        retention_videos = list(existing_videos)
+        for row in eligible:
+            vid_id, views = row[0], row[1]
+            if vid_id in done_set or vid_id in failed_set:
+                continue
+            avg_pct = row[4] if len(row) > 4 else 0
+            avg_dur = row[3] if len(row) > 3 else 0
+            est_duration = (avg_dur or 0) / ((avg_pct or 1) / 100) if avg_pct else 0
+
+            # 单视频重试1次
+            success = False
+            for attempt in range(2):
                 try:
                     ret = analytics_query(access_token, channel_id, start_date, end_date,
                         "audienceWatchRatio", dimensions="elapsedVideoTimeRatio",
                         sort="elapsedVideoTimeRatio", filters=f"video=={vid_id}")
                     ret_rows = ret.get("rows", [])
                     if not ret_rows:
-                        continue
-                    # 提取关键百分比点
+                        success = True  # 空数据也算完成，不重试
+                        break
                     retention_1pct = retention_3min = retention_5min = None
                     min_ret = {"ratio": 1.0, "value": 1.0}
                     for rr in ret_rows:
@@ -234,7 +268,6 @@ def collect_channel(slug, channel_id, access_token, period=30):
                             retention_5min = value
                         if value < min_ret["value"]:
                             min_ret = {"ratio": round(ratio, 2), "value": round(value, 3)}
-                    # 检测回弹
                     rebounds = []
                     prev = 1.0
                     for rr in ret_rows:
@@ -252,25 +285,44 @@ def collect_channel(slug, channel_id, access_token, period=30):
                         "min_retention": min_ret,
                         "rebounds": rebounds,
                     })
-                except Exception:
-                    continue
-                time.sleep(0.5)
-            if retention_videos:
-                valid_1 = [v["retention_1pct"] for v in retention_videos if v.get("retention_1pct")]
-                valid_3 = [v["retention_3min"] for v in retention_videos if v.get("retention_3min")]
-                valid_5 = [v["retention_5min"] for v in retention_videos if v.get("retention_5min")]
-                report["retention"] = {
-                    "has_data": True, "period_days": period,
-                    "video_count": len(retention_videos),
-                    "avg_retention_1pct": round(sum(valid_1)/len(valid_1), 3) if valid_1 else None,
-                    "avg_retention_3min": round(sum(valid_3)/len(valid_3), 3) if valid_3 else None,
-                    "avg_retention_5min": round(sum(valid_5)/len(valid_5), 3) if valid_5 else None,
-                    "videos": retention_videos,
-                }
-            else:
-                report["retention"] = {"has_data": False}
+                    done_set.add(vid_id)
+                    success = True
+                    break
+                except Exception as e:
+                    if attempt == 1:
+                        log.warning(f"[{slug}] retention failed for {vid_id}: {e}")
+                        failed_set.add(vid_id)
+                    time.sleep(1)
+            # 写进度（每完成一条就更新，允许中途 kill）
+            progress_file.write_text(json.dumps({
+                "done_video_ids": sorted(done_set),
+                "failed_video_ids": sorted(failed_set),
+                "videos": retention_videos,
+            }, ensure_ascii=False, indent=2))
+            time.sleep(0.5)
+
+        if retention_videos:
+            valid_1 = [v["retention_1pct"] for v in retention_videos if v.get("retention_1pct")]
+            valid_3 = [v["retention_3min"] for v in retention_videos if v.get("retention_3min")]
+            valid_5 = [v["retention_5min"] for v in retention_videos if v.get("retention_5min")]
+            report["retention"] = {
+                "has_data": True, "period_days": period,
+                "video_count": len(retention_videos),
+                "skipped_count": skipped_count,  # 超出90天/Top30 被跳过的数量
+                "failed_count": len(failed_set),
+                "failed_video_ids": sorted(failed_set),
+                "avg_retention_1pct": round(sum(valid_1)/len(valid_1), 3) if valid_1 else None,
+                "avg_retention_3min": round(sum(valid_3)/len(valid_3), 3) if valid_3 else None,
+                "avg_retention_5min": round(sum(valid_5)/len(valid_5), 3) if valid_5 else None,
+                "videos": retention_videos,
+            }
         else:
-            report["retention"] = {"has_data": False}
+            report["retention"] = {"has_data": False, "skipped_count": skipped_count,
+                                    "failed_count": len(failed_set)}
+        # 全部完成 → 删除进度文件
+        if progress_file.exists() and not (set(v[0] for v in eligible) - done_set - failed_set):
+            progress_file.unlink()
+            log.info(f"[{slug}] 留存全部完成，删除进度文件")
     except Exception as e:
         log.error(f"[{slug}] retention error: {e}")
         report["retention"] = {"has_data": False, "error": str(e)}
@@ -308,7 +360,10 @@ def main():
         try:
             report = collect_channel(slug, info["channel_id"], token, args.period)
             out_file = DATA_DIR / f"{slug}.json"
-            out_file.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+            # 原子写：先写 .tmp，成功后 rename（下游只读完成态）
+            tmp_file = out_file.with_suffix(".json.tmp")
+            tmp_file.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+            tmp_file.replace(out_file)
             log.info(f"[{slug}] ✅ 已保存 → {out_file}")
             results[slug] = "ok"
         except Exception as e:

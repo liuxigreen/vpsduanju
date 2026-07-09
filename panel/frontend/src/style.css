@@ -772,3 +772,14 @@ textarea { min-height: 120px; resize: vertical; }
   .cc-grid { grid-template-columns: repeat(3, 1fr) !important; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ═══ 批3 additive 卡片移动端适配 ═══ */
+@media (max-width: 768px) {
+  /* 象限归类的 auto-fill 网格在小屏改为 1 列，避免挤压 */
+  .ca-quadrant-grid { grid-template-columns: 1fr !important; }
+  /* 瓶颈横幅在小屏用更紧凑内距 */
+  .ca-bottleneck-banner { padding: 8px 10px !important; }
+  .ca-bottleneck-banner > div { font-size: 11px !important; }
+  /* 变现分项在小屏折行 */
+  .ca-monetization-detail > div:nth-child(2) { flex-direction: column; gap: 4px !important; }
+}

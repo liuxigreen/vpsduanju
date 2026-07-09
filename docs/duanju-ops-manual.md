@@ -51,7 +51,7 @@ model:
 custom_providers:
 - name: doubao
   base_url: https://ark.cn-beijing.volces.com/api/plan/v3
-  api_key: ark-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX-XXXXX
+  api_key: ark-2e7ac3e6-7475-4fa8-9f7d-99f6e11e1d0a-2a037
 gateway:
   api_server:
     enabled: true

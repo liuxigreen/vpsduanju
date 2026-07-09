@@ -361,91 +361,110 @@
                           </div>
                           <div style="flex:1;font-size:12px;color:var(--text);line-height:1.5;">{{ getChannelLlm(c.name).summary || '' }}</div>
                         </div>
-                        <!-- 瓶颈横幅 -->
-                        <div v-if="getChannelLlm(c.name).bottleneck" style="margin-bottom:10px;padding:10px 14px;background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.2);border-radius:8px;display:flex;align-items:center;gap:10px;">
-                          <span style="font-size:20px;">🚧</span>
-                          <div>
-                            <div style="font-size:13px;font-weight:700;color:var(--danger);">当前瓶颈：{{ getChannelLlm(c.name).bottleneck }}<span v-if="getChannelLlm(c.name).secondary_bottleneck" style="font-size:11px;font-weight:400;color:var(--accent);margin-left:8px;">次瓶颈：{{ getChannelLlm(c.name).secondary_bottleneck }}</span></div>
-                            <div v-if="getChannelLlm(c.name).ctr_status" style="font-size:11px;color:var(--text-muted);margin-top:2px;">CTR状态：{{ getChannelLlm(c.name).ctr_status }}</div>
+
+                        <!-- 批3 additive: 瓶颈横幅 -->
+                        <div v-if="getChannelLlm(c.name).bottleneck?.primary" class="ca-bottleneck-banner" style="margin-bottom:8px;padding:10px 12px;background:linear-gradient(90deg,rgba(255,152,0,0.12),rgba(255,152,0,0.04));border-left:3px solid #ff9800;border-radius:6px;">
+                          <div style="font-size:11px;font-weight:700;color:#ff9800;margin-bottom:3px;">🎯 当前瓶颈</div>
+                          <div style="font-size:12px;font-weight:600;">{{ getChannelLlm(c.name).bottleneck.primary }}</div>
+                          <div v-if="getChannelLlm(c.name).bottleneck.evidence" style="font-size:10px;color:var(--text-muted);margin-top:2px;">📊 {{ getChannelLlm(c.name).bottleneck.evidence }}</div>
+                          <div v-if="getChannelLlm(c.name).bottleneck.next_lever" style="font-size:11px;color:var(--accent);margin-top:3px;">🔧 下一步：{{ getChannelLlm(c.name).bottleneck.next_lever }}</div>
+                        </div>
+
+                        <!-- 批3 additive: 四象限归类概览 -->
+                        <div v-if="getChannelLlm(c.name).quadrant_summary?.status" style="margin-bottom:8px;padding:8px 10px;background:rgba(63,81,181,0.06);border:1px solid rgba(63,81,181,0.18);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">🎬 视频四象限（{{ getChannelLlm(c.name).quadrant_summary.status }} · 已归类 {{ getChannelLlm(c.name).quadrant_summary.total_classified || 0 }}）
+                            <span v-if="getChannelLlm(c.name).quadrant_summary.status==='skipped'" style="color:var(--text-muted);font-weight:400;font-size:10px;">— 无 CTR 数据，跳过归类</span>
+                            <span v-else-if="getChannelLlm(c.name).quadrant_summary.status==='provisional'" style="color:#ffb74d;font-weight:400;font-size:10px;">— CTR pending，使用播放代理</span>
+                          </div>
+                          <div v-if="getChannelLlm(c.name).quadrant_summary.bucket_takeaways?.length" class="ca-quadrant-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;">
+                            <div v-for="(bt, bti) in getChannelLlm(c.name).quadrant_summary.bucket_takeaways.filter(x => (x.count||0)>0)" :key="bti" style="padding:5px 7px;background:rgba(255,255,255,0.04);border-radius:4px;">
+                              <div style="font-weight:600;font-size:10px;">{{ bt.bucket }} <span style="color:var(--accent);">({{ bt.count }})</span></div>
+                              <div style="color:var(--text-muted);font-size:10px;">{{ bt.action }}</div>
+                            </div>
                           </div>
                         </div>
-                        <!-- 跨层冲突横幅 -->
-                        <div v-if="getChannelLlm(c.name).conflicts?.length" style="margin-bottom:10px;padding:10px 14px;background:rgba(255,82,82,0.10);border:1px solid rgba(255,82,82,0.30);border-radius:8px;">
-                          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                            <span style="font-size:18px;">⚡</span>
-                            <div style="font-size:13px;font-weight:700;color:var(--danger);">数据 vs AI 结论冲突（{{ getChannelLlm(c.name).conflicts.length }}条）</div>
-                          </div>
-                          <div v-for="(cf, ci) in getChannelLlm(c.name).conflicts" :key="ci" style="margin-bottom:8px;padding:8px 10px;background:rgba(0,0,0,0.15);border-radius:6px;font-size:11px;">
-                            <div style="font-weight:600;color:#ff6b6b;margin-bottom:4px;">⚠️ {{ cf.topic }} <span style="opacity:0.6;font-weight:400;">({{ cf.python_severity }})</span></div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px;">
-                              <div style="padding:4px 6px;background:rgba(255,82,82,0.06);border-radius:4px;">
-                                <div style="font-size:9px;color:var(--danger);font-weight:600;">🐍 Python数据</div>
-                                <div style="color:var(--text-muted);font-size:10px;">{{ cf.python_conclusion }}</div>
-                              </div>
-                              <div style="padding:4px 6px;background:rgba(255,152,0,0.06);border-radius:4px;">
-                                <div style="font-size:9px;color:var(--accent);font-weight:600;">🤖 AI结论</div>
-                                <div style="color:var(--text-muted);font-size:10px;">{{ cf.llm_conclusion }}</div>
-                              </div>
-                            </div>
-                            <div style="font-size:9px;color:var(--accent2);">💡 {{ cf.resolution }}</div>
+
+                        <!-- 批3 additive: 冲突警告（Python 后校验写入） -->
+                        <div v-if="getChannelLlm(c.name).conflicts?.length" style="margin-bottom:8px;padding:8px 10px;background:rgba(255,82,82,0.08);border-left:3px solid var(--danger);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:700;color:var(--danger);margin-bottom:3px;">⚠️ 诊断内部冲突（LLM 表达矛盾）</div>
+                          <div v-for="(cf, cfi) in getChannelLlm(c.name).conflicts" :key="cfi" style="margin-bottom:4px;">
+                            <div style="font-weight:600;">{{ cf.dimension }}</div>
+                            <div style="color:var(--success);font-size:10px;">优势侧：{{ cf.as_strength }}</div>
+                            <div style="color:var(--danger);font-size:10px;">问题侧：{{ cf.as_problem }}</div>
                           </div>
                         </div>
-                        <!-- 四象限卡 -->
-                        <div v-if="getChannelLlm(c.name).quadrant_summary" style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
-                          <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:4px;">📊 四象限归类</div>
-                          <div style="font-size:10px;color:var(--text-dim);margin-bottom:8px;line-height:1.5;">横轴 CTR＝封面标题吸引力，纵轴留存＝内容质量。每条视频按两个数值归入象限，象限直接决定它该修什么、还是不修。</div>
-                          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                            <div v-for="(items, qName) in getChannelLlm(c.name).quadrant_summary" :key="qName" v-show="qName !== '样本不足'" style="padding:8px;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border-subtle);">
-                              <div style="font-size:11px;font-weight:600;margin-bottom:2px;" :style="{ color: quadrantColor(qName) }">{{ qName }} <span style="opacity:0.7;">({{ items?.length || 0 }}条)</span></div>
-                              <div v-if="quadrantDesc[qName]" style="font-size:9px;color:var(--text-dim);margin-bottom:4px;line-height:1.4;">
-                                <span style="opacity:0.7;">{{ quadrantDesc[qName].label }}</span> · {{ quadrantDesc[qName].desc }}<span style="color:var(--accent);"> → {{ quadrantDesc[qName].action }}</span>
-                              </div>
-                              <div v-for="(q, qi) in (items || [])" :key="qi" style="margin-bottom:2px;">
-                                <div style="font-size:10px;color:var(--text-muted);cursor:pointer;" @click="expandedQuadrant = expandedQuadrant === c.name+'::'+qName+'::'+qi ? null : c.name+'::'+qName+'::'+qi">
-                                  {{ getVideoTitle(c.name, q.video_id || q.id || '') }} <span style="color:var(--accent);">{{ q.ctr ? 'CTR'+q.ctr : '' }}</span> {{ q.retention || q.retention_1m || '' }}
-                                  <span v-if="q.action" style="font-size:9px;opacity:0.5;"> ▸</span>
-                                </div>
-                                <div v-if="expandedQuadrant === c.name+'::'+qName+'::'+qi" style="margin:2px 0 4px 8px;padding:6px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:10px;transition:all 0.15s;">
-                                  <div v-if="q.ctr" style="color:var(--text-muted);">CTR: <b>{{ q.ctr }}</b></div>
-                                  <div v-if="q.retention || q.retention_1m" style="color:var(--text-muted);">留存: <b>{{ q.retention || q.retention_1m }}</b></div>
-                                  <div v-if="q.impressions" style="color:var(--text-muted);">展示: {{ q.impressions }}</div>
-                                  <div v-if="q.conversion" style="color:var(--text-muted);">转化: {{ q.conversion }}</div>
-                                  <div v-if="q.action" style="color:var(--accent);margin-top:2px;">💡 {{ q.action }}</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div v-if="getChannelLlm(c.name).quadrant_summary['样本不足']" style="margin-top:6px;padding:6px 8px;background:rgba(255,255,255,0.02);border-radius:4px;">
-                            <div style="font-size:10px;color:var(--text-dim);">
-                              ⚠️ {{ getChannelLlm(c.name).quadrant_summary['样本不足']?.[0]?.video_id || getChannelLlm(c.name).quadrant_summary['样本不足']?.[0]?.count || '' }}条样本不足
-                              <span v-if="getChannelLlm(c.name).quadrant_summary['样本不足']?.[0]?.note"> · {{ getChannelLlm(c.name).quadrant_summary['样本不足'][0].note }}</span>
-                            </div>
-                            <div style="font-size:9px;color:var(--text-dim);margin-top:2px;opacity:0.6;">{{ quadrantDesc['样本不足'].desc }} → {{ quadrantDesc['样本不足'].action }}</div>
+
+                        <!-- 批3 additive: 变现分项（覆盖旧 monetization_readiness） -->
+                        <div v-if="getChannelLlm(c.name).monetization_detail" class="ca-monetization-detail" style="margin-bottom:8px;padding:8px 10px;background:rgba(0,200,83,0.05);border:1px solid rgba(0,200,83,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">💰 YPP 变现分项</div>
+                          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <div>订阅：<b>{{ getChannelLlm(c.name).monetization_detail.subscribers || '-' }}</b></div>
+                            <div>观看时长：<b>{{ getChannelLlm(c.name).monetization_detail.watch_hours_12mo || '-' }}</b></div>
+                            <div v-if="getChannelLlm(c.name).monetization_detail.engagement_gate">互动：<b>{{ getChannelLlm(c.name).monetization_detail.engagement_gate }}</b></div>
                           </div>
                         </div>
-                        <!-- 订阅转化卡 -->
-                        <div v-if="getChannelLlm(c.name).sub_conversion_analysis" style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
-                          <div style="font-size:11px;font-weight:600;color:var(--accent3);margin-bottom:8px;">🔔 订阅转化分析</div>
-                          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                            <div>
-                              <div style="font-size:10px;font-weight:600;color:var(--success);margin-bottom:4px;">Top3 转化</div>
-                              <div v-for="(t, ti) in (getChannelLlm(c.name).sub_conversion_analysis.top3 || [])" :key="ti" style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">
-                                <span style="font-weight:500;">{{ getVideoTitle(c.name, t.video_id || '') }}</span>
-                                <span style="color:var(--success);font-weight:600;margin-left:4px;">{{ t.conversion || '' }}</span>
-                                <span v-if="t.views" style="opacity:0.5;margin-left:4px;">({{ t.views }}播放)</span>
-                              </div>
-                            </div>
-                            <div>
-                              <div style="font-size:10px;font-weight:600;color:var(--danger);margin-bottom:4px;">垫底3</div>
-                              <div v-for="(b, bi) in (getChannelLlm(c.name).sub_conversion_analysis.bottom3 || [])" :key="bi" style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">
-                                <span style="font-weight:500;">{{ getVideoTitle(c.name, b.video_id || '') }}</span>
-                                <span style="color:var(--danger);font-weight:600;margin-left:4px;">{{ b.conversion || '' }}</span>
-                                <span v-if="b.views" style="opacity:0.5;margin-left:4px;">({{ b.views }}播放)</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div v-if="getChannelLlm(c.name).sub_conversion_analysis.pattern" style="margin-top:6px;font-size:10px;color:var(--accent);">{{ getChannelLlm(c.name).sub_conversion_analysis.pattern }}</div>
+
+                        <!-- 批3 additive: 订阅转化分析 (新 schema) -->
+                        <div v-if="getChannelLlm(c.name).sub_conversion_analysis" style="margin-bottom:8px;padding:8px 10px;background:rgba(103,58,183,0.05);border:1px solid rgba(103,58,183,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">🔔 订阅转化</div>
+                          <div style="color:var(--text-muted);margin-bottom:3px;">水平：<b>{{ getChannelLlm(c.name).sub_conversion_analysis.channel_level || '-' }}</b></div>
+                          <div v-if="getChannelLlm(c.name).sub_conversion_analysis.top_pattern" style="color:var(--success);margin-bottom:2px;">🏆 Top 规律：{{ getChannelLlm(c.name).sub_conversion_analysis.top_pattern }}</div>
+                          <div v-if="getChannelLlm(c.name).sub_conversion_analysis.bottom_pattern" style="color:var(--danger);margin-bottom:2px;">🥶 Bottom 规律：{{ getChannelLlm(c.name).sub_conversion_analysis.bottom_pattern }}</div>
+                          <div v-if="getChannelLlm(c.name).sub_conversion_analysis.action" style="color:var(--accent);margin-top:3px;">💡 {{ getChannelLlm(c.name).sub_conversion_analysis.action }}</div>
                         </div>
+
+                        <!-- 流量分析 (新 schema: traffic_analysis) -->
+                        <div v-if="getChannelLlm(c.name).traffic_analysis" style="margin-bottom:8px;padding:8px 10px;background:rgba(0,150,255,0.05);border:1px solid rgba(0,150,255,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">📊 流量结构 <span style="color:var(--text-muted);font-weight:400;">({{ getChannelLlm(c.name).traffic_analysis.health || '-' }})</span></div>
+                          <div style="color:var(--text-muted);margin-bottom:2px;">推荐 <b>{{ getChannelLlm(c.name).traffic_analysis.recommend_pct || '-' }}%</b> · 订阅 <b>{{ getChannelLlm(c.name).traffic_analysis.subscriber_pct || '-' }}%</b> · 搜索 <b>{{ getChannelLlm(c.name).traffic_analysis.search_pct || '-' }}%</b></div>
+                          <div v-if="getChannelLlm(c.name).traffic_analysis.insight" style="color:var(--accent);margin-top:3px;">{{ getChannelLlm(c.name).traffic_analysis.insight }}</div>
+                        </div>
+
+                        <!-- 地域策略 -->
+                        <div v-if="getChannelLlm(c.name).geo_strategy" style="margin-bottom:8px;padding:8px 10px;background:rgba(255,193,7,0.05);border:1px solid rgba(255,193,7,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">🌍 地域策略</div>
+                          <div v-if="getChannelLlm(c.name).geo_strategy.top_markets" style="color:var(--text-muted);">Top 市场：{{ Array.isArray(getChannelLlm(c.name).geo_strategy.top_markets) ? getChannelLlm(c.name).geo_strategy.top_markets.join(', ') : getChannelLlm(c.name).geo_strategy.top_markets }}</div>
+                          <div v-if="getChannelLlm(c.name).geo_strategy.growth_markets" style="color:var(--success);">增长市场：{{ Array.isArray(getChannelLlm(c.name).geo_strategy.growth_markets) ? getChannelLlm(c.name).geo_strategy.growth_markets.join(', ') : getChannelLlm(c.name).geo_strategy.growth_markets }}</div>
+                          <div v-if="getChannelLlm(c.name).geo_strategy.opportunity_markets" style="color:var(--accent);">机会市场：{{ Array.isArray(getChannelLlm(c.name).geo_strategy.opportunity_markets) ? getChannelLlm(c.name).geo_strategy.opportunity_markets.join(', ') : getChannelLlm(c.name).geo_strategy.opportunity_markets }}</div>
+                          <div v-if="getChannelLlm(c.name).geo_strategy.insight" style="color:var(--text);margin-top:3px;">{{ getChannelLlm(c.name).geo_strategy.insight }}</div>
+                        </div>
+
+                        <!-- 留存诊断 -->
+                        <div v-if="getChannelLlm(c.name).retention_diagnosis" style="margin-bottom:8px;padding:8px 10px;background:rgba(233,30,99,0.05);border:1px solid rgba(233,30,99,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">📈 留存诊断 <span style="color:var(--text-muted);font-weight:400;">({{ getChannelLlm(c.name).retention_diagnosis.status || '-' }})</span></div>
+                          <div v-if="getChannelLlm(c.name).retention_diagnosis.hook_quality" style="color:var(--text-muted);">钩子质量：{{ getChannelLlm(c.name).retention_diagnosis.hook_quality }}</div>
+                          <div v-if="getChannelLlm(c.name).retention_diagnosis.evidence" style="color:var(--accent);margin-top:3px;">📊 {{ getChannelLlm(c.name).retention_diagnosis.evidence }}</div>
+                        </div>
+
+                        <!-- 受众洞察 -->
+                        <div v-if="getChannelLlm(c.name).audience_insight" style="margin-bottom:8px;padding:8px 10px;background:rgba(3,169,244,0.05);border:1px solid rgba(3,169,244,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">👥 受众洞察</div>
+                          <div v-if="getChannelLlm(c.name).audience_insight.actual_profile" style="color:var(--text-muted);">实际画像：{{ getChannelLlm(c.name).audience_insight.actual_profile }}</div>
+                          <div v-if="getChannelLlm(c.name).audience_insight.match_with_content" style="color:var(--accent);margin-top:3px;">🎯 匹配度：{{ getChannelLlm(c.name).audience_insight.match_with_content }}</div>
+                        </div>
+
+                        <!-- 增长诊断 -->
+                        <div v-if="getChannelLlm(c.name).growth_diagnosis" style="margin-bottom:8px;padding:8px 10px;background:rgba(76,175,80,0.05);border:1px solid rgba(76,175,80,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">📈 增长诊断 <span style="color:var(--text-muted);font-weight:400;">({{ getChannelLlm(c.name).growth_diagnosis.trend || '-' }})</span></div>
+                          <div v-if="getChannelLlm(c.name).growth_diagnosis.root_cause" style="color:var(--danger);">根因：{{ getChannelLlm(c.name).growth_diagnosis.root_cause }}</div>
+                          <div v-if="getChannelLlm(c.name).growth_diagnosis.bottleneck" style="color:var(--accent);margin-top:3px;">瓶颈：{{ getChannelLlm(c.name).growth_diagnosis.bottleneck }}</div>
+                        </div>
+
+                        <!-- 封面标题协同 -->
+                        <div v-if="getChannelLlm(c.name).cover_title_synergy" style="margin-bottom:8px;padding:8px 10px;background:rgba(255,87,34,0.05);border:1px solid rgba(255,87,34,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">🎨 封面×标题协同 <span style="color:var(--accent);">{{ getChannelLlm(c.name).cover_title_synergy.score || '-' }}/10</span></div>
+                          <div v-if="getChannelLlm(c.name).cover_title_synergy.assessment" style="color:var(--text-muted);">{{ getChannelLlm(c.name).cover_title_synergy.assessment }}</div>
+                          <div v-if="getChannelLlm(c.name).cover_title_synergy.improvement" style="color:var(--accent);margin-top:3px;">💡 {{ getChannelLlm(c.name).cover_title_synergy.improvement }}</div>
+                        </div>
+
+                        <!-- 系列分析 -->
+                        <div v-if="getChannelLlm(c.name).series_analysis" style="margin-bottom:8px;padding:8px 10px;background:rgba(96,125,139,0.05);border:1px solid rgba(96,125,139,0.15);border-radius:6px;font-size:11px;">
+                          <div style="font-weight:600;margin-bottom:4px;">📚 系列分析</div>
+                          <div v-if="getChannelLlm(c.name).series_analysis.current_series" style="color:var(--text-muted);">当前系列：{{ getChannelLlm(c.name).series_analysis.current_series }}<span v-if="getChannelLlm(c.name).series_analysis.series_count"> · {{ getChannelLlm(c.name).series_analysis.series_count }}个</span></div>
+                          <div v-if="getChannelLlm(c.name).series_analysis.series_performance" style="color:var(--text);margin-top:2px;">{{ getChannelLlm(c.name).series_analysis.series_performance }}</div>
+                          <div v-if="getChannelLlm(c.name).series_analysis.recommendation" style="color:var(--accent);margin-top:3px;">💡 {{ getChannelLlm(c.name).series_analysis.recommendation }}</div>
+                        </div>
+
                         <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
                           <div v-if="getChannelLlm(c.name).strengths?.length" style="flex:1;min-width:180px;padding:8px 10px;background:rgba(0,200,83,0.06);border-radius:6px;border:1px solid rgba(0,200,83,0.15);">
                             <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:4px;">✅ 核心优势</div>

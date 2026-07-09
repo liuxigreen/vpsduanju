@@ -45,13 +45,24 @@ _SANITIZE_MAP = {
     '陷害': '设计', '逼死': '逼迫', '逼迫': '逼迫',
     '不孕': '不育', '不育': '不育',
     '血包': '工具人', '渣男': '负心人', '劈腿': '花心',
-    '殺': '杀', '死': '亡',
+    # 单字脱敏已删除（'殺'→'杀' / '死'→'亡'）：会把"死心塌地"→"亡心塌地"等正常词误伤，污染 LLM 输入
     # 追劇姐妹高频敏感词
     '重病': '重恙', '打臉': '反击', '打脸': '反击', '出醜': '出洋相',
     '淒慘': '凄凉', '瘫软': '腿软', '癱軟': '腿軟',
     '净身出户': '净身出门', '淨身出戶': '淨身出門',
     '崩潰': '崩溃', '崩溃': '崩溃',
     '捨去性命': '牺牲自己', '舍去性命': '牺牲自己',
+    # 2026-07-09 补：hk 频道级 LLM 被审核拒的高危词
+    '墮胎': '流产', '堕胎': '流产',
+    '警局': '警署', '拘留所': '看守所',
+    '威脅': '恐吓', '威胁': '恐吓',
+    '騙簽': '诱签', '骗签': '诱签',
+    '被抓': '被带走', '被打': '被伤',
+    '報復': '反制', '报复': '反制',
+    '毒打': '殴打', '暴打': '重击',
+    '虐待': '苛待', '毒手': '狠手',
+    '性侵': '侵犯', '强姦': '侵犯', '强奸': '侵犯',
+    '自殺': '轻生', '自杀': '轻生',
     # 英文
     'zombie': 'undead', 'betrayed': 'abandoned', 'left for dead': 'left behind',
     'kill': 'defeat', 'killed': 'defeated', 'murder': 'conflict',
@@ -602,11 +613,13 @@ def batch_score_hooks_llm(videos: list, distill: dict) -> dict | None:
     return hook_scores
 
 
-def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", save_callback=None, growth: dict = None, covers: list = None) -> dict | None:
+def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", save_callback=None, growth: dict = None, covers: list = None, quadrant_map: dict = None) -> dict | None:
     """逐批LLM调用（每批2条）：评分 + 问题识别 + 优化标题
 
     Args:
         save_callback: 每批次完成后回调(all_analyses)，用于增量保存
+        quadrant_map: video_id → bucket 名（爆款基因/标题超卖_开头型/标题超卖_中段型/门面拖累/选题失败/表现平庸/样本不足/数据异常待核实）
+                       用于给 LLM 单视频建议注入象限对症纪律。缺失时按"表现平庸"处理。
 
     返回: {video_index: {"score": 6.5, "title_analysis": {...}, "issues": [...], "optimized": [...]}}
     """
@@ -719,14 +732,20 @@ def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", 
         batch = videos[batch_start:batch_start + BATCH_SIZE]
         batch_end = min(batch_start + BATCH_SIZE, total)
 
-        # 构建本批视频列表（含封面数据）
+        # 构建本批视频列表（含封面数据 + 象限归类）
         vids_text = ""
         cover_text = ""
+        quadrant_text = ""
         for i, v in enumerate(batch):
             views = v.get("views", 0)
             likes = v.get("likes", 0)
             lr = round(likes / max(views, 1) * 100, 2)
             vids_text += f"{i+1}. \"{_sanitize_title(v['title'])}\" | 播放:{views:,} 赞率:{lr}%\n"
+
+            # 象限归类（批3.1 findings 输出）
+            vid = v.get("video_id", "")
+            bucket = (quadrant_map or {}).get(vid, "表现平庸")
+            quadrant_text += f"视频{i+1} 象限归类：**{bucket}**\n"
 
             # 匹配封面数据
             title = v.get("title", "")
@@ -755,6 +774,18 @@ def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", 
         prompt = f"""你是YouTube短剧频道诊断专家。分析以下视频的标题+封面，给出综合诊断。
 
 ⚠️ 输出语言要求：所有分析文字（title_analysis、cover_synergy、issues、optimized的reason）必须用中文输出。只有优化标题本身保持对应语言（{lang_en}）。
+
+## 象限对症纪律（必须遵守，覆盖以下所有通用规则）
+每条视频有一个"象限归类"，你的诊断和优化建议必须匹配它，不要给违反归类的建议：
+
+- **爆款基因**（CTR≥标杆×1.3 且 AVD占比≥15%）：标题+封面都成立，issues 只列"可微调点"，optimized 出的两个新标题必须与原标题**同骨架同钩子**（复制模板量产），不要重构。
+- **标题超卖_开头型**（CTR≥标杆×1.2 但 1%留存<70%）：标题吸引点击但开头 hook 太弱→ issues 聚焦"标题承诺 vs 开头兑现"落差，optimized 给"降调版"（钩子强度降 20-30%，与开头能兑现的强度匹配）。**禁止只夸标题不改**。
+- **标题超卖_中段型**（CTR≥标杆×1.2 且 1%留存≥70% 但 AVD占比<10%）：标题+开头都 OK，中段掉链子 → issues 不要指标题问题，optimized 可以保留原标题，reason 写"标题保留，问题在中段节奏"。**禁止改标题**（改也白改）。
+- **门面拖累**（CTR<标杆×0.6 但 AVD占比≥15%）：内容好点击差 → issues 聚焦"标题+封面吸引力不足"，optimized 必须**大幅重写标题**（换骨架、加更强钩子），reason 说"重置门面"。
+- **选题失败**（CTR<标杆×0.6 且 AVD占比<8%）：题材本身不适合此频道 → issues 写"选题偏离定位"，optimized 给"如果非要拍此类题材应该怎么写"但明确标注"建议不再拍此类"。
+- **表现平庸**（其他）：常规优化建议。
+- **样本不足**（展示<500）：optimized 可以出，但 issues 里写"数据样本不足，仅供参考"，score 不能超过 6。
+- **数据异常待核实**（1%留存<5% 或其他极端）：不出 optimized 建议，issues 写"数据异常，需人工核实"。
 
 ## 诊断框架：骨架 × 血肉 × 创新
 - **骨架**= 叙事原型（先抑后扬、低位闯高位、隐藏身份、第一人称极端遭遇等）。骨架是标题的叙事结构，决定观众的期待类型。
@@ -799,6 +830,8 @@ def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", 
 ## 频道数据
 {vids_text}
 
+## 视频象限归类（Python 已归类，你必须按此对症下药）
+{quadrant_text}
 {growth_text}
 
 {market_ref}
@@ -1366,6 +1399,429 @@ def _discover_genre(videos: list) -> dict:
     }
 
 
+def _load_ctr_cache(slug: str) -> dict:
+    """读 data/yt_analytics/{slug}_ctr.json；不存在返回 {}。"""
+    if not slug:
+        return {}
+    p = ROOT / "data" / "yt_analytics" / f"{slug}_ctr.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _channel_ctr_slug(stats: dict, snapshot: dict) -> str:
+    """从 snapshot/stats 反解 CTR 缓存的 slug。"""
+    # snapshot 里可能直接带 slug
+    for key in ("_slug", "slug", "channel_slug"):
+        s = snapshot.get(key) or stats.get(key)
+        if s:
+            return s
+    # 用频道名反解（复用 _resolve_oauth_slug 的逻辑）
+    name = stats.get("name", "")
+    if not name:
+        return ""
+    try:
+        return _resolve_oauth_slug(name, name.replace(" ", "_"))
+    except Exception:
+        return ""
+
+
+def _compute_ctr_findings(stats: dict, yt_analytics: dict, snapshot: dict) -> dict:
+    """批3.1: findings["ctr"] — 每视频 {videoId, impressions, ctr, status} + 频道汇总。"""
+    slug = _channel_ctr_slug(stats, snapshot)
+    cache = _load_ctr_cache(slug)
+    if not cache or cache.get("status") == "pending":
+        return {
+            "status": "pending" if cache else "no_data",
+            "slug": slug,
+            "videos": [],
+            "channel": {"impressions_28d": 0, "ctr_median_28d": 0.0,
+                        "impressions_to_views_ratio": None},
+            "note": "CTR job pending (报表 24-48h 后可用)" if cache
+                    else "无 CTR job，未接入 Reporting API",
+        }
+    vids_map = cache.get("videos", {})
+    ctr_videos = []
+    for vid, d in vids_map.items():
+        imp = d.get("impressions_28d", 0)
+        if imp < 500:
+            status = "样本不足"
+        elif imp < 2000:
+            status = "低置信"
+        else:
+            status = "ok"
+        ctr_videos.append({
+            "video_id": vid,
+            "impressions": imp,
+            "ctr": d.get("ctr_28d", 0.0),
+            "days_with_data": d.get("days_with_data", 0),
+            "status": status,
+        })
+    # 频道级：展示总量 + 中位数 + 展示:播放比
+    ch = cache.get("channel_totals", {})
+    total_imp = ch.get("impressions_28d", 0)
+    # 从 yt_analytics.summary 拿 28d 播放（近似：collect 用 30d，用其 views）
+    period_views = 0
+    if yt_analytics and yt_analytics.get("summary"):
+        srow = yt_analytics["summary"].get("rows", [[]])[0] if yt_analytics["summary"].get("rows") else []
+        sheaders = yt_analytics["summary"].get("headers", [])
+        if "views" in sheaders and srow:
+            period_views = srow[sheaders.index("views")] or 0
+    imp_to_view = (total_imp / period_views) if period_views > 0 else None
+    return {
+        "status": "ok",
+        "slug": slug,
+        "videos": ctr_videos,
+        "channel": {
+            "impressions_28d": total_imp,
+            "ctr_median_28d": ch.get("ctr_median_28d", 0.0),
+            "impressions_to_views_ratio": round(imp_to_view, 2) if imp_to_view else None,
+            "video_count": ch.get("video_count", 0),
+        },
+        "date_range": cache.get("date_range", {}),
+    }
+
+
+def _compute_quadrant_findings(ctr_findings: dict, yt_analytics: dict, videos: list, snapshot: dict) -> dict:
+    """批3.1: findings["quadrant"] — 四象限归类。含降级规则（第一条判定）。
+
+    降级判定（按顺序）：
+      1. 无 OAuth token 且无 CTR → status: "skipped"
+      2. 有 OAuth 但 CTR pending → status: "provisional"，横轴用 7日播放/28日中位数代理
+      3. 完整数据 → status: "ok"，CTR × AVD占比 归类
+
+    输出 _quadrant_source: "python" 标记。
+    """
+    ctr_status = ctr_findings.get("status", "no_data")
+    has_oauth = bool(yt_analytics) and bool(yt_analytics.get("summary"))
+
+    # 降级1：无 OAuth 且无 CTR
+    if not has_oauth and ctr_status in ("no_data", "pending"):
+        return {
+            "_quadrant_source": "python",
+            "status": "skipped",
+            "reason": "无OAuth/CTR数据",
+            "buckets": {},
+        }
+
+    # 降级2：有 OAuth 但 CTR pending → provisional，横轴用播放代理
+    if ctr_status == "pending" and has_oauth:
+        return _quadrant_provisional(yt_analytics, videos)
+
+    # 降级3：无 OAuth 但有 CTR（罕见）→ 也按 provisional 处理
+    if ctr_status == "ok" and not has_oauth:
+        return _quadrant_provisional_ctr_only(ctr_findings, videos)
+
+    # 正常路径：CTR × AVD占比
+    return _quadrant_ok(ctr_findings, yt_analytics, videos)
+
+
+def _title_lookup(videos: list, yt_analytics: dict) -> dict:
+    """videoId -> title，多级回退。"""
+    title_map = {}
+    for v in videos:
+        vid = v.get("id") or v.get("video_id")
+        if vid:
+            title_map[vid] = v.get("title", "")
+    # 从 yt_analytics.video_meta 补
+    vm = (yt_analytics or {}).get("video_meta", {}).get("titles", {})
+    for vid, t in vm.items():
+        if vid not in title_map or not title_map[vid]:
+            title_map[vid] = t
+    return title_map
+
+
+def _video_duration_sec(videos: list) -> dict:
+    """videoId -> 时长(秒)，读 ISO8601 duration。"""
+    import re as _re
+    out = {}
+    for v in videos:
+        vid = v.get("id") or v.get("video_id")
+        dur = v.get("duration", "") or v.get("duration_iso", "")
+        if not vid or not dur:
+            continue
+        m = _re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', dur)
+        if m:
+            out[vid] = int(m.group(1) or 0) * 3600 + int(m.group(2) or 0) * 60 + int(m.group(3) or 0)
+    return out
+
+
+def _quadrant_ok(ctr_findings: dict, yt_analytics: dict, videos: list) -> dict:
+    """CTR × AVD占比 正常归类。"""
+    # AVD 数据从 top_videos 读（headers 含 averageViewDuration/averageViewPercentage）
+    tv = (yt_analytics or {}).get("top_videos", {})
+    headers = tv.get("headers", [])
+    rows = tv.get("rows", [])
+    idx = {h: i for i, h in enumerate(headers)}
+    avd_map = {}
+    for r in rows:
+        vid = r[idx.get("video", 0)]
+        dur_s = r[idx["averageViewDuration"]] if "averageViewDuration" in idx else 0
+        pct = r[idx["averageViewPercentage"]] if "averageViewPercentage" in idx else 0
+        avd_map[vid] = {"avg_duration_s": dur_s, "avg_pct": pct}
+
+    # 视频时长（用于 avg_pct 缺失时回退）
+    dur_map = _video_duration_sec(videos)
+    title_map = _title_lookup(videos, yt_analytics)
+
+    # 留存 1pct（存入每视频的 hook_1pct 供 LLM 分型，但不参与归类）
+    ret_videos = ((yt_analytics or {}).get("retention", {}) or {}).get("videos", [])
+    hook_1pct_map = {v.get("video_id"): v.get("retention_1pct") for v in ret_videos}
+
+    buckets = {
+        "爆款基因": [], "标题超卖_开头型": [], "标题超卖_中段型": [],
+        "门面拖累": [], "选题失败": [], "表现平庸": [],
+        "样本不足": [], "数据异常待核实": [],
+    }
+
+    for cv in ctr_findings.get("videos", []):
+        vid = cv["video_id"]
+        imp = cv["impressions"]
+        ctr = cv["ctr"]  # 小数
+        status = cv["status"]
+        title = title_map.get(vid, vid)
+        avd = avd_map.get(vid, {})
+        avd_pct = avd.get("avg_pct") or 0
+        avd_s = avd.get("avg_duration_s") or 0
+        hook_1pct = hook_1pct_map.get(vid)
+
+        # 异常隔离
+        if hook_1pct is not None and hook_1pct < 0.05:
+            buckets["数据异常待核实"].append(_qv(vid, title, imp, ctr, avd_pct, hook_1pct, "1%留存<5%"))
+            continue
+        if status == "样本不足":
+            buckets["样本不足"].append(_qv(vid, title, imp, ctr, avd_pct, hook_1pct, "展示<500"))
+            continue
+
+        # CTR 横轴阈值（1-2h 超长短剧）
+        ctr_pct = ctr * 100
+        if ctr_pct >= 6:
+            ctr_band = "high"
+        elif ctr_pct < 2.5:
+            ctr_band = "low"
+        else:
+            ctr_band = "mid"
+
+        # AVD 纵轴：avg_pct，缺失回退到 AVD 秒数
+        if avd_pct > 0:
+            if avd_pct >= 15:
+                avd_band = "high"
+            elif avd_pct < 10:
+                avd_band = "low"
+            else:
+                avd_band = "mid"
+        elif avd_s > 0:
+            if avd_s >= 900:
+                avd_band = "high"
+            elif avd_s < 480:
+                avd_band = "low"
+            else:
+                avd_band = "mid"
+        else:
+            avd_band = "mid"  # 无 AVD 数据保守走中间带
+
+        # 归类
+        if ctr_band == "mid" or avd_band == "mid":
+            bucket = "表现平庸"
+        elif ctr_band == "high" and avd_band == "high":
+            bucket = "爆款基因"
+        elif ctr_band == "high" and avd_band == "low":
+            # 分型：hook_1pct<80% 开头型；≥80% 中段型
+            if hook_1pct is not None and hook_1pct < 0.80:
+                bucket = "标题超卖_开头型"
+            else:
+                bucket = "标题超卖_中段型"
+        elif ctr_band == "low" and avd_band == "high":
+            bucket = "门面拖累"
+        else:  # low, low
+            bucket = "选题失败"
+
+        note = "低置信" if status == "低置信" else ""
+        buckets[bucket].append(_qv(vid, title, imp, ctr, avd_pct, hook_1pct, note))
+
+    return {
+        "_quadrant_source": "python",
+        "status": "ok",
+        "buckets": buckets,
+        "axis_meta": {
+            "x": "CTR (阈值: <2.5% low / 2.5-6% mid / ≥6% high)",
+            "y": "AVD占比 (阈值: <10% low / 10-15% mid / ≥15% high)",
+            "note": "1%留存不参与归类，仅供分型标题超卖开头型/中段型",
+        },
+    }
+
+
+def _qv(vid, title, imp, ctr, avd_pct, hook_1pct, note):
+    return {
+        "video_id": vid, "title": title,
+        "impressions": imp, "ctr": round(ctr, 4),
+        "avd_pct": round(avd_pct or 0, 1),
+        "hook_1pct": round(hook_1pct, 3) if hook_1pct else None,
+        "note": note,
+    }
+
+
+def _quadrant_provisional(yt_analytics: dict, videos: list) -> dict:
+    """有 OAuth 但 CTR pending：横轴用 7日播放/频道28日播放中位数 代理。"""
+    tv = (yt_analytics or {}).get("top_videos", {})
+    headers = tv.get("headers", [])
+    rows = tv.get("rows", [])
+    idx = {h: i for i, h in enumerate(headers)}
+    if not rows or "views" not in idx:
+        return {"_quadrant_source": "python", "status": "provisional",
+                "reason": "无 top_videos 数据", "buckets": {}}
+    views_all = sorted([r[idx["views"]] for r in rows if r[idx["views"]]])
+    median_views = views_all[len(views_all) // 2] if views_all else 1
+
+    title_map = _title_lookup(videos, yt_analytics)
+    buckets = {
+        "爆款基因_provisional": [], "标题超卖_provisional": [],
+        "门面拖累_provisional": [], "选题失败_provisional": [],
+        "表现平庸_provisional": [],
+    }
+    for r in rows:
+        vid = r[idx["video"]]
+        views = r[idx["views"]]
+        avd_pct = r[idx["averageViewPercentage"]] if "averageViewPercentage" in idx else 0
+        title = title_map.get(vid, vid)
+        # 横轴代理：views / median_views
+        ratio = views / median_views if median_views > 0 else 1
+        if ratio >= 1.5:
+            x = "high"
+        elif ratio < 0.5:
+            x = "low"
+        else:
+            x = "mid"
+        if avd_pct >= 15:
+            y = "high"
+        elif avd_pct < 10:
+            y = "low"
+        else:
+            y = "mid"
+        item = {"video_id": vid, "title": title, "views": views,
+                "avd_pct": round(avd_pct, 1), "views_ratio": round(ratio, 2)}
+        if x == "mid" or y == "mid":
+            buckets["表现平庸_provisional"].append(item)
+        elif x == "high" and y == "high":
+            buckets["爆款基因_provisional"].append(item)
+        elif x == "high" and y == "low":
+            buckets["标题超卖_provisional"].append(item)
+        elif x == "low" and y == "high":
+            buckets["门面拖累_provisional"].append(item)
+        else:
+            buckets["选题失败_provisional"].append(item)
+    return {
+        "_quadrant_source": "python", "status": "provisional",
+        "reason": "CTR job pending，横轴用播放代理",
+        "buckets": buckets,
+        "axis_meta": {"x": "7日播放÷28日中位数 (临时代理，等CTR数据)",
+                      "y": "AVD占比"},
+    }
+
+
+def _quadrant_provisional_ctr_only(ctr_findings, videos):
+    return {"_quadrant_source": "python", "status": "provisional",
+            "reason": "有 CTR 无 OAuth AVD（罕见）", "buckets": {}}
+
+
+def _compute_sub_conversion(yt_analytics: dict, snapshot: dict) -> dict:
+    """批3.1: findings["sub_conversion"] — 每视频 sub_conversion + Top3/Bottom3 排序。"""
+    tv = (yt_analytics or {}).get("top_videos", {})
+    headers = tv.get("headers", [])
+    rows = tv.get("rows", [])
+    idx = {h: i for i, h in enumerate(headers)}
+    if not rows or "subscribersGained" not in idx or "views" not in idx:
+        return {"status": "no_data", "reason": "top_videos 无 subscribersGained 字段（需重跑采集）"}
+
+    videos = snapshot.get("videos", [])
+    title_map = _title_lookup(videos, yt_analytics)
+
+    per_video = []
+    total_gained = 0
+    total_lost = 0
+    for r in rows:
+        vid = r[idx["video"]]
+        views = r[idx["views"]] or 0
+        gained = r[idx["subscribersGained"]] or 0
+        lost = r[idx["subscribersLost"]] if "subscribersLost" in idx else 0
+        total_gained += gained
+        total_lost += lost
+        if views <= 0:
+            continue
+        conv = gained / views  # 小数
+        per_video.append({
+            "video_id": vid,
+            "title": title_map.get(vid, vid),
+            "views": views,
+            "subs_gained": gained,
+            "subs_lost": lost,
+            "sub_conversion": round(conv, 5),
+        })
+    per_video.sort(key=lambda x: x["sub_conversion"], reverse=True)
+    # 频道级
+    if total_gained > 0:
+        overall_conv = sum(v["subs_gained"] for v in per_video) / max(sum(v["views"] for v in per_video), 1)
+        if overall_conv >= 0.005:
+            level = "优秀"
+        elif overall_conv >= 0.002:
+            level = "一般"
+        else:
+            level = "较差"
+    else:
+        overall_conv = 0
+        level = "无数据"
+    return {
+        "status": "ok",
+        "top3": per_video[:3],
+        "bottom3": [v for v in per_video[-3:] if v["sub_conversion"] > 0] or per_video[-3:],
+        "channel_overall_conversion": round(overall_conv, 5),
+        "channel_level": level,
+        "total_gained": total_gained,
+        "total_lost": total_lost,
+    }
+
+
+def _compute_monetization(stats: dict, yt_analytics: dict) -> dict:
+    """批3.1: findings["monetization"] — YPP门槛分项判定，达标标 ✅。"""
+    subs = stats.get("subscribers", 0)
+    # 近12月观看时长（小时）：优先从 stats/yt_analytics 拿
+    watch_hours = None
+    if yt_analytics and yt_analytics.get("summary"):
+        srow = yt_analytics["summary"].get("rows", [[]])[0] if yt_analytics["summary"].get("rows") else []
+        sheaders = yt_analytics["summary"].get("headers", [])
+        if "estimatedMinutesWatched" in sheaders and srow:
+            # 注意：summary 是 30d 窗口，非 12mo，这里只作参考
+            minutes = srow[sheaders.index("estimatedMinutesWatched")] or 0
+            watch_hours = round(minutes / 60, 1)
+    # 分项判定
+    subs_ok = subs >= 1000
+    subs_gap = max(0, 1000 - subs)
+    hours_status = None
+    hours_gap = None
+    hours_ok = False
+    if watch_hours is not None:
+        # 保守：只标注 30d 窗口，YPP 阈值是 4000h/12mo，这里给参考
+        hours_status = f"30d窗口={watch_hours}h（YPP阈值4000h/12mo，需另计算）"
+        # 不做 ok 判定（数据窗口不匹配）
+    return {
+        "subscribers": {
+            "value": subs, "threshold": 1000,
+            "ok": subs_ok,
+            "display": f"订阅 {subs}/1000 {'✅已达标' if subs_ok else f'缺口{subs_gap}'}",
+        },
+        "watch_hours": {
+            "value_30d": watch_hours,
+            "threshold_12mo": 4000,
+            "note": hours_status or "无 OAuth 数据，无法评估",
+            "display": "观看时长: 30d 采集窗口不等于 YPP 的 12mo 累计，需另跑长窗口查询",
+        },
+        "ypp_ready": subs_ok,  # 只以订阅达标作为初判（时长口径不匹配）
+    }
+
+
 def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
     """Step 2: 研究 — 采集所有数据，输出结构化findings
 
@@ -1918,6 +2374,12 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         }
 
     # ── 汇总 ──
+    # ── CTR / 四象限 / 订阅转化 / 变现（批3新增） ──
+    ctr_findings = _compute_ctr_findings(stats, yt_analytics, snapshot)
+    quadrant_findings = _compute_quadrant_findings(ctr_findings, yt_analytics, videos, snapshot)
+    sub_conv_findings = _compute_sub_conversion(yt_analytics, snapshot)
+    monetization_findings = _compute_monetization(stats, yt_analytics)
+
     return {
         "channel": {
             "name": stats.get("name", ""),
@@ -1949,6 +2411,10 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         "top_videos_detail": top_videos_detail,
         "demo_watch": demo_watch_detail,
         "avd": avd_detail,
+        "ctr": ctr_findings,
+        "quadrant": quadrant_findings,
+        "sub_conversion": sub_conv_findings,
+        "monetization": monetization_findings,
     }
 
 
@@ -2083,6 +2549,79 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
             avd_lines.append(f"  {v['video_id']}: {v['avg_duration_text']} | {v['views']:,}播放")
         avd_text = "\n".join(avd_lines)
 
+    # ── 批3新增：CTR / 四象限 / 订阅转化 / 变现 文本 ──
+    ctr = findings.get("ctr", {})
+    ctr_status_str = ctr.get("status", "no_data")
+    ctr_text = "无CTR数据（无 Reporting API job）"
+    if ctr_status_str == "pending":
+        ctr_text = "CTR job pending — 报表 24-48h 后可用。当前诊断为临时版：门面（标题/封面）判断请用推荐流量占比作代理（>40%=隐性健康）。"
+    elif ctr_status_str == "ok":
+        ch_ctr = ctr.get("channel", {})
+        imp = ch_ctr.get("impressions_28d", 0)
+        cmed = ch_ctr.get("ctr_median_28d", 0)
+        rat = ch_ctr.get("impressions_to_views_ratio")
+        cnt = ch_ctr.get("video_count", 0)
+        ctr_text = (f"频道级(28天): 展示量={imp:,} | CTR中位数={cmed*100:.2f}% | "
+                    f"展示:播放={rat if rat else 'N/A'} | 覆盖视频数={cnt}\n")
+        # 视频级 Top10 CTR + Bottom5 CTR（有数据的）
+        vids_ok = [v for v in ctr.get("videos", []) if v["status"] in ("ok", "低置信")]
+        vids_ok.sort(key=lambda x: x["ctr"], reverse=True)
+        top_lines = [f"  🔥 {v['video_id']}: CTR={v['ctr']*100:.2f}% 展示={v['impressions']:,} ({v['status']})"
+                     for v in vids_ok[:8]]
+        bot_lines = [f"  💤 {v['video_id']}: CTR={v['ctr']*100:.2f}% 展示={v['impressions']:,} ({v['status']})"
+                     for v in vids_ok[-5:] if v['status']=='ok']
+        ctr_text += "Top CTR 视频:\n" + "\n".join(top_lines)
+        if bot_lines:
+            ctr_text += "\nBottom CTR 视频（需要优化门面）:\n" + "\n".join(bot_lines)
+
+    # 四象限
+    quadrant = findings.get("quadrant", {})
+    q_status = quadrant.get("status", "skipped")
+    q_text_parts = [f"归类来源: {quadrant.get('_quadrant_source', 'unknown')} (LLM 只解读，禁止重新归类)"]
+    if q_status == "skipped":
+        q_text_parts.append(f"状态: SKIPPED — {quadrant.get('reason','')}")
+        q_text_parts.append("→ 无 OAuth/CTR 数据，四象限不适用；请只做钩子/骨架/赞率维度的分析。")
+    elif q_status == "provisional":
+        q_text_parts.append(f"状态: PROVISIONAL — {quadrant.get('reason','')}")
+        q_text_parts.append(f"轴: {quadrant.get('axis_meta', {})}")
+        for name, items in quadrant.get("buckets", {}).items():
+            q_text_parts.append(f"  {name}: {len(items)}条")
+            for it in items[:3]:
+                q_text_parts.append(f"    • {_sanitize_title(it.get('title',''))[:40]} views={it.get('views',0):,} AVD={it.get('avd_pct',0)}%")
+        q_text_parts.append("→ 因是代理数据，行动建议降一档：只给方向不给具体动作（如'重发封面'这类需 CTR 数据支持）。")
+    elif q_status == "ok":
+        q_text_parts.append(f"轴: {quadrant.get('axis_meta', {})}")
+        buckets = quadrant.get("buckets", {})
+        total = sum(len(v) for v in buckets.values())
+        q_text_parts.append(f"总归类视频数: {total}")
+        for name, items in buckets.items():
+            q_text_parts.append(f"  【{name}】{len(items)}条")
+            for it in items[:3]:
+                lc = f" 低置信" if it.get("note") == "低置信" else ""
+                hk = f" hook1%={int(it['hook_1pct']*100)}%" if it.get('hook_1pct') else ""
+                q_text_parts.append(f"    • {_sanitize_title(it.get('title',''))[:40]} CTR={it['ctr']*100:.2f}% AVD={it.get('avd_pct',0)}%{hk}{lc}")
+    quadrant_text = "\n".join(q_text_parts)
+
+    # 订阅转化
+    sc = findings.get("sub_conversion", {})
+    if sc.get("status") == "ok":
+        sc_top = "\n".join(f"  🏆 {_sanitize_title(v['title'])[:40]}: {v['sub_conversion']*100:.3f}% ({v['subs_gained']}订阅/{v['views']:,}播放)"
+                           for v in sc.get("top3", []))
+        sc_bot = "\n".join(f"  🥶 {_sanitize_title(v['title'])[:40]}: {v['sub_conversion']*100:.3f}% ({v['subs_gained']}订阅/{v['views']:,}播放)"
+                           for v in sc.get("bottom3", []))
+        sub_conv_text = (f"频道级: 总增订阅={sc.get('total_gained',0)} / 总流失={sc.get('total_lost',0)} | "
+                         f"整体转化率={sc.get('channel_overall_conversion',0)*100:.3f}% ({sc.get('channel_level','')})\n"
+                         f"Top3(值得继续剪同类):\n{sc_top}\n"
+                         f"Bottom3(检查是否偏离定位):\n{sc_bot}")
+    else:
+        sub_conv_text = f"无订阅转化数据 — {sc.get('reason', '需重跑 collect_yt_analytics 采 subscribersGained')}"
+
+    # 变现
+    mn = findings.get("monetization", {})
+    sub_disp = mn.get("subscribers", {}).get("display", "")
+    hr_disp = mn.get("watch_hours", {}).get("note", "")
+    monetization_text = f"{sub_disp}\n观看时长: {hr_disp}\nYPP初判: {'✅ 订阅已达标' if mn.get('ypp_ready') else '❌ 未达标'}"
+
     # 蒸馏骨架文本
     skel_text = "\n".join(f"- {s}" for s in dist.get("skeletons", [])) or "无"
 
@@ -2140,11 +2679,24 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 
     prompt = f"""你是短剧YouTube频道运营诊断专家。基于以下结构化findings，给出战略诊断。
 
+## 数据纪律（严格执行）
+1. **四象限归类已由 Python 完成，你只解读不重新归类**——`findings["quadrant"]` 里的 buckets 是最终归类，禁止改动/重排。你的任务是对每个 bucket 里的视频提出具体动作建议。
+2. **归类状态影响诊断口径**：
+   - `status: "skipped"` → 无 CTR 数据，四象限相关的诊断段直接说"无 CTR 数据，跳过门面/内容拆分"，不要编。
+   - `status: "provisional"` → 用播放代理，行动降一档（只给方向不给具体动作，如"标题超卖"改为"疑似标题超卖，等 CTR 数据 24-48h 后再定"）。
+   - `status: "ok"` → 正常归类，可给具体动作。
+3. **CTR ≥ 4% 的视频禁止建议改标题/封面**——门面已经在跑，改动风险 > 收益。
+4. **CTR < 2.5% 但 AVD 占比 ≥ 15% 的视频（门面拖累）**，行动只写"重置封面+标题"，不评论剧情节奏。
+5. **AVD 占比是整体指标，不代表开头 hook**。判断开头 hook 只看 `retention.avg_retention_1pct`（1% 处/≈1分钟）；判断中段只看 3 分钟留存；不要用 AVD 占比推断"前 30 秒 hook"。
+6. **样本不足/低置信视频（展示<500 或 <2000）不要给具体动作**，只列出等观察。异常视频（1%留存<5%）标记"数据异常，需要人工核实"。
+7. **因果纪律**：结论必须给出"由哪个数据字段推出"。禁止把相关性说成因果（如"发布频率下降导致订阅下降"需要有增长曲线数据支撑，仅有两个数据点不足以下因果结论）。
+8. **变现达标必标 ✅**：`findings["monetization"]` 里 `subscribers.ok=true` 意味着订阅门槛已达标，`monetization_detail.subscribers` 必须写"✅ 已达标"。禁止把已达标项写成"接近达标"或"还需努力"。
+
 ## 诊断框架（必须遵守）
 
 ### CTR×AVD（点击率×平均观看时长）
 - 点击率由标题和封面决定
-- AVD由内容质量和前30秒hook决定
+- AVD由整体内容质量、中段节奏、时长匹配决定（AVD占比是整体指标，不用于判断开头hook；开头hook只看1分钟留存）
 - 两个指标共同决定算法推荐量
 
 ### 钩子×骨架×包装
@@ -2229,6 +2781,18 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 
 ### 分段留存（OAuth实测）
 {retention_text}
+
+### CTR / 展示（Reporting API 28天）
+{ctr_text}
+
+### 视频四象限归类（Python 已归类，只解读不重排）
+{quadrant_text}
+
+### 订阅转化率（每视频 subGained/views）
+{sub_conv_text}
+
+### 变现就绪度（YPP 门槛分项）
+{monetization_text}
 
 ### 蒸馏知识（同语种）
 最佳标题长度: {dist.get('best_title_length', 84)}
@@ -2328,7 +2892,43 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
   "cover_title_synergy": {{"score": 0, "assessment": "封面×标题协同评估", "improvement": "改进建议"}},
   "series_analysis": {{"current_series": "当前系列识别", "series_count": 0, "series_performance": "系列效果评估", "recommendation": "系列化建议"}},
   "actions": [{{"priority": 1, "action": "具体动作", "expected_impact": "预期效果", "effort": "低/中/高"}}],
-  "ai_discoveries": [{{"pattern": "发现的规律", "evidence": "数据支撑", "insight": "这意味着什么"}}]
+  "ai_discoveries": [{{"pattern": "发现的规律", "evidence": "数据支撑", "insight": "这意味着什么"}}],
+
+  "ctr_status": "ok|pending|no_data",
+  "quadrant_summary": {{
+    "status": "ok|provisional|skipped",
+    "total_classified": 0,
+    "bucket_takeaways": [
+      {{"bucket": "爆款基因", "count": 0, "action": "继续剪同类，量产模板"}},
+      {{"bucket": "标题超卖_开头型", "count": 0, "action": "改标题降调（hook<80%）"}},
+      {{"bucket": "标题超卖_中段型", "count": 0, "action": "标题OK，中段节奏改"}},
+      {{"bucket": "门面拖累", "count": 0, "action": "重置封面+标题"}},
+      {{"bucket": "选题失败", "count": 0, "action": "选题方向不适合此频道"}}
+    ],
+    "note": "只针对 findings.quadrant.buckets 里非空的桶给出 takeaway；每个 takeaway 用 1 句话"
+  }},
+  "sub_conversion_analysis": {{
+    "channel_level": "优秀/一般/较差/无数据",
+    "top_pattern": "从 Top3 视频看，什么类型的内容最能带订阅（题材/骨架/钩子）",
+    "bottom_pattern": "从 Bottom3 视频看，什么内容拉低转化（是否偏离定位）",
+    "action": "1 句话建议"
+  }},
+  "bottleneck": {{
+    "primary": "当前最卡脖子的一件事（订阅/CTR/AVD/发布频率 之一）",
+    "evidence": "支撑数据",
+    "next_lever": "撬开瓶颈的下一个动作（唯一，非清单）"
+  }},
+  "monetization_detail": {{
+    "subscribers": "✅ 已达标 | ❌ 缺口N（数值）",
+    "watch_hours_12mo": "达标情况或说明数据窗口不匹配",
+    "engagement_gate": "互动是否健康"
+  }},
+  "delta": {{
+    "vs_last_diagnosis": "对比上次诊断（如无历史，写'首次诊断'）",
+    "moved_forward": ["改善维度"],
+    "regressed": ["退步维度"],
+    "note": "由 Python 填充 vs 历史 diagnosis_latest.json，LLM 只写自然语言说明"
+  }}
 }}"""
 
     print(f"  🧠 Step 3: 战略诊断...", end="", flush=True)
@@ -2342,7 +2942,106 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
         print(f" ⚠️ 解析失败: {parsed.get('error', 'no health_score')} | raw: {str(parsed.get('raw', result.get('content', '')))[:200]}")
         return None
 
+    # 批3.3 后校验（Python 层，硬约束）
+    parsed = _post_validate_diagnosis(parsed, findings)
+
     print(f" ✅ 健康度{parsed.get('health_score')}/10 ({parsed.get('health_grade')})")
+    return parsed
+
+
+def _post_validate_diagnosis(parsed: dict, findings: dict) -> dict:
+    """批3.3: LLM 输出后校验，硬约束修正 + 冲突检测 + audit trail + Python 兜底 additive 字段。"""
+    audit = []
+    problems = parsed.get("problems", []) or []
+    strengths = parsed.get("strengths", []) or []
+    orig_score = parsed.get("health_score", 5)
+
+    # 规则1: 有 critical 且 health_score > 6.5 → 封顶 6.5
+    has_critical = any((p.get("severity") == "critical") for p in problems)
+    if has_critical and orig_score > 6.5:
+        parsed["health_score"] = 6.5
+        parsed["health_grade"] = "C"
+        audit.append(f"critical 问题存在，health_score 由 {orig_score} 封顶到 6.5")
+
+    # 规则2: 冲突检测 — 同一维度既在 strengths 又在 problems（写入顶层 conflicts）
+    strength_areas = {(s.get("area") or "").strip() for s in strengths}
+    problem_areas = {(p.get("area") or "").strip() for p in problems}
+    conflicts_set = (strength_areas & problem_areas) - {""}
+    conflicts_list = []
+    for area in conflicts_set:
+        s_entry = next((s for s in strengths if (s.get("area") or "").strip() == area), {})
+        p_entry = next((p for p in problems if (p.get("area") or "").strip() == area), {})
+        conflicts_list.append({
+            "dimension": area,
+            "as_strength": s_entry.get("detail", ""),
+            "as_problem": p_entry.get("detail", ""),
+            "resolution": "LLM 未消化数据，需人工判断哪边成立",
+        })
+    if conflicts_list:
+        parsed["conflicts"] = conflicts_list
+        audit.append(f"检测到 strengths/problems 冲突维度: {sorted(conflicts_set)}")
+
+    # 规则3: 四象限 skipped 时禁止出现 CTR 相关的具体动作词
+    q_status = (findings.get("quadrant") or {}).get("status", "ok")
+    if q_status == "skipped":
+        actions = parsed.get("actions", []) or []
+        banned = ["CTR", "点击率", "重置封面", "重发封面"]
+        filtered = []
+        for a in actions:
+            act_str = a.get("action", "")
+            if any(b in act_str for b in banned):
+                audit.append(f"删除 CTR 相关动作（quadrant=skipped）: {act_str[:40]}")
+                continue
+            filtered.append(a)
+        parsed["actions"] = filtered
+
+    # 规则4: hood 提"前30秒"但依据是 AVD → 打警告
+    for p in problems:
+        det = p.get("detail", "") + p.get("evidence", "")
+        if ("前30秒" in det or "开头 hook" in det) and "AVD" in det and "1%" not in det and "1分钟" not in det:
+            audit.append(f"疑似违规：hood 提及'前30秒'但依据是 AVD（应看1%留存）: {det[:80]}")
+            p["_audit_warning"] = "AVD 不能证明开头 hook 问题"
+
+    # 规则5: additive 字段 Python 兜底（LLM 漏填时补上）
+    mn = findings.get("monetization") or {}
+    subs_info = mn.get("subscribers") or {}
+    if "monetization_detail" not in parsed or not isinstance(parsed.get("monetization_detail"), dict):
+        parsed["monetization_detail"] = {}
+    md = parsed["monetization_detail"]
+    # 强制 subscribers 字段说真话
+    if subs_info.get("ok"):
+        if md.get("subscribers") != subs_info.get("display", "✅ 已达标"):
+            audit.append(f"monetization_detail.subscribers 修正为 Python 事实值: {subs_info.get('display')}")
+            md["subscribers"] = subs_info.get("display", "✅ 已达标")
+    else:
+        md.setdefault("subscribers", subs_info.get("display", f"❌ 缺口{max(0, 1000 - subs_info.get('value', 0))}"))
+    md.setdefault("watch_hours_12mo", (mn.get("watch_hours") or {}).get("note", "无数据"))
+    md.setdefault("engagement_gate", "未评估" if not md.get("engagement_gate") else md["engagement_gate"])
+
+    # ctr_status 兜底
+    ctr_s = (findings.get("ctr") or {}).get("status", "no_data")
+    if parsed.get("ctr_status") not in ("ok", "pending", "no_data"):
+        parsed["ctr_status"] = ctr_s
+        audit.append(f"ctr_status 兜底填充为 {ctr_s}")
+
+    # quadrant_summary 兜底 total_classified
+    q = findings.get("quadrant") or {}
+    total_c = sum(len(v) for v in (q.get("buckets") or {}).values())
+    qs = parsed.get("quadrant_summary") or {}
+    if not isinstance(qs, dict):
+        qs = {}
+    qs.setdefault("status", q.get("status", "skipped"))
+    qs["total_classified"] = total_c
+    parsed["quadrant_summary"] = qs
+
+    # delta 兜底：首次诊断标记
+    if "delta" not in parsed or not isinstance(parsed.get("delta"), dict):
+        parsed["delta"] = {}
+    if not parsed["delta"].get("vs_last_diagnosis"):
+        parsed["delta"]["vs_last_diagnosis"] = "首次诊断（无历史对比）"
+
+    if audit:
+        parsed["_audit_trail"] = audit
     return parsed
 
 
@@ -2476,8 +3175,8 @@ def _generate_channel_diagnostics(snapshot: dict, distill: dict, diagnosis: dict
                     "severity": "critical",
                     "category": "留存",
                     "issue": f"留存率 {avg_pct}% 低于同长度基准 {bench_low}%",
-                    "detail": f"平均观看 {avg_dur//60}分{avg_dur%60}秒，视频预估 {est_video_dur//60} 分钟。前30秒hook可能不足。",
-                    "action": "① 前5秒必须有冲突/悬念（不要片头logo）\n② 前30秒设置第一个反转\n③ 分析留存曲线找到掉粉节点"
+                    "detail": f"平均观看 {avg_dur//60}分{avg_dur%60}秒，视频预估 {est_video_dur//60} 分钟。平均观看占比 {avg_pct}%，中段流失严重（AVD占比是整体指标，不代表开头hook问题）。",
+                    "action": "① 每3-5分钟设置一次re-engagement hook\n② 检查中段是否有拖沓段落\n③ 分析留存曲线找到掉粉节点（1分钟留存判开头，3-5分钟判中段）"
                 })
             elif avg_pct < bench_ok:
                 diagnostics.append({
@@ -2531,7 +3230,7 @@ def _generate_channel_diagnostics(snapshot: dict, distill: dict, diagnosis: dict
                     "category": "流量",
                     "issue": f"推荐流量偏低 {browse}%",
                     "detail": "算法推荐不足，可能是CTR或留存低于同类频道。",
-                    "action": "① 优化标题钩子\n② 封面增加情绪张力\n③ 确保前30秒留存"
+                    "action": "① 优化标题钩子\n② 封面增加情绪张力\n③ 检查中段节奏（AVD占比反映整体，非前30秒）"
                 })
 
             if search < 5:
@@ -2550,7 +3249,145 @@ def _generate_channel_diagnostics(snapshot: dict, distill: dict, diagnosis: dict
 # 主流程
 # ══════════════════════════════════════════════
 
-def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False) -> dict:
+def _generate_diagnosis_report(out_path: str | None = None) -> None:
+    """从注册表读所有频道，汇总 _latest.json 输出 markdown 报告。
+    融合自旧 scripts/_gen_diagnosis_report.py（一次性硬编码 6 频道 → 现在读注册表）
+    """
+    from datetime import datetime as _dt
+    reg_path = ROOT / "data" / "own" / "our_channels.json"
+    if not reg_path.exists():
+        print(f"❌ 注册表不存在: {reg_path}")
+        return
+    reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    channels = reg.get("channels", [])
+
+    lines = []
+    def add(s=""):
+        lines.append(s)
+
+    add(f"# 频道诊断综合报告")
+    add(f"")
+    add(f"生成时间: {_dt.now().isoformat()}")
+    add(f"频道数: {len(channels)}")
+    add(f"")
+
+    rankings = []
+    for ch_reg in channels:
+        name = ch_reg.get("name", "")
+        lang = ch_reg.get("language_cn") or ch_reg.get("language") or ch_reg.get("market") or "?"
+        # 诊断文件名规则：name.replace(" ", "_")（注册表的 slug 是另一套语义）
+        fname = name.replace(" ", "_")
+        path = DIAGNOSIS_DIR / f"{fname}_latest.json"
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as e:
+            add(f"\n## ❌ {name} ({lang})\n\n读取失败: `{e}`\n")
+            rankings.append((name, 0, 0, "-", 0, 0))
+            continue
+
+        ch = data.get("channel", {}) or {}
+        scored = data.get("video_scores", []) or []
+        ch_llm = data.get("channel_llm", {}) or {}
+        summary_txt = data.get("summary", {}) or {}
+
+        scores = [v.get("score", 0) for v in scored if v.get("score") is not None]
+        avg_score = sum(scores) / len(scores) if scores else 0.0
+        need_opt = sum(1 for v in scored if v.get("needs_optimization", False))
+        total = len(scored)
+
+        hs = ch_llm.get("health_score") or 0
+        grade = ch_llm.get("health_grade", "")
+        subs = ch.get("subscribers", 0)
+        views = ch.get("total_views", 0)
+        rankings.append((name, avg_score, hs, grade, subs, views))
+
+        add(f"\n## 📊 {name} ({lang})")
+        add(f"")
+        add(f"- 订阅: **{subs}** | 总播放: **{views:,}** | 视频: {ch.get('total_videos','?')}")
+        add(f"- 均分: **{avg_score:.1f}/10** | 需优化: {need_opt}/{total}")
+        if hs:
+            add(f"- 健康度: **{hs}/10 {grade}**")
+        if ch_llm.get("summary"):
+            add(f"- 摘要: {ch_llm['summary'][:300]}")
+
+        # additive: bottleneck
+        bn = ch_llm.get("bottleneck") or {}
+        if isinstance(bn, dict) and bn.get("primary"):
+            add(f"")
+            add(f"### 🎯 瓶颈")
+            add(f"- 主要: **{bn['primary']}**")
+            if bn.get("evidence"):
+                add(f"- 依据: {bn['evidence']}")
+            if bn.get("next_lever"):
+                add(f"- 下一步: {bn['next_lever']}")
+
+        # strengths / problems
+        strengths = ch_llm.get("strengths") or []
+        if isinstance(strengths, list) and strengths:
+            add(f"")
+            add(f"### ✅ 核心优势")
+            for s in strengths[:3]:
+                if isinstance(s, dict):
+                    text = f"**{s.get('area','')}**: {s.get('detail','')}"
+                else:
+                    text = str(s)
+                add(f"- {text}")
+
+        problems = ch_llm.get("problems") or []
+        if isinstance(problems, list) and problems:
+            add(f"")
+            add(f"### 🚨 核心问题")
+            for p in problems[:5]:
+                if isinstance(p, dict):
+                    text = f"**{p.get('area','')}**: {p.get('detail','')}"
+                else:
+                    text = str(p)
+                add(f"- {text}")
+
+        actions = ch_llm.get("actions") or []
+        if isinstance(actions, list) and actions:
+            add(f"")
+            add(f"### 🎯 行动清单")
+            for a in actions[:5]:
+                if isinstance(a, dict):
+                    text = f"P{a.get('priority','?')} {a.get('action','')}"
+                else:
+                    text = str(a)
+                add(f"- {text}")
+
+        if scored:
+            sorted_up = sorted(scored, key=lambda x: x.get("score", 0))
+            sorted_down = sorted(scored, key=lambda x: x.get("score", 0), reverse=True)
+            add(f"")
+            add(f"### 📉 最低分（需优先优化）")
+            for v in sorted_up[:3]:
+                add(f"- [{v.get('score',0):.1f}] {v.get('views',0):,}播放 · {_sanitize_title(v.get('title','') or '')[:70]}")
+            add(f"")
+            add(f"### 📈 最高分（标杆）")
+            for v in sorted_down[:3]:
+                add(f"- [{v.get('score',0):.1f}] {v.get('views',0):,}播放 · {_sanitize_title(v.get('title','') or '')[:70]}")
+
+    # 综合排名
+    rankings.sort(key=lambda x: (x[2] or 0) if x[2] else x[1], reverse=True)
+    add(f"\n\n---\n\n## 📈 频道综合排名（按健康度/均分）")
+    add(f"")
+    add(f"| # | 频道 | 均分 | 健康度 | 订阅 | 总播放 |")
+    add(f"|---|------|------|--------|------|--------|")
+    for i, (name, avg, hs, grade, subs, views) in enumerate(rankings, 1):
+        gs = f" {grade}" if grade and grade != "-" else ""
+        add(f"| {i} | {name} | {avg:.1f}/10 | {hs}/10{gs} | {subs} | {views:,} |")
+
+    # 输出
+    if out_path is None:
+        out_path = f"output/channel_diagnosis_report_{_dt.now().strftime('%Y%m%d')}.md"
+    out_p = ROOT / out_path
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+    out_p.write_text("\n".join(lines), encoding="utf-8")
+    print(f"✅ 报告已保存: {out_p}")
+    print(f"频道数: {len(channels)} | 输出: {len(lines)} 行")
+
+
+def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, force_channel_llm: bool = False) -> dict:
     """运行完整诊断（支持增量：已有结果的视频跳过，每批次存盘；force=True强制全部重跑）"""
     lang = CHANNEL_TO_LANG.get(channel_name, "en")
     print(f"\n{'='*50}")
@@ -2729,6 +3566,27 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False) 
     if use_llm and videos_to_analyze:
         print(f"  🧠 LLM诊断: {len(videos_to_analyze)}条新视频（跳过{len(existing_scores)}条已有）...")
 
+        # 批3.1: 预计算每个视频的象限归类（用于给 LLM 单视频 prompt 注入对症纪律）
+        try:
+            _snap_slug = _resolve_oauth_slug(channel_name, slug_r) or channel_name.replace(" ", "_")
+            _ctr_snapshot = {"_slug": _snap_slug}
+            _yt_an = {}
+            _yt_path = ROOT / "data" / "yt_analytics" / f"{_snap_slug}.json"
+            if _yt_path.exists():
+                _yt_an = json.loads(_yt_path.read_text(encoding="utf-8"))
+            _ctr_findings = _compute_ctr_findings({"name": channel_name}, _yt_an, _ctr_snapshot)
+            _quad_findings = _compute_quadrant_findings(_ctr_findings, _yt_an, videos, _ctr_snapshot)
+            quadrant_map = {}
+            for bucket, vlist in (_quad_findings.get("buckets") or {}).items():
+                for entry in vlist:
+                    vid = entry.get("video_id")
+                    if vid:
+                        quadrant_map[vid] = bucket
+            print(f"  🎯 象限归类: {_quad_findings.get('status')} · {len(quadrant_map)} 视频")
+        except Exception as e:
+            print(f"  ⚠️ 象限归类失败（LLM 将按'表现平庸'兜底）: {e}")
+            quadrant_map = {}
+
         # 增量保存回调：每批次完成后立即存盘
         def save_incremental(current_analyses):
             # 映射局部索引→全局索引
@@ -2740,7 +3598,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False) 
             _save_result(channel_name, lang, snapshot, distill, market, scored, avg_like_rate, out_path, video_llm_last_run=existing_result.get("video_llm_last_run"), channel_llm_last_run=existing_result.get("channel_llm_last_run"))
 
         # 映射：llm_analyze_and_optimize返回的索引是videos_to_analyze内的，需要映射回videos的全局索引
-        raw_analyses = llm_analyze_and_optimize(videos_to_analyze, distill, lang, save_callback=save_incremental, growth=snapshot.get("growth", {}), covers=covers_list)
+        raw_analyses = llm_analyze_and_optimize(videos_to_analyze, distill, lang, save_callback=save_incremental, growth=snapshot.get("growth", {}), covers=covers_list, quadrant_map=quadrant_map)
         if raw_analyses:
             # 映射回全局索引
             llm_analyses = {}
@@ -2776,7 +3634,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False) 
     channel_llm = existing_result.get("channel_llm")  # 默认保留已有
     channel_llm_due = True
     channel_llm_last_run = existing_result.get("channel_llm_last_run")
-    if channel_llm_last_run and not force:
+    if channel_llm_last_run and not force and not force_channel_llm:
         try:
             last_run_dt = datetime.fromisoformat(channel_llm_last_run.replace("Z", "+00:00"))
             today = datetime.now(timezone.utc).date()
@@ -2964,13 +3822,21 @@ def main():
     parser.add_argument("--all", action="store_true", help="诊断所有频道")
     parser.add_argument("--no-llm", action="store_true", help="跳过LLM优化")
     parser.add_argument("--force", action="store_true", help="强制重新分析（忽略缓存）")
+    parser.add_argument("--force-channel", action="store_true", help="仅强制重跑频道级战略LLM（保留单视频诊断缓存）")
+    parser.add_argument("--report", action="store_true", help="不跑 LLM，只读现有 _latest.json 汇总生成 markdown 报告到 output/")
+    parser.add_argument("--report-out", default=None, help="报告输出路径（默认 output/channel_diagnosis_report_YYYYMMDD.md）")
     args = parser.parse_args()
 
     use_llm = not args.no_llm
 
+    # --report: 不跑 LLM，只读所有 _latest.json 汇总生成 markdown 报告
+    if args.report:
+        _generate_diagnosis_report(args.report_out)
+        return
+
     if args.channel:
         name = args.channel.replace("_", " ")
-        run_diagnosis(name, use_llm=use_llm, force=args.force)
+        run_diagnosis(name, use_llm=use_llm, force=args.force, force_channel_llm=args.force_channel)
     elif args.all:
         # P2-5: 从注册表 our_channels.json 遍历所有频道（不再依赖 CHANNEL_TO_LANG 硬编码，避免 Beer Anime 被漏）
         registry_path = ROOT / "data" / "own" / "our_channels.json"
@@ -2985,7 +3851,7 @@ def main():
             names = list(CHANNEL_TO_LANG.keys())  # fallback
         print(f"📋 待诊断频道({len(names)}): {', '.join(names)}")
         for name in names:
-            run_diagnosis(name, use_llm=use_llm, force=args.force)
+            run_diagnosis(name, use_llm=use_llm, force=args.force, force_channel_llm=args.force_channel)
     else:
         print("用法: --channel 频道名 或 --all")
 

@@ -21,7 +21,7 @@ if _ENV_PATH.exists():
 
 # 配置
 ENDPOINT = "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
-MODEL = os.getenv("DOUBAO_SEARCH_MODEL", "YOUR_DOUBAO_SEARCH_MODEL_ID")
+MODEL = os.getenv("DOUBAO_SEARCH_MODEL", "ark-518850af-bae4-4702-b269-0d43869e7995-53abe")
 
 def doubao_web_search(
     query: str,
