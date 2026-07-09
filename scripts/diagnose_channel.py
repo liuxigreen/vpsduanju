@@ -3627,6 +3627,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
             print(f"  ⚠️ 封面补析失败: {e}")
 
     llm_analyses = None
+    quadrant_map = {}
     # 视频级LLM：增量跑，只分析新视频（已有LLM评分的自动跳过）
 
     if use_llm and videos_to_analyze:
@@ -3686,7 +3687,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
         for rv in (snapshot.get("retention_data") or {}).get("videos", [])
         if rv.get("video_id")
     }
-    scored_videos = _build_scored_videos(videos, llm_analyses, list(range(len(videos))), existing_scores, covers_index, retention_index)
+    scored_videos = _build_scored_videos(videos, llm_analyses, list(range(len(videos))), existing_scores, covers_index, retention_index, quadrant_map=quadrant_map)
     scored_videos.sort(key=lambda x: x["score"])
 
     # 统计
@@ -3762,9 +3763,10 @@ def _match_cover_by_title(title: str, covers_index: dict) -> dict | None:
     return None
 
 
-def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices: list, existing_scores: dict, covers_index: dict | None = None, retention_index: dict | None = None) -> list:
+def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices: list, existing_scores: dict, covers_index: dict | None = None, retention_index: dict | None = None, quadrant_map: dict | None = None) -> list:
     """构建视频评分列表，合并已有LLM结果和新分析结果。
     retention_index: {video_id: retention_video_dict}，若提供则合并单视频留存字段（avg_view_duration/retention_1pct 等）。
+    quadrant_map: {video_id: bucket_name}，四象限归类。
     """
     scored_videos = []
     for i, v in enumerate(videos):
@@ -3796,6 +3798,7 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
                 "cover_synergy": cs,
                 "needs_optimization": a.get("score", 5) < 6.0,
                 "optimized_titles": a.get("optimized", []),
+                "quadrant": (quadrant_map or {}).get(vid, "表现平庸"),
             }
         elif vid in existing_scores:
             # 复用已有诊断
@@ -3804,6 +3807,9 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
             entry["views"] = views
             entry["likes"] = likes
             entry["like_rate"] = lr
+            # 补四象限
+            if "quadrant" not in entry:
+                entry["quadrant"] = (quadrant_map or {}).get(vid, "表现平庸")
             # 补封面协同（旧缓存可能没有）
             if not entry.get("cover_synergy") and covers_index:
                 cover = covers_index.get(vid) or _match_cover_by_title(v.get("title", ""), covers_index)
@@ -3818,6 +3824,7 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
                 "score": 5.0, "scores": {"python_fallback": 5.0},
                 "issues": [{"dimension": "诊断", "issue": "LLM未覆盖，使用默认评分"}],
                 "needs_optimization": False,
+                "quadrant": (quadrant_map or {}).get(vid, "表现平庸"),
             }
         # P-retention-fix: 若已授权频道有留存数据，join 单视频留存字段
         if retention_index and vid in retention_index:
