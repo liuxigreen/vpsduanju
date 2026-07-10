@@ -241,8 +241,9 @@ def collect_channel(slug, channel_id, access_token, period=30):
             vid_id, views = row[0], row[1]
             if vid_id in done_set or vid_id in failed_set:
                 continue
-            avg_pct = row[4] if len(row) > 4 else 0
-            avg_dur = row[3] if len(row) > 3 else 0
+            # metrics 顺序: views[1],likes[2],estimatedMinutesWatched[3],averageViewDuration[4],averageViewPercentage[5],...
+            avg_dur = row[4] if len(row) > 4 else 0       # averageViewDuration（秒）
+            avg_pct = row[5] if len(row) > 5 else 0       # averageViewPercentage（%）
             est_duration = (avg_dur or 0) / ((avg_pct or 1) / 100) if avg_pct else 0
 
             # 单视频重试1次

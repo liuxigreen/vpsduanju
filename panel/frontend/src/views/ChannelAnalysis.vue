@@ -530,7 +530,7 @@
                       </div>
 
                       <!-- 视频诊断表 -->
-                      <div v-if="getMergedVideos(c.name).length" style="overflow-x:auto;">
+                      <div v-if="getMergedVideos(c.name).length" style="overflow-x:auto;" class="video-card-list">
                         <div style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">📋 视频诊断 <span v-if="c.oauth?.authorized" style="color:var(--accent2);">（含深度数据）</span></div>
                         <table class="data-table" style="font-size:11px;">
                           <thead><tr>
@@ -628,6 +628,32 @@
                             </template>
                           </tbody>
                         </table>
+                        <!-- 移动端卡片视图 -->
+                        <div class="video-mobile-cards">
+                          <div v-for="(v, vi) in getMergedVideos(c.name)" :key="'vmc-'+vi" class="video-mobile-card" @click="expandedVideo = expandedVideo === c.name+'::'+vi ? null : c.name+'::'+vi">
+                            <div class="vmc-header">
+                              <img v-if="v.thumbnail" :src="v.thumbnail" class="vmc-thumb" @error="$event.target.style.display='none'" />
+                              <div class="vmc-title">{{ v.title || '-' }}</div>
+                            </div>
+                            <div class="vmc-meta">
+                              <span>{{ fmtDate(v.published_at) }}</span>
+                              <span>▶ <span class="num">{{ (v.views || 0).toLocaleString() }}</span></span>
+                              <span>👍 <span class="num">{{ (v.likes || 0).toLocaleString() }}</span></span>
+                              <span>💬 <span class="num">{{ (v.comments || 0).toLocaleString() }}</span></span>
+                              <span>⭐ <span class="num" :style="{ color: scoreColor(v._score || 0) }">{{ (v._score || 0) > 0 ? v._score.toFixed(1) : '-' }}</span></span>
+                            </div>
+                            <div v-if="v._issues?.length" class="vmc-issues" :class="{ expanded: expandedVideo === c.name+'::'+vi }">
+                              ⚠️ {{ v._issues.length }}个问题
+                              <template v-if="expandedVideo === c.name+'::'+vi">
+                                <div v-for="(issue, ii) in v._issues" :key="ii" class="vmc-issue-item">{{ issue.issue || issue }}</div>
+                              </template>
+                              <span v-else style="color:var(--text-dim);font-size:9px;">点击展开→</span>
+                            </div>
+                            <div v-else-if="v._optTitles?.length" class="vmc-opt">
+                              💡 {{ v._optTitles.length }}个优化建议 <span style="color:var(--text-dim);font-size:9px;">点击展开→</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -716,9 +742,21 @@
                 </tbody>
               </table>
             </div>
+            <!-- 移动端卡片 -->
+            <div class="channel-mobile-cards">
+              <div v-for="(c, idx) in dailySorted" :key="'cmc-'+c.name" class="channel-mobile-card">
+                <div class="cmc-name">{{ idx + 1 }}. {{ c.name }}</div>
+                <div class="cmc-stats">
+                  <span><span class="label">语种:</span> <span class="val">{{ c.language }}</span></span>
+                  <span><span class="label">赛道:</span> <span class="val">{{ c.niche }}</span></span>
+                  <span><span class="label">+订阅:</span> <span class="val" :style="{color: (c.growth?.subscribers_change||0) > 0 ? 'var(--success)' : 'var(--danger)'}">{{ fmtGain(c.growth?.subscribers_change) }}</span></span>
+                  <span><span class="label">+播放:</span> <span class="val" :style="{color: (c.growth?.views_change||0) > 0 ? 'var(--success)' : 'var(--danger)'}">{{ fmtGain(c.growth?.views_change) }}</span></span>
+                  <span><span class="label">赞率:</span> <span class="val" :style="{color: likeRateColor(c.total_views, c.like_rate > 1 ? c.total_views * c.like_rate / 100 : 0)}">{{ c.like_rate }}%</span></span>
+                  <span><span class="label">健康:</span> <span class="val">{{ c.health }}</span></span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <!-- 近期视频表（按频道切换） -->
           <div v-if="allDailyVideos.length" class="card" style="margin-top:20px;">
             <div class="card-header">
               <div class="card-title">🎬 近期视频</div>

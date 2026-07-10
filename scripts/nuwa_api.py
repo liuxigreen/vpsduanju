@@ -19,23 +19,24 @@ if ENV_PATH.exists():
             os.environ.setdefault(k, v)
 
 # ============ Agent Plan 配置 ============
+_ARK_API_KEY = os.environ.get("DOUBAO_API_KEY", "")
 PROVIDERS = [
     {
         "name": "agent-plan-pro",
         "base_url": "https://ark.cn-beijing.volces.com/api/plan/v3",
-        "api_key": "ark-2e7ac3e6-7475-4fa8-9f7d-99f6e11e1d0a-2a037",
+        "api_key": _ARK_API_KEY,
         "model": "doubao-seed-2.0-pro",
     },
     {
         "name": "agent-plan-m3",
         "base_url": "https://ark.cn-beijing.volces.com/api/plan/v3",
-        "api_key": "ark-2e7ac3e6-7475-4fa8-9f7d-99f6e11e1d0a-2a037",
+        "api_key": _ARK_API_KEY,
         "model": "minimax-m3",
     },
     {
         "name": "agent-plan-kimi",
         "base_url": "https://ark.cn-beijing.volces.com/api/plan/v3",
-        "api_key": "ark-2e7ac3e6-7475-4fa8-9f7d-99f6e11e1d0a-2a037",
+        "api_key": _ARK_API_KEY,
         "model": "kimi-k2.6",
     },
 ]

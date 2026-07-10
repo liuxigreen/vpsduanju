@@ -33,7 +33,7 @@ date: '2026-06-30T00:00:00.000Z'
 ### Hermes Gateway — duanju profile
 - 命令: `hermes_cli.main --profile duanju gateway run`
 - systemd 服务: `hermes-gateway-duanju.service`
-- API Server: 端口 8642，key: `duanju-panel-2026`
+- API Server: 端口 8642，key: `<YOUR_API_KEY>`
 - 模型: ark-code-latest (doubao)
 - Telegram: ✅ 已配置（bot token 在 profile .env）
 - 飞书: ✅ 已连接

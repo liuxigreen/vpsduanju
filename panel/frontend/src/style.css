@@ -776,6 +776,18 @@ textarea { min-height: 120px; resize: vertical; }
 }
 
 /* ═══ 批3 additive 卡片移动端适配 ═══ */
+/* ── 移动端卡片默认隐藏（桌面端不显示） ── */
+.video-mobile-cards {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+.channel-mobile-cards {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
 @media (max-width: 768px) {
   /* 象限归类的 auto-fill 网格在小屏改为 1 列，避免挤压 */
   .ca-quadrant-grid { grid-template-columns: 1fr !important; }
@@ -784,4 +796,102 @@ textarea { min-height: 120px; resize: vertical; }
   .ca-bottleneck-banner > div { font-size: 11px !important; }
   /* 变现分项在小屏折行 */
   .ca-monetization-detail > div:nth-child(2) { flex-direction: column; gap: 4px !important; }
+
+  /* ── 视频诊断表→卡片 ── */
+  .video-card-list .data-table { display: none; }
+  .video-card-list .video-mobile-cards { display: block !important; }
+  .video-mobile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .video-mobile-card:active { transform: scale(0.98); opacity: 0.9; }
+  .video-mobile-card .vmc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .video-mobile-card .vmc-thumb {
+    width: 64px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .video-mobile-card .vmc-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .video-mobile-card .vmc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .video-mobile-card .vmc-meta .num {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .video-mobile-card .vmc-issues {
+    font-size: 11px;
+    color: var(--danger);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 6px;
+    margin-top: 2px;
+  }
+  .video-mobile-card .vmc-issues.expanded {
+    color: var(--text);
+  }
+  .video-mobile-card .vmc-issues .vmc-issue-item {
+    margin-bottom: 4px;
+    padding-left: 8px;
+    border-left: 2px solid var(--danger);
+    font-size: 11px;
+  }
+  .video-mobile-card .vmc-opt {
+    font-size: 11px;
+    color: var(--success);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 6px;
+  }
+
+  /* ── 频道总览表→卡片 ── */
+  .channel-overview-list .data-table { display: none; }
+  .channel-overview-list .channel-mobile-cards { display: flex !important; }
+  .channel-mobile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .channel-mobile-card .cmc-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .channel-mobile-card .cmc-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .channel-mobile-card .cmc-stats .label { color: var(--text-muted); }
+  .channel-mobile-card .cmc-stats .val { color: var(--text); font-weight: 600; }
 }

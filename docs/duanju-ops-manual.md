@@ -8,7 +8,7 @@ tags:
   - hermes
   - telegram
 created: '2026-06-27T00:00:00.000Z'
-updated: '2026-06-30T00:00:00.000Z'
+updated: '2026-07-10T00:00:00.000Z'
 ---
 # duanju 系统运维手册
 
@@ -19,7 +19,7 @@ updated: '2026-06-30T00:00:00.000Z'
 │  duanju Hermes (duanju profile)             │
 │  - Telegram: ✅ bot 已连接                   │
 │  - 飞书: ✅ WebSocket 已连接                 │
-│  - API Server: 8642 (key: duanju-panel-2026)│
+│  - API Server: 8642 (key: <API_KEY>)        │
 │  - 模型: ark-code-latest (doubao)           │
 │  - systemd: hermes-gateway-duanju.service   │
 └─────────────────────────────────────────────┘
@@ -51,13 +51,13 @@ model:
 custom_providers:
 - name: doubao
   base_url: https://ark.cn-beijing.volces.com/api/plan/v3
-  api_key: ark-2e7ac3e6-7475-4fa8-9f7d-99f6e11e1d0a-2a037
+  api_key: <YOUR_DOUBAO_API_KEY>
 gateway:
   api_server:
     enabled: true
     port: 8642
     host: 127.0.0.1
-    key: duanju-panel-2026
+    key: <YOUR_API_SERVER_KEY>
 platforms:
   telegram:
     enabled: true
@@ -65,14 +65,14 @@ platforms:
 
 ### Profile .env (`~/.hermes/profiles/duanju/.env`)
 ```
-TELEGRAM_BOT_TOKEN=<bot token>
+TELEGRAM_BOT_TOKEN=<YOUR_BOT_TOKEN>
 GATEWAY_ALLOW_ALL_USERS=true
 ```
 
 ### 面板连接 duanju agent
 ```python
 HERMES_API_URL = "http://127.0.0.1:8642/v1/chat/completions"
-HERMES_API_KEY = "duanju-panel-2026"
+HERMES_API_KEY = "<YOUR_API_SERVER_KEY>"
 ```
 
 ## 启动/重启命令
