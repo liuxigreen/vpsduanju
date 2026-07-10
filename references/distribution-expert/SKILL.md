@@ -9,6 +9,8 @@ description: |
   与 short-drama-expert 协作：他出内容方案，我定发布策略。
 ---
 
+> ⚠️ **身份标签**：本文件是分发方法论的原始设计规格（含DST/HKT规则卡），已蒸馏为对外的 youtube-drama-diagnosis skill。系统运行见 diagnosis_engine.py + diagnose_channel.py。**非运行依赖，勿删，勿重复造。**
+
 # 短剧出海 · 分发操作系统 v1
 
 > *"不是内容好就有人看，是分发对了才有机会被看到"*

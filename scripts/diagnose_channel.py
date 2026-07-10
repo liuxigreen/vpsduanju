@@ -2081,7 +2081,7 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
     # ── OAuth分析 ──
     oauth_findings = {"has_data": bool(analytics)}
     if analytics:
-        avg_pct = analytics.get("averageViewPercentage", 0)
+        avg_pct = min(analytics.get("averageViewPercentage", 0), 100)  # clamp >100 API异常
         avg_dur = analytics.get("averageViewDuration", 0)
         ratios = analytics.get("traffic_ratios", {})
         traffic_raw = analytics.get("traffic_sources", {})
@@ -2285,7 +2285,7 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
             if len(r) >= 6:
                 vid_id = r[0]
                 avg_sec = r[4]  # averageViewDuration in seconds
-                avg_pct = r[5]  # averageViewPercentage
+                avg_pct = min(r[5], 100)  # averageViewPercentage, clamp >100 API异常
                 views = r[1]
                 minutes = avg_sec // 60
                 seconds = avg_sec % 60
@@ -3226,7 +3226,7 @@ def _generate_channel_diagnostics(snapshot: dict, distill: dict, diagnosis: dict
     analytics = snapshot.get("analytics", {})
     if analytics:
         # --- 留存率（按视频时长分档）---
-        avg_pct = analytics.get("averageViewPercentage", 0)
+        avg_pct = min(analytics.get("averageViewPercentage", 0), 100)  # clamp >100 API异常
         avg_dur = analytics.get("averageViewDuration", 0)  # 秒
         if avg_pct > 0 and avg_dur > 0:
             est_video_dur = avg_dur / (avg_pct / 100) if avg_pct > 0 else 0
@@ -3830,7 +3830,8 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
         if retention_index and vid in retention_index:
             rv = retention_index[vid]
             entry["avg_view_duration"] = rv.get("avg_view_duration")   # 秒
-            entry["avg_view_pct"] = rv.get("avg_view_pct")             # %（原始返回值，注意 API 存在 >100 的异常放大）
+            raw_pct = rv.get("avg_view_pct", 0) or 0
+            entry["avg_view_pct"] = min(raw_pct, 100)  # clamp >100 API异常
             entry["retention_1pct"] = rv.get("retention_1pct")         # 0-1
             entry["retention_3min"] = rv.get("retention_3min")
             entry["retention_5min"] = rv.get("retention_5min")

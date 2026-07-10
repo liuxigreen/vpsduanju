@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import re
 import sys
 import threading
@@ -348,7 +349,7 @@ def _save_session_id(session_id: str):
 
 # === Hermes API Server 配置 ===
 HERMES_API_URL = "http://127.0.0.1:8642/v1/chat/completions"
-HERMES_API_KEY="duanju-panel-2026"
+HERMES_API_KEY = os.getenv("HERMES_API_KEY", "duanju-panel-2026")
 
 def _call_hermes_api(prompt: str, timeout: int = 300) -> str:
     """通过 Hermes API Server 流式调用（常驻进程，不会超时）"""

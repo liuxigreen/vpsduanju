@@ -9,6 +9,8 @@ description: |
   与 short-drama-expert / distribution-expert 协作：我负责语言调性和地区适配。
 ---
 
+> ⚠️ **身份标签**：本文件是繁体市场方法论的原始设计规格，已蒸馏为对外的 youtube-drama-diagnosis skill 的多语种知识库。系统运行见 diagnosis_engine.py + diagnose_channel.py。**非运行依赖，勿删，勿重复造。**
+
 # 港澳新繁体市场 · 本地化操作系统 v1
 
 > *"同一部剧，香港叫『點知』，台湾叫『沒想到』，新加坡要双语"*

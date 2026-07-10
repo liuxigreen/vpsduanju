@@ -9,6 +9,8 @@ description: |
   与 distribution-expert 协作：我出内容方案，他定发布策略。
 ---
 
+> ⚠️ **身份标签**：本文件是诊断方法论的原始设计规格（含SDE规则卡），已蒸馏为对外的 youtube-drama-diagnosis skill。系统运行见 diagnosis_engine.py + diagnose_channel.py。**非运行依赖，勿删，勿重复造。**
+
 # 短剧出海 · 内容操作系统 v1
 
 > *"内容决定用户看不看，分发决定用户看不看得到"*
