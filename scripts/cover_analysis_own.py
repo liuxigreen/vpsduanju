@@ -27,30 +27,45 @@ SNAPSHOT_DIR = DATA_DIR / "own" / "channel_snapshots"
 DIAGNOSIS_DIR = DATA_DIR / "own" / "channel_diagnosis"
 
 
-def _load_cover_prompt_template() -> str:
-    """从统一母本加载封面分析prompt模板（markdown code block内）"""
+def _load_cover_prompt_template(mode: str = "diagnosis") -> str:
+    """从统一母本加载封面分析prompt模板
+    
+    mode: "diagnosis" = 诊断prompt（自有频道打分）
+          "distill" = 蒸馏prompt（竞品提取规律）
+    """
     if not COVER_PROMPT_PATH.exists():
-        # fallback: 硬编码的7维prompt（与旧版兼容）
+        # fallback
         return """分析这个YouTube短剧封面。按以下7个维度打分和分析，每个维度给出评分(0-10)和2-3句分析。
 
 标题：{title}
 播放量：{views}
 
-维度说明（来自短剧封面指南）：
-1. **构图** — 布局类型（中心/对比/三角/拼贴）、景别、视角高低、视线引导路径
-2. **人物** — 数量、表情、服装符号（西装=CEO/权力、女仆装=低位、礼服=逆袭后）、肢体语言、关系暗示
-3. **色彩** — 主色调、辅助色、饱和度、光影效果、情绪氛围（暖金=甜宠豪门、冷蓝=虐恋悬疑、红黑=复仇打脸）
-4. **情绪** — 核心情绪基调（tension/romance/power/mystery）、第一眼能否看出冲突/关系/悬念
-5. **视觉符号** — 关键道具及其象征意义（戒指/结婚证/豪车/病床/孕肚/离婚协议等）
-6. **文字** — 封面文字数量、内容、位置、字体风格、颜色、是否增强悬念（短剧封面文字控制在3-6个词）
-7. **封面×标题协同** — 封面和标题是否围绕同一个核心钩子分工协作。
+1. **构图** — 布局类型、景别、视角、视线引导
+2. **人物** — 数量、表情、服装、肢体语言、关系暗示
+3. **色彩** — 主色调、辅助色、光影、情绪氛围
+4. **情绪** — 核心情绪基调、第一眼能否看出冲突
+5. **视觉符号** — 关键道具及象征意义
+6. **文字** — 文字内容、位置、风格
+7. **封面×标题协同** — 封面和标题是否围绕同一钩子分工
 
 输出JSON：
-{{"构图": {{"score": 7, "type": "中心构图", "analysis": "..."}}}}"""
+{{"构图": {{"score": 7, "analysis": "..."}}, "人物": {{"score": 6, "analysis": "..."}}, "色彩": {{"score": 8, "analysis": "..."}}, "情绪": {{"score": 7, "analysis": "..."}}, "视觉符号": {{"score": 5, "analysis": "..."}}, "文字": {{"score": 3, "analysis": "..."}}, "封面×标题协同": {{"score": 6, "analysis": "..."}}, "总分": 6.0, "总评": "...", "改进建议": ["建议1", "建议2"]}}"""
 
     raw = COVER_PROMPT_PATH.read_text(encoding="utf-8")
-    # 提取 ```...``` code block 内容
-    start = raw.find("```")
+    # 按行查找section header（必须是行首的## 标题）
+    section_name = "蒸馏prompt" if mode == "distill" else "诊断prompt"
+    header_pos = -1
+    for i, line in enumerate(raw.split("\n")):
+        if line.strip() == f"## {section_name}":
+            header_pos = sum(len(l) + 1 for l in raw.split("\n")[:i])
+            break
+    
+    if header_pos == -1:
+        # 没找到，fallback到第一个code block
+        start = raw.find("```")
+    else:
+        start = raw.find("```", header_pos)
+    
     if start == -1:
         return raw
     end = raw.find("```", start + 3)
@@ -108,10 +123,8 @@ def _convert_to_diagnosis_format(unified: dict, title: str, views: int, image_ur
     entry["总评"] = unified.get("总评", "")
     entry["改进建议"] = unified.get("改进建议", unified.get("suggestions", []))
     entry["suggestions"] = unified.get("改进建议", unified.get("suggestions", []))
-    # 共享核心（新增，向后兼容：旧代码不读这些字段，不会报错）
+    # 共享核心：结构化枚举
     entry["结构化"] = unified.get("结构化", {})
-    entry["复现prompt"] = unified.get("复现prompt", "")
-    entry["hook_type"] = unified.get("hook_type", "")
     # 中文描述字段（蒸馏也用）
     for cn_key in ["人物", "道具", "色彩", "构图", "文字", "视觉层级", "题材元素", "封面标题配合", "地区适配", "整体风格"]:
         entry[cn_key + "描述"] = unified.get(cn_key, "")
@@ -206,16 +219,9 @@ def analyze_cover(image_url, title, views):
     if not img_b64:
         return {"error": "下载失败"}
 
-    # 从统一母本加载prompt模板（如果母本不可用或太复杂，用旧7维prompt）
-    prompt_template = _load_cover_prompt_template()
-    # 检测是否为旧版fallback（简单7维）还是新版统一prompt
-    is_unified_prompt = "结构化" in prompt_template and "复现prompt" in prompt_template
-    if is_unified_prompt:
-        # 新版统一prompt：尝试使用，但LLM可能返回旧格式（兼容处理在下面）
-        prompt = prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
-    else:
-        # 旧版7维prompt（稳定可靠）
-        prompt = prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
+    # 从统一母本加载诊断prompt
+    prompt_template = _load_cover_prompt_template(mode="diagnosis")
+    prompt = prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
 
     if USE_VISION_MODEL == "doubao":
         model = DOUBARK_MODEL
@@ -281,34 +287,23 @@ def analyze_cover(image_url, title, views):
 
         tokens = usage.get("completion_tokens", 0)
 
-        # 判断格式：统一格式有"结构化"或"构图评分"，旧格式有"构图"(dict)或"person_score"
-        is_unified = ("结构化" in analysis or "构图评分" in analysis 
-                      or "复现prompt" in analysis or "hook_type" in analysis)
-        if is_unified:
-            # 统一格式 → 转为诊断兼容格式
+        # 判断格式：新格式有"结构化"或"构图"(嵌套dict with score)
+        has_structured = "结构化" in analysis
+        has_nested_score = "构图" in analysis and isinstance(analysis.get("构图"), dict) and "score" in analysis.get("构图", {})
+        has_flat_score = "person_score" in analysis
+        
+        if has_structured or has_nested_score:
+            # 新格式或旧嵌套格式 → 统一转换
             return _convert_to_diagnosis_format(analysis, title, views, image_url, tokens)
+        elif has_flat_score:
+            # 已经是扁平格式 → 补结构化字段
+            analysis.setdefault("结构化", {})
+            analysis["_meta"] = {"image_url": image_url, "title": title[:80], "views": views, "tokens": tokens}
+            return analysis
         else:
-            # 旧格式或LLM未遵循新格式 → 兼容处理并补空新字段
-            if "person_score" in analysis:
-                # 已经是扁平格式（run_channel转过的）
-                analysis.setdefault("结构化", {})
-                analysis.setdefault("复现prompt", "")
-                analysis.setdefault("hook_type", "")
-            elif "构图" in analysis and isinstance(analysis["构图"], dict):
-                # 旧嵌套格式 → 转为扁平 + 补新字段
-                analysis = _convert_to_diagnosis_format(analysis, title, views, image_url, tokens)
-            else:
-                # 其他格式，尽力而为
-                analysis.setdefault("结构化", {})
-                analysis.setdefault("复现prompt", "")
-                analysis.setdefault("hook_type", "")
-            analysis["_meta"] = {
-                "image_url": image_url,
-                "title": title[:80],
-                "views": views,
-                "tokens": tokens,
-                "format": "legacy",
-            }
+            # 其他格式 → 补空字段
+            analysis.setdefault("结构化", {})
+            analysis["_meta"] = {"image_url": image_url, "title": title[:80], "views": views, "tokens": tokens, "format": "unknown"}
             return analysis
     except Exception as e:
         return {"error": "API异常: {}".format(e)}

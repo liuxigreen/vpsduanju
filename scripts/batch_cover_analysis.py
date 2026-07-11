@@ -58,11 +58,12 @@ def analyze_cover(image_url: str, title: str, views: int) -> dict:
     if not img_b64:
         return {"error": "下载失败"}
 
-    # 从统一母本加载prompt模板
+    # 从统一母本加载蒸馏prompt模板
     _prompt_template = None
     if COVER_PROMPT_PATH.exists():
         raw = COVER_PROMPT_PATH.read_text(encoding="utf-8")
-        s = raw.find("```")
+        header_pos = raw.find("## 蒸馏prompt")
+        s = raw.find("```", header_pos) if header_pos != -1 else raw.find("```")
         if s != -1:
             e = raw.find("```", s + 3)
             _prompt_template = raw[s + 3:e].strip() if e != -1 else raw[s + 3:].strip()

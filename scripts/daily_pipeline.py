@@ -1254,12 +1254,13 @@ def analyze_covers_mimo(snapshots: list[dict]):
     """
     print(f"\n🎨 Step 5b: MiMo结构提取（封面+标题骨架+钩子）")
 
-    # 加载统一prompt模板
+    # 加载蒸馏prompt模板
     _prompt_path = ROOT / "references" / "cover-analysis-prompt.md"
     _prompt_template = None
     if _prompt_path.exists():
         raw = _prompt_path.read_text(encoding="utf-8")
-        s = raw.find("```")
+        header_pos = raw.find("## 蒸馏prompt")
+        s = raw.find("```", header_pos) if header_pos != -1 else raw.find("```")
         if s != -1:
             e = raw.find("```", s + 3)
             _prompt_template = raw[s + 3:e].strip() if e != -1 else raw[s + 3:].strip()
