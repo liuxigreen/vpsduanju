@@ -1249,10 +1249,20 @@ def distill_local_stats(snapshots: list[dict]):
 
 def analyze_covers_mimo(snapshots: list[dict]):
     """
-    MiMo 11字段封面分析 + 标题骨架提取 + 钩子分类。
+    统一封面分析（从母本读取prompt）+ 标题骨架提取 + 钩子分类。
     每个语种一次调用，分析该地区全部标题（不是逐条调）。
     """
     print(f"\n🎨 Step 5b: MiMo结构提取（封面+标题骨架+钩子）")
+
+    # 加载统一prompt模板
+    _prompt_path = ROOT / "references" / "cover-analysis-prompt.md"
+    _prompt_template = None
+    if _prompt_path.exists():
+        raw = _prompt_path.read_text(encoding="utf-8")
+        s = raw.find("```")
+        if s != -1:
+            e = raw.find("```", s + 3)
+            _prompt_template = raw[s + 3:e].strip() if e != -1 else raw[s + 3:].strip()
 
     import socket; socket.setdefaulttimeout(180)  # 3min global timeout for vision API
     # 加载MiMo API key
@@ -1395,8 +1405,11 @@ def analyze_covers_mimo(snapshots: list[dict]):
                 if not img_b64:
                     continue
 
-                # MiMo 11字段分析
-                prompt = f"""分析这个YouTube短剧封面。返回JSON，每个字段2-3句话，总输出控制在500字以内。
+                # 统一prompt（从母本读取，fallback到旧11字段）
+                if _prompt_template:
+                    prompt = _prompt_template.replace("{title}", v['title']).replace("{views}", "{:,}".format(v['views']))
+                else:
+                    prompt = f"""分析这个YouTube短剧封面。返回JSON，每个字段2-3句话，总输出控制在500字以内。
 
 标题：{v['title']}
 播放量：{v['views']:,}

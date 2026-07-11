@@ -19,9 +19,104 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+# 统一封面分析prompt母本路径
+COVER_PROMPT_PATH = ROOT / "references" / "cover-analysis-prompt.md"
+
 DATA_DIR = ROOT / "data"
 SNAPSHOT_DIR = DATA_DIR / "own" / "channel_snapshots"
 DIAGNOSIS_DIR = DATA_DIR / "own" / "channel_diagnosis"
+
+
+def _load_cover_prompt_template() -> str:
+    """从统一母本加载封面分析prompt模板（markdown code block内）"""
+    if not COVER_PROMPT_PATH.exists():
+        # fallback: 硬编码的7维prompt（与旧版兼容）
+        return """分析这个YouTube短剧封面。按以下7个维度打分和分析，每个维度给出评分(0-10)和2-3句分析。
+
+标题：{title}
+播放量：{views}
+
+维度说明（来自短剧封面指南）：
+1. **构图** — 布局类型（中心/对比/三角/拼贴）、景别、视角高低、视线引导路径
+2. **人物** — 数量、表情、服装符号（西装=CEO/权力、女仆装=低位、礼服=逆袭后）、肢体语言、关系暗示
+3. **色彩** — 主色调、辅助色、饱和度、光影效果、情绪氛围（暖金=甜宠豪门、冷蓝=虐恋悬疑、红黑=复仇打脸）
+4. **情绪** — 核心情绪基调（tension/romance/power/mystery）、第一眼能否看出冲突/关系/悬念
+5. **视觉符号** — 关键道具及其象征意义（戒指/结婚证/豪车/病床/孕肚/离婚协议等）
+6. **文字** — 封面文字数量、内容、位置、字体风格、颜色、是否增强悬念（短剧封面文字控制在3-6个词）
+7. **封面×标题协同** — 封面和标题是否围绕同一个核心钩子分工协作。
+
+输出JSON：
+{{"构图": {{"score": 7, "type": "中心构图", "analysis": "..."}}}}"""
+
+    raw = COVER_PROMPT_PATH.read_text(encoding="utf-8")
+    # 提取 ```...``` code block 内容
+    start = raw.find("```")
+    if start == -1:
+        return raw
+    end = raw.find("```", start + 3)
+    if end == -1:
+        return raw[start + 3:]
+    return raw[start + 3:end].strip()
+
+
+def _convert_to_diagnosis_format(unified: dict, title: str, views: int, image_url: str, tokens: int) -> dict:
+    """将统一prompt输出转为diagnose_channel.py期望的诊断格式（向后兼容）
+    
+    兼容三种LLM输出格式：
+    - 新格式: {"构图评分": {"score": 8, "analysis": "..."}, "结构化": {...}}
+    - 旧嵌套: {"构图": {"score": 8, "analysis": "..."}, ...}
+    - 旧扁平: {"person_score": 8, "person_detail": "...", ...}
+    """
+    dim_map = [
+        ("构图评分", "构图", "composition_score"),
+        ("人物评分", "人物", "person_score"),
+        ("色彩评分", "色彩", "color_score"),
+        ("情绪评分", "情绪", "emotion_score"),
+        ("视觉符号评分", "视觉符号", "prop_score"),
+        ("文字评分", "文字", "text_score"),
+        ("封面标题协同评分", "封面×标题协同", "synergy_score"),
+    ]
+    entry = {
+        "video_id": "",  # 由调用方填充
+        "video_title": title[:80],
+        "views": views,
+        "image_url": image_url,
+    }
+    for src_key, nested_key, flat_key in dim_map:
+        # 尝试从新格式读（"构图评分"）
+        src = unified.get(src_key, {})
+        # 如果没有，从旧嵌套格式读（"构图": {"score": ...}）
+        if not src or not isinstance(src, dict):
+            src = unified.get(nested_key, {})
+        if isinstance(src, dict):
+            score = src.get("score", 0)
+            analysis_text = src.get("analysis", "")
+        else:
+            score = 0
+            analysis_text = ""
+        # 也检查旧扁平格式
+        if not score and flat_key in unified:
+            score = unified[flat_key]
+        if not analysis_text and flat_key.replace("_score", "_detail") in unified:
+            analysis_text = unified[flat_key.replace("_score", "_detail")]
+        entry[nested_key] = {"score": score, "analysis": analysis_text}  # diagnose_channel读嵌套
+        entry[flat_key] = score   # run_channel读扁平
+        entry[flat_key.replace("_score", "_detail")] = analysis_text
+
+    entry["总分"] = unified.get("总分", unified.get("overall_score", 0))
+    entry["overall_score"] = unified.get("总分", unified.get("overall_score", 0))
+    entry["总评"] = unified.get("总评", "")
+    entry["改进建议"] = unified.get("改进建议", unified.get("suggestions", []))
+    entry["suggestions"] = unified.get("改进建议", unified.get("suggestions", []))
+    # 共享核心（新增，向后兼容：旧代码不读这些字段，不会报错）
+    entry["结构化"] = unified.get("结构化", {})
+    entry["复现prompt"] = unified.get("复现prompt", "")
+    entry["hook_type"] = unified.get("hook_type", "")
+    # 中文描述字段（蒸馏也用）
+    for cn_key in ["人物", "道具", "色彩", "构图", "文字", "视觉层级", "题材元素", "封面标题配合", "地区适配", "整体风格"]:
+        entry[cn_key + "描述"] = unified.get(cn_key, "")
+    entry["_meta"] = {"tokens": tokens, "title": title, "views": views, "image_url": image_url}
+    return entry
 
 
 def _atomic_write_json(path: Path, data: dict, indent: int = 2, ensure_ascii: bool = False) -> None:
@@ -106,36 +201,21 @@ def encode_image(url):
 
 def analyze_cover(image_url, title, views):
     # type: (str, str, int) -> dict
-    """按skill封面指南的6个维度分析"""
+    """统一封面分析：从母本读取prompt，输出诊断兼容格式"""
     img_b64 = encode_image(image_url)
     if not img_b64:
         return {"error": "下载失败"}
 
-    prompt = """分析这个YouTube短剧封面。按以下7个维度打分和分析，每个维度给出评分(0-10)和2-3句分析。
-
-标题：%s
-播放量：%d
-
-维度说明（来自短剧封面指南）：
-1. **构图** — 布局类型（中心/对比/三角/拼贴）、景别、视角高低、视线引导路径
-2. **人物** — 数量、表情、服装符号（西装=CEO/权力、女仆装=低位、礼服=逆袭后）、肢体语言、关系暗示
-3. **色彩** — 主色调、辅助色、饱和度、光影效果、情绪氛围（暖金=甜宠豪门、冷蓝=虐恋悬疑、红黑=复仇打脸）
-4. **情绪** — 核心情绪基调（tension/romance/power/mystery）、第一眼能否看出冲突/关系/悬念
-5. **视觉符号** — 关键道具及其象征意义（戒指/结婚证/豪车/病床/孕肚/离婚协议等）
-6. **文字** — 封面文字数量、内容、位置、字体风格、颜色、是否增强悬念（短剧封面文字控制在3-6个词）
-7. **封面×标题协同** — 封面和标题是否围绕同一个核心钩子分工协作。判断标准：标题说清身份反差/情节反转/情绪爆点，封面把最有张力的一瞬间视觉化。协同模式：标题给反差封面给证据 / 封面定格高潮标题补前因 / 情绪反转视觉化 / 肢体距离表达关系 / 阶层符号强化爽感。反模式：题材错位 / 只美不钩 / 标题有爆点封面无 / 信息过散 / 情绪不匹配。
-
-输出JSON：
-{"构图": {"score": 7, "type": "中心构图", "analysis": "..."},
-  "人物": {"score": 6, "count": 2, "clothing": "西装+便装", "emotion": "对峙", "analysis": "..."},
-  "色彩": {"score": 8, "main": "冷蓝", "accent": "红色", "mood": "悬疑紧张", "analysis": "..."},
-  "情绪": {"score": 7, "base": "tension", "first_impression": "能看出冲突", "analysis": "..."},
-  "视觉符号": {"score": 5, "symbols": ["武器", "废墟"], "meaning": "末世生存", "analysis": "..."},
-  "文字": {"score": 3, "has_text": false, "count": 0, "analysis": "无封面文字，错失悬念增强机会"},
-  "封面×标题协同": {"score": 6, "synergy_pattern": "标题给反差封面给证据", "anti_pattern": "无", "assessment": "封面和标题的协同分析", "improvement": "改进建议"},
-  "总分": 6.0,
-  "总评": "一句话总评",
-  "改进建议": ["建议1", "建议2"]}""" % (title[:80], views)
+    # 从统一母本加载prompt模板（如果母本不可用或太复杂，用旧7维prompt）
+    prompt_template = _load_cover_prompt_template()
+    # 检测是否为旧版fallback（简单7维）还是新版统一prompt
+    is_unified_prompt = "结构化" in prompt_template and "复现prompt" in prompt_template
+    if is_unified_prompt:
+        # 新版统一prompt：尝试使用，但LLM可能返回旧格式（兼容处理在下面）
+        prompt = prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
+    else:
+        # 旧版7维prompt（稳定可靠）
+        prompt = prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
 
     if USE_VISION_MODEL == "doubao":
         model = DOUBARK_MODEL
@@ -168,7 +248,7 @@ def analyze_cover(image_url, title, views):
         content = result["choices"][0]["message"]["content"]
         usage = result.get("usage", {})
 
-        # 解析JSON
+        # 解析JSON（兼容统一prompt输出和旧7维输出）
         clean = re.sub(r'```(?:json)?\s*', '', content)
         clean = re.sub(r'\s*```', '', clean).strip()
         start = clean.find('{')
@@ -199,13 +279,37 @@ def analyze_cover(image_url, title, views):
         else:
             analysis = json.loads(clean[start:end + 1])
 
-        analysis["_meta"] = {
-            "image_url": image_url,
-            "title": title[:80],
-            "views": views,
-            "tokens": usage.get("completion_tokens", 0),
-        }
-        return analysis
+        tokens = usage.get("completion_tokens", 0)
+
+        # 判断格式：统一格式有"结构化"或"构图评分"，旧格式有"构图"(dict)或"person_score"
+        is_unified = ("结构化" in analysis or "构图评分" in analysis 
+                      or "复现prompt" in analysis or "hook_type" in analysis)
+        if is_unified:
+            # 统一格式 → 转为诊断兼容格式
+            return _convert_to_diagnosis_format(analysis, title, views, image_url, tokens)
+        else:
+            # 旧格式或LLM未遵循新格式 → 兼容处理并补空新字段
+            if "person_score" in analysis:
+                # 已经是扁平格式（run_channel转过的）
+                analysis.setdefault("结构化", {})
+                analysis.setdefault("复现prompt", "")
+                analysis.setdefault("hook_type", "")
+            elif "构图" in analysis and isinstance(analysis["构图"], dict):
+                # 旧嵌套格式 → 转为扁平 + 补新字段
+                analysis = _convert_to_diagnosis_format(analysis, title, views, image_url, tokens)
+            else:
+                # 其他格式，尽力而为
+                analysis.setdefault("结构化", {})
+                analysis.setdefault("复现prompt", "")
+                analysis.setdefault("hook_type", "")
+            analysis["_meta"] = {
+                "image_url": image_url,
+                "title": title[:80],
+                "views": views,
+                "tokens": tokens,
+                "format": "legacy",
+            }
+            return analysis
     except Exception as e:
         return {"error": "API异常: {}".format(e)}
 

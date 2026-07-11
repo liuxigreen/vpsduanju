@@ -20,6 +20,9 @@ from collections import defaultdict
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+# 统一封面分析prompt母本路径
+COVER_PROMPT_PATH = ROOT / "references" / "cover-analysis-prompt.md"
+
 DATA_DIR = ROOT / "data"
 EVIDENCE_DIR = ROOT / "distill" / "evidence"
 OUTPUT_DIR = ROOT / "output" / "cover_analysis"
@@ -31,12 +34,12 @@ MIMO_API_KEY = None
 def load_config():
     global MIMO_API_KEY
     import os
-    MIMO_API_KEY = os.environ.get("XIAOMI_API_KEY", "")
+    MIMO_API_KEY = os.environ.get("XIAOMI_API_KEY", "") or os.environ.get("XIAOMICODING_API_KEY", "")
     if not MIMO_API_KEY:
         env_path = Path.home() / ".hermes" / ".env"
         if env_path.exists():
             for line in env_path.read_text().split("\n"):
-                if "XIAOMI_API_KEY" in line:
+                if "XIAOMI_API_KEY" in line or "XIAOMICODING_API_KEY" in line:
                     MIMO_API_KEY = line.split("=", 1)[1].strip()
                     break
 
@@ -50,12 +53,24 @@ def encode_image(url: str):
         return None
 
 def analyze_cover(image_url: str, title: str, views: int) -> dict:
-    """11字段封面分析"""
+    """统一封面分析（从母本读取prompt）"""
     img_b64 = encode_image(image_url)
     if not img_b64:
         return {"error": "下载失败"}
 
-    prompt = f"""分析这个YouTube短剧封面。返回JSON，每个字段2-3句话，总输出控制在500字以内。
+    # 从统一母本加载prompt模板
+    _prompt_template = None
+    if COVER_PROMPT_PATH.exists():
+        raw = COVER_PROMPT_PATH.read_text(encoding="utf-8")
+        s = raw.find("```")
+        if s != -1:
+            e = raw.find("```", s + 3)
+            _prompt_template = raw[s + 3:e].strip() if e != -1 else raw[s + 3:].strip()
+
+    if _prompt_template:
+        prompt = _prompt_template.replace("{title}", title[:80]).replace("{views}", "{:,}".format(views))
+    else:
+        prompt = f"""分析这个YouTube短剧封面。返回JSON，每个字段2-3句话，总输出控制在500字以内。
 
 标题：{title[:80]}
 播放量：{views:,}
@@ -67,9 +82,9 @@ def analyze_cover(image_url: str, title: str, views: int) -> dict:
   "构图": "布局类型、景别、视角高低、视线引导路径",
   "文字": "文字数量、内容、位置、字体风格、颜色、是否增强悬念",
   "视觉层级": "第一眼看什么、第二眼看什么、第三眼看什么",
-  "题材元素": "该题材独有的视觉符号（如霸总西装、虐恋冷色调、甜宠暖光等）",
+  "题材元素": "该题材独有的视觉符号",
   "封面标题配合": "封面情绪与标题钩子是否一致、是否互补、是否增强悬念",
-  "地区适配": "最适合哪个地区市场（繁中/英文/西语/印尼/葡萄牙）及原因",
+  "地区适配": "最适合哪个地区市场及原因",
   "整体风格": "风格+情绪基调+目标受众",
   "爆款因素": {{"评分": "0-10", "来源": "核心吸引力来源", "改进建议": "可优化的地方"}}
 }}"""
