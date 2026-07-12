@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 log = logging.getLogger("yt-analytics")
 
-DATA_DIR = ROOT / "data" / "yt_analytics"
+DATA_DIR = ROOT / "data" / "own" / "analytics"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # 复用 panel_v3.py 的 keychain 模块

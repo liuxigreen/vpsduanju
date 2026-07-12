@@ -2288,9 +2288,19 @@ async function loadChannelAnalysis() {
         if (actions.length > 0) {
           detailHtml += '<div style="padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:6px;font-size:11px;">';
           detailHtml += '<div style="font-weight:600;margin-bottom:4px;">🎯 行动清单</div>';
-          actions.forEach(a => {
+          actions.forEach((a, ai) => {
             const effortIcon = a.effort==='低'?'🟢':a.effort==='中'?'🟡':'🔴';
-            detailHtml += '<div style="margin-bottom:3px;"><span style="color:var(--accent);font-weight:600;">P' + (a.priority || '?') + '</span> ' + (a.action || '') + ' <span style="color:var(--text-dim);">(' + effortIcon + (a.effort || '') + ' | ' + (a.expected_impact || '') + ')</span></div>';
+            detailHtml += '<div style="margin-bottom:3px;">';
+            detailHtml += '<span style="color:var(--accent);font-weight:600;cursor:pointer;" onclick="this.parentElement.querySelector(\'.action-detail\').style.display=this.parentElement.querySelector(\'.action-detail\').style.display===\'none\'?\'block\':\'none\'">P' + (a.priority || '?') + '</span> ';
+            detailHtml += '<span style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.action-detail\').style.display=this.parentElement.querySelector(\'.action-detail\').style.display===\'none\'?\'block\':\'none\'">' + (a.action || '') + '</span>';
+            detailHtml += '<div class="action-detail" style="display:none;margin:3px 0 4px 16px;padding:6px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:10px;">';
+            if (a.based_on) detailHtml += '<div style="color:var(--text-muted);">📌 依据: ' + a.based_on + '</div>';
+            if (a.concrete_steps) detailHtml += '<div style="color:var(--text-muted);margin-top:2px;">📋 步骤: ' + a.concrete_steps + '</div>';
+            if (a.expected_impact) detailHtml += '<div style="color:var(--success);margin-top:2px;">📈 预期: ' + a.expected_impact + '</div>';
+            if (a.acceptance_criteria) detailHtml += '<div style="color:var(--success);margin-top:2px;">✅ 验收: ' + a.acceptance_criteria + '</div>';
+            if (a.effort) detailHtml += '<div style="color:var(--accent);margin-top:2px;">💪 难度: ' + effortIcon + a.effort + '</div>';
+            detailHtml += '</div>';
+            detailHtml += '</div>';
           });
           detailHtml += '</div>';
         }

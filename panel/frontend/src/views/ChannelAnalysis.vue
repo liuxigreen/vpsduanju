@@ -492,7 +492,9 @@
                             </div>
                             <div v-if="expandedAction === c.name+'::'+ai" style="margin:2px 0 4px 16px;padding:6px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:10px;transition:all 0.15s;">
                               <div v-if="a.based_on" style="color:var(--text-muted);">📌 基于: {{ a.based_on }}</div>
+                              <div v-if="a.concrete_steps" style="color:var(--text-muted);margin-top:2px;">📋 步骤: {{ a.concrete_steps }}</div>
                               <div v-if="a.expected_impact" style="color:var(--success);margin-top:2px;">📈 预期: {{ a.expected_impact }}</div>
+                              <div v-if="a.acceptance_criteria" style="color:var(--success);margin-top:2px;">✅ 验收: {{ a.acceptance_criteria }}</div>
                               <div v-if="a.effort" style="color:var(--accent);margin-top:2px;">💪 难度: {{ effortIcon(a.effort) }}{{ a.effort }}</div>
                             </div>
                           </div>

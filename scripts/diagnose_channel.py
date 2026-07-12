@@ -1401,10 +1401,10 @@ def _discover_genre(videos: list) -> dict:
 
 
 def _load_ctr_cache(slug: str) -> dict:
-    """读 data/yt_analytics/{slug}_ctr.json；不存在返回 {}。"""
+    """读 data/own/analytics/{slug}_ctr.json；不存在返回 {}。"""
     if not slug:
         return {}
-    p = ROOT / "data" / "yt_analytics" / f"{slug}_ctr.json"
+    p = ROOT / "data" / "own" / "analytics" / f"{slug}_ctr.json"
     if not p.exists():
         return {}
     try:
@@ -2875,7 +2875,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 12c. **标题长度效果**（标题长度与播放量的相关性，找到最佳长度区间）
 13. **封面×标题协同评估**（封面和标题是否围绕同一个核心钩子分工协作）
 14. **系列化评估**（当前系列化程度、系列效果、建议）
-15. **行动清单**（3-5条，priority/action/expected_impact/effort）
+15. **行动清单**（3-5条，每条含：priority/action/based_on/concrete_steps/acceptance_criteria/expected_impact/effort）
 16. **AI自由发现**（从数据中发现的隐藏规律，不限于以上维度。如：某类标题播放量显著高于平均、某骨架类型系统性优于其他、封面协同分数与播放量的相关性、发布间隔与播放量的关系等。至少2条，用数据支撑）
 
 输出JSON：
@@ -2892,7 +2892,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
   "upload_pace": {{"current_rate": "当前频率", "recommended_rate": "建议频率", "assessment": "评估"}},
   "cover_title_synergy": {{"score": 0, "assessment": "封面×标题协同评估", "improvement": "改进建议"}},
   "series_analysis": {{"current_series": "当前系列识别", "series_count": 0, "series_performance": "系列效果评估", "recommendation": "系列化建议"}},
-  "actions": [{{"priority": 1, "action": "具体动作", "expected_impact": "预期效果", "effort": "低/中/高"}}],
+  "actions": [{{"priority": 1, "action": "一句话摘要", "based_on": "依据数据（引用problems.evidence或具体指标）", "concrete_steps": "①步骤一 ②步骤二 ③步骤三", "acceptance_criteria": "验收标准（可量化的完成标志）", "expected_impact": "预期效果", "effort": "低/中/高"}}],
   "ai_discoveries": [{{"pattern": "发现的规律", "evidence": "数据支撑", "insight": "这意味着什么"}}],
 
   "ctr_status": "ok|pending|no_data",

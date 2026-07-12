@@ -4,7 +4,7 @@ from pathlib import Path
 import json, sys
 from datetime import datetime
 
-DATA_DIR = Path("data/yt_analytics")
+DATA_DIR = Path("data/own/analytics")
 
 for f in sorted(DATA_DIR.iterdir()):
     if not f.suffix == ".json":

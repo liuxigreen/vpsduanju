@@ -40,7 +40,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from collect_yt_analytics import get_access_token  # 复用
 
 REGISTRY = ROOT / "data" / "own" / "our_channels.json"
-OUT_DIR = ROOT / "data" / "yt_analytics"
+OUT_DIR = ROOT / "data" / "own" / "analytics"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 WINDOW_DAYS = 28

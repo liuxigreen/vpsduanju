@@ -1860,7 +1860,7 @@ class Handler(BaseHTTPRequestHandler):
                             ch["oauth"] = {"authorized": False}
                             continue
                         # 读缓存的 analytics 数据
-                        cache_file = ROOT / "data" / "yt_analytics" / f"{oauth_slug}.json"
+                        cache_file = ROOT / "data" / "own" / "analytics" / f"{oauth_slug}.json"
                         if cache_file.exists():
                             try:
                                 cached = json.loads(cache_file.read_text())
@@ -2211,7 +2211,7 @@ class Handler(BaseHTTPRequestHandler):
         params = parse_qs(p.query)
         slug = params.get("slug", ["default"])[0]
 
-        cache_file = ROOT / "data" / "yt_analytics" / f"{slug}.json"
+        cache_file = ROOT / "data" / "own" / "analytics" / f"{slug}.json"
         if not cache_file.exists():
             return _json(self, {"error": f"频道 {slug} 暂无 Analytics 数据。请先运行: python3 scripts/collect_yt_analytics.py --slug {slug}"}, 404)
 
