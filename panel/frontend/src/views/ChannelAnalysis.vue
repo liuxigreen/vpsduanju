@@ -1305,7 +1305,7 @@ function toggleDetail(idx) {
   expanded.value = s
 }
 
-const trafficLabelMap = { SUBSCRIBER: '订阅推送', RELATED_VIDEO: '推荐视频', YT_SEARCH: '搜索', YT_OTHER_PAGE: '其他页面', YT_CHANNEL: '频道页', END_SCREEN: '片尾画面', PLAYLIST: '播放列表', EXT_URL: '外部链接', NO_LINK_OTHER: '其他来源', NOTIFICATION: '通知' }
+const trafficLabelMap = { SUBSCRIBER: '订阅推送', RELATED_VIDEO: '相关视频', YT_SEARCH: '搜索', YT_OTHER_PAGE: '其他页面', YT_CHANNEL: '频道页', END_SCREEN: '片尾画面', PLAYLIST: '播放列表', EXT_URL: '外部链接', NO_LINK_OTHER: '其他来源', NOTIFICATION: '通知', BROWSE_FEATURES: '首页推荐' }
 function trafficLabel(key) { return trafficLabelMap[key] || key }
 const countryNameMap = {
   US: '美国', IN: '印度', PH: '菲律宾', MY: '马来西亚', GB: '英国',
@@ -1408,7 +1408,7 @@ function weightMetrics(c) {
   if (!aData?.traffic?.rows) return []
   const traffic = aData.traffic.rows
   const total = trafficTotal(traffic)
-  const browse = (traffic.find(r => r[0] === 'RELATED_VIDEO')?.[1] || 0) / total * 100
+  const browse = (traffic.find(r => r[0] === 'BROWSE_FEATURES')?.[1] || 0) / total * 100
   const sub = (traffic.find(r => r[0] === 'SUBSCRIBER')?.[1] || 0) / total * 100
   const search = (traffic.find(r => r[0] === 'YT_SEARCH')?.[1] || 0) / total * 100
   const ret = c.oauth?.avg_view_pct || 0
