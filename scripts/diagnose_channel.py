@@ -1367,8 +1367,12 @@ def _load_competitor_insights(lang: str) -> list:
 
 def _discover_genre(videos: list) -> dict:
     """Step 1: 从视频标题自动发现频道题材"""
+    import re as _re
     from collections import Counter
-    titles = ' '.join(v.get('title', '') for v in videos).lower()
+    # 干洗：剔除结构噪声词（episode/season/part/full/clip/OP MC等品牌标签）
+    _NOISE_RE = _re.compile(r'(episode|ep|season|part|full|clip|#full|#minidrama|#drama|#cdrama|【[^】]*】)\s*\d*', _re.IGNORECASE)
+    raw_titles = ' '.join(v.get('title', '') for v in videos)
+    titles = _NOISE_RE.sub('', raw_titles).lower()
     tags = []
     for v in videos:
         tags.extend(v.get('description_tags', []))
@@ -1763,6 +1767,7 @@ def _compute_sub_conversion(yt_analytics: dict, snapshot: dict) -> dict:
             "subs_gained": gained,
             "subs_lost": lost,
             "sub_conversion": round(conv, 5),
+            "subs_per_1k_views": round(gained / max(views, 1) * 1000, 2),
         })
     per_video.sort(key=lambda x: x["sub_conversion"], reverse=True)
     # 频道级
@@ -1992,19 +1997,24 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
 
     like_rate_findings = {
         "avg_like_rate": round(avg_lr, 2),
+        "median_like_rate": round(sorted(like_rates)[len(like_rates)//2], 2) if like_rates else 0,
         "max": round(max(like_rates), 2) if like_rates else 0,
         "min": round(min(like_rates), 2) if like_rates else 0,
         "benchmark": ">3%标杆 | 1.5-3%健康 | 1-1.5%一般 | <1%转化差",
-        "status": "标杆" if avg_lr > 3 else "健康" if avg_lr > 1.5 else "一般" if avg_lr > 1 else "转化差",
     }
 
-    # ── 赞率趋势 ──
+    # ── 赞率趋势（小频道剔除极端值避免伪误判）──
     like_rate_trend = "数据不足"
     if len(videos) >= 10:
-        recent_5 = videos[-5:]
-        prev_5 = videos[-10:-5]
-        recent_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in recent_5) / 5 * 100
-        prev_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in prev_5) / 5 * 100
+        # 剔除播放量top2极端值后再做滑窗，避免爆款随机落入某窗口导致趋势伪误判
+        trend_videos = sorted(videos, key=lambda x: x.get("views", 0))
+        if len(videos) < 20:
+            trend_videos = trend_videos[:-2] if len(trend_videos) > 4 else trend_videos
+        half = len(trend_videos) // 2
+        recent_half = trend_videos[half:]
+        prev_half = trend_videos[:half]
+        recent_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in recent_half) / max(len(recent_half), 1) * 100
+        prev_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in prev_half) / max(len(prev_half), 1) * 100
         if recent_lr > prev_lr * 1.1: like_rate_trend = f"上升（{prev_lr:.1f}% → {recent_lr:.1f}%）"
         elif recent_lr < prev_lr * 0.9: like_rate_trend = f"下降（{prev_lr:.1f}% → {recent_lr:.1f}%）"
         else: like_rate_trend = f"稳定（{prev_lr:.1f}% → {recent_lr:.1f}%）"
@@ -2018,7 +2028,6 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         "top3_ratio": round(top3_ratio, 1),
         "top3_videos": sorted_views[:3],
         "benchmark": "幂律分布，头部集中是平台机制必然结果，关注Format Replication",
-        "status": "头部集中" if top3_ratio > 50 else "有集中" if top3_ratio > 30 else "均匀",
     }
 
     # ── SEO分析 ──
@@ -3660,12 +3669,10 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
     if channel_llm_last_run and not force and not force_channel_llm:
         try:
             last_run_dt = datetime.fromisoformat(channel_llm_last_run.replace("Z", "+00:00"))
-            today = datetime.now(timezone.utc).date()
-            this_monday = today - timedelta(days=today.weekday())
-            monday_dt = datetime(this_monday.year, this_monday.month, this_monday.day, tzinfo=timezone.utc)
-            if last_run_dt >= monday_dt:
+            now_dt = datetime.now(timezone.utc)
+            if (now_dt - last_run_dt).days < 7:
                 channel_llm_due = False
-                print(f" 本周已跑过（{last_run_dt.strftime('%m-%d')}），跳过")
+                print(f"  7天内已跑过（{last_run_dt.strftime('%m-%d')}），跳过")
         except Exception:
             pass
 
@@ -3787,6 +3794,11 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
                 cover = covers_index.get(vid) or _match_cover_by_title(v.get("title", ""), covers_index)
                 if cover and cover.get("封面×标题协同"):
                     entry["cover_synergy"] = cover["封面×标题协同"]
+                    # 封面协同分加权到总分，避免8.5协同+5.0总分的因果断层
+                    cs_score = cover["封面×标题协同"].get("score", 0)
+                    if cs_score:
+                        entry["score"] = round(5.0 * 0.75 + cs_score * 0.25, 1)
+                        entry["scores"]["cover_synergy_weighted"] = cs_score
         # P-retention-fix: 若已授权频道有留存数据，join 单视频留存字段
         if retention_index and vid in retention_index:
             rv = retention_index[vid]
