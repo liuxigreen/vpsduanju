@@ -2013,8 +2013,9 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         half = len(trend_videos) // 2
         recent_half = trend_videos[half:]
         prev_half = trend_videos[:half]
-        recent_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in recent_half) / max(len(recent_half), 1) * 100
-        prev_lr = sum(v.get("likes", 0) / max(v.get("views", 1), 1) for v in prev_half) / max(len(prev_half), 1) * 100
+        # 加权赞率 = Σlikes / Σviews × 100（与主指标口径一致，非各视频赞率的算术平均）
+        recent_lr = sum(v.get("likes", 0) for v in recent_half) / max(sum(v.get("views", 0) for v in recent_half), 1) * 100
+        prev_lr = sum(v.get("likes", 0) for v in prev_half) / max(sum(v.get("views", 0) for v in prev_half), 1) * 100
         if recent_lr > prev_lr * 1.1: like_rate_trend = f"上升（{prev_lr:.1f}% → {recent_lr:.1f}%）"
         elif recent_lr < prev_lr * 0.9: like_rate_trend = f"下降（{prev_lr:.1f}% → {recent_lr:.1f}%）"
         else: like_rate_trend = f"稳定（{prev_lr:.1f}% → {recent_lr:.1f}%）"
@@ -3582,8 +3583,9 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
                     "analyzed_at": datetime.now(timezone.utc).isoformat(),
                     "model": _existing_cover_model,  # P3-8: 透传已有 model（cover_analysis_own 写入时已按 USE_VISION_MODEL 动态设置）
                     "total_videos": len(videos),
-                    "analyzed_videos": len(covers_list),
-                    "details": covers_list,
+                    # 按video_id去重，防止增量跑动或中途重启导致缓存无限膨胀
+                    "analyzed_videos": len({c['video_id']: c for c in covers_list if c.get('video_id')}),
+                    "details": list({c['video_id']: c for c in covers_list if c.get('video_id')}.values()),
                 }
                 # P1-3: 原子写，避免 panel 读到截断 JSON
                 _atomic_write_json(cover_path, cover_data)
