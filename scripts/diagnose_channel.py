@@ -3915,6 +3915,23 @@ def main():
     else:
         print("用法: --channel 频道名 或 --all")
 
+    # 自动重建面板汇总文件，避免手动步骤
+    try:
+        from channel_weekly_snapshot import build_panel_json
+        reports = []
+        for fp in sorted(SNAPSHOT_DIR.glob("*_latest.json")):
+            try:
+                reports.append(json.loads(fp.read_text(encoding="utf-8")))
+            except Exception:
+                pass
+        if reports:
+            panel = build_panel_json(reports)
+            summary_path = ROOT / "data" / "own" / "channel_analysis_latest.json"
+            summary_path.write_text(json.dumps(panel, indent=2, ensure_ascii=False), encoding="utf-8")
+            print(f"\n✅ 面板汇总已更新: {len(reports)}个频道")
+    except Exception as e:
+        print(f"\n⚠️ 面板汇总更新失败: {e}")
+
 
 if __name__ == "__main__":
     main()
