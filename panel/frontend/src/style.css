@@ -577,6 +577,9 @@ textarea { min-height: 120px; resize: vertical; }
   }
   .sidebar::-webkit-scrollbar { display: none; }
   .brand, .brand-sub { display: none; }
+  /* 隐藏sidebar底部footer */
+  .sidebar > div:last-child:not(.nav-item) { display: none; }
+  .sidebar { max-height: 56px; overflow: hidden; }
   .nav-item {
     flex-shrink: 0;
     padding: 10px 6px;
@@ -619,7 +622,7 @@ textarea { min-height: 120px; resize: vertical; }
   .main {
     margin-left: 0;
     padding: 8px 10px;
-    padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
     max-width: 100%;
     max-height: 100dvh;
     max-height: 100vh;
@@ -797,6 +800,18 @@ textarea { min-height: 120px; resize: vertical; }
   /* 变现分项在小屏折行 */
   .ca-monetization-detail > div:nth-child(2) { flex-direction: column; gap: 4px !important; }
 
+  /* ── 诊断详情移动端适配 ── */
+  /* 5列核心指标→2列 */
+  [style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* 3列面板（留存/流量/地域）→单列 */
+  [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  /* 诊断卡片行→换行更紧凑 */
+  [style*="display:flex"][style*="gap:12px"][style*="flex-wrap:wrap"] { gap: 8px !important; }
+  /* 展开详情的内距缩小 */
+  [style*="padding:16px"] { padding: 10px !important; }
+  /* 视频卡片表格标题截断 */
+  [style*="max-width:200px"] { max-width: 100% !important; }
+
   /* ── 视频诊断表→卡片 ── */
   .video-card-list .data-table { display: none; }
   .video-card-list .video-mobile-cards { display: block !important; }
@@ -871,6 +886,7 @@ textarea { min-height: 120px; resize: vertical; }
   /* ── 频道总览表→卡片 ── */
   .channel-overview-list .data-table { display: none; }
   .channel-overview-list .channel-mobile-cards { display: flex !important; }
+  .channel-overview-list { overflow-x: visible !important; }
   .channel-mobile-card {
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
@@ -894,4 +910,9 @@ textarea { min-height: 120px; resize: vertical; }
   }
   .channel-mobile-card .cmc-stats .label { color: var(--text-muted); }
   .channel-mobile-card .cmc-stats .val { color: var(--text); font-weight: 600; }
+  .channel-mobile-card .cmc-detail {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
 }

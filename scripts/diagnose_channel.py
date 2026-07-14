@@ -618,6 +618,9 @@ def llm_analyze_and_optimize(videos: list, distill: dict, lang: str = "英文", 
 
     Args:
         save_callback: 每批次完成后回调(all_analyses)，用于增量保存
+
+    # 确保视频按发布时间排序（最新的在最后），避免LLM误判趋势
+    videos = sorted(videos, key=lambda x: x.get("published_at", ""))
         quadrant_map: video_id → bucket 名（爆款基因/标题超卖_开头型/标题超卖_中段型/门面拖累/选题失败/表现平庸/样本不足/数据异常待核实）
                        用于给 LLM 单视频建议注入象限对症纪律。缺失时按"表现平庸"处理。
 
@@ -1834,7 +1837,7 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
     from collections import Counter
 
     stats = snapshot.get("channel_stats", {})
-    videos = snapshot.get("videos", [])
+    videos = sorted(snapshot.get("videos", []), key=lambda x: x.get("published_at", ""))
     growth = snapshot.get("growth", {})
     channel_diag = snapshot.get("_channel_diag", {})
     analytics = snapshot.get("analytics", {})
@@ -1975,14 +1978,17 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         (llm_hook_level_stats["双重"] + llm_hook_level_stats["三重"]) / max(llm_hook_count_total, 1) * 100, 1
     ) if llm_hook_count_total > 0 else 0
 
-    # ── 赞率分析 ──
+    # ── 赞率分析（加权平均：总赞/总播，而非各视频简单平均）──
+    total_likes = sum(v.get("likes", 0) for v in videos)
+    total_views_lr = sum(v.get("views", 0) for v in videos)
+    avg_lr = total_likes / max(total_views_lr, 1) * 100
+
     like_rates = []
     for v in videos:
         views = v.get("views", 0)
         likes = v.get("likes", 0)
         if views > 0:
             like_rates.append(likes / views * 100)
-    avg_lr = sum(like_rates) / len(like_rates) if like_rates else 0
 
     like_rate_findings = {
         "avg_like_rate": round(avg_lr, 2),
@@ -2011,8 +2017,8 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
     view_dist_findings = {
         "top3_ratio": round(top3_ratio, 1),
         "top3_videos": sorted_views[:3],
-        "benchmark": ">50%爆款依赖 | 30-50%健康 | <30%均匀",
-        "status": "爆款依赖" if top3_ratio > 50 else "有集中" if top3_ratio > 30 else "健康",
+        "benchmark": "头部集中是YouTube正常现象，关注可复制模式",
+        "status": "头部集中" if top3_ratio > 50 else "有集中" if top3_ratio > 30 else "均匀",
     }
 
     # ── SEO分析 ──
@@ -2200,46 +2206,6 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
                 }
         except: pass
 
-    # ── 系列化分析 ──
-    series_findings = {"has_data": False}
-    series_videos = {}
-    for v in videos:
-        title = v.get("title", "")
-        # 识别系列：标题包含"Part X"、"第X集"、"Episode X"、"Ep X"等
-        series_match = re.search(r'(part|episode|ep|第|集)\s*(\d+)', title.lower())
-        if series_match:
-            # 提取系列名（去掉part/episode部分）
-            series_name = title[:series_match.start()].strip()
-            if series_name:
-                if series_name not in series_videos:
-                    series_videos[series_name] = []
-                series_videos[series_name].append({
-                    "video_id": v.get("video_id"),
-                    "title": title,
-                    "views": v.get("views", 0),
-                    "likes": v.get("likes", 0),
-                    "published_at": v.get("published_at", "")
-                })
-    
-    if series_videos:
-        # 计算系列化指标
-        total_series_videos = sum(len(v) for v in series_videos.values())
-        series_ratio = total_series_videos / len(videos) * 100 if videos else 0
-        
-        # 找出最佳系列
-        best_series = max(series_videos.items(), key=lambda x: sum(v["views"] for v in x[1]))
-        best_series_views = sum(v["views"] for v in best_series[1])
-        
-        series_findings = {
-            "has_data": True,
-            "series_count": len(series_videos),
-            "series_video_count": total_series_videos,
-            "series_ratio": round(series_ratio, 1),
-            "best_series": best_series[0],
-            "best_series_views": best_series_views,
-            "series_details": {name: {"count": len(vids), "total_views": sum(v["views"] for v in vids)} for name, vids in series_videos.items()}
-        }
-
     # ── 分段留存分析（OAuth） ──
     retention_findings = {"has_data": False}
     retention_data = snapshot.get("retention_data")
@@ -2404,7 +2370,6 @@ def prepare_channel_findings(snapshot: dict, distill: dict, lang: str) -> dict:
         "competitors": comp_findings,
         "oauth": oauth_findings,
         "cover": cover_findings,
-        "series": series_findings,
         "retention": retention_findings,
         "device": device_findings,
         "traffic_detail": traffic_detail,
@@ -2437,7 +2402,6 @@ def llm_strategic_diagnosis(findings: dict, distill: dict) -> dict | None:
     dist = findings.get("distill", {})
     comps = findings.get("competitors", [])
     growth = findings.get("growth", {})
-    series = findings.get("series", {})
     retention = findings.get("retention", {})
 
     # 竞品文本
@@ -2478,20 +2442,6 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
         synergy_text = f" | 封面×标题协同{synergy_score}" if synergy_score else ""
         cover_text = f"总分{cover['overall']}/10 | 构图{cover['composition']} 人物{cover['person']} 色彩{cover['color']} 情绪{cover['emotion']} 道具{cover['prop']} 文字{cover['text']}{synergy_text}"
 
-    # 系列化文本
-    series_text = "无系列化数据"
-    if series.get("has_data"):
-        series_details = series.get("series_details", {})
-        detail_lines = []
-        for name, info in list(series_details.items())[:3]:
-            detail_lines.append(f"    {name}: {info['count']}集, {info['total_views']:,}播放")
-        detail_text = "\n".join(detail_lines) if detail_lines else "无"
-        series_text = f"""系列数: {series.get('series_count', 0)} | 系列视频占比: {series.get('series_ratio', 0)}%
-最佳系列: {series.get('best_series', '无')}（{series.get('best_series_views', 0):,}播放）
-系列明细:\n{detail_text}"""
-    else:
-        series_text = "未识别到系列化内容（无Part/Episode/第X集标记）"
-
     # 分段留存文本（OAuth）
     retention_text = "无分段留存数据（频道未OAuth授权）"
     if retention.get("has_data"):
@@ -2514,8 +2464,8 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
             lines_r.append(f"  📹 {rv['video_id']}: {rv['views']}播放 {r1} {r3} {rbound}")
         retention_text = "\n".join(lines_r)
 
-    # 逐视频诊断明细文本
-    vs_list = findings.get("_video_scores", [])
+    # 逐视频诊断明细文本（按发布时间排序，最新的在最后）
+    vs_list = sorted(findings.get("_video_scores", []), key=lambda x: x.get("published_at", ""))
     per_video_diag_text = "无单视频诊断数据"
     if vs_list:
         pv_lines = []
@@ -2692,6 +2642,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 6. **样本不足/低置信视频（展示<500 或 <2000）不要给具体动作**，只列出等观察。异常视频（1%留存<5%）标记"数据异常，需要人工核实"。
 7. **因果纪律**：结论必须给出"由哪个数据字段推出"。禁止把相关性说成因果（如"发布频率下降导致订阅下降"需要有增长曲线数据支撑，仅有两个数据点不足以下因果结论）。
 8. **变现达标必标 ✅**：`findings["monetization"]` 里 `subscribers.ok=true` 意味着订阅门槛已达标，`monetization_detail.subscribers` 必须写"✅ 已达标"。禁止把已达标项写成"接近达标"或"还需努力"。
+9. **验证Python结论**：赞率、播放分布等Python预计算值仅供参考。你必须对照"最近15条视频"的逐条数据自行验证趋势。如果Python结论与逐条数据矛盾，以逐条数据为准。禁止引用你无法从逐条数据中验证的趋势结论。
 
 ## 诊断框架（必须遵守）
 
@@ -2708,7 +2659,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 
 ### 诊断标准
 - 赞率：>3%标杆 | 1.5-3%健康 | 1-1.5%一般 | <1%转化差
-- 播放分布：头部3条>50%爆款依赖 | 30-50%健康 | <30%均匀
+- 播放分布：头部集中是YouTube算法的正常现象，关注点应是"如何复制头部的成功模式"而非"集中度是否过高"
 - 留存基准（一般视频）：<5min→60% / 5-20min→35% / >20min→25%
 - 留存基准（短剧1-2小时）：1%处(≈1分钟)>80%=hook强 / 3分钟>30%=好 / 5分钟>25%=好
 - 短剧前3分钟是关键hook窗口——开头流失>40%说明前3分钟剧情/节奏有问题
@@ -2719,7 +2670,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 ### 短剧频道特性
 - 短剧频道开通YPP速度比一般频道快，通常25-30天可达标（一般频道45天）
 - 短剧频道的留存曲线与一般长视频不同，观众追剧心理更强
-- 短剧频道的核心增长驱动：高频更新+标题钩子+系列化运营
+- 短剧频道的核心增长驱动：高频更新+标题钩子+完整故事单集发布（印尼/繁中/英文短剧市场标准）
 
 ---
 
@@ -2748,12 +2699,14 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 - 封面×标题协同均分: {title.get('avg_cover_synergy', '无数据')}
 
 ### 赞率
-- 整体: {lr.get('avg_like_rate', 0)}%（{lr.get('status', '未知')}，基准{lr.get('benchmark', '')}）
-- 趋势: {findings.get('like_rate_trend', '数据不足')}
+- 基准: >3%标杆 | 1.5-3%健康 | 1-1.5%一般 | <1%转化差
+- 逐条赞率见下方"最近15条视频"列表，由你自行计算整体赞率和趋势
 
-### 播放分布
-- 头部3条占比: {vd.get('top3_ratio', 0)}%（{vd.get('status', '未知')}）
+### 播放分布（基于近{len(findings.get('_videos', []))}条视频）
+- 头部3条占比: {vd.get('top3_ratio', 0)}%
 - 头部播放: {vd.get('top3_videos', [])}
+- 频道总播放{ch.get('total_views', 0):,}，头部3条占频道总播放约{sum(vd.get('top3_videos', [0])) / max(ch.get('total_views', 1), 1) * 100:.1f}%
+- 基准: 头部集中是YouTube正常现象，不要将其列为问题。应关注头部视频的可复制模式。
 
 ### SEO
 - 平均标签: {seo.get('avg_tags_per_video', 0)}/视频
@@ -2773,8 +2726,6 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 ### 封面分析
 {cover_text}
 
-### 系列化分析
-{series_text}
 
 ### 单视频平均观看时长（AVD，30天Analytics）
 {avd_text}
@@ -2874,8 +2825,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
 12b. **视频时长分析**（如有数据，分析最佳时长区间，短剧60-120分钟为基准）
 12c. **标题长度效果**（标题长度与播放量的相关性，找到最佳长度区间）
 13. **封面×标题协同评估**（封面和标题是否围绕同一个核心钩子分工协作）
-14. **系列化评估**（当前系列化程度、系列效果、建议）
-15. **行动清单**（3-5条，每条含：priority/action/based_on/concrete_steps/acceptance_criteria/expected_impact/effort）
+14. **行动清单**（3-5条，每条含：priority/action/based_on/concrete_steps/acceptance_criteria/expected_impact/effort）
 16. **AI自由发现**（从数据中发现的隐藏规律，不限于以上维度。如：某类标题播放量显著高于平均、某骨架类型系统性优于其他、封面协同分数与播放量的相关性、发布间隔与播放量的关系等。至少2条，用数据支撑）
 
 输出JSON：
@@ -2891,7 +2841,7 @@ CTR代理: 推荐流量{t['browse_pct']}%→{"隐性健康" if t["browse_pct"] >
   "geo_strategy": {{"top_markets": "主要市场", "growth_markets": "增长市场", "opportunity_markets": "潜力市场", "insight": "地域策略建议"}},
   "upload_pace": {{"current_rate": "当前频率", "recommended_rate": "建议频率", "assessment": "评估"}},
   "cover_title_synergy": {{"score": 0, "assessment": "封面×标题协同评估", "improvement": "改进建议"}},
-  "series_analysis": {{"current_series": "当前系列识别", "series_count": 0, "series_performance": "系列效果评估", "recommendation": "系列化建议"}},
+
   "actions": [{{"priority": 1, "action": "一句话摘要", "based_on": "依据数据（引用problems.evidence或具体指标）", "concrete_steps": "①步骤一 ②步骤二 ③步骤三", "acceptance_criteria": "验收标准（可量化的完成标志）", "expected_impact": "预期效果", "effort": "低/中/高"}}],
   "ai_discoveries": [{{"pattern": "发现的规律", "evidence": "数据支撑", "insight": "这意味着什么"}}],
 
@@ -3190,13 +3140,18 @@ def _generate_channel_diagnostics(snapshot: dict, distill: dict, diagnosis: dict
                 "action": "① 每视频只用1-2个相关emoji放末尾\n② 纯文字标题点赞率反而更高"
             })
 
-    # 5. 内容一致性检查
+    # 5. 内容一致性检查（仅当关键词覆盖率足够时才判断）
     cc = diagnosis.get("content_consistency", {})
     if cc:
         consistency = cc.get("consistency_score", 0)
         primary = cc.get("primary_type", "")
         primary_ratio = cc.get("primary_ratio", 0)
-        if consistency < 0.5 and primary:
+        detected = cc.get("detected_types", {})
+        detected_count = sum(detected.values())
+        total_videos = diagnosis.get("total_videos", 14)
+        coverage = detected_count / max(total_videos, 1)
+        # 只有当关键词覆盖率>50%且一致性<50%时，才算真正"内容混杂"
+        if consistency < 0.5 and primary and coverage > 0.5:
             diagnostics.append({
                 "severity": "major",
                 "category": "内容定位",
@@ -3638,7 +3593,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
             _snap_slug = _resolve_oauth_slug(channel_name, slug_r) or channel_name.replace(" ", "_")
             _ctr_snapshot = {"_slug": _snap_slug}
             _yt_an = {}
-            _yt_path = ROOT / "data" / "yt_analytics" / f"{_snap_slug}.json"
+            _yt_path = ROOT / "data" / "own" / "analytics" / f"{_snap_slug}.json"
             if _yt_path.exists():
                 _yt_an = json.loads(_yt_path.read_text(encoding="utf-8"))
             _ctr_findings = _compute_ctr_findings({"name": channel_name}, _yt_an, _ctr_snapshot)
@@ -3721,7 +3676,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
         llm_slug = _resolve_oauth_slug(channel_name, slug_r)
         yt_analytics = {}
         if llm_slug:
-            analytics_path = Path(f"data/yt_analytics/{llm_slug}.json")
+            analytics_path = Path(f"data/own/analytics/{llm_slug}.json")
             if analytics_path.exists():
                 yt_analytics = json.loads(analytics_path.read_text(encoding="utf-8"))
                 print(f" ✅yt-analytics", end="", flush=True)
@@ -3826,6 +3781,11 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
                 "needs_optimization": False,
                 "quadrant": (quadrant_map or {}).get(vid, "表现平庸"),
             }
+            # 补封面协同（fallback也补，不依赖LLM）
+            if covers_index:
+                cover = covers_index.get(vid) or _match_cover_by_title(v.get("title", ""), covers_index)
+                if cover and cover.get("封面×标题协同"):
+                    entry["cover_synergy"] = cover["封面×标题协同"]
         # P-retention-fix: 若已授权频道有留存数据，join 单视频留存字段
         if retention_index and vid in retention_index:
             rv = retention_index[vid]
@@ -3924,8 +3884,19 @@ def main():
         if not names:
             names = list(CHANNEL_TO_LANG.keys())  # fallback
         print(f"📋 待诊断频道({len(names)}): {', '.join(names)}")
-        for name in names:
-            run_diagnosis(name, use_llm=use_llm, force=args.force, force_channel_llm=args.force_channel)
+        failed = []
+        for i, name in enumerate(names):
+            print(f"\n{'='*60}\n📺 [{i+1}/{len(names)}] {name}\n{'='*60}")
+            try:
+                run_diagnosis(name, use_llm=use_llm, force=args.force, force_channel_llm=args.force_channel)
+            except Exception as e:
+                print(f"❌ {name} 诊断失败: {e}")
+                failed.append((name, str(e)))
+                continue
+        if failed:
+            print(f"\n⚠️ {len(failed)} 个频道诊断失败:")
+            for name, err in failed:
+                print(f"  - {name}: {err[:80]}")
     else:
         print("用法: --channel 频道名 或 --all")
 

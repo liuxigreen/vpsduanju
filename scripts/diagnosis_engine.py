@@ -135,18 +135,34 @@ def analyze_title_patterns(videos: list) -> dict:
     emoji_videos = [v for v in videos if emoji_pattern.search(v["title"])]
 
     # 重复 emoji 模式（如 ❤️⭐️🌟 每个标题都有）
+    # 排除无emoji的视频，避免空序列被误判为"重复"
     emoji_seqs = []
     for v in videos:
         found = emoji_pattern.findall(v["title"])
-        emoji_seqs.append("".join(found))
+        if found:
+            emoji_seqs.append("".join(found))
     seq_counter = Counter(emoji_seqs)
-    repeated_emoji = any(count > len(videos) * 0.5 for count in seq_counter.values())
+    repeated_emoji = any(count > len(videos) * 0.5 for count in seq_counter.values()) if seq_counter else False
 
-    # 钩子词检测
-    hook_words = ["真相", "秘密", "震惊", "没想到", "竟然", "居然", "突然", "发现",
-                  "最后", "结局", "反转", "逆袭", "复仇", "打脸", "觉醒",
-                  "secret", "truth", "reveal", "shocking", "twist", "ending", "revenge",
-                  "爆火", "全集", "完整版", "FULL", "合集"]
+    # 钩子词检测（多语言，来自蒸馏数据的高频钩子词）
+    hook_words = [
+        # 中文
+        "真相", "秘密", "震惊", "没想到", "竟然", "居然", "突然", "发现",
+        "最后", "结局", "反转", "逆袭", "复仇", "打脸", "觉醒", "總裁", "重生", "替身", "豪門",
+        # 英文
+        "secret", "truth", "reveal", "shocking", "twist", "ending", "revenge",
+        "ceo", "billionaire", "reborn", "betrayed", "pregnant", "married", "heiress",
+        # 西语
+        "traición", "venganza", "humillada", "renacer", "millonario", "heredero",
+        # 印尼
+        "ceo", "hamil", "dendam", "terlahir", "rahasia", "dewa perang", "miliarder", "ternyata", "disangka",
+        # 日语
+        "日本語吹き替え", "社長", "正体", "離婚", "溺愛", "後悔",
+        # 葡萄牙
+        "bilionário", "grávida", "vingança", "traição",
+        # 土耳其
+        "mafya", "kurye", "milyarder", "varis",
+    ]
     hook_counts = {}
     for word in hook_words:
         count = sum(1 for v in videos if word.lower() in v["title"].lower())
@@ -158,12 +174,13 @@ def analyze_title_patterns(videos: list) -> dict:
     start_counter = Counter(title_starts)
     repeated_starts = {k: v for k, v in start_counter.items() if v > 2}
 
-    # 长度 vs 表现
+    # 长度 vs 表现（加权平均）
     def avg_lr(vids):
         if not vids:
             return 0
-        rates = [v["likes"]/v["views"]*100 if v["views"] > 0 else 0 for v in vids]
-        return sum(rates)/len(rates)
+        total_likes = sum(v["likes"] for v in vids)
+        total_views = sum(v["views"] for v in vids)
+        return total_likes / max(total_views, 1) * 100
 
     short = [v for v in videos if len(v["title"]) <= 40]
     medium = [v for v in videos if 40 < len(v["title"]) <= 60]
@@ -500,34 +517,7 @@ def generate_diagnostics(channel_data: dict) -> list:
                     })
 
     # === 时长问题 ===
-    # 短剧频道：时长基本固定（70-110分钟），时长诊断意义不大
-    # 改为分析短视频（预告片/片段）的表现，给出更实用的建议
-    if duration:
-        # 检查是否有短视频（预告片/片段）
-        short_labels = ["<5min", "5-30min"]
-        short_videos = {k: v for k, v in duration.items() if k in short_labels}
-        long_videos = {k: v for k, v in duration.items() if k not in short_labels}
-        
-        if short_videos and long_videos:
-            # 有短视频和长视频，对比表现
-            short_count = sum(v.get("count", 0) for v in short_videos.values())
-            long_count = sum(v.get("count", 0) for v in long_videos.values())
-
-            if short_count > 0 and long_count > 0:
-                short_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0)
-                                   for v in short_videos.values()) / short_count
-                long_avg_rate = sum(v.get("avg_like_rate", 0) * v.get("count", 0)
-                                  for v in long_videos.values()) / long_count
-
-                if short_avg_rate > long_avg_rate * 1.5:  # 短视频点赞率比长视频高50%以上
-                    issues.append({
-                        "severity": "info",
-                        "category": "内容策略",
-                        "issue": "预告片/片段点赞率高于完整短剧",
-                        "detail": f"短视频（<30min）平均点赞率{short_avg_rate:.2f}%，长视频（>60min）平均点赞率{long_avg_rate:.2f}%。预告片/片段可能更吸引观众互动。",
-                        "action": "① 考虑为每部短剧制作1-2分钟的预告片\n② 预告片可单独发布，提升频道互动率\n③ 预告片标题可加预告标签，避免与完整短剧混淆",
-                    })
-        # 时长桶单一（只有长视频或只有短视频）：无对比意义，不加 issue，继续走后面的周增长/评论等诊断
+    # 时长诊断暂无通用规则，待验证后补充
 
     # === 周增长 ===
     if growth.get("has_prev"):

@@ -302,8 +302,9 @@ def analyze_title_patterns(videos: list) -> dict:
     def avg_lr(vids):
         if not vids:
             return 0
-        rates = [v["likes"]/v["views"]*100 if v["views"] > 0 else 0 for v in vids]
-        return sum(rates)/len(rates)
+        total_likes = sum(v["likes"] for v in vids)
+        total_views = sum(v["views"] for v in vids)
+        return total_likes / max(total_views, 1) * 100
 
     return {
         "avg_length": sum(lengths)/len(lengths) if lengths else 0,
@@ -364,11 +365,10 @@ def analyze_duration_impact(videos: list) -> dict:
         if not vids:
             continue
         views = [v["views"] for v in vids]
-        rates = [v["likes"]/v["views"]*100 if v["views"]>0 else 0 for v in vids]
         result[label] = {
             "count": len(vids),
             "avg_views": sum(views)//len(views),
-            "avg_like_rate": round(sum(rates)/len(rates), 2),
+            "avg_like_rate": round(sum(v["likes"] for v in vids) / max(sum(v["views"] for v in vids), 1) * 100, 2),
         }
     return result
 
@@ -420,11 +420,15 @@ def compute_growth(slug: str, current: dict) -> dict:
     view_change = _video_view_change(prev.get("videos", []), current.get("videos", []))
     video_change = curr_info.get("total_videos", 0) - prev_info.get("total_videos", 0)
 
-    # Like rate change (from videos)
+    # Like rate change (from videos, weighted average)
     prev_videos = prev.get("videos", [])
     curr_videos = current.get("videos", [])
-    prev_lr = sum(v["likes"]/v["views"]*100 for v in prev_videos if v.get("views",0)>0) / max(len([v for v in prev_videos if v.get("views",0)>0]), 1)
-    curr_lr = sum(v["likes"]/v["views"]*100 for v in curr_videos if v.get("views",0)>0) / max(len([v for v in curr_videos if v.get("views",0)>0]), 1)
+    prev_total_likes = sum(v["likes"] for v in prev_videos if v.get("views",0)>0)
+    prev_total_views = sum(v["views"] for v in prev_videos if v.get("views",0)>0)
+    prev_lr = prev_total_likes / max(prev_total_views, 1) * 100
+    curr_total_likes = sum(v["likes"] for v in curr_videos if v.get("views",0)>0)
+    curr_total_views = sum(v["views"] for v in curr_videos if v.get("views",0)>0)
+    curr_lr = curr_total_likes / max(curr_total_views, 1) * 100
 
     return {
         "has_prev": True,

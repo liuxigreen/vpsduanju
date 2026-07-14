@@ -72,7 +72,7 @@
             <div class="card-title">📋 核心数据总览</div>
             <div class="card-desc" style="font-size:12px;color:var(--text-muted)">报告日期: {{ data.report_date }} <span v-if="oauthChannelCount > 0" style="color:var(--success);margin-left:8px;">🔑 {{ oauthChannelCount }} 频道已授权深度数据</span></div>
           </div>
-          <div style="overflow-x:auto">
+          <div class="channel-overview-list" style="overflow-x:auto">
             <table class="data-table" style="font-size:12px;">
               <thead><tr>
                 <th class="sticky-col sticky-col-1">频道</th><th>语种</th>
@@ -372,9 +372,22 @@
 
                         <!-- 批3 additive: 四象限归类概览 -->
                         <div v-if="getChannelLlm(c.name).quadrant_summary?.status" style="margin-bottom:8px;padding:8px 10px;background:rgba(63,81,181,0.06);border:1px solid rgba(63,81,181,0.18);border-radius:6px;font-size:11px;">
-                          <div style="font-weight:600;margin-bottom:4px;">🎬 视频四象限（{{ getChannelLlm(c.name).quadrant_summary.status }} · 已归类 {{ getChannelLlm(c.name).quadrant_summary.total_classified || 0 }}）
+                          <div style="font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">🎬 视频四象限（{{ getChannelLlm(c.name).quadrant_summary.status }} · 已归类 {{ getChannelLlm(c.name).quadrant_summary.total_classified || 0 }}）
                             <span v-if="getChannelLlm(c.name).quadrant_summary.status==='skipped'" style="color:var(--text-muted);font-weight:400;font-size:10px;">— 无 CTR 数据，跳过归类</span>
                             <span v-else-if="getChannelLlm(c.name).quadrant_summary.status==='provisional'" style="color:#ffb74d;font-weight:400;font-size:10px;">— CTR pending，使用播放代理</span>
+                            <span @click="quadrantHelp=!quadrantHelp" style="color:var(--accent);font-weight:400;font-size:10px;cursor:pointer;text-decoration:underline;">{{ quadrantHelp ? '收起说明' : '📖 怎么看？' }}</span>
+                          </div>
+                          <!-- 四象限说明面板 -->
+                          <div v-if="quadrantHelp" style="margin:6px 0 8px;padding:8px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:10px;line-height:1.6;">
+                            <div style="font-weight:600;margin-bottom:4px;">四象限 = 把每条视频按 CTR（点击率）和 AVD（完播率）分成四类：</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin:6px 0;">
+                              <div><span style="color:#4caf50;font-weight:600;">🟢 爆款基因</span> — CTR高 + 留存高 → <b>复制它</b>，拆解标题封面模式量产</div>
+                              <div><span style="color:#ff9800;font-weight:600;">🟠 标题超卖</span> — CTR高 + 留存低 → 标题封面OK，<b>内容没留住人</b>，优化中段节奏</div>
+                              <div><span style="color:#2196f3;font-weight:600;">🔵 门面拖累</span> — CTR低 + 留存高 → 内容好但<b>封面标题没人点</b>，重做封面标题</div>
+                              <div><span style="color:#f44336;font-weight:600;">🔴 选题失败</span> — CTR低 + 留存低 → <b>题材本身不行</b>，停止优化，记入排除条件</div>
+                            </div>
+                            <div style="color:var(--text-muted);margin-top:4px;">💡 <b>怎么看行动建议：</b>每个象限下方的行动建议是AI根据该象限内视频的具体数据生成的。数字 (10) = 这个象限有几条视频。视频越多的象限，优先级越高。</div>
+                            <div style="color:var(--text-muted);margin-top:2px;">⚠️ 表现平庸 = CTR和留存都在中间，不突出也不差，需要整体优化标题/封面/节奏。</div>
                           </div>
                           <div v-if="getChannelLlm(c.name).quadrant_summary.bucket_takeaways?.length" class="ca-quadrant-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;">
                             <div v-for="(bt, bti) in getChannelLlm(c.name).quadrant_summary.bucket_takeaways.filter(x => (x.count||0)>0)" :key="bti" style="padding:5px 7px;background:rgba(255,255,255,0.04);border-radius:4px;">
@@ -457,13 +470,6 @@
                           <div v-if="getChannelLlm(c.name).cover_title_synergy.improvement" style="color:var(--accent);margin-top:3px;">💡 {{ getChannelLlm(c.name).cover_title_synergy.improvement }}</div>
                         </div>
 
-                        <!-- 系列分析 -->
-                        <div v-if="getChannelLlm(c.name).series_analysis" style="margin-bottom:8px;padding:8px 10px;background:rgba(96,125,139,0.05);border:1px solid rgba(96,125,139,0.15);border-radius:6px;font-size:11px;">
-                          <div style="font-weight:600;margin-bottom:4px;">📚 系列分析</div>
-                          <div v-if="getChannelLlm(c.name).series_analysis.current_series" style="color:var(--text-muted);">当前系列：{{ getChannelLlm(c.name).series_analysis.current_series }}<span v-if="getChannelLlm(c.name).series_analysis.series_count"> · {{ getChannelLlm(c.name).series_analysis.series_count }}个</span></div>
-                          <div v-if="getChannelLlm(c.name).series_analysis.series_performance" style="color:var(--text);margin-top:2px;">{{ getChannelLlm(c.name).series_analysis.series_performance }}</div>
-                          <div v-if="getChannelLlm(c.name).series_analysis.recommendation" style="color:var(--accent);margin-top:3px;">💡 {{ getChannelLlm(c.name).series_analysis.recommendation }}</div>
-                        </div>
 
                         <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
                           <div v-if="getChannelLlm(c.name).strengths?.length" style="flex:1;min-width:180px;padding:8px 10px;background:rgba(0,200,83,0.06);border-radius:6px;border:1px solid rgba(0,200,83,0.15);">
@@ -523,11 +529,7 @@
                             <div style="font-weight:600;margin-bottom:3px;">💰 变现</div>
                             <div style="color:var(--text-muted);">{{ getChannelLlm(c.name).monetization_readiness.status || '-' }} · 观看{{ getChannelLlm(c.name).monetization_readiness.watch_hours || '-' }} · 订阅{{ getChannelLlm(c.name).monetization_readiness.subscribers || '-' }}</div>
                           </div>
-                          <div v-if="getChannelLlm(c.name).upload_series" style="padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:6px;">
-                            <div style="font-weight:600;margin-bottom:3px;">📺 节奏 & 系列</div>
-                            <div style="color:var(--text-muted);">{{ getChannelLlm(c.name).upload_series.current_rate || '-' }}</div>
-                            <div v-if="getChannelLlm(c.name).upload_series.recommendation" style="color:var(--accent);margin-top:2px;">{{ getChannelLlm(c.name).upload_series.recommendation }}</div>
-                          </div>
+
                         </div>
                       </div>
 
@@ -663,6 +665,318 @@
                 </template>
               </tbody>
             </table>
+            <!-- 总览移动端卡片 -->
+            <div class="channel-mobile-cards">
+              <div v-for="(c, idx) in channels" :key="'omc-'+c.name" class="channel-mobile-card" :data-channel-idx="idx" @click="toggleDetail(idx)">
+                <div class="cmc-name">
+                  <span :style="{ display: 'inline-block', transition: 'transform 0.2s', fontSize: '10px', marginRight: '4px', transform: expanded.has(idx) ? 'rotate(90deg)' : 'rotate(0)' }">▶</span>
+                  {{ c.name }}
+                </div>
+                <div class="cmc-stats">
+                  <span><span class="label">语种:</span> <span class="val">{{ c.language || '-' }}</span></span>
+                  <span><span class="label">订阅:</span> <span class="val" style="color:var(--accent)">{{ c.subscribers.toLocaleString() }}</span></span>
+                  <span><span class="label">播放:</span> <span class="val" style="color:var(--accent3)">{{ c.total_views.toLocaleString() }}</span></span>
+                  <span><span class="label">时长:</span> <span class="val">{{ c.oauth?.authorized && c.oauth?.avg_view_duration ? formatDuration(c.oauth.avg_view_duration) : '—' }}</span></span>
+                  <span><span class="label">留存:</span> <span class="val">
+                    <template v-if="c.oauth?.authorized && c.oauth?.avg_view_pct">
+                      <span :style="{ display:'inline-block', width:'6px', height:'6px', borderRadius:'50%', background: retentionColor(c.oauth.avg_view_pct) === 'var(--success)' ? '#4caf50' : retentionColor(c.oauth.avg_view_pct) === 'var(--accent)' ? '#ff9800' : '#f44336', marginRight: '3px' }"></span>
+                      {{ c.oauth.avg_view_pct.toFixed(1) }}%
+                    </template>
+                    <template v-else>—</template>
+                  </span></span>
+                  <span><span class="label">状态:</span> <span class="val">{{ c.health }}</span></span>
+                </div>
+                <!-- ═══ 移动端完整诊断详情 ═══ -->
+                <div v-if="expanded.has(idx)" class="cmc-detail" @click.stop>
+                  <!-- 诊断摘要指标 -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;">
+                    <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--border);">
+                      <div style="font-size:18px;font-weight:700;" :style="{ color: scoreColor(diagScores[c.name]?.avg_score || 0) }">{{ (diagScores[c.name]?.avg_score || 0).toFixed(1) }}</div>
+                      <div style="font-size:9px;color:var(--text-secondary)">诊断均分</div>
+                    </div>
+                    <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--border);">
+                      <div style="font-size:18px;font-weight:700;" :style="{ color: (diagScores[c.name]?.needs_optimization || 0) > 0 ? 'var(--danger)' : 'var(--success)' }">{{ diagScores[c.name]?.needs_optimization || 0 }}/{{ diagScores[c.name]?.total_videos || 0 }}</div>
+                      <div style="font-size:9px;color:var(--text-secondary)">需优化</div>
+                    </div>
+                    <template v-if="c.oauth?.authorized">
+                      <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--accent2);">
+                        <div style="font-size:18px;font-weight:700;color:var(--accent2);">{{ c.oauth.avg_view_pct || 0 }}%</div>
+                        <div style="font-size:9px;color:var(--text-secondary)">留存</div>
+                      </div>
+                    </template>
+                    <template v-if="c.oauth?.authorized">
+                      <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--accent2);">
+                        <div style="font-size:16px;font-weight:700;color:var(--accent2);">{{ formatWatchTime(c.oauth.watch_minutes_30d) }}</div>
+                        <div style="font-size:9px;color:var(--text-secondary)">观看时长</div>
+                      </div>
+                    </template>
+                    <template v-if="c.oauth?.authorized">
+                      <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--accent2);">
+                        <div style="font-size:16px;font-weight:700;" :style="{ color: (c.oauth.subs_gained_30d - c.oauth.subs_lost_30d) >= 0 ? 'var(--success)' : 'var(--danger)' }">{{ c.oauth.subs_gained_30d - c.oauth.subs_lost_30d >= 0 ? '+' : '' }}{{ (c.oauth.subs_gained_30d || 0) - (c.oauth.subs_lost_30d || 0) }}</div>
+                        <div style="font-size:9px;color:var(--text-secondary)">净增粉</div>
+                      </div>
+                    </template>
+                    <template v-if="c.oauth?.authorized">
+                      <div style="padding:8px 6px;background:var(--bg-elevated,#1a1f2e);border-radius:6px;text-align:center;border:1px solid var(--accent2);">
+                        <div style="font-size:16px;font-weight:700;color:var(--accent);">{{ effPerK(c.oauth) }}</div>
+                        <div style="font-size:9px;color:var(--text-secondary)">千播订</div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- YPP 数据 -->
+                  <div style="margin-bottom:10px;padding:10px;background:var(--bg-card,#222);border-radius:8px;border:1px solid var(--border);">
+                    <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;">🔐 YPP 数据</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <div v-for="item in yppMetrics(c)" :key="item.label" style="display:flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(255,255,255,0.03);border-radius:4px;font-size:10px;">
+                        <span>{{ item.label }}</span>
+                        <span v-if="item.ok" style="color:var(--success);font-weight:600;">✅ {{ item.value }}</span>
+                        <span v-else style="color:var(--text-dim);">❌</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 频道健康全景（OAuth频道） -->
+                  <template v-if="c.oauth?.authorized">
+                    <div style="margin-bottom:10px;padding:12px;background:var(--bg-card,#222);border-radius:8px;border:1px solid var(--border);">
+                      <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px;">📊 频道健康全景</div>
+
+                      <!-- 留存曲线 SVG（全宽） -->
+                      <div v-if="diagScores[c.name]?.retention_data?.has_data" style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+                        <div style="font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:6px;">📈 留存曲线</div>
+                        <svg viewBox="0 0 200 120" style="width:100%;height:100px;" v-if="diagScores[c.name]?.retention_data">
+                          <line x1="30" y1="5" x2="30" y2="95" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+                          <line x1="30" y1="95" x2="190" y2="95" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+                          <line x1="30" y1="50" x2="190" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="0.5" stroke-dasharray="2"/>
+                          <text x="26" y="8" fill="rgba(255,255,255,0.65)" font-size="8" text-anchor="end">100%</text>
+                          <text x="26" y="53" fill="rgba(255,255,255,0.65)" font-size="8" text-anchor="end">50%</text>
+                          <text x="26" y="98" fill="rgba(255,255,255,0.65)" font-size="8" text-anchor="end">0%</text>
+                          <polyline :points="[[60,95-(diagScores[c.name].retention_data.avg_retention_1pct||0)*90],[110,95-(diagScores[c.name].retention_data.avg_retention_3min||0)*90],[160,95-(diagScores[c.name].retention_data.avg_retention_5min||0)*90]].map(p=>p.join(',')).join(' ')" fill="none" :stroke="diagScores[c.name].retention_data.avg_retention_3min>0.3?'#4caf50':diagScores[c.name].retention_data.avg_retention_3min>0.2?'#ff9800':'#f44336'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle v-for="(pt,pi) in [{x:60,val:diagScores[c.name].retention_data.avg_retention_1pct},{x:110,val:diagScores[c.name].retention_data.avg_retention_3min},{x:160,val:diagScores[c.name].retention_data.avg_retention_5min}]" :key="'md'+pi" :cx="pt.x" :cy="95-(pt.val||0)*90" r="4" :fill="(pt.val||0)>0.7?'#4caf50':(pt.val||0)>0.3?'#ff9800':'#f44336'"/>
+                          <text v-for="(pt,pi) in [{x:60,val:diagScores[c.name].retention_data.avg_retention_1pct,label:'1min'},{x:110,val:diagScores[c.name].retention_data.avg_retention_3min,label:'3min'},{x:160,val:diagScores[c.name].retention_data.avg_retention_5min,label:'5min'}]" :key="'mt'+pi" :x="pt.x" :y="95-(pt.val||0)*90-6" fill="white" font-size="9" text-anchor="middle" font-weight="600">{{ pt.val?(pt.val*100).toFixed(0)+'%':'—' }}</text>
+                          <text x="60" y="110" fill="rgba(255,255,255,0.75)" font-size="8" text-anchor="middle">1min</text>
+                          <text x="110" y="110" fill="rgba(255,255,255,0.75)" font-size="8" text-anchor="middle">3min</text>
+                          <text x="160" y="110" fill="rgba(255,255,255,0.75)" font-size="8" text-anchor="middle">5min</text>
+                        </svg>
+                        <div style="font-size:9px;color:var(--text-muted);margin-top:4px;text-align:center;">{{ diagScores[c.name]?.retention_data?.video_count || 0 }}条视频均值 | 回弹{{ diagScores[c.name]?.retention_data?.rebounds_count || 0 }}条</div>
+                      </div>
+
+                      <!-- 流量来源（全宽） -->
+                      <div v-if="analyticsData[analyticsKey(c)]?.traffic?.rows?.length" style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+                        <div style="font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:8px;">🔀 流量来源</div>
+                        <div v-for="(row,ri) in analyticsData[analyticsKey(c)].traffic.rows.slice(0,5)" :key="ri" style="margin-bottom:4px;">
+                          <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
+                            <span>{{ trafficLabel(row[0]) }}</span>
+                            <span style="color:var(--text-muted);">{{ (row[1]/trafficTotal(analyticsData[analyticsKey(c)].traffic.rows)*100).toFixed(0) }}%</span>
+                          </div>
+                          <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+                            <div :style="{ width:(row[1]/analyticsData[analyticsKey(c)].traffic.rows[0][1]*100)+'%',height:'100%',background:'var(--accent2)',borderRadius:'3px' }"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 地域分布（全宽） -->
+                      <div v-if="analyticsData[analyticsKey(c)]?.geo?.rows?.length" style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+                        <div style="font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:8px;">🌍 地域分布</div>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                          <div :style="donutStyle(analyticsData[analyticsKey(c)].geo.rows)" style="width:50px;height:50px;border-radius:50%;flex-shrink:0;position:relative;">
+                            <div style="position:absolute:inset:10px;background:var(--bg-card,#222);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text);">{{ analyticsData[analyticsKey(c)].geo.rows.length }}国</div>
+                          </div>
+                          <div style="flex:1;">
+                            <div v-for="(row,ri) in analyticsData[analyticsKey(c)].geo.rows.slice(0,6)" :key="ri" style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:2px;">
+                              <span :style="{ width:'5px',height:'5px',borderRadius:'50%',background:geoColors[ri],flexShrink:0 }"></span>
+                              <span style="flex:1;">{{ countryName(row[0]) }}</span>
+                              <span style="color:var(--text-muted);min-width:28px;text-align:right;">{{ (row[1]/geoTotal(analyticsData[analyticsKey(c)].geo.rows)*100).toFixed(0) }}%</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 受众画像（全宽单列） -->
+                      <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+                        <div style="font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:8px;">👥 受众画像</div>
+                        <div v-if="analyticsData[analyticsKey(c)]?.demographics?.length || analyticsData[analyticsKey(c)]?.device?.length">
+                          <!-- 年龄×性别 -->
+                          <div style="margin-bottom:10px;">
+                            <div style="font-size:10px;color:var(--text-secondary);margin-bottom:4px;">年龄×性别</div>
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                              <div :style="genderDonutStyle(analyticsData[analyticsKey(c)].demographics)" style="width:30px;height:30px;border-radius:50%;flex-shrink:0;position:relative;">
+                                <div style="position:absolute:inset:3px;background:rgba(26,31,46,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:var(--text);">{{ genderPct(analyticsData[analyticsKey(c)].demographics,'female') }}%</div>
+                              </div>
+                              <span style="color:#e57373;font-size:9px;">♀ {{ genderPct(analyticsData[analyticsKey(c)].demographics,'female') }}%</span>
+                              <span style="color:#4fc3f7;font-size:9px;">♂ {{ genderPct(analyticsData[analyticsKey(c)].demographics,'male') }}%</span>
+                            </div>
+                            <div v-for="(ag,ai) in topAgeGroups(analyticsData[analyticsKey(c)].demographics)" :key="ai" style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:2px;">
+                              <span style="min-width:28px;color:var(--text-muted);">{{ ag.age }}</span>
+                              <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div :style="{ width:ag.pct+'%',height:'100%',background:ag.gender==='female'?'#e57373':'#4fc3f7',borderRadius:'2px' }"></div></div>
+                              <span style="color:var(--text-muted);min-width:22px;text-align:right;">{{ ag.pct }}%</span>
+                            </div>
+                          </div>
+                          <!-- 设备类型 -->
+                          <div style="margin-bottom:8px;">
+                            <div style="font-size:10px;color:var(--text-secondary);margin-bottom:4px;">设备类型</div>
+                            <div v-if="analyticsData[analyticsKey(c)]?.device?.length">
+                              <div v-for="(d,di) in analyticsData[analyticsKey(c)].device.slice(0,4)" :key="di" style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:2px;">
+                                <span style="min-width:32px;color:var(--text-muted);">{{ deviceLabel(d.type) }}</span>
+                                <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div :style="{ width:devicePct(c,d.views)+'%',height:'100%',background:'var(--accent3)',borderRadius:'2px' }"></div></div>
+                                <span style="color:var(--text-muted);min-width:24px;text-align:right;">{{ devicePct(c,d.views) }}%</span>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- 频道权重 -->
+                          <div style="padding-top:6px;border-top:1px solid var(--border);">
+                            <div style="font-size:10px;color:var(--text-secondary);margin-bottom:4px;">⚖️ 频道权重</div>
+                            <div v-if="analyticsData[analyticsKey(c)]?.traffic?.rows?.length">
+                              <div v-for="(m,mi) in weightMetrics(c)" :key="mi" style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+                                <span style="font-size:8px;min-width:40px;color:var(--text-muted);">{{ m.label }}</span>
+                                <div style="flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden;"><div :style="{ width:m.pct+'%',height:'100%',background:m.color,borderRadius:'2px' }"></div></div>
+                                <span style="font-size:8px;font-weight:600;min-width:24px;text-align:right;" :style="{ color:m.color }">{{ m.value }}</span>
+                              </div>
+                              <div style="font-size:8px;color:var(--text-muted);margin-top:3px;">算法信任度：<span style="font-weight:600;" :style="{ color:weightLevel(c).color }">{{ weightLevel(c).label }}</span></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div v-else-if="c?.oauth?.authorized && analyticsData[analyticsKey(c)]===undefined" style="font-size:10px;color:var(--text-dim);text-align:center;padding:6px 0;">⏳ 加载中...</div>
+                        <div v-else style="font-size:10px;color:var(--text-dim);text-align:center;padding:6px 0;">需OAuth授权</div>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- LLM 诊断 -->
+                  <div v-if="getChannelLlm(c.name)" style="margin-bottom:10px;padding:10px;background:var(--bg-card,#222);border-radius:8px;border:1px solid var(--border);">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                      <div style="text-align:center;min-width:50px;">
+                        <div style="font-size:24px;font-weight:800;" :style="{ color:scoreColor(getChannelLlm(c.name).health_score||0) }">{{ (getChannelLlm(c.name).health_score||0).toFixed(1) }}</div>
+                        <div style="font-size:9px;color:var(--text-secondary)">健康度 {{ getChannelLlm(c.name).health_grade||'' }}</div>
+                      </div>
+                      <div style="flex:1;font-size:11px;color:var(--text);line-height:1.4;">{{ getChannelLlm(c.name).summary||'' }}</div>
+                    </div>
+                    <!-- 瓶颈 -->
+                    <div v-if="getChannelLlm(c.name).bottleneck?.primary" style="margin-bottom:8px;padding:8px;background:linear-gradient(90deg,rgba(255,152,0,0.12),rgba(255,152,0,0.04));border-left:3px solid #ff9800;border-radius:6px;">
+                      <div style="font-size:10px;font-weight:700;color:#ff9800;margin-bottom:2px;">🎯 当前瓶颈</div>
+                      <div style="font-size:11px;font-weight:600;">{{ getChannelLlm(c.name).bottleneck.primary }}</div>
+                      <div v-if="getChannelLlm(c.name).bottleneck.evidence" style="font-size:9px;color:var(--text-muted);margin-top:2px;">📊 {{ getChannelLlm(c.name).bottleneck.evidence }}</div>
+                      <div v-if="getChannelLlm(c.name).bottleneck.next_lever" style="font-size:10px;color:var(--accent);margin-top:2px;">🔧 {{ getChannelLlm(c.name).bottleneck.next_lever }}</div>
+                    </div>
+                    <!-- 四象限 -->
+                    <div v-if="getChannelLlm(c.name).quadrant_summary?.status" style="margin-bottom:8px;padding:8px;background:rgba(63,81,181,0.06);border:1px solid rgba(63,81,181,0.18);border-radius:6px;">
+                      <div style="font-size:10px;font-weight:600;margin-bottom:4px;">🎬 四象限（{{ getChannelLlm(c.name).quadrant_summary.total_classified||0 }}条）</div>
+                      <div v-for="(bt,bti) in (getChannelLlm(c.name).quadrant_summary.bucket_takeaways||[]).filter(x=>(x.count||0)>0)" :key="bti" style="padding:4px 6px;margin-bottom:4px;background:rgba(255,255,255,0.04);border-radius:4px;">
+                        <div style="font-weight:600;font-size:10px;">{{ bt.bucket }} <span style="color:var(--accent);">({{ bt.count }})</span></div>
+                        <div style="color:var(--text-muted);font-size:9px;">{{ bt.action }}</div>
+                      </div>
+                    </div>
+                    <!-- 变现 -->
+                    <div v-if="getChannelLlm(c.name).monetization_detail" style="margin-bottom:6px;padding:6px 8px;background:rgba(0,200,83,0.05);border:1px solid rgba(0,200,83,0.15);border-radius:6px;font-size:10px;">
+                      <span style="font-weight:600;">💰 变现</span>
+                      <span style="color:var(--text-muted);margin-left:4px;">订阅{{ getChannelLlm(c.name).monetization_detail.subscribers||'-' }} · 时长{{ getChannelLlm(c.name).monetization_detail.watch_hours_12mo||'-' }}</span>
+                    </div>
+                    <!-- 订阅转化 -->
+                    <div v-if="getChannelLlm(c.name).sub_conversion_analysis" style="margin-bottom:6px;padding:6px 8px;background:rgba(103,58,183,0.05);border:1px solid rgba(103,58,183,0.15);border-radius:6px;font-size:10px;">
+                      <div style="font-weight:600;">🔔 订阅转化：<b>{{ getChannelLlm(c.name).sub_conversion_analysis.channel_level||'-' }}</b></div>
+                      <div v-if="getChannelLlm(c.name).sub_conversion_analysis.top_pattern" style="color:var(--success);">🏆 {{ getChannelLlm(c.name).sub_conversion_analysis.top_pattern }}</div>
+                      <div v-if="getChannelLlm(c.name).sub_conversion_analysis.action" style="color:var(--accent);">💡 {{ getChannelLlm(c.name).sub_conversion_analysis.action }}</div>
+                    </div>
+                    <!-- 流量分析 -->
+                    <div v-if="getChannelLlm(c.name).traffic_analysis" style="margin-bottom:6px;padding:6px 8px;background:rgba(0,150,255,0.05);border:1px solid rgba(0,150,255,0.15);border-radius:6px;font-size:10px;">
+                      <div style="font-weight:600;">📊 流量结构（{{ getChannelLlm(c.name).traffic_analysis.health||'-' }}）</div>
+                      <div style="color:var(--text-muted);">推荐{{ getChannelLlm(c.name).traffic_analysis.recommend_pct||'-' }}% · 订阅{{ getChannelLlm(c.name).traffic_analysis.subscriber_pct||'-' }}% · 搜索{{ getChannelLlm(c.name).traffic_analysis.search_pct||'-' }}%</div>
+                      <div v-if="getChannelLlm(c.name).traffic_analysis.insight" style="color:var(--accent);">{{ getChannelLlm(c.name).traffic_analysis.insight }}</div>
+                    </div>
+                    <!-- 留存诊断 -->
+                    <div v-if="getChannelLlm(c.name).retention_diagnosis" style="margin-bottom:6px;padding:6px 8px;background:rgba(233,30,99,0.05);border:1px solid rgba(233,30,99,0.15);border-radius:6px;font-size:10px;">
+                      <div style="font-weight:600;">📈 留存诊断（{{ getChannelLlm(c.name).retention_diagnosis.status||'-' }}）</div>
+                      <div v-if="getChannelLlm(c.name).retention_diagnosis.hook_quality" style="color:var(--text-muted);">钩子：{{ getChannelLlm(c.name).retention_diagnosis.hook_quality }}</div>
+                    </div>
+                    <!-- 核心优势 & 问题 -->
+                    <div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap;">
+                      <div v-if="getChannelLlm(c.name).strengths?.length" style="flex:1;min-width:140px;padding:6px 8px;background:rgba(0,200,83,0.06);border-radius:6px;border:1px solid rgba(0,200,83,0.15);">
+                        <div style="font-size:10px;font-weight:600;color:var(--success);margin-bottom:3px;">✅ 优势</div>
+                        <div v-for="(s,si) in getChannelLlm(c.name).strengths" :key="si" style="font-size:10px;margin-bottom:2px;"><b>{{ s.area||'' }}</b>：{{ s.detail||'' }}</div>
+                      </div>
+                      <div v-if="getChannelLlm(c.name).problems?.length" style="flex:1;min-width:140px;padding:6px 8px;background:rgba(255,82,82,0.06);border-radius:6px;border:1px solid rgba(255,82,82,0.15);">
+                        <div style="font-size:10px;font-weight:600;color:var(--danger);margin-bottom:3px;">🚨 问题</div>
+                        <div v-for="(p,pi) in getChannelLlm(c.name).problems" :key="pi" style="font-size:10px;margin-bottom:2px;">
+                          <div @click="expandedProblem=expandedProblem===c.name+'::'+pi?null:c.name+'::'+pi" style="cursor:pointer;">{{ sevIcon(p.severity) }} <b>{{ p.area||'' }}</b>：{{ (p.detail||'').slice(0,50) }}{{ (p.detail||'').length>50?'…':'' }}</div>
+                          <div v-if="expandedProblem===c.name+'::'+pi" style="margin:2px 0 4px 8px;padding:4px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:9px;">
+                            <div>{{ p.detail||'' }}</div>
+                            <div v-if="p.evidence" style="color:var(--accent);margin-top:2px;">📊 {{ p.evidence }}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 行动清单 -->
+                    <div v-if="getChannelLlm(c.name).actions?.length" style="padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:6px;font-size:10px;">
+                      <div style="font-weight:600;margin-bottom:3px;">🎯 行动清单</div>
+                      <div v-for="(a,ai) in getChannelLlm(c.name).actions" :key="ai" style="margin-bottom:2px;">
+                        <div @click="expandedAction=expandedAction===c.name+'::'+ai?null:c.name+'::'+ai" style="cursor:pointer;"><span style="color:var(--accent);font-weight:600;">P{{ a.priority||'?' }}</span> {{ a.action||'' }}</div>
+                        <div v-if="expandedAction===c.name+'::'+ai" style="margin:2px 0 4px 8px;padding:4px;background:rgba(255,255,255,0.04);border-radius:4px;font-size:9px;">
+                          <div v-if="a.based_on" style="color:var(--text-muted);">📌 {{ a.based_on }}</div>
+                          <div v-if="a.concrete_steps" style="color:var(--text-muted);margin-top:1px;">📋 {{ a.concrete_steps }}</div>
+                          <div v-if="a.expected_impact" style="color:var(--success);margin-top:1px;">📈 {{ a.expected_impact }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- AI发现规律 -->
+                    <div v-if="getChannelLlm(c.name).ai_discoveries?.length" style="margin-top:6px;padding:6px 8px;background:rgba(156,39,176,0.06);border:1px solid rgba(156,39,176,0.15);border-radius:6px;font-size:10px;">
+                      <div style="font-weight:600;margin-bottom:3px;">🔮 AI发现规律</div>
+                      <div v-for="(disc,di) in getChannelLlm(c.name).ai_discoveries" :key="di" style="margin-bottom:3px;">
+                        <div style="font-weight:600;">{{ disc.pattern||'' }}</div>
+                        <div style="color:var(--text-muted);font-size:9px;">{{ disc.insight||'' }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 视频诊断卡片（移动端） -->
+                  <div v-if="getMergedVideos(c.name).length" style="margin-bottom:10px;">
+                    <div style="font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">📋 视频诊断 <span v-if="c.oauth?.authorized" style="color:var(--accent2);">（含深度数据）</span></div>
+                    <div v-for="(v,vi) in getMergedVideos(c.name)" :key="'mvd-'+vi" style="background:var(--bg-card,#222);border:1px solid var(--border-subtle);border-radius:6px;padding:8px;margin-bottom:6px;" @click.stop="expandedVideo=expandedVideo===c.name+'::'+vi?null:c.name+'::'+vi">
+                      <div style="display:flex;gap:6px;align-items:center;">
+                        <img v-if="v.thumbnail" :src="v.thumbnail" style="width:48px;height:27px;object-fit:cover;border-radius:3px;flex-shrink:0;" @error="$event.target.style.display='none'" />
+                        <div style="flex:1;min-width:0;">
+                          <div style="font-size:10px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ v.title||'-' }}</div>
+                          <div style="font-size:9px;color:var(--text-muted);display:flex;gap:6px;margin-top:2px;">
+                            <span>{{ fmtDate(v.published_at) }}</span>
+                            <span>▶ {{ (v.views||0).toLocaleString() }}</span>
+                            <span>👍 {{ (v.likes||0).toLocaleString() }}</span>
+                            <span :style="{ color:scoreColor(v._score||0) }">{{ (v._score||0)>0?v._score.toFixed(1):'-' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 展开详情 -->
+                      <div v-if="expandedVideo===c.name+'::'+vi && (v._issues?.length||v._titleAnalysis||v._coverSynergy||v._optTitles?.length)" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border-subtle);">
+                        <div v-if="v._issues?.length" style="margin-bottom:6px;">
+                          <div style="font-size:9px;font-weight:600;color:var(--danger);margin-bottom:3px;">⚠️ 问题</div>
+                          <div v-for="(issue,ii) in v._issues" :key="ii" style="font-size:9px;margin-bottom:2px;padding-left:6px;border-left:2px solid var(--danger);">{{ issue.issue||issue }}</div>
+                        </div>
+                        <div v-if="v._titleAnalysis" style="margin-bottom:6px;">
+                          <div style="font-size:9px;font-weight:600;color:var(--accent);margin-bottom:2px;">📝 标题分析</div>
+                          <div style="font-size:9px;"><b>骨架：</b>{{ v._titleAnalysis.skeleton||'-' }}</div>
+                          <div style="font-size:9px;margin-top:1px;"><b>钩子：</b>
+                            <template v-for="(val,key) in v._titleAnalysis.hooks" :key="key"><span v-if="key!=='other'&&val" style="background:var(--accent);color:#fff;border-radius:2px;padding:0 3px;margin-right:2px;font-size:8px;">{{ key }}</span></template>
+                          </div>
+                          <div v-if="v._titleAnalysis.packaging" style="font-size:9px;margin-top:1px;"><b>包装：</b>{{ v._titleAnalysis.packaging }}</div>
+                        </div>
+                        <div v-if="v._coverSynergy" style="margin-bottom:6px;">
+                          <div style="font-size:9px;font-weight:600;color:var(--accent2);margin-bottom:2px;">🎨 封面协同 <span :style="{ color:scoreColor(v._coverSynergy.score||0),fontWeight:700 }">{{ (v._coverSynergy.score||0).toFixed(1) }}/10</span></div>
+                          <div style="font-size:9px;">{{ v._coverSynergy.assessment||'-' }}</div>
+                          <div v-if="v._coverSynergy.improvement" style="font-size:9px;color:var(--success);">💡 {{ v._coverSynergy.improvement }}</div>
+                        </div>
+                        <div v-if="v._optTitles?.length">
+                          <div style="font-size:9px;font-weight:600;color:var(--success);margin-bottom:3px;">💡 优化标题</div>
+                          <div v-for="(ot,oi) in v._optTitles" :key="oi" style="font-size:9px;margin-bottom:3px;padding-left:6px;border-left:2px solid var(--success);">
+                            <div style="font-weight:600;">{{ oi+1 }}. {{ typeof ot==='object'?ot.title:ot }}</div>
+                            <div v-if="typeof ot==='object'&&ot.reason" style="color:var(--text-muted);margin-top:1px;">{{ ot.reason }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 问题/建议提示 -->
+                      <div v-else-if="v._issues?.length||v._optTitles?.length" style="margin-top:4px;font-size:9px;color:var(--text-dim);">点击展开详情→</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           </div>
         </div>
@@ -819,6 +1133,7 @@ const expandedProblem = ref(null)   // 'channelName::problemIndex'
 const expandedAction = ref(null)    // 'channelName::actionIndex'
 const expandedDiscovery = ref(null) // 'channelName::discoveryIndex'
 const expandedQuadrant = ref(null)  // 'channelName::qName::videoIndex'
+const quadrantHelp = ref(false)     // 四象限说明面板开关
 
 const totalSubs = computed(() => channels.value.reduce((s, c) => s + c.subscribers, 0))
 const totalViews = computed(() => channels.value.reduce((s, c) => s + c.total_views, 0))
@@ -981,6 +1296,11 @@ function toggleDetail(idx) {
         analyticsData.value = { ...analyticsData.value, [aKey]: d }
       }).catch(() => {})
     }
+    // 展开后滚动到可见区域（延迟等DOM更新）
+    setTimeout(() => {
+      const el = document.querySelector(`[data-channel-idx="${idx}"]`)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 100)
   }
   expanded.value = s
 }

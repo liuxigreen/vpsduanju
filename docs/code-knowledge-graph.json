@@ -2735,6 +2735,171 @@
       "language": "python",
       "sizeLines": 207,
       "fileCategory": "code"
+    },
+    {
+      "id": "file:scripts/check_secrets.py",
+      "type": "file",
+      "name": "check_secrets.py",
+      "filePath": "scripts/check_secrets.py",
+      "summary": "Check Secrets",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/collect_ctr.py",
+      "type": "file",
+      "name": "collect_ctr.py",
+      "filePath": "scripts/collect_ctr.py",
+      "summary": "每日拉取 CTR 报表（YouTube Reporting API），28天滚动聚合到 yt_analytics/{slug}_ctr.json。\n\n用法：\n  python3 scripts/col",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 223,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/create_ctr_reporting_job.py",
+      "type": "file",
+      "name": "create_ctr_reporting_job.py",
+      "filePath": "scripts/create_ctr_reporting_job.py",
+      "summary": "为已 OAuth 授权的频道创建 YouTube Reporting API 的 CTR 报表 job。\n\n背景：CTR/impressions 只在 Reporting API 可拿，Analyti",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 119,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/distill_cover_analysis.py",
+      "type": "file",
+      "name": "distill_cover_analysis.py",
+      "filePath": "scripts/distill_cover_analysis.py",
+      "summary": "封面蒸馏第一步：从214条竞品封面分析中提取结构化字段\n输出：data/cover_distill_stats.json",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 595,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/panel_v2.py",
+      "type": "file",
+      "name": "panel_v2.py",
+      "filePath": "scripts/panel_v2.py",
+      "summary": "duanju Panel v2 — 极简控制台（看内容 + nvwa规则库）",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 208,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/refresh_yt_accounts_cache.py",
+      "type": "file",
+      "name": "refresh_yt_accounts_cache.py",
+      "filePath": "scripts/refresh_yt_accounts_cache.py",
+      "summary": "Refresh cached YouTube account list for the panel.\n\nThis script is intentionally lightweight:\n- read",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 248,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/report_yt_analytics.py",
+      "type": "file",
+      "name": "report_yt_analytics.py",
+      "filePath": "scripts/report_yt_analytics.py",
+      "summary": "Read and summarize the newly collected analytics data.",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 116,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/screen_staging.py",
+      "type": "file",
+      "name": "screen_staging.py",
+      "filePath": "scripts/screen_staging.py",
+      "summary": "staging → latest 筛选脚本\n读取 staging.json，按规则筛选频道，展示结果给用户确认\n用户确认后才写入 latest.json\n\n用法：\n  python scripts/s",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 176,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/sub-server.py",
+      "type": "file",
+      "name": "sub-server.py",
+      "filePath": "scripts/sub-server.py",
+      "summary": "简易订阅链接服务器",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "simple",
+      "language": "python",
+      "sizeLines": 35,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/sync_code_audit_to_clickup.py",
+      "type": "file",
+      "name": "sync_code_audit_to_clickup.py",
+      "filePath": "scripts/sync_code_audit_to_clickup.py",
+      "summary": "代码库审计 → 推送到 ClickUp Doc\n供 AI Agent 读取，做全方位项目审核\n\n用法：\n  python3 scripts/sync_code_audit_to_clickup.py\n",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "complex",
+      "language": "python",
+      "sizeLines": 318,
+      "fileCategory": "scripts"
+    },
+    {
+      "id": "file:scripts/weixin_qr_login.py",
+      "type": "file",
+      "name": "weixin_qr_login.py",
+      "filePath": "scripts/weixin_qr_login.py",
+      "summary": "WeChat QR login via Tencent iLink Bot API.\nGets QR code URL, prints it, polls until user scans + con",
+      "tags": [
+        "Python",
+        "root"
+      ],
+      "complexity": "medium",
+      "language": "python",
+      "sizeLines": 140,
+      "fileCategory": "scripts"
     }
   ],
   "edges": [
