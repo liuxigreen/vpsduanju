@@ -10,11 +10,6 @@
 - Mulher pobre [事件] → CEO [反应]
 - 例: CEO frio que nunca sorri; ao ver mulher forte, se apaixona na hora!
 
-## 越南语 (VN)
-- Tổng tài lạnh lùng [动作] + [女主] + [反转]
-- Cô gái nghèo [事件] → tổng tài [反应]
-- 例: Tổng tài lạnh lùng hiếm khi cười; thấy cô gái siêu mạnh, lập tức say đắm!
-
 ## 西语 (MX)
 - CEO frío [动作] + [女主] + [反转]
 - Chica pobre [事件] → CEO [反应]

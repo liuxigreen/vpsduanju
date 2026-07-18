@@ -449,7 +449,7 @@ def _call_duanju_agent(drama_name: str, region: str, direction: str = "", plot_c
     """调用 duanju Agent 生成 Proposal（用户手动输入剧情）"""
     lang = REGION_TO_LANG.get(region, region)
 
-    prompt = f"""你是短剧YouTube运营专家。先用 skill_view 加载 short-drama-youtube skill，然后根据里面的骨架公式、钩子体系、包装模式规则，为以下短剧生成上架方案。
+    prompt = f"""你是短剧YouTube运营专家。先用 skill_view 加载 publishing skill，然后根据里面的骨架公式、钩子体系、包装模式规则，为以下短剧生成上架方案。
 
 剧名：{drama_name}
 目标市场：{region}（{lang}）
@@ -575,7 +575,7 @@ def _call_duanju_agent_titles(plot_content: str, region: str, direction: str = "
     """调用 duanju Agent 生成标题（快速模式）"""
     lang = REGION_TO_LANG.get(region, region)
 
-    prompt = f"""你是短剧YouTube运营专家。先用 skill_view 加载 short-drama-youtube skill，然后根据里面的骨架公式和钩子体系，为以下短剧生成 10 个标题。
+    prompt = f"""你是短剧YouTube运营专家。先用 skill_view 加载 publishing skill，然后根据里面的骨架公式和钩子体系，为以下短剧生成 10 个标题。
 
 语言：{lang}（所有标题必须用{lang}语言输出）
 剧情：{plot_content}
@@ -1165,7 +1165,7 @@ class Handler(BaseHTTPRequestHandler):
         manifest = {
             "task_name": drama_name,
             "preset": "full_rebuild",
-            "skills": ["short-drama-youtube"],
+            "skills": ["publishing"],
             "target_channel": f"{region}_main",
             "target_region": region,
             "files": [],

@@ -146,6 +146,7 @@ def prepare_channel_data(channel: dict) -> dict:
         if likes or comments:
             line += f"\n   👍{likes:,} 💬{comments:,}"
         if dur:
+            dur = int(dur)
             mins = dur // 60
             secs = dur % 60
             line += f" ⏱{mins}:{secs:02d}"
