@@ -169,6 +169,21 @@ LATEST_FILE = COMPETITOR_DATA_DIR / "latest.json"
 INSIGHT_DIR = DATA_DIR / "competitor_insights"
 INSIGHT_DIR.mkdir(exist_ok=True)
 
+# ── 新鲜度闸门: latest.json 停更超过 N 天时, track_daily 拒绝写入假平线数据 ──
+LATEST_MAX_AGE_DAYS = 7
+
+
+def latest_data_age_days() -> float | None:
+    """latest.json 的数据年龄（天）。文件不存在返回 None。"""
+    if not LATEST_FILE.exists():
+        return None
+    try:
+        age = time.time() - LATEST_FILE.stat().st_mtime
+        return age / 86400
+    except OSError:
+        return None
+
+
 TRACKER_FILE = INSIGHT_DIR / "_analyzed_channels.json"
 PANEL_DATA_FILE = DATA_DIR / "competitors_channels_all.json"
 TIERS_FILE = DATA_DIR / "competitor_tiers.json"
@@ -481,6 +496,13 @@ def filter_by_tier() -> dict[str, list]:
 
 def track_daily(selected: dict[str, list]):
     """为筛选出的频道记录每日订阅+播放量"""
+    # ── 新鲜度闸门: 数据源停更时拒绝写入（否则每天复制旧值制造假平线）──
+    age = latest_data_age_days()
+    if age is None or age > LATEST_MAX_AGE_DAYS:
+        print(f"⛔ track_daily 跳过: latest.json {'不存在' if age is None else f'已停更 {age:.0f} 天(>{LATEST_MAX_AGE_DAYS})'}。"
+              f"数据源断流, 写入只会产生假平线。请先恢复竞品采集或改用 competitor_velocity.py --refresh。")
+        return
+
     today = datetime.now().strftime("%Y-%m-%d")
     tracked = 0
     skipped = 0
@@ -758,7 +780,7 @@ def pick_new_channels(registry: dict, tracker: dict, per_lang: int = 1) -> list:
 # ═══════════════════════════════════════════════
 
 def _load_tracking_changes(channel_id: str) -> dict:
-    """加载频道的追踪数据，计算日环比和周环比"""
+    """加载频道的追踪数据，计算日环比、周环比和基线增长"""
     tracking_file = TRACKING_DIR / f"{channel_id}.json"
     if not tracking_file.exists():
         return {}
@@ -782,7 +804,28 @@ def _load_tracking_changes(channel_id: str) -> dict:
         result["subs_change_week"] = today["subscribers"] - week_ago["subscribers"]
         result["views_change_week"] = today["avg_views"] - week_ago["avg_views"]
 
+    # 基线增长：从 baseline.json 计算总增长
+    baseline = _load_baseline()
+    if channel_id in baseline:
+        base_subs = baseline[channel_id].get("subscribers", 0)
+        current_subs = baseline[channel_id].get("current_subs", today["subscribers"])
+        if base_subs > 0 and current_subs > 0 and current_subs != base_subs:
+            result["subs_change_baseline"] = current_subs - base_subs
+            result["subs_baseline"] = base_subs
+            result["subs_baseline_date"] = baseline[channel_id].get("captured_at", "")
+
     return result
+
+
+def _load_baseline() -> dict:
+    """加载订阅基线数据"""
+    baseline_file = DATA_DIR / "competitor_subs_baseline.json"
+    if not baseline_file.exists():
+        return {}
+    try:
+        return json.loads(baseline_file.read_text())
+    except:
+        return {}
 
 
 def update_panel_data():
@@ -858,11 +901,15 @@ def update_panel_data():
             })
 
     # 合入追踪数据（日环比/周环比）
+    baseline = _load_baseline()
     for ch in all_channels:
         cid = ch.get("channel_id", "")
         if cid:
             tracking = _load_tracking_changes(cid)
             ch["tracking"] = tracking
+            # 用基线的 current_subs 更新订阅数（API实时数据）
+            if cid in baseline and baseline[cid].get("current_subs", 0) > 0:
+                ch["subscribers"] = baseline[cid]["current_subs"]
 
     by_lang = defaultdict(list)
     for ch in all_channels:

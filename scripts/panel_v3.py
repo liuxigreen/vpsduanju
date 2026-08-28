@@ -55,6 +55,7 @@ DATA_PATHS = {
     "competitor_dynamic": ROOT / "data" / "competitors_channels_all.json",
     "competitor_static":  ROOT / "data" / "competitors_50channels.json",
     "competitor_tiers":   ROOT / "data" / "competitor_tiers.json",
+    "knowledge_graph":    ROOT / "data" / "knowledge_graph.json",
     # 快照（P3-10: 修正路径，与 channel_weekly_snapshot.py 的 SNAPSHOT_DIR 一致）
     "channel_snapshots": ROOT / "data" / "own" / "channel_snapshots",
     # 市场洞察
@@ -817,6 +818,7 @@ class Handler(BaseHTTPRequestHandler):
             _CACHE_POLICY = {
                 "/api/channel-analysis": 120,
                 "/api/competitor-channels": 120,
+                "/api/knowledge-graph": 600,
                 "/api/distill": 300,
                 "/api/market-insights": 300,
                 "/api/analytics": 120,
@@ -859,6 +861,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._api_weekly_comparison()
             if p.path == "/api/competitor-channels":
                 return self._api_competitor_channels()
+            if p.path == "/api/knowledge-graph":
+                return self._api_knowledge_graph()
             if p.path.startswith("/api/competitor-detail"):
                 return self._api_competitor_detail()
             if p.path == "/api/distill":
@@ -1999,6 +2003,21 @@ class Handler(BaseHTTPRequestHandler):
         result["channels"].sort(key=lambda x: x["subs_change"], reverse=True)
         _json(self, result)
 
+    def _api_knowledge_graph(self):
+        """竞品业务知识图谱（题材×语种×频道×钩子），读 competitor_knowledge_graph.py 产物"""
+        fp = DATA_PATHS["knowledge_graph"]
+        if not fp.exists():
+            return _json(self, {"error": "graph not found — run scripts/competitor_knowledge_graph.py",
+                                "generated_at": None})
+        try:
+            data = cached_json_read(fp)
+            # 瘦身：矩阵和榜单全量给，频道节点只回传统计（前端点击题材再取 genre_rank.top_channels）
+            data.pop("nodes", None)
+            return _json(self, data)
+        except Exception as e:
+            log.error(f"knowledge_graph read error: {e}")
+            return _json(self, {"error": str(e), "generated_at": None})
+
     def _api_competitor_channels(self):
         """竞品频道列表（精简字段，去掉详情级大字段以减少响应体积）"""
         fp_dynamic = DATA_PATHS["competitor_dynamic"]
@@ -2011,7 +2030,10 @@ class Handler(BaseHTTPRequestHandler):
             # 精简：列表只保留表格需要的字段，去掉 deep_analysis/video_analysis/analysis_text/videos_detail 等大字段
             LIGHT_KEYS = {"channel_id", "name", "language", "subscribers", "tier", "url",
                           "total_videos", "content_tags", "avg_views", "country",
-                          "thumbnail_url", "analyzed_at", "growth_reasons", "top_covers", "tracking"}
+                          "thumbnail_url", "analyzed_at", "growth_reasons", "top_covers", "tracking",
+                          "llm_distill", "llm_stats", "analysis_text", "deep_analysis",
+                          "video_analysis", "videos_detail", "recent_videos",
+                          "original_subscribers", "first_seen", "channel_created_at"}
             light_channels = []
             for ch in data.get("channels", []):
                 light = {k: ch[k] for k in LIGHT_KEYS if k in ch}

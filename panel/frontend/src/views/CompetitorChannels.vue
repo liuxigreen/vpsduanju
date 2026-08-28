@@ -10,6 +10,7 @@
 
     <div class="tabs" style="margin-bottom:16px;">
       <div class="tab" :class="{ active: ccView === 'channels' }" @click="ccView = 'channels'">📊 频道列表</div>
+      <div class="tab" :class="{ active: ccView === 'velocity' }" @click="ccView = 'velocity'">🚀 涨速榜</div>
       <div class="tab" :class="{ active: ccView === 'insights' }" @click="switchToInsights">🔬 市场洞察</div>
     </div>
 
@@ -42,6 +43,10 @@
             <span class="cc-filter-label" style="color:#4ecdc4;font-weight:600;">标签：</span>
             <span v-for="f in tagFilters" :key="f.k" class="cc-filter-btn" :class="{ active: filter.tag === f.k }" @click="filter.tag = f.k">{{ f.l }} ({{ f.n }})</span>
           </div>
+          <div class="cc-filter-group">
+            <span class="cc-filter-label" style="color:#e74c3c;font-weight:600;">📈 增长：</span>
+            <span v-for="f in growthFilters" :key="f.k" class="cc-filter-btn" :class="{ active: filter.growth === f.k }" @click="filter.growth = f.k">{{ f.l }} ({{ f.n }})</span>
+          </div>
         </div>
       </div>
 
@@ -68,12 +73,53 @@
             <span v-if="c.tracking?.subs_change_day != null" :style="{ color: changeColor(c.tracking.subs_change_day) }">👥 {{ fmtChange(c.tracking.subs_change_day) }}/{{ fmtChange(c.tracking.subs_change_week) }}</span>
             <span v-if="c.tracking?.views_change_day != null" :style="{ color: changeColor(c.tracking.views_change_day) }">▶ {{ fmtChange(c.tracking.views_change_day) }}/{{ fmtChange(c.tracking.views_change_week) }}</span>
           </div>
+          <!-- 基线增长 -->
+          <div v-if="c.tracking?.subs_change_baseline != null" style="margin-top:3px;font-size:10px;">
+            <span :style="{ color: changeColor(c.tracking.subs_change_baseline), fontWeight: 600 }">📈 累计 {{ fmtChange(c.tracking.subs_change_baseline) }} ({{ c.tracking.subs_baseline_date?.slice(0,10) || '首次入库' }}起)</span>
+          </div>
           <div class="cc-tags">
             <span v-for="t in getChannelGenres(c).slice(0, 3)" :key="t" class="cc-tag">{{ t }}</span>
           </div>
           <!-- 顶部钩子 -->
           <div v-if="getTopHooks(c).length" style="margin-top:4px;">
             <span v-for="h in getTopHooks(c).slice(0,2)" :key="h" style="background:rgba(78,205,196,0.15);color:#4ecdc4;border:1px solid rgba(78,205,196,0.3);padding:1px 4px;border-radius:3px;font-size:9px;margin:1px;display:inline-block;">{{ h }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 涨速榜 -->
+    <div v-if="ccView === 'velocity'">
+      <div v-if="!momentumRank.length && !subsRank.length" class="empty-state"><div class="icon">◌</div><div>暂无涨速数据 — 运行 scripts/competitor_velocity.py --refresh 生成</div></div>
+      <div v-else style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;">
+        <div class="card" style="margin-bottom:0;">
+          <h3 style="margin:0 0 4px;font-size:14px;">🚀 播放动量榜</h3>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">近30天发布视频的日均播放 · 领先指标 · 点击行看频道详情</div>
+          <div v-for="(c, i) in momentumRank" :key="'m'+c.channel_id" @click="selectedChannel = c" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer;">
+            <span style="width:26px;text-align:center;font-weight:bold;font-size:13px;flex-shrink:0;" :style="{ color: i===0?'#f1c40f':i===1?'#bdc3c7':i===2?'#cd7f32':'var(--text-muted)' }">{{ i+1 }}</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</div>
+              <div style="font-size:10px;color:var(--text-dim);">订阅 {{ formatSubs(c.subscribers || 0) }} · {{ c.language }} · {{ c.tracking.momentum_videos }}条近30天</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:13px;font-weight:bold;color:#2ecc71;">{{ formatSubs(c.tracking.video_momentum) }}<span style="font-size:9px;">/天</span></div>
+              <div style="font-size:9px;color:var(--text-muted);">日均播放</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0;">
+          <h3 style="margin:0 0 4px;font-size:14px;">📈 订阅涨速榜</h3>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">≥14天窗口 · 截至最近采集日 · 只显示 &gt;0</div>
+          <div v-for="(c, i) in subsRank" :key="'s'+c.channel_id" @click="selectedChannel = c" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer;">
+            <span style="width:26px;text-align:center;font-weight:bold;font-size:13px;flex-shrink:0;" :style="{ color: i===0?'#f1c40f':i===1?'#bdc3c7':i===2?'#cd7f32':'var(--text-muted)' }">{{ i+1 }}</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ c.name }}</div>
+              <div style="font-size:10px;color:var(--text-dim);">订阅 {{ formatSubs(c.subscribers || 0) }} · {{ c.language }} · 窗口{{ c.tracking.velocity_window_days }}天</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:13px;font-weight:bold;color:#e67e22;">+{{ formatSubs(c.tracking.subs_velocity_weekly) }}<span style="font-size:9px;">/周</span></div>
+              <div style="font-size:9px;color:var(--text-muted);">订阅涨速</div>
+            </div>
           </div>
         </div>
       </div>
@@ -150,6 +196,22 @@
               </div>
             </div>
 
+            <!-- 增长数据 -->
+            <div v-if="selectedChannel.tracking?.subs_change_baseline != null" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+              <div style="text-align:center;background:var(--bg-elevated);padding:10px;border-radius:8px;">
+                <div style="font-size:16px;color:#2ecc71;font-weight:bold;">{{ fmtChange(selectedChannel.tracking?.subs_change_baseline || 0) }}</div>
+                <div style="font-size:11px;color:var(--text-dim);">累计增长</div>
+              </div>
+              <div style="text-align:center;background:var(--bg-elevated);padding:10px;border-radius:8px;">
+                <div style="font-size:16px;color:#f0c674;font-weight:bold;">{{ formatSubs(selectedChannel.tracking?.subs_baseline || 0) }}</div>
+                <div style="font-size:11px;color:var(--text-dim);">基线订阅 ({{ selectedChannel.tracking?.subs_baseline_date?.slice(0,10) || '-' }})</div>
+              </div>
+              <div style="text-align:center;background:var(--bg-elevated);padding:10px;border-radius:8px;">
+                <div style="font-size:16px;color:#81a2be;font-weight:bold;">{{ selectedChannel.first_seen?.slice(0,10) || selectedChannel.channel_created_at || '-' }}</div>
+                <div style="font-size:11px;color:var(--text-dim);">{{ selectedChannel.first_seen ? '入库日期' : '注册日期' }}</div>
+              </div>
+            </div>
+
             <!-- LLM Stats: 点赞率, 评论率, 平均时长 -->
             <div v-if="selectedChannel.llm_stats?.like_rate != null" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
               <div style="text-align:center;background:var(--bg-elevated);padding:10px;border-radius:8px;">
@@ -164,6 +226,14 @@
                 <div style="font-size:16px;color:#00bcd4;font-weight:bold;">{{ formatDuration(selectedChannel.llm_stats.avg_duration_sec) }}</div>
                 <div style="font-size:11px;color:var(--text-dim);">平均时长</div>
               </div>
+            </div>
+
+            <!-- 标签云（视频tags聚合，点击跳YouTube搜索） -->
+            <div v-if="getChannelTagCloud(selectedChannel).length" style="margin-bottom:16px;">
+              <h3 style="color:var(--text);font-size:13px;margin-bottom:8px;">🔤 视频标签云 <span style="font-size:10px;color:var(--text-muted);font-weight:normal;">点击看 YouTube 上用该标签的剧</span></h3>
+              <span v-for="[t, n] in getChannelTagCloud(selectedChannel)" :key="t">
+                <a :href="tagSearchUrl(t)" target="_blank" :style="{ fontSize: (11 + Math.min(n, 6)) + 'px', margin: '2px', display: 'inline-block', padding: '3px 8px', borderRadius: '4px', textDecoration: 'none', background: n >= 4 ? 'rgba(78,205,196,0.18)' : 'var(--bg-elevated)', color: n >= 4 ? '#4ecdc4' : 'var(--text-dim)' }">{{ t }} <span style="opacity:0.6;">×{{ n }}</span></a>
+              </span>
             </div>
 
             <!-- 内容标签 -->
@@ -271,6 +341,18 @@
                 </div>
               </div>
             </div>
+            <!-- 最新发布视频 -->
+            <div v-if="selectedChannel.recent_videos?.length" style="margin-bottom:16px;">
+              <h3 style="color:var(--text);font-size:13px;margin-bottom:8px;">📹 最新发布视频</h3>
+              <div v-for="(v, i) in selectedChannel.recent_videos" :key="i" style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
+                <img v-if="v.thumbnail" :src="v.thumbnail" style="width:120px;height:68px;object-fit:cover;border-radius:6px;flex-shrink:0;" @error="$event.target.style.display='none'" />
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:12px;color:var(--text);line-height:1.4;">{{ v.title || '' }}</div>
+                  <div style="margin-top:4px;font-size:11px;color:var(--text-dim);">{{ v.published_at?.slice(0,10) || '' }}</div>
+                </div>
+              </div>
+            </div>
+
 
             <!-- 搜索热度 -->
             <div v-if="selectedChannel.search_views" style="margin-bottom:16px;">
@@ -292,7 +374,7 @@ import { formatSubs, formatNumber, safeChannelUrl } from '../utils.js'
 const ccView = ref('channels')
 const channels = ref([])
 const selectedChannel = ref(null)
-const filter = reactive({ tier: 'all', time: 'all', lang: 'all', country: 'all', tag: 'all' })
+const filter = reactive({ tier: 'all', time: 'all', lang: 'all', country: 'all', tag: 'all', growth: 'all' })
 const miLangs = ref([])
 const miSelected = ref('')
 const miDetail = ref(null)
@@ -399,6 +481,43 @@ function getVideoList(ch) {
   return ch.videos_detail || va.top_videos || []
 }
 
+// ---- 涨速榜（momentum/velocity 由 scripts/competitor_velocity.py 写入 tracking 字段）----
+const momentumRank = computed(() =>
+  channels.value
+    .filter(c => c.tracking?.video_momentum > 0)
+    .sort((a, b) => b.tracking.video_momentum - a.tracking.video_momentum)
+    .slice(0, 30)
+)
+const subsRank = computed(() =>
+  channels.value
+    .filter(c => (c.tracking?.subs_velocity_weekly || 0) > 0)
+    .sort((a, b) => b.tracking.subs_velocity_weekly - a.tracking.subs_velocity_weekly)
+    .slice(0, 30)
+)
+
+// ---- 视频标签云：聚合 videos_detail + momentum_videos_detail 的 tags ----
+function getChannelTagCloud(ch) {
+  if (!ch) return []
+  const counts = {}
+  const src = [...(ch.videos_detail || []), ...(ch.tracking?.momentum_videos_detail || [])]
+  src.forEach(v => {
+    (v.tags || []).forEach(t => {
+      const tag = (t || '').trim()
+      if (!tag || tag.length > 30) return
+      const k = tag.toLowerCase()
+      counts[k] = counts[k] || { raw: tag, n: 0 }
+      counts[k].n++
+    })
+  })
+  return Object.values(counts)
+    .sort((a, b) => b.n - a.n)
+    .slice(0, 25)
+    .map(x => [x.raw, x.n])
+}
+function tagSearchUrl(tag) {
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(tag)
+}
+
 function formatDuration(sec) {
   if (!sec) return '-'
   return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0')
@@ -438,6 +557,29 @@ const tagFilters = computed(() => {
   const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 10)
   return [{ k: 'all', l: '全部', n: channels.value.length }, ...topTags.map(([k, v]) => ({ k, l: k, n: v }))]
 })
+const growthRanges = [
+  { k: 'all', l: '全部增长', min: -Infinity, max: Infinity, useField: null },
+  { k: '>10万', l: '>10万', min: 100000, max: Infinity, useField: 'baseline' },
+  { k: '5-10万', l: '5-10万', min: 50000, max: 100000, useField: 'baseline' },
+  { k: '1-5万', l: '1-5万', min: 10000, max: 50000, useField: 'baseline' },
+  { k: '5000-1万', l: '5000-1万', min: 5000, max: 10000, useField: 'baseline' },
+  { k: '1000-5000', l: '1000-5000', min: 1000, max: 5000, useField: 'baseline' },
+  { k: '<1000', l: '<1000', min: 1, max: 1000, useField: 'baseline' },
+  { k: '0或负', l: '停滞/负增长', min: -Infinity, max: 1, useField: 'baseline' },
+  { k: '无数据', l: '无原始数据', min: null, max: null, useField: 'none' },
+]
+function getGrowthValue(c) {
+  return c.tracking?.subs_change_baseline ?? null
+}
+const growthFilters = computed(() => {
+  return growthRanges.map(r => {
+    let n
+    if (r.k === 'all') n = channels.value.length
+    else if (r.useField === 'none') n = channels.value.filter(c => getGrowthValue(c) === null).length
+    else n = channels.value.filter(c => { const g = getGrowthValue(c); return g !== null && g >= r.min && g < r.max }).length
+    return { k: r.k, l: r.l, n }
+  })
+})
 const filtered = computed(() => {
   let r = [...channels.value]
   const today = new Date().toISOString().slice(0, 10)
@@ -447,6 +589,17 @@ const filtered = computed(() => {
   if (filter.lang !== 'all') r = r.filter(c => c.language === filter.lang)
   if (filter.country !== 'all') r = r.filter(c => c.country === filter.country)
   if (filter.tag !== 'all') r = r.filter(c => getChannelGenres(c).includes(filter.tag))
+  if (filter.growth !== 'all') {
+    const range = growthRanges.find(r => r.k === filter.growth)
+    if (range) {
+      if (range.useField === 'none') r = r.filter(c => getGrowthValue(c) === null)
+      else r = r.filter(c => { const g = getGrowthValue(c); return g !== null && g >= range.min && g < range.max })
+    }
+  }
+  // 按增长量排序（有增长筛选时）
+  if (filter.growth !== 'all') {
+    r.sort((a, b) => (getGrowthValue(b) ?? -Infinity) - (getGrowthValue(a) ?? -Infinity))
+  }
   return r
 })
 

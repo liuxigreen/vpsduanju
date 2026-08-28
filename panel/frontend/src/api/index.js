@@ -10,6 +10,7 @@ const cache = new Map()
 const CACHE_TTL = {
   '/channel-analysis': 5 * 60_000,
   '/competitor-channels': 5 * 60_000,
+  '/knowledge-graph': 10 * 60_000,
   '/market-insights': 10 * 60_000,
   '/distill': 10 * 60_000,
   '/distill-detail': 10 * 60_000,

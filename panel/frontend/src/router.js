@@ -6,6 +6,7 @@ const routes = [
   { path: '/youtube', name: 'youtube', component: () => import('./views/YouTube.vue'), meta: { title: 'YouTube 频道', icon: '▶' } },
   { path: '/channel-analysis', name: 'channel-analysis', component: () => import('./views/ChannelAnalysis.vue'), meta: { title: '自有账号分析', icon: '📊' } },
   { path: '/competitor-channels', name: 'competitor-channels', component: () => import('./views/CompetitorChannels.vue'), meta: { title: '竞品频道', icon: '🔎' } },
+  { path: '/knowledge-graph', name: 'knowledge-graph', component: () => import('./views/KnowledgeGraph.vue'), meta: { title: '知识图谱', icon: '🕸' } },
   { path: '/distill', name: 'distill', component: () => import('./views/Distill.vue'), meta: { title: '蒸馏数据', icon: '🧪' } },
   { path: '/review', name: 'review', component: () => import('./views/Review.vue'), meta: { title: '待审核', icon: '👁' } }
 ]
