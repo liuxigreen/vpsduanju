@@ -56,6 +56,8 @@ DATA_PATHS = {
     "competitor_static":  ROOT / "data" / "competitors_50channels.json",
     "competitor_tiers":   ROOT / "data" / "competitor_tiers.json",
     "knowledge_graph":    ROOT / "data" / "knowledge_graph.json",
+    "alerts_latest":      ROOT / "data" / "alerts_latest.json",
+    "video_views_history": ROOT / "data" / "video_views_history",
     # 快照（P3-10: 修正路径，与 channel_weekly_snapshot.py 的 SNAPSHOT_DIR 一致）
     "channel_snapshots": ROOT / "data" / "own" / "channel_snapshots",
     # 市场洞察
@@ -863,6 +865,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._api_competitor_channels()
             if p.path == "/api/knowledge-graph":
                 return self._api_knowledge_graph()
+            if p.path == "/api/competitor-alerts":
+                return self._api_competitor_alerts()
             if p.path.startswith("/api/competitor-detail"):
                 return self._api_competitor_detail()
             if p.path == "/api/distill":
@@ -2002,6 +2006,54 @@ class Handler(BaseHTTPRequestHandler):
         # 按订阅增长排序
         result["channels"].sort(key=lambda x: x["subs_change"], reverse=True)
         _json(self, result)
+
+    def _api_competitor_alerts(self):
+        """爆款预警 + 24h视频增量热榜 (读 collect_video_daily.py 产物)"""
+        fp = DATA_PATHS["alerts_latest"]
+        if not fp.exists():
+            return _json(self, {"schema_version": "1.0", "generated_at": None,
+                                "history_days": 0, "alerts": [],
+                                "note": "预警数据未生成 — 运行 scripts/collect_video_daily.py"})
+        try:
+            alerts_data = cached_json_read(fp)
+            # 附带昨日与今日快照的视频增量榜(全量, 前端分页/筛选)
+            hist_dir = DATA_PATHS["video_views_history"]
+            today = datetime.now().strftime("%Y-%m-%d")
+            ranking = []
+            meta = {}
+            meta_file = hist_dir / "_meta.json"
+            if meta_file.exists():
+                try:
+                    meta = json.loads(meta_file.read_text())
+                except Exception:
+                    meta = {}
+            files = sorted(f for f in hist_dir.glob("*.json") if not f.name.startswith("_"))
+            if len(files) >= 2:
+                yday_snap = json.loads(files[-2].read_text())
+                today_snap = json.loads(files[-1].read_text())
+                deltas = []
+                for vid, cur in today_snap.items():
+                    prev = yday_snap.get(vid)
+                    if prev is None:
+                        continue
+                    d = cur - prev
+                    if d > 0:
+                        m = meta.get(vid, {})
+                        deltas.append({
+                            "video_id": vid, "title": m.get("title", ""),
+                            "channel": m.get("channel", ""), "language": m.get("language", ""),
+                            "published_at": m.get("published_at", ""),
+                            "views": cur, "delta_24h": d,
+                        })
+                deltas.sort(key=lambda x: -x["delta_24h"])
+                ranking = deltas[:300]
+            out = dict(alerts_data)
+            out["ranking"] = ranking
+            out["ranking_date"] = files[-1].stem if files else None
+            return _json(self, out)
+        except Exception as e:
+            log.error(f"competitor_alerts read error: {e}\n{traceback.format_exc()}")
+            return _json(self, {"error": str(e)}, status=500)
 
     def _api_knowledge_graph(self):
         """竞品业务知识图谱（题材×语种×频道×钩子），读 competitor_knowledge_graph.py 产物"""
