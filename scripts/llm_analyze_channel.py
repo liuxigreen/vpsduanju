@@ -164,6 +164,9 @@ def prepare_channel_data(channel: dict) -> dict:
         "language": channel.get("language", "未知"),
         "country": channel.get("country", ""),
         "subscribers": channel.get("subscribers", 0),
+        "original_subscribers": channel.get("original_subscribers", 0),
+        "first_seen": channel.get("first_seen", ""),
+        "channel_created_at": channel.get("channel_created_at", ""),
         "tier": channel.get("tier", ""),
         "video_count": channel.get("video_count", len(videos)),
         "stats": {
@@ -182,7 +185,19 @@ def prepare_channel_data(channel: dict) -> dict:
             for v in videos_sorted[:3]
             if v.get("video_id") or v.get("thumbnail")
         ],
+        "recent_videos_text": _format_recent_videos(channel.get("recent_videos", [])),
     }
+
+def _format_recent_videos(videos: list) -> str:
+    """格式化最新视频列表"""
+    if not videos:
+        return ""
+    lines = []
+    for i, v in enumerate(videos, 1):
+        title = v.get("title", "")[:80]
+        published = v.get("published_at", "")[:10]
+        lines.append(f"{i}. [{published}] {title}")
+    return "\n".join(lines)
 
 
 # ═══════════════════════════════════════════════
@@ -198,53 +213,73 @@ def build_prompt(data: dict) -> str:
     duration_display = f"{s['avg_duration_sec'] // 60}分{s['avg_duration_sec'] % 60}秒" if s["avg_duration_sec"] else "未知"
     hour_display = ", ".join(f"{h}点({c}次)" for h, c in s["top_publish_hours"]) if s["top_publish_hours"] else "未知"
 
-    return f"""你是YouTube短剧市场分析师。分析以下频道数据，给出深度洞察。
+    # 增长数据
+    orig_subs = data.get("original_subscribers", 0) or 0
+    first_seen = data.get("first_seen", "")
+    channel_created = data.get("channel_created_at", "")
+    growth = subs - orig_subs if orig_subs > 0 else 0
+    multiple = round(subs / orig_subs, 1) if orig_subs > 0 else 0
+    orig_display = f"{orig_subs / 10000:.1f}万" if orig_subs >= 10000 else f"{orig_subs:,}"
 
-## 频道信息
+    # 高速增长判断
+    is_fast = growth > 10000 or (multiple > 2 and orig_subs > 0)
+    fast_label = "⚡高速增长" if is_fast else "常规增长"
+
+    # 最新视频文本
+    recent_videos_text = data.get("recent_videos_text", "")
+    recent_section = ""
+    if recent_videos_text:
+        recent_section = f"""
+
+## 最新发布视频（对比Top视频判断内容方向）
+{recent_videos_text}"""
+
+    return f"""你是YouTube短剧市场深度分析师，擅长从原始数据中提取可落地的运营策略。
+
+## 频道基础与增长数据
 - 名称：{data['name']}
-- 语种：{data['language']}
-- 地区：{data['country'] or '未知'}
-- 订阅数：{subs_display}
-- 层级：{data['tier']}
-- 总视频数：{data['video_count']}
+- 语种：{data['language']} | 地区：{data['country'] or '未知'}
+{"- YouTube注册日期：" + channel_created if channel_created else ""}
+- 频道阶段：从 {first_seen} 的 {orig_display} 订阅，增长至当前的 {subs_display}（增长 +{growth:,}，{multiple}x）。
+- 层级：{data['tier']} | 总视频数：{data['video_count']}
 
-## 统计数据（Python计算）
-- 平均播放：{s['avg_views']:,}
-- 最高播放：{s['max_views']:,}
+## 统计数据
+- 平均播放：{s['avg_views']:,} | 最高播放：{s['max_views']:,}
 - 爆款数（≥1万播放）：{s['breakout_count']}
-- 点赞率：{s['like_rate']:.2f}%
-- 评论率：{s['comment_rate']:.3f}%
-- 平均时长：{duration_display}
-- 常用发布时段：{hour_display}
+- 点赞率：{s['like_rate']:.2f}% | 评论率：{s['comment_rate']:.3f}%
+- 平均时长：{duration_display} | 常用时段：{hour_display}
 - 描述标签：{', '.join(s['top_desc_tags']) or '无'}
 
-## 全部视频数据（{data['video_count']}个，按播放量降序）
-{data['videos_text']}
+## 视频表现列表（按播放量降序的 Top {data['video_count']} 个）
+{data['videos_text']}{recent_section}
 
 ## 分析要求
+这是一个【{fast_label}】频道。{"请重点分析其成功经验，提取可复制的方法论，包括内容策略、标题公式、封面风格、发布节奏等。" if is_fast else "请分析其运营特点和可借鉴之处。"}
+{"请对比Top视频和最新视频，判断频道是在延续爆款路线还是尝试新方向。" if recent_videos_text else ""}
+
+重要：请务必提供具体例子和详细分析，不要泛泛而谈。所有分析都要基于视频数据中的真实标题和播放量。
 
 请输出纯JSON（不要markdown代码块、不要其他文字）：
 
 {{
   "why": {{
-    "growth_drivers": ["具体增长原因1", "具体增长原因2", "具体增长原因3"],
-    "audience_fit": "目标受众是谁，为什么看这个频道",
-    "trajectory": "频道处于什么阶段（起步期/爆发期/稳定期/衰退期），判断依据"
+    "growth_drivers": ["具体增长原因1（引用数据支撑）", "具体增长原因2", "具体增长原因3", "具体增长原因4", "具体增长原因5"],
+    "audience_fit": "受众画像及其核心痛点/爽点",
+    "trajectory": "频道阶段判断（起步/爆发/稳定/衰退）+ 依据"
   }},
   "what": {{
-    "content_strategy": "一句话概括这个频道的内容策略",
-    "top_themes": ["主打题材1", "主打题材2", "主打题材3"],
-    "title_formulas": ["标题公式1: 具体公式", "标题公式2: 具体公式"],
-    "hook_patterns": ["钩子模式1: 解释", "钩子模式2: 解释"],
-    "cover_strategy": "封面风格和策略描述",
+    "content_strategy": "一句话概括其核心打法",
+    "top_themes": ["题材1", "题材2", "题材3", "题材4", "题材5"],
+    "title_formulas": ["公式1: 具体格式（如【ENG DUB】+核心事件+反转结局+表情符号）", "公式2: 具体格式（从真实标题中提取）"],
+    "hook_patterns": ["模式1名称：解释+引用具体视频标题作为例子", "模式2名称：解释+引用具体视频标题作为例子", "模式3名称：解释+例子", "模式4名称：解释+例子"],
+    "cover_strategy": "封面视觉风格与排版逻辑",
     "best_performers": [
-      {{
-        "title": "视频标题",
-        "views": 0,
-        "why_works": "为什么这个视频爆了，具体分析"
-      }}
+      {{"title": "视频标题", "views": 0, "why_works": "拆解成功核心要素"}}
     ],
-    "engagement_insight": "互动率分析：点赞率和评论率说明什么"
+    "actionable_insights": {{
+      "copyable_tactics": ["可直接复制的运营技巧1", "可直接复制的运营技巧2"],
+      "avoid_pitfalls": ["该频道踩过的坑/建议避免的操作"]
+    }}
   }}
 }}"""
 
