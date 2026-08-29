@@ -48,10 +48,12 @@ def build():
             continue
         lang = (ch.get("language") or "未知").strip()
         languages[lang].append(ch)
+        # 动量均摊: 频道挂N个题材, 每题材只计 1/N 动量 (消除多题材双计偏差)
+        mom_share = round(_momentum(ch) / len(tags))
         for g in tags:
             genres[g].append(ch)
             cross[(g, lang)]["channels"] += 1
-            cross[(g, lang)]["momentum"] += _momentum(ch)
+            cross[(g, lang)]["momentum"] += mom_share
         for h in ((ch.get("deep_analysis") or {}).get("hit_title_patterns") or []):
             h = h.strip()
             if h:
