@@ -164,3 +164,6 @@ panel/channel_setup/
 config/gpt55_api_key.txt
 config/*api_key*.txt
 config/*secret*.txt
+
+cookies_fresh.txt
+subtitle_collection_list.txt
