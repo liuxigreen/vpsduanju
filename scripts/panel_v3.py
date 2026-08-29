@@ -1005,6 +1005,42 @@ class Handler(BaseHTTPRequestHandler):
                         "mtime": datetime.fromtimestamp(f.stat().st_mtime).isoformat(),
                     })
         data["recent_activity"] = recent[:5]
+
+        # ── 今日简报：预警 + 24h热榜前3 + 自有频道昨日概览 ──
+        brief = {"alerts": [], "top_rising": [], "own_channels": [], "generated_at": None}
+        try:
+            if DATA_PATHS["alerts_latest"].exists():
+                al = cached_json_read(DATA_PATHS["alerts_latest"])
+                if isinstance(al, dict):
+                    brief["generated_at"] = al.get("generated_at")
+                    brief["alerts"] = (al.get("alerts") or [])[:5]
+                    brief["top_rising"] = (al.get("ranking") or [])[:3]
+        except Exception:
+            pass
+        try:
+            ca = DATA_PATHS["channel_analysis"]
+            if ca.exists():
+                ch_a = cached_json_read(ca)
+                if isinstance(ch_a, dict):
+                    for c in (ch_a.get("channels") or [])[:12]:
+                        if not isinstance(c, dict):
+                            continue
+                        det = ch_a.get("channel_details", {}).get(c.get("name"), {}) or {}
+                        brief["own_channels"].append({
+                            "name": c.get("name"),
+                            "language": c.get("language"),
+                            "daily_views": c.get("daily_views"),
+                            "daily_subs": c.get("daily_subs"),
+                            "subs": c.get("subscribers"),
+                            "health": c.get("health"),
+                            "critical_issues": sum(
+                                1 for iss in (det.get("issues") or [])
+                                if isinstance(iss, dict) and iss.get("severity") == "critical"),
+                        })
+                    brief["report_date"] = ch_a.get("report_date")
+        except Exception:
+            pass
+        data["today_brief"] = brief
         _json(self, data)
 
     def _api_outputs(self):

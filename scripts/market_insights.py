@@ -27,31 +27,17 @@ from typing import Optional
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
-LATEST_FILE = DATA_DIR / "competitor_data" / "latest.json"
+LATEST_FILE = DATA_DIR / "competitor_data" / "latest.json"  # 已断流(7/18)，仅作avg_views兜底
 INSIGHT_DIR = DATA_DIR / "competitor_insights"
 OUTPUT_DIR = DATA_DIR
 TIERS_FILE = DATA_DIR / "competitor_tiers.json"
+CHANNELS_ALL_FILE = DATA_DIR / "competitors_channels_all.json"  # 主数据源(velocity周一/四刷新)
 
 sys.stdout.reconfigure(line_buffering=True)
 
-# DeepSeek V4 Pro
-API_URL = "https://api.edgefn.net/v1/chat/completions"
-API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
-MODEL = "DeepSeek-V4-Pro"
 from edgefn_models import call_for_task, parse_json_response, CALL_INTERVAL
 
-
-def _load_api_key() -> str:
-    if API_KEY:
-        return API_KEY
-    for env_path in [ROOT / ".env", Path.home() / ".hermes" / ".env"]:
-        if env_path.exists():
-            for line in env_path.read_text().split("\n"):
-                if "DEEPSEEK_API_KEY" in line and "=" in line:
-                    key = line.split("=", 1)[1].strip().strip('"').strip("'")
-                    if key:
-                        return key
-    return ""
+MODEL = "DeepSeek-V4-Pro"  # 记录进meta用；实际调用走 call_for_task("market_insights")
 
 
 def _load_all_insights() -> list:
@@ -70,22 +56,46 @@ def _load_all_insights() -> list:
 
 
 def _load_latest_stats() -> dict:
-    """从 latest.json 加载频道的原始统计数据"""
-    if not LATEST_FILE.exists():
-        return {}
+    """频道实时统计 — 主源 competitors_channels_all.json (velocity 周一/四刷新)
+    兜底 competitor_data/latest.json 的 avg_views (已断流，仅历史参考)"""
     result = {}
-    for ch in json.loads(LATEST_FILE.read_text()):
-        cid = ch.get("channel_id", "")
-        if cid:
-            videos = ch.get("videos", [])
-            views = [v.get("view_count", v.get("views", 0)) for v in videos if v.get("view_count", v.get("views", 0)) > 0]
+    # 兜底: 旧latest.json的avg_views
+    legacy = {}
+    if LATEST_FILE.exists():
+        try:
+            for ch in json.loads(LATEST_FILE.read_text()):
+                cid = ch.get("channel_id", "")
+                videos = ch.get("videos", [])
+                views = [v.get("view_count", v.get("views", 0)) for v in videos if v.get("view_count", v.get("views", 0)) > 0]
+                legacy[cid] = {
+                    "avg_views": round(sum(views) / len(views)) if views else 0,
+                    "max_views": max(views) if views else 0,
+                }
+        except Exception:
+            pass
+    if CHANNELS_ALL_FILE.exists():
+        data = json.loads(CHANNELS_ALL_FILE.read_text())
+        for ch in data.get("channels", []):
+            cid = ch.get("channel_id", "")
+            if not cid:
+                continue
+            t = ch.get("tracking") or {}
+            recent_titles = [v.get("title", "") for v in (t.get("momentum_videos_detail") or [])[:5] if v.get("title")]
             result[cid] = {
                 "subscribers": ch.get("subscribers", 0),
-                "video_count": len(videos),
-                "avg_views": round(sum(views) / len(views)) if views else 0,
-                "max_views": max(views) if views else 0,
+                "video_count": ch.get("total_videos", 0),
+                "avg_views": legacy.get(cid, {}).get("avg_views", 0),
+                "max_views": legacy.get(cid, {}).get("max_views", 0),
                 "country": ch.get("country", ""),
+                "video_momentum": t.get("video_momentum", 0),          # 近30天视频日均播放
+                "subs_velocity_weekly": t.get("subs_velocity_weekly", 0),
+                "views_velocity_weekly": t.get("views_velocity_weekly", 0),
+                "velocity_asof": t.get("velocity_asof", ""),
+                "recent_titles": recent_titles,
+                "content_tags": [x.strip() for x in (ch.get("content_tags") or []) if x and x.strip()],
             }
+    else:
+        result = legacy
     return result
 
 
@@ -120,6 +130,10 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
         summary += f" | 视频: {raw_stats.get('video_count', ch.get('total_videos', 0))}"
         summary += f" | 地区: {raw_stats.get('country', ch.get('country', ''))}"
         summary += f" | 层级: {ch.get('tier', '?')}"
+        if raw_stats.get("video_momentum"):
+            summary += f"\n- 📈 动量(近30天视频日均播放): {raw_stats['video_momentum']:,} | 周订阅涨速: {raw_stats.get('subs_velocity_weekly', 0):+,} | 数据日期: {raw_stats.get('velocity_asof', '?')}"
+        if raw_stats.get("recent_titles"):
+            summary += f"\n- 近期热视频标题: " + " ‖ ".join(t[:70] for t in raw_stats["recent_titles"][:3])
 
         if why.get("growth_drivers"):
             summary += f"\n- 增长原因: {'; '.join(why['growth_drivers'][:3])}"
@@ -176,6 +190,42 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
     stats_text += f"- 题材频率: {', '.join(f'{t}({c})' for t, c in theme_freq)}\n"
     stats_text += f"- 钩子频率: {', '.join(f'{h[:30]}({c})' for h, c in hook_freq)}\n"
 
+    # 题材动量聚合（基于velocity实时数据，多题材频道均摊）— rising/declining 的真实依据
+    # 注意: 聚合所有有动量数据的频道（入场门槛是"动量或均播≥1万"，低动量频道的动量同样有信号价值）
+    # 题材归一化：别名合并 + 非题材噪声过滤（频道名/泛化词/纯语言标签）
+    GENRE_ALIAS = {
+        "Cinderella": "灰姑娘", "cinderela": "灰姑娘", "灰姑娘": "灰姑娘",
+        "CEO": "霸总", "ceolovestory": "霸总", "浪漫爱情": "爱情", "amor": "爱情",
+        "drama de amor": "爱情", "Romansa": "爱情", "kiss": "爱情", "sweet": "甜宠",
+        "ação": "动作", "假身份": "秘密身份", "隐藏身份": "秘密身份",
+    }
+    NON_GENRE = {"剧情", "film cina", "Sinetron pendek", "Web drama", "Gado-Gado Clips",
+                 "filme completo", "中文短剧", "女频", "男频"}
+    genre_momentum = defaultdict(int)
+    genre_channels = defaultdict(list)
+    for ch in channels:
+        cid = ch.get("channel_id", "")
+        rs = latest_stats.get(cid, {})
+        mom = rs.get("video_momentum", 0)
+        raw_tags = [t.strip() for t in (rs.get("content_tags") or []) if t and t.strip()]
+        tags = []
+        for t in raw_tags:
+            if t in NON_GENRE:
+                continue
+            g = GENRE_ALIAS.get(t, GENRE_ALIAS.get(t.lower(), t))
+            if g not in tags:
+                tags.append(g)
+        if mom > 0 and tags:
+            share = mom / len(tags)
+            for tg in tags:
+                genre_momentum[tg] += share
+                genre_channels[tg].append(ch.get("name", cid[:10]))
+    if genre_momentum:
+        gm_sorted = sorted(genre_momentum.items(), key=lambda x: -x[1])
+        stats_text += f"\n## 题材动量榜（近30天日均播放聚合，Python计算）\n"
+        for tg, m in gm_sorted[:10]:
+            stats_text += f"- {tg}: {int(m):,}（{len(genre_channels[tg])}个频道）\n"
+
     # 封面策略汇总
     if all_cover_strategies:
         stats_text += f"\n## 各频道封面策略\n"
@@ -196,6 +246,7 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
         "stats_text": stats_text,
         "theme_freq": theme_freq,
         "hook_freq": hook_freq,
+        "genre_momentum": {tg: int(m) for tg, m in sorted(genre_momentum.items(), key=lambda x: -x[1])},
     }
 
 
@@ -205,6 +256,7 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
 
 def build_prompt(data: dict) -> str:
     return f"""你是YouTube短剧市场分析师。以下是{data['language']}市场中{data['channel_count']}个竞品频道的深度分析数据。
+其中「题材动量榜」和每个频道的「📈动量/周订阅涨速」是近30天实时计算的数据，「均播」是历史快照数据。
 请基于这些数据，产出{data['language']}短剧市场的整体洞察。
 
 {data['stats_text']}
@@ -215,23 +267,28 @@ def build_prompt(data: dict) -> str:
 
 ## 分析要求
 
+1. 一切结论必须有数据锚点：判断题材涨/退时，对比「题材频率」（历史存量）与「题材动量榜」（近30天实时），动量占比高于存量占比的才算在涨，反之在退。
+2. 只引用上面出现过的频道名和标题，禁止编造数据中不存在的频道、视频或数字。
+3. future_opportunities 必须从本市场数据中推导（如：高动量题材×低频道供给=空白点），不要套用通用爆款题材清单；如果数据不足以支撑某个机会，宁可少写。
+4. 每个数组字段最多5项，宁缺毋滥；没有依据的字段填空数组，不要凑数。
+
 请输出纯JSON（不要markdown代码块、不要其他文字）：
 
 {{
   "what_they_watch": {{
     "top_genres": [
-      {{"genre": "题材名", "popularity": "热度描述", "examples": ["代表频道/视频"]}},
+      {{"genre": "题材名", "popularity": "热度描述（引用动量榜数字）", "examples": ["代表频道/视频"]}},
     ],
     "rising_genres": [
-      {{"genre": "题材名", "trend": "为什么在涨"}}
+      {{"genre": "题材名", "trend": "为什么在涨（必须引用动量vs存量的对比）"}}
     ],
-    "declining_genres": ["在退的题材"],
+    "declining_genres": ["在退的题材（同样需数据对比支撑）"],
     "audience_notes": "这个地区的观众偏好特点（年龄/性别/观看习惯/付费意愿）"
   }},
   "titles_and_hooks": {{
     "winning_formulas": ["最有效的标题公式1", "公式2"],
     "top_hook_words": ["高频钩子词1", "钩子词2", "钩子词3"],
-    "language_mix": "标题语言使用特点（纯本地语/混英文/中文比例）",
+    "language_mix": "标题语言使用特点（纯本地语/混英文/中文比例，基于近期热视频标题观察）",
     "hook_analysis": "什么类型的钩子在这个市场最有效"
   }},
   "covers_and_visuals": {{
@@ -241,19 +298,19 @@ def build_prompt(data: dict) -> str:
   }},
   "competition": {{
     "top_channels": [
-      {{"name": "频道名", "why_top": "为什么是头部", "what_we_can_learn": "能学到什么"}}
+      {{"name": "频道名", "why_top": "为什么是头部（引用订阅/动量数字）", "what_we_can_learn": "能学到什么"}}
     ],
     "emerging_channels": [
-      {{"name": "频道名", "why_watch": "为什么值得关注"}}
+      {{"name": "频道名", "why_watch": "为什么值得关注（必须引用周订阅涨速或动量数据）"}}
     ],
     "content_gaps": ["还没人做的内容机会1", "机会2", "机会3"]
   }},
   "future_opportunities": {{
     "localization_potential": ["适合该地区的本土化题材方向1", "方向2"],
-    "cultural_fusion": ["文化融合题材机会1（如东方元素+本地文化）", "机会2"],
-    "emerging_themes": ["新兴题材方向（如AI觉醒、虚拟人格、时间循环等）", "方向2"],
-    "subculture_narratives": ["亚文化叙事机会（如电竞、饭圈、跨国婚恋等）", "机会2"],
-    "why_these_work": "为什么这些方向在该地区有潜力（基于数据和文化分析）"
+    "cultural_fusion": ["文化融合题材机会（基于该地区文化特征）", "机会2"],
+    "emerging_themes": ["数据中已冒头的新题材信号（动量榜新面孔）", "方向2"],
+    "subculture_narratives": ["亚文化叙事机会（须有本市场数据支撑）", "机会2"],
+    "why_these_work": "为什么这些方向在该地区有潜力（逐条对应数据证据）"
   }},
   "takeaways": {{
     "if_entering_now": ["如果现在入场应该做的1", "2", "3"],
@@ -266,57 +323,32 @@ def build_prompt(data: dict) -> str:
 #  LLM 调用
 # ═══════════════════════════════════════════════
 
-def call_llm(prompt: str, api_key: str) -> Optional[dict]:
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-    }
-    body = {
-        "model": MODEL,
-        "messages": [
-            {"role": "system", "content": "You are a professional market analyst for entertainment content. This is a business analysis task for YouTube short drama market research. Analyze the content trends, audience preferences, and market opportunities based on the provided data. This is purely analytical business research."},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0.3,
-    }
-
-    try:
-        resp = requests.post(API_URL, headers=headers, json=body, timeout=180)
-    except requests.Timeout:
-        print("    ❌ 请求超时(180s)")
+def call_llm(prompt: str) -> Optional[dict]:
+    """走 edgefn 统一路由（AGENTS.md: 模型选择经 model/edgefn，不硬编码）"""
+    result = call_for_task(
+        "market_insights",
+        prompt,
+        max_tokens=16000,
+        temperature=0.3,
+    )
+    if result.get("error"):
+        print(f"    ❌ LLM调用失败: {result['error']}")
         return None
-    except Exception as e:
-        print(f"    ❌ 请求异常: {e}")
-        return None
-
-    if resp.status_code != 200:
-        print(f"    ❌ API {resp.status_code}: {resp.text[:200]}")
-        return None
-
-    result = resp.json()
     usage = result.get("usage", {})
-    print(f"    📊 tokens: in={usage.get('prompt_tokens',0):,} out={usage.get('completion_tokens',0):,}")
-
-    content = result["choices"][0]["message"]["content"].strip()
-    if content.startswith("```"):
-        lines = content.split("\n")
-        content = "\n".join(lines[1:])
-        if content.endswith("```"):
-            content = content[:-3].strip()
-
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError as e:
-        print(f"    ❌ JSON解析失败: {e}")
-        print(f"    原始输出: {content[:300]}")
+    if usage:
+        print(f"    📊 tokens: in={usage.get('prompt_tokens',0):,} out={usage.get('completion_tokens',0):,}")
+    parsed = parse_json_response(result)
+    if parsed.get("error"):
+        print(f"    ❌ JSON解析失败: {parsed['error']}")
         return None
+    return parsed
 
 
 # ═══════════════════════════════════════════════
 #  主流程
 # ═══════════════════════════════════════════════
 
-def analyze_market(lang: str, channels: list, latest_stats: dict, api_key: str, dry_run: bool = False) -> Optional[dict]:
+def analyze_market(lang: str, channels: list, latest_stats: dict, dry_run: bool = False) -> Optional[dict]:
     """对一个语种做市场洞察"""
     data = prepare_market_data(lang, channels, latest_stats)
     prompt = build_prompt(data)
@@ -325,7 +357,7 @@ def analyze_market(lang: str, channels: list, latest_stats: dict, api_key: str, 
         print(f"    [dry-run] prompt长度: {len(prompt)} 字符, 频道数: {data['channel_count']}")
         return None
 
-    insights = call_llm(prompt, api_key)
+    insights = call_llm(prompt)
     if not insights:
         return None
 
@@ -340,6 +372,7 @@ def analyze_market(lang: str, channels: list, latest_stats: dict, api_key: str, 
         "python_stats": {
             "theme_frequency": dict(data["theme_freq"]),
             "hook_frequency": dict(data["hook_freq"]),
+            "genre_momentum": data.get("genre_momentum", {}),
         },
         "llm_insights": insights,
     }
@@ -357,11 +390,6 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="只构建prompt不调LLM")
     args = parser.parse_args()
 
-    api_key = _load_api_key()
-    if not api_key and not args.dry_run:
-        print("❌ 未配置 DEEPSEEK_API_KEY")
-        sys.exit(1)
-
     all_insights = _load_all_insights()
     if not all_insights:
         print("❌ 没有 LLM 分析数据，请先运行 llm_analyze_channel.py")
@@ -369,17 +397,13 @@ def main():
 
     latest_stats = _load_latest_stats()
 
-    # 市场洞察只聚合均播≥10000的频道（有真实热度的才代表市场趋势）
+    # 市场洞察门槛：近30天动量≥1万 或 历史均播≥1万（有真实热度的才代表市场）
     filtered = []
     for ch in all_insights:
-        cid = ch.get("channel_id", "")
-        stat = latest_stats.get(cid, {})
-        avg = stat.get("avg_views", 0)
-        if avg >= 10000:
+        stat = latest_stats.get(ch.get("channel_id", ""), {})
+        if stat.get("video_momentum", 0) >= 10000 or stat.get("avg_views", 0) >= 10000:
             filtered.append(ch)
-        else:
-            pass  # 均播不足1万，不纳入市场洞察
-    print(f"📊 市场洞察门槛：{len(all_insights)}个LLM频道 → {len(filtered)}个均播≥1万")
+    print(f"📊 市场洞察门槛：{len(all_insights)}个LLM频道 → {len(filtered)}个有真实热度(动量或均播≥1万)")
 
     # 按语种分组
     by_lang = defaultdict(list)
@@ -407,7 +431,7 @@ def main():
     for i, (lang, channels) in enumerate(langs.items(), 1):
         print(f"\n[{i}/{len(langs)}] 🌏 {lang} 市场 ({len(channels)} 个频道)")
 
-        result = analyze_market(lang, channels, latest_stats, api_key, dry_run=args.dry_run)
+        result = analyze_market(lang, channels, latest_stats, dry_run=args.dry_run)
 
         if result:
             llm = result.get("llm_insights", {})

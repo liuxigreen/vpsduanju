@@ -123,6 +123,38 @@
           </div>
         </div>
       </div>
+
+      <!-- 对比我的：自有频道在竞品池中的虚拟排名 -->
+      <div class="card" v-if="ownCompare.length" style="margin-top:16px;">
+        <h3 style="margin:0 0 4px;font-size:14px;">🪞 对比我的 — 自有频道插入竞品榜的虚拟排名</h3>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">日播放≈动量口径 · 日增订阅×7≈周涨速口径 · 仅供参考（自有为全频道口径，竞品为近30天新视频口径）</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead>
+            <tr style="text-align:left;color:var(--text-dim);border-bottom:1px solid var(--border);">
+              <th style="padding:5px 8px;">频道</th>
+              <th style="padding:5px 8px;">语种</th>
+              <th style="padding:5px 8px;text-align:right;">日播放</th>
+              <th style="padding:5px 8px;text-align:right;">动量榜排名</th>
+              <th style="padding:5px 8px;text-align:right;">周订阅</th>
+              <th style="padding:5px 8px;text-align:right;">涨速榜排名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="c in ownCompare" :key="c.name" style="border-bottom:1px solid var(--border-subtle);">
+              <td style="padding:5px 8px;color:var(--text);">{{ c.name }}</td>
+              <td style="padding:5px 8px;color:var(--text-dim);">{{ c.language }}</td>
+              <td style="padding:5px 8px;text-align:right;">{{ formatSubs(c.daily_views || 0) }}</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;" :style="{ color: c.mom_rank && c.mom_rank <= 30 ? '#2ecc71' : 'var(--text-dim)' }">
+                {{ c.mom_rank ? `#${c.mom_rank} / ${c.mom_total}` : '-' }}
+              </td>
+              <td style="padding:5px 8px;text-align:right;">{{ c.weekly_subs != null ? formatSubs(c.weekly_subs) : '-' }}</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;" :style="{ color: c.vel_rank && c.vel_rank <= 30 ? '#2ecc71' : 'var(--text-dim)' }">
+                {{ c.vel_rank ? `#${c.vel_rank} / ${c.vel_total}` : '-' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- 市场洞察 -->
@@ -495,6 +527,32 @@ const subsRank = computed(() =>
     .slice(0, 30)
 )
 
+// ---- 对比我的：自有频道插入竞品榜的虚拟排名 ----
+const ownChannels = ref([])
+const allMomentum = computed(() =>
+  channels.value.filter(c => c.tracking?.video_momentum > 0).map(c => c.tracking.video_momentum).sort((a, b) => b - a)
+)
+const allSubsVel = computed(() =>
+  channels.value.filter(c => (c.tracking?.subs_velocity_weekly || 0) > 0).map(c => c.tracking.subs_velocity_weekly).sort((a, b) => b - a)
+)
+function virtualRank(sortedArr, val) {
+  if (val === null || val === undefined) return null
+  const pos = sortedArr.findIndex(v => v < val)
+  return pos === -1 ? sortedArr.length + 1 : pos + 1
+}
+const ownCompare = computed(() =>
+  ownChannels.value.map(c => ({
+    name: c.name,
+    language: c.language,
+    daily_views: c.daily_views,
+    mom_rank: virtualRank(allMomentum.value, c.daily_views),
+    mom_total: allMomentum.value.length,
+    weekly_subs: c.daily_subs != null ? Math.round(c.daily_subs * 7) : null,
+    vel_rank: virtualRank(allSubsVel.value, c.daily_subs != null ? c.daily_subs * 7 : null),
+    vel_total: allSubsVel.value.length,
+  })).sort((a, b) => (a.mom_rank || 999) - (b.mom_rank || 999))
+)
+
 // ---- 视频标签云：聚合 videos_detail + momentum_videos_detail 的 tags ----
 function getChannelTagCloud(ch) {
   if (!ch) return []
@@ -610,6 +668,10 @@ async function load(force = false) {
     const d = await api('/competitor-channels')
     channels.value = d.channels || []
   } catch (err) { console.error('[CompetitorChannels]', err) }
+  try {
+    const dash = await api('/dashboard')
+    ownChannels.value = dash?.today_brief?.own_channels || []
+  } catch (err) { console.error('[ownChannels]', err) }
 }
 
 async function switchToInsights() {

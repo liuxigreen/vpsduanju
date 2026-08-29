@@ -31,6 +31,7 @@ TASK_MODEL = {
     "channel_analysis": "pro",
     "deep_analysis": "pro",
     "content_plan": "pro",
+    "market_insights": "pro",
 }
 
 API_BASE = "https://api.edgefn.net/v1/chat/completions"
