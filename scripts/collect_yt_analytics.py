@@ -377,6 +377,19 @@ def main():
     ok = sum(1 for v in results.values() if v == "ok")
     fail = len(results) - ok
     log.info(f"采集完成: {ok} 成功, {fail} 失败")
+
+    # 写授权状态快照：供 diagnose_channel / cron 报告区分"未授权"与"授权但失败"
+    # ⚠️ sources 只列已授权频道（keys 名 = oauth slug），没有授权的频道天然不在此清单
+    status = {
+        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "authorized_slugs": sorted(accounts.keys()),
+        "results": results,
+    }
+    status_file = DATA_DIR / "_auth_status.json"
+    tmp_status = status_file.with_suffix(".json.tmp")
+    tmp_status.write_text(json.dumps(status, ensure_ascii=False, indent=2))
+    tmp_status.replace(status_file)
+
     print(json.dumps(results, ensure_ascii=False))
 
 

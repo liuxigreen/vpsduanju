@@ -70,8 +70,8 @@
           </div>
           <!-- 追踪数据 -->
           <div v-if="hasTracking(c)" style="display:flex;gap:12px;margin-top:4px;font-size:10px;">
-            <span v-if="c.tracking?.subs_change_day != null" :style="{ color: changeColor(c.tracking.subs_change_day) }">👥 {{ fmtChange(c.tracking.subs_change_day) }}/{{ fmtChange(c.tracking.subs_change_week) }}</span>
-            <span v-if="c.tracking?.views_change_day != null" :style="{ color: changeColor(c.tracking.views_change_day) }">▶ {{ fmtChange(c.tracking.views_change_day) }}/{{ fmtChange(c.tracking.views_change_week) }}</span>
+            <span v-if="c.tracking?.subs_change_day || c.tracking?.subs_change_week" :style="{ color: changeColor(c.tracking.subs_change_day) }">👥 {{ fmtChange(c.tracking.subs_change_day) }}/{{ fmtChange(c.tracking.subs_change_week) }}</span>
+            <span v-if="c.tracking?.views_change_day || c.tracking?.views_change_week" :style="{ color: changeColor(c.tracking.views_change_day) }">▶ {{ fmtChange(c.tracking.views_change_day) }}/{{ fmtChange(c.tracking.views_change_week) }}</span>
           </div>
           <!-- 基线增长 -->
           <div v-if="c.tracking?.subs_change_baseline != null" style="margin-top:3px;font-size:10px;">

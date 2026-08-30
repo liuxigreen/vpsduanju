@@ -23,6 +23,8 @@ OUT_FILE = ROOT / "data" / "knowledge_graph.json"
 
 TOP_CHANNELS_PER_GENRE = 12   # 每个题材保留的头部频道数
 MIN_GENRE_CHANNELS = 2        # 题材至少出现在2个频道才算节点（过滤长尾噪声）
+# 2026-08-30: 数据量不足的语种暂不进图谱/展示（市场未验证，等数据够再放开）
+EXCLUDE_LANGS = {"德语", "泰语", "越南语", "韩语"}
 
 
 def _momentum(ch):
@@ -47,6 +49,8 @@ def build():
         if not tags:
             continue
         lang = (ch.get("language") or "未知").strip()
+        if lang in EXCLUDE_LANGS:  # 数据量不足语种不进图（2026-08-30）
+            continue
         languages[lang].append(ch)
         # 动量均摊: 频道挂N个题材, 每题材只计 1/N 动量 (消除多题材双计偏差)
         mom_share = round(_momentum(ch) / len(tags))
@@ -123,6 +127,8 @@ def build():
             continue
         cid = ch.get("channel_id")
         lang = (ch.get("language") or "未知").strip()
+        if lang in EXCLUDE_LANGS:  # 与语种节点同步过滤（2026-08-30）
+            continue
         mom = _momentum(ch)
         channel_nodes.append({
             "id": f"channel:{cid}", "type": "channel",

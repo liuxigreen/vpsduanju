@@ -2114,7 +2114,8 @@ class Handler(BaseHTTPRequestHandler):
         if not fp.exists():
             return _json(self, {"error": "data not found", "channels": [], "total": 0})
         try:
-            data = cached_json_read(fp)
+            raw = cached_json_read(fp)
+            data = dict(raw) if isinstance(raw, dict) else {}
             # 精简：列表只保留表格需要的字段，去掉 deep_analysis/video_analysis/analysis_text/videos_detail 等大字段
             LIGHT_KEYS = {"channel_id", "name", "language", "subscribers", "tier", "url",
                           "total_videos", "content_tags", "avg_views", "country",
@@ -2124,9 +2125,13 @@ class Handler(BaseHTTPRequestHandler):
                           "original_subscribers", "first_seen", "channel_created_at"}
             light_channels = []
             for ch in data.get("channels", []):
+                # 2026-08-30: 数据量不足的语种暂不展示（市场未验证，等数据够再放开）
+                if (ch.get("language") or "").strip() in {"德语", "泰语", "越南语", "韩语"}:
+                    continue
                 light = {k: ch[k] for k in LIGHT_KEYS if k in ch}
                 light_channels.append(light)
             data["channels"] = light_channels
+            data["total"] = len(light_channels)
             _json(self, data)
         except Exception as e:
             log.error(f"competitor channels error: {e}")

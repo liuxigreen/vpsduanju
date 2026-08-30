@@ -132,6 +132,57 @@ def _get_channel_stats_ytdlp(channel_id: str) -> dict:
     return {}
 
 
+def _video_entry(v: dict) -> dict:
+    """YouTube API videos.list item → 快照视频条目（统一给两条路径复用）。"""
+    snip = v["snippet"]
+    stat = v.get("statistics", {})
+    desc = snip.get("description", "")
+    import re
+    desc_tags = re.findall(r'#([\w]+)', desc) if desc else []
+    return {
+        "video_id": v["id"],
+        "title": snip.get("title", ""),
+        "published_at": snip.get("publishedAt", ""),
+        "views": int(stat.get("viewCount", 0)),
+        "likes": int(stat.get("likeCount", 0)),
+        "comments": int(stat.get("commentCount", 0)),
+        "duration": v.get("contentDetails", {}).get("duration", ""),
+        "description": desc[:500],
+        "description_tags": desc_tags[:20],
+        "thumbnail": snip.get("thumbnails", {}).get("high", {}).get("url", ""),
+    }
+
+
+def _get_video_stats_uploads(channel_id: str, max_results: int = 15) -> list:
+    """uploads playlist 兜底：近N天窗口无视频（停更/低频频道）时取最近发布的视频。
+    uploads playlist id = channel_id 的 UC→UU 前缀替换；1 unit，比 search.list 省配额。"""
+    try:
+        if not channel_id.startswith("UC"):
+            return []
+        uploads_id = "UU" + channel_id[2:]
+        pl = api_get("/youtube/v3/playlistItems", {
+            "part": "contentDetails", "playlistId": uploads_id,
+            "maxResults": str(min(max_results, 50)), "key": API_KEY,
+        })
+        if "error" in pl:
+            raise RuntimeError(f"API error: {pl['error'].get('code', '?')}")
+        video_ids = [i["contentDetails"]["videoId"] for i in pl.get("items", [])]
+        if not video_ids:
+            return []
+        videos = []
+        for i in range(0, len(video_ids), 50):
+            batch = video_ids[i:i + 50]
+            vdata = api_get("/youtube/v3/videos", {
+                "part": "snippet,statistics,contentDetails",
+                "id": ",".join(batch), "key": API_KEY
+            })
+            videos.extend(_video_entry(v) for v in vdata.get("items", []))
+        return videos
+    except Exception as e:
+        print(f"  ⚠️ uploads playlist 兜底失败: {e}")
+        return []
+
+
 def get_video_stats(channel_id: str, max_results: int = 15, days: int = 14, order: str = "viewCount") -> list:
     """Fetch video stats: YouTube API viewCount order, recent 14 days, up to 15 videos."""
     try:
@@ -147,33 +198,19 @@ def get_video_stats(channel_id: str, max_results: int = 15, days: int = 14, orde
             raise RuntimeError(f"API error: {search['error'].get('code', '?')}")
         video_ids = [i["id"]["videoId"] for i in search.get("items", [])]
         if not video_ids:
-            return []
+            # 近{days}天无新视频（停更/低频频道）→ uploads playlist 取最近视频兜底
+            # 此前直接 return [] 导致快照 videos 永久为空、下游诊断整频道跳过（2026-08-30 修复）
+            print(f"  ⚠️ 近{days}天无新视频，用 uploads playlist 兜底取最近视频")
+            return _get_video_stats_uploads(channel_id, max_results)
 
         videos = []
         for i in range(0, len(video_ids), 50):
-            batch = video_ids[i:i+50]
+            batch = video_ids[i:i + 50]
             vdata = api_get("/youtube/v3/videos", {
                 "part": "snippet,statistics,contentDetails",
                 "id": ",".join(batch), "key": API_KEY
             })
-            for v in vdata.get("items", []):
-                snip = v["snippet"]
-                stat = v.get("statistics", {})
-                desc = snip.get("description", "")
-                import re
-                desc_tags = re.findall(r'#([\w]+)', desc) if desc else []
-                videos.append({
-                    "video_id": v["id"],
-                    "title": snip.get("title", ""),
-                    "published_at": snip.get("publishedAt", ""),
-                    "views": int(stat.get("viewCount", 0)),
-                    "likes": int(stat.get("likeCount", 0)),
-                    "comments": int(stat.get("commentCount", 0)),
-                    "duration": v.get("contentDetails", {}).get("duration", ""),
-                    "description": desc[:500],
-                    "description_tags": desc_tags[:20],
-                    "thumbnail": snip.get("thumbnails", {}).get("high", {}).get("url", ""),
-                })
+            videos.extend(_video_entry(v) for v in vdata.get("items", []))
         return videos
     except Exception as e:
         print(f"  ⚠️ YouTube API失败，用yt-dlp备份: {e}")

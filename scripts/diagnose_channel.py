@@ -3449,11 +3449,28 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
     if channel_genres:
         print(f"  🏷️ 题材: {', '.join(channel_genres)}")
 
-    # 加载OAuth分段留存数据（只读本地 yt_analytics 缓存，不调API）
+    # 加载OAuth Analytics缓存（只读本地，不调API）
     slug_r = channel_name.replace(" ", "_")
     # P3-11: 统一 slug 解析（accounts.json 反查 > CHANNEL_TO_SLUG > slug_r）
     yt_slug = _resolve_oauth_slug(channel_name, slug_r)
-    yt_analytics_path = ROOT / "data" / "yt_analytics" / f"{yt_slug}.json"
+    # OAuth 授权状态（防误报：未授权≠401故障，只有已授权但拉取失败才需要处理）
+    _as_path = ROOT / "data" / "own" / "analytics" / "_auth_status.json"
+    _authorized = False
+    try:
+        if _as_path.exists():
+            _authorized = yt_slug in (json.loads(_as_path.read_text(encoding="utf-8")).get("authorized_slugs") or [])
+        else:
+            import keychain_helper as kc
+            _authorized = bool(kc.load_youtube_token(yt_slug))
+    except Exception:
+        pass
+    print(f"  🔐 OAuth: {'已授权(' + yt_slug + ')' if _authorized else '未授权 → 公开数据诊断（未授权≠故障）'}")
+    oauth_status = {
+        "authorized": bool(_authorized),
+        "slug": yt_slug if _authorized else None,
+        "note": "authorized" if _authorized else "未授权频道：诊断基于公开数据；未授权≠OAuth故障",
+    }
+    yt_analytics_path = ROOT / "data" / "own" / "analytics" / f"{yt_slug}.json"
     retention_data = None
     if yt_analytics_path.exists():
         try:
@@ -3629,7 +3646,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
                 if local_idx < len(video_indices):
                     mapped[video_indices[local_idx]] = analysis
             scored = _build_scored_videos(videos, mapped, video_indices, existing_scores, covers_index)
-            _save_result(channel_name, lang, snapshot, distill, market, scored, avg_like_rate, out_path, video_llm_last_run=existing_result.get("video_llm_last_run"), channel_llm_last_run=existing_result.get("channel_llm_last_run"))
+            _save_result(channel_name, lang, snapshot, distill, market, scored, avg_like_rate, out_path, video_llm_last_run=existing_result.get("video_llm_last_run"), channel_llm_last_run=existing_result.get("channel_llm_last_run"), oauth_status=oauth_status)
 
         # 映射：llm_analyze_and_optimize返回的索引是videos_to_analyze内的，需要映射回videos的全局索引
         raw_analyses = llm_analyze_and_optimize(videos_to_analyze, distill, lang, save_callback=save_incremental, growth=snapshot.get("growth", {}), covers=covers_list, quadrant_map=quadrant_map)
@@ -3701,7 +3718,7 @@ def run_diagnosis(channel_name: str, use_llm: bool = True, force: bool = False, 
     # 保存最终结果
     video_llm_ts = datetime.now(timezone.utc).isoformat() if llm_analyses else existing_result.get("video_llm_last_run")
     channel_llm_ts = datetime.now(timezone.utc).isoformat() if channel_llm_due and channel_llm else existing_result.get("channel_llm_last_run")
-    result = _save_result(channel_name, lang, snapshot, distill, market, scored_videos, avg_like_rate, out_path, channel_llm=channel_llm, video_llm_last_run=video_llm_ts, channel_llm_last_run=channel_llm_ts)
+    result = _save_result(channel_name, lang, snapshot, distill, market, scored_videos, avg_like_rate, out_path, channel_llm=channel_llm, video_llm_last_run=video_llm_ts, channel_llm_last_run=channel_llm_ts, oauth_status=oauth_status)
 
     # 历史存档
     today = datetime.now().strftime("%Y%m%d")
@@ -3814,7 +3831,7 @@ def _build_scored_videos(videos: list, llm_analyses: dict | None, video_indices:
     return scored_videos
 
 
-def _save_result(channel_name, lang, snapshot, distill, market, scored_videos, avg_like_rate, out_path, channel_llm=None, video_llm_last_run=None, channel_llm_last_run=None):
+def _save_result(channel_name, lang, snapshot, distill, market, scored_videos, avg_like_rate, out_path, channel_llm=None, video_llm_last_run=None, channel_llm_last_run=None, oauth_status=None):
     """构建并保存诊断结果。channel_llm=None时跳过频道级LLM（增量保存用）。"""
     rates = [v["likes"] / v["views"] * 100 for v in snapshot.get("videos", []) if v.get("views", 0) > 0]
     channel_diag = channel_level_diagnosis(snapshot, distill, market)
@@ -3831,6 +3848,11 @@ def _save_result(channel_name, lang, snapshot, distill, market, scored_videos, a
         "diagnosed_at": datetime.now(timezone.utc).isoformat(),
         "video_llm_last_run": video_llm_last_run,
         "channel_llm_last_run": channel_llm_last_run,
+        "oauth": oauth_status or {
+            "authorized": False,
+            "slug": None,
+            "note": "未授权频道：诊断基于公开数据；未授权≠OAuth故障",
+        },
         "channel": channel_diag,
         "channel_llm": channel_llm,
         "distill_benchmark": {
