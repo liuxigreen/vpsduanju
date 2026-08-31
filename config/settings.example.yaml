@@ -123,3 +123,7 @@ data:
   research: "data/research"
   hongguo: "data/hongguo"
   douyin: "data/douyin"
+
+# 字幕实证注入（竞品分析prompt注入字幕内容级证据；需先跑 subtitle_aggregate_v1.py）
+subtitle_injection:
+  enabled: false
