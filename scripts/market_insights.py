@@ -255,11 +255,24 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
 # ═══════════════════════════════════════════════
 
 def build_prompt(data: dict) -> str:
+    # 字幕实证注入（开关: settings.yaml subtitle_injection.enabled；无数据自动降级）
+    subtitle_block = ""
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import subtitle_evidence as _se
+        if _se.injection_enabled():
+            _code = _se.cn_to_code(data["language"])
+            _b = _se.market_subtitle_block(_code) if _code else ""
+            if _b:
+                subtitle_block = _b + "\n\n"
+    except Exception:
+        pass
+
     return f"""你是YouTube短剧市场分析师。以下是{data['language']}市场中{data['channel_count']}个竞品频道的深度分析数据。
 其中「题材动量榜」和每个频道的「📈动量/周订阅涨速」是近30天实时计算的数据，「均播」是历史快照数据。
 请基于这些数据，产出{data['language']}短剧市场的整体洞察。
 
-{data['stats_text']}
+{subtitle_block}{data['stats_text']}
 
 # 各频道详细分析
 

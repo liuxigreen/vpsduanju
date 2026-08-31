@@ -20,9 +20,8 @@ LANG_CN = {'日语': 'ja', '印尼': 'id', '英文': 'en', '西语': 'es',
 cfg = yaml.safe_load(open(Path.home() / ".hermes/config.yaml"))
 prov = (cfg.get("provider") or cfg["providers"])["bai"]
 API_KEY, BASE_URL = prov["api_key"], prov["base_url"].rstrip("/")
-# 生产洞察(run_insights_current_model.py 7/7成功)用 qwen3.8-flash；config 默认 glm-5.3-flash
-# 在 bai 上对长分析任务思考模式退化(27K think无正文,9min零输出)，故测试对齐生产模型
-MODEL = "qwen3.8-flash"
+# 模型走 config 默认(08-31已钉回qwen3.8-flash)；glm-5.3-flash在bai上思考失控不可用
+MODEL = cfg.get("model", {}).get("default", "qwen3.8-flash")
 
 OUT = ROOT / "data/subtitle_analysis/ab_test"
 OUT.mkdir(parents=True, exist_ok=True)

@@ -234,6 +234,17 @@ def build_prompt(data: dict) -> str:
 ## 最新发布视频（对比Top视频判断内容方向）
 {recent_videos_text}"""
 
+    # 字幕实证注入（开关: settings.yaml subtitle_injection.enabled；无数据自动降级为纯标题分析）
+    subtitle_block = ""
+    try:
+        import subtitle_evidence as _se
+        if _se.injection_enabled():
+            _b = _se.channel_subtitle_block(data["name"], data["language"])
+            if _b:
+                subtitle_block = "\n" + _b + "\n"
+    except Exception:
+        pass
+
     return f"""你是YouTube短剧市场深度分析师，擅长从原始数据中提取可落地的运营策略。
 
 ## 频道基础与增长数据
@@ -252,7 +263,7 @@ def build_prompt(data: dict) -> str:
 
 ## 视频表现列表（按播放量降序的 Top {data['video_count']} 个）
 {data['videos_text']}{recent_section}
-
+{subtitle_block}
 ## 分析要求
 这是一个【{fast_label}】频道。{"请重点分析其成功经验，提取可复制的方法论，包括内容策略、标题公式、封面风格、发布节奏等。" if is_fast else "请分析其运营特点和可借鉴之处。"}
 {"请对比Top视频和最新视频，判断频道是在延续爆款路线还是尝试新方向。" if recent_videos_text else ""}

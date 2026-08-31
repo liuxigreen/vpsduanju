@@ -17,6 +17,26 @@ POOL_DIR = ROOT / "data" / "subtitle_analysis"
 _CACHE = {"loaded": False, "by_channel": defaultdict(list), "rows": []}
 
 
+def injection_enabled() -> bool:
+    """总开关: config/settings.yaml → subtitle_injection.enabled（默认关）。"""
+    try:
+        import yaml
+        cfg = yaml.safe_load(open(ROOT / "config/settings.yaml", encoding="utf-8")) or {}
+        return bool((cfg.get("subtitle_injection") or {}).get("enabled", False))
+    except Exception:
+        return False
+
+
+def cn_to_code(lang_cn: str) -> str:
+    """语种中文名 → lang_code（映射表在 config/lang_map.yaml，零硬编码）。"""
+    try:
+        import yaml
+        m = yaml.safe_load(open(ROOT / "config/lang_map.yaml", encoding="utf-8")) or {}
+        return (m.get("cn_to_code") or {}).get((lang_cn or "").strip(), "")
+    except Exception:
+        return ""
+
+
 def _load():
     if _CACHE["loaded"]:
         return

@@ -1,0 +1,11 @@
+# 语种中文名 → lang_code 映射（竞品数据 language 字段 → 字幕分析 lang_code）
+# 消费方: scripts/subtitle_evidence.py (注入块按 code 索引)
+cn_to_code:
+  日语: ja
+  印尼语: id
+  英语: en
+  西班牙语: es
+  葡萄牙语: pt
+  土耳其语: tr
+  繁体中文: zh-Hant
+  中文: zh-Hant
