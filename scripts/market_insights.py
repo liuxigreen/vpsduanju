@@ -265,8 +265,12 @@ def build_prompt(data: dict) -> str:
             _b = _se.market_subtitle_block(_code) if _code else ""
             if _b:
                 subtitle_block = _b + "\n\n"
-    except Exception:
-        pass
+            else:
+                print(f"[subtitle_injection] {data['language']}({_code}) 无字幕数据，降级为纯数据分析")
+        else:
+            print("[subtitle_injection] 开关关闭（config/settings.yaml subtitle_injection.enabled）")
+    except Exception as e:
+        print(f"[subtitle_injection] 注入失败: {e}（降级为纯数据）")
 
     return f"""你是YouTube短剧市场分析师。以下是{data['language']}市场中{data['channel_count']}个竞品频道的深度分析数据。
 其中「题材动量榜」和每个频道的「📈动量/周订阅涨速」是近30天实时计算的数据，「均播」是历史快照数据。

@@ -7,14 +7,30 @@
     block = channel_subtitle_block("恋愛短編ドラマ", "日语")   # 单频道prompt注入
     block = market_subtitle_block("ja")                        # 市场洞察prompt注入
 """
-import json, re, glob, os, statistics
+import json, re, glob, os, statistics, time
 from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 POOL_DIR = ROOT / "data" / "subtitle_analysis"
 
-_CACHE = {"loaded": False, "by_channel": defaultdict(list), "rows": []}
+_CACHE = {"loaded": False, "by_channel": defaultdict(list), "rows": [], "mtime": 0, "last_checked": 0.0}
+
+
+def _cache_stale() -> bool:
+    """检查 normalized 文件是否有更新（每 10 秒最多一次 stat）。"""
+    now = time.time()
+    if now - _CACHE["last_checked"] < 10:
+        return False
+    _CACHE["last_checked"] = now
+    files = sorted(glob.glob(str(POOL_DIR / "*_normalized.jsonl")))
+    if not files:
+        return False
+    latest_mtime = max(os.path.getmtime(f) for f in files)
+    if latest_mtime > _CACHE["mtime"]:
+        _CACHE["mtime"] = latest_mtime
+        return True
+    return False
 
 
 def injection_enabled() -> bool:
@@ -23,8 +39,15 @@ def injection_enabled() -> bool:
         import yaml
         cfg = yaml.safe_load(open(ROOT / "config/settings.yaml", encoding="utf-8")) or {}
         return bool((cfg.get("subtitle_injection") or {}).get("enabled", False))
-    except Exception:
+    except Exception as e:
+        _log(f"[subtitle_evidence] injection_enabled 读取配置失败: {e}（视为关闭）")
         return False
+
+
+def _log(msg: str):
+    """轻量日志：stderr 输出（避免引入 logger 依赖）。"""
+    import sys
+    print(msg, file=sys.stderr, flush=True)
 
 
 def cn_to_code(lang_cn: str) -> str:
@@ -38,8 +61,10 @@ def cn_to_code(lang_cn: str) -> str:
 
 
 def _load():
-    if _CACHE["loaded"]:
+    if _CACHE["loaded"] and not _cache_stale():
         return
+    _CACHE["rows"] = []
+    _CACHE["by_channel"] = defaultdict(list)
     files = sorted(glob.glob(str(POOL_DIR / "*_normalized.jsonl")))
     # 兼容: 聚合脚本还没产出normalized时直接读原始回传
     if not files:
@@ -82,6 +107,11 @@ def channel_subtitle_block(channel_name: str, lang_cn: str = "", max_lines: int 
             if re.sub(r"\s+", "", k).lower() == key:
                 rows = v
                 break
+    # 语种过滤：同名频道跨语种时避免错配（lang_cn 非空才过滤）
+    if rows and lang_cn:
+        lc = cn_to_code(lang_cn)
+        if lc:
+            rows = [d for d in rows if d.get("lang_code") == lc or d.get("language") == lang_cn]
     if not rows:
         return ""
 
@@ -115,6 +145,8 @@ def channel_subtitle_block(channel_name: str, lang_cn: str = "", max_lines: int 
     med_v = statistics.median(views_list) if views_list else 0
     hot = [d for d in rows if d.get("views", 0) >= med_v * 2]
     norm = [d for d in rows if d.get("views", 0) < med_v * 2]
+    # 最小样本守卫：两组各 ≥5 条才输出对照，否则只给整体分布
+    has_group_contrast = len(hot) >= 5 and len(norm) >= 5
 
     def _profile(subset):
         if not subset:
@@ -137,10 +169,11 @@ def channel_subtitle_block(channel_name: str, lang_cn: str = "", max_lines: int 
         f"- Payoff: {'; '.join(f'{g}×{c}' for g, c in pay.most_common(6))}",
         f"- 结构: 翻译剧率 {_pct(translated, n)} | 合辑率 {_pct(comp, n)} | 结尾悬念率 {_pct(cliff, n)}"
         f" | 中位时长 {dur_min}min | 反转密度中位 {_med(revs)}/10min",
-        f"- 爆款组(n={len(hot)}, ≥2×中位播放): {_profile(hot)}",
-        f"- 普通组(n={len(norm)}): {_profile(norm)}",
-        "- 分析要求: 用以上实证校正你从标题得出的判断；冲突时以字幕实证为准并明确指出（如'标题主打X但内容实为Y'）",
     ]
+    if has_group_contrast:
+        lines.append(f"- 爆款组(n={len(hot)}, ≥2×中位播放): {_profile(hot)}")
+        lines.append(f"- 普通组(n={len(norm)}): {_profile(norm)}")
+    lines.append("- 分析要求: 用以上实证校正你从标题得出的判断；冲突时以字幕实证为准并明确指出（如'标题主打X但内容实为Y'）")
     return "\n".join(lines[:max_lines])
 
 
@@ -151,11 +184,18 @@ def market_subtitle_block(lang_code: str) -> str:
         return ""
     rep = json.loads(fp.read_text())
     ls = (rep.get("lang_stats") or {}).get(lang_code)
+    if ls is None:
+        # 兼容: lang_stats 键是中文名（新聚合产出）
+        for k, v in (rep.get("lang_stats") or {}).items():
+            if cn_to_code(k) == lang_code:
+                ls = v
+                break
     if not ls:
         return ""
     # 该语种 payoff/l2 由 rows 现算（report里只有全局）
     _load()
-    rows = [d for d in _CACHE["rows"] if d.get("lang_code") == lang_code]
+    rows = [d for d in _CACHE["rows"]
+            if d.get("lang_code") == lang_code or cn_to_code(d.get("language", "")) == lang_code]
     pay, l2, hooks = Counter(), Counter(), Counter()
     for d in rows:
         for p in d["analysis"].get("payoffs", []):

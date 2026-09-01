@@ -242,8 +242,12 @@ def build_prompt(data: dict) -> str:
             _b = _se.channel_subtitle_block(data["name"], data["language"])
             if _b:
                 subtitle_block = "\n" + _b + "\n"
-    except Exception:
-        pass
+            else:
+                print(f"[subtitle_injection] 频道 {data['name']}({data['language']}) 无字幕数据，降级为纯标题分析")
+        else:
+            print("[subtitle_injection] 开关关闭（config/settings.yaml subtitle_injection.enabled）")
+    except Exception as e:
+        print(f"[subtitle_injection] 注入失败: {e}（降级为纯标题分析）")
 
     return f"""你是YouTube短剧市场深度分析师，擅长从原始数据中提取可落地的运营策略。
 
