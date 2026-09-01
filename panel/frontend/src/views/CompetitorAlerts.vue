@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div class="tabs" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+    <div class="tabs" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
       <div class="tab" :class="{ active: view === 'alerts' }" @click="view = 'alerts'">🔔 爆款预警</div>
       <div class="tab" :class="{ active: view === 'ranking' }" @click="view = 'ranking'">🔥 24h 增量热榜</div>
+      <select v-model="langFilter" style="margin-left:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;padding:4px 8px;">
+        <option value="">全部语种</option>
+        <option v-for="l in langs" :key="l" :value="l">{{ l }}</option>
+      </select>
     </div>
 
     <!-- 数据状态条 -->
@@ -15,11 +19,11 @@
 
     <!-- 🔔 爆款预警 -->
     <div v-if="view === 'alerts'">
-      <div v-if="!alerts.length" class="empty-state">
+      <div v-if="!filteredAlerts.length" class="empty-state">
         <div class="icon">🔔</div>
-        <div>{{ data && data.history_days < 2 ? '首日基线建立中 — 预警从明天开始（需要≥2天历史算24h增量）' : '暂无预警' }}</div>
+        <div>{{ data && data.history_days < 2 ? '首日基线建立中 — 预警从明天开始（需要≥2天历史算24h增量）' : (langFilter ? '该语种暂无预警' : '暂无预警') }}</div>
       </div>
-      <div v-for="a in alerts" :key="a.video_id" class="alert-card" @click="openVideo(a)">
+      <div v-for="a in filteredAlerts" :key="a.video_id" class="alert-card" @click="openVideo(a)">
         <div style="display:flex;gap:8px;align-items:flex-start;">
           <div style="font-size:18px;">{{ typeIcons(a) }}</div>
           <div style="flex:1;min-width:0;">
@@ -41,10 +45,6 @@
     <!-- 🔥 24h增量热榜 -->
     <div v-if="view === 'ranking'">
       <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
-        <select v-model="langFilter" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;padding:4px 8px;">
-          <option value="">全部语种</option>
-          <option v-for="l in langs" :key="l" :value="l">{{ l }}</option>
-        </select>
         <span style="font-size:10px;color:var(--text-dim);">按24h播放增量排序 — 比总量榜更能发现"正在爆"的视频</span>
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:11px;">
@@ -91,7 +91,13 @@ const langFilter = ref('')
 
 const alerts = computed(() => data.value?.alerts || [])
 const ranking = computed(() => data.value?.ranking || [])
-const langs = computed(() => [...new Set((data.value?.ranking || []).map(r => r.language).filter(Boolean))])
+const langs = computed(() => [...new Set([
+  ...alerts.value.map(a => a.language),
+  ...ranking.value.map(r => r.language),
+].filter(Boolean))])
+const filteredAlerts = computed(() =>
+  langFilter.value ? alerts.value.filter(a => a.language === langFilter.value) : alerts.value
+)
 const filteredRanking = computed(() =>
   langFilter.value ? ranking.value.filter(r => r.language === langFilter.value) : ranking.value
 )
