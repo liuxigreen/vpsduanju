@@ -1,0 +1,141 @@
+# L1 字幕校准层配置 — 题材两级词表 + 归一化映射
+# 开放抽取：LLM 可输出词表外新题材（标 emergent），归一化时再并入
+# 种子来源：distill_competitors.extract_content_tags 标签集 + GENRE_ALIAS + 审计结论
+
+# 一级题材 = 市场大盘（管进哪个池子：动量榜/知识图谱主节点）
+genre_l1:
+  - 霸总
+  - 豪门
+  - 爱情
+  - 甜宠
+  - 虐恋
+  - 复仇
+  - 离婚
+  - 背叛
+  - 秘密身份
+  - 灰姑娘
+  - 萌宝
+  - 怀孕
+  - 双胞胎
+  - 领养
+  - 孤儿
+  - 弃养
+  - 军婚
+  - 黑帮
+  - 狼人
+  - 吸血鬼
+  - 玄幻
+  - 穿越
+  - 重生
+  - 战神
+  - 逆袭
+  - 古装
+  - 宫廷
+  - 喜剧
+  - 动作
+  - 悬疑
+
+# 二级题材 = 钩子级细分（管差异化：选题/蓝海识别）
+genre_l2:
+  - 契约婚姻
+  - 先婚后爱
+  - 闪婚
+  - 替嫁
+  - 真假千金
+  - 追妻火葬场
+  - 破镜重圆
+  - 身份揭露
+  - 隐藏大佬
+  - 赘婿
+  - 神医
+  - 保镖
+  - 千金归来
+  - 带球跑
+  - 豪门争产
+  - 复仇打脸
+  - 重生改命
+  - 系统降临
+  - 异能觉醒
+  - 家族救赎
+  - 亲子悬念
+  - 被迫共处
+  - 幼年守护者
+
+# 归一化：LLM 输出/标题法标签 → 标准词（跨语种别名）
+alias:
+  CEO: 霸总
+  ceolovestory: 霸总
+  Boss: 霸总
+  总裁: 霸总
+  Billionaire: 豪门
+  Rich: 豪门
+  富有: 豪门
+  Cinderella: 灰姑娘
+  cinderela: 灰姑娘
+  Romance: 爱情
+  amor: 爱情
+  aşk: 爱情
+  浪漫爱情: 爱情
+  dulce: 甜宠
+  sweet: 甜宠
+  ação: 动作
+  假身份: 秘密身份
+  隐藏身份: 秘密身份
+  秘密: 秘密身份
+  Revenge: 复仇
+  intikam: 复仇
+  복수: 复仇
+  復讐: 复仇
+  Contract: 契约婚姻
+  계약: 契约婚姻
+  결혼: 契约婚姻
+  契約結婚: 契约婚姻
+  Pregnant: 怀孕
+  hamile: 怀孕
+  임신: 怀孕
+  妊娠: 怀孕
+  Divorce: 离婚
+  boşanma: 离婚
+  이혼: 离婚
+  離婚: 离婚
+  Twins: 双胞胎
+  Werewolf: 狼人
+  Mafia: 黑帮
+  Baby: 萌宝
+  아기: 萌宝
+  Betrayed: 背叛
+  불륜: 背叛
+  裏切り: 背叛
+  Abandoned: 弃养
+  Adopted: 领养
+  Orphan: 孤儿
+  Military: 军婚
+
+# 非题材词（进 NON_GENRE 黑名单，不参与校准）
+non_genre:
+  - 剧情
+  - 短剧
+  - 爱情剧
+  - film cina
+  - Sinetron pendek
+  - Web drama
+  - Gado-Gado Clips
+  - filme completo
+  - 中文短剧
+  - 女频
+  - 男频
+  - 短剧推荐
+
+# 频道语种(面板中文) → 字幕优先语言代码 + 抽样配额
+# layer_b_max：B层每语种封顶条数（30%抽完也不超过它，控制每轮总量）
+languages:
+  印尼:   {sub_langs: ["id"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  英文:   {sub_langs: ["en"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  繁中:   {sub_langs: ["zh-TW","zh"], layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  西语:   {sub_langs: ["es"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  土耳其: {sub_langs: ["tr"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  日语:   {sub_langs: ["ja"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  葡萄牙: {sub_langs: ["pt"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  韩语:   {sub_langs: ["ko"],        layer_a: 30, layer_b_ratio: 0.3, layer_b_max: 30}
+  德语:   {sub_langs: ["de"],        layer_a: 10, layer_b_ratio: 0.3, layer_b_max: 10}
+  泰语:   {sub_langs: ["th"],        layer_a: 10, layer_b_ratio: 0.3, layer_b_max: 10}
