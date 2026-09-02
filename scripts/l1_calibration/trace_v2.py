@@ -28,6 +28,100 @@ import yaml
 TRACE_DIR = ROOT / "data" / "drama_trace_v2"
 SURNAME_PATH = Path(__file__).resolve().parent / "cn_surname.yaml"
 
+# ── 层4: 中文搜索引擎验证（百度主/搜狗备，DDG 兜底；零 key 依赖）──
+_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+_CN_DRAMA_MARKS = re.compile(r"短剧|紅果|红果|抖音|百度百科|豆瓣|快手|番茄|主演|全集|微剧|剧情")
+_SESSION = None
+
+
+def _sess():
+    global _SESSION
+    if _SESSION is None:
+        import requests
+        _SESSION = requests.Session()
+        _SESSION.headers.update({
+            "User-Agent": _UA,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+        })
+    return _SESSION
+
+
+def _extract_h3(html):
+    out = []
+    for x in re.findall(r"<h3[^>]*>(.*?)</h3>", html, re.S):
+        t = re.sub(r"<[^>]+>", "", x)
+        t = t.replace("&quot;", '"').replace("&amp;", "&").strip()
+        if t:
+            out.append(t)
+    return out[:6]
+
+
+_BAIDU_LAST_CALL = [0.0]
+
+
+def _baidu_titles(q, timeout=15):
+    import time
+    import requests
+    # 百度对同 IP 高频敏感：每次新建会话（复用 cookie 会被降级壳页）+ ≥8s 间隔
+    wait = _BAIDU_LAST_CALL[0] + 8.0 - time.time()
+    if wait > 0:
+        time.sleep(wait)
+    _BAIDU_LAST_CALL[0] = time.time()
+    s = requests.Session()
+    s.headers.update({"User-Agent": _UA,
+                      "Accept-Language": "zh-CN,zh;q=0.9"})
+    r = s.get("https://www.baidu.com/s", params={"wd": q, "ie": "utf-8"}, timeout=timeout)
+    r.encoding = "utf-8"  # 响应头无 charset，默认 latin-1 会把验证码页解码成乱码漏检
+    # 验证码/降级壳页约 1.5KB，正常结果页 >500KB
+    if r.status_code != 200 or len(r.text) < 50000 or "安全验证" in r.text or "wappass" in r.text:
+        return None  # 反爬/验证码 → 不可判
+    return _extract_h3(r.text)
+
+
+_DDG_LAST_CALL = [0.0]
+
+
+def _ddg_titles(q, timeout=15):
+    import time
+    import requests
+    # 连续请求会触发 202 反爬，强制 ≥3s 间隔
+    wait = _DDG_LAST_CALL[0] + 3.0 - time.time()
+    if wait > 0:
+        time.sleep(wait)
+    _DDG_LAST_CALL[0] = time.time()
+    r = requests.get("https://html.duckduckgo.com/html/", params={"q": q},
+                     headers={"User-Agent": _UA}, timeout=timeout)
+    if r.status_code != 200:
+        return None
+    raw = re.findall(r'class="result__a"[^>]*>(.*?)</a>', r.text)
+    return [re.sub(r"<[^>]+>", "", t).strip() for t in raw][:6]
+
+
+def cn_verify(cn_title, timeout=15):
+    """验证候选中文剧名是否真实存在。百度主查、DDG 兜底。
+    判定：结果标题同时含剧名前缀 + 短剧特征标记 → verified。
+    引擎反爬/网络失败 → verified=None（不可判，不误伤）。"""
+    import time
+    q = f'"{cn_title}" 短剧'
+    titles = _baidu_titles(q, timeout)
+    engine = "baidu"
+    if titles is None:
+        time.sleep(2)
+        titles = _ddg_titles(q, timeout)
+        engine = "ddg"
+    if titles is None:
+        return {"verified": None, "error": "all engines blocked"}
+    pref = cn_title[:4] if len(cn_title) >= 4 else cn_title
+    hits = [t for t in titles if _CN_DRAMA_MARKS.search(t) and pref in t]
+    return {"verified": len(hits) > 0, "engine": engine,
+            "n_hits": len(hits), "top_titles": titles[:4]}
+
+
+# 兼容旧名
+ddg_verify = cn_verify
+
 # 剧情结构指纹标记（synopsis 特征词 → 结构位）
 STRUCT_MARKS = {
     "has_marriage": ["婚", "嫁", "结婚"],
@@ -83,6 +177,25 @@ def load_rows():
                     "origin_signals": a.get("origin_signals", {}),
                     "analysis": a,
                 })
+    # schema 适配：P0 回传无 synopsis/characters 字段，内容证据在
+    # opening_hook/key_reveals/payoffs/origin_signals.reason 里，拼成 content_text
+    for d in rows:
+        if not d.get("synopsis"):
+            a = d.get("analysis") or {}
+            parts = [a.get("opening_hook") or ""]
+            parts += [str(x) for x in (a.get("key_reveals") or [])]
+            parts += [str(x) for x in (a.get("payoffs") or [])]
+            parts += [str(x) for x in (a.get("distinctive_lines") or [])]
+            d["synopsis"] = "。".join(p for p in parts if p)
+        if not d.get("characters"):
+            a = d.get("analysis") or {}
+            d["_surname_text"] = " ".join([
+                str(a.get("opening_hook") or ""),
+                " ".join(str(x) for x in (a.get("key_reveals") or [])),
+                str((a.get("origin_signals") or {}).get("reason") or ""),
+                " ".join(str(c) if isinstance(c, str) else c.get("name", "")
+                         for c in (d.get("characters") or [])),
+            ])
     return rows
 
 
@@ -157,8 +270,11 @@ def trace_one(d, rows):
         return result
 
     # 层2: 华裔姓氏 + 角色名 → 中文信号
-    chars = " ".join(c.get("name", "") for c in (d.get("characters") or []))
-    surnames = extract_surnames(rows, chars)
+    chars = " ".join(c.get("name", "") if isinstance(c, dict) else str(c)
+                     for c in (d.get("characters") or []))
+    # P0 schema 无 characters 字段时用内容文本兜底（含音译残留）
+    surname_text = d.get("_surname_text") or chars
+    surnames = extract_surnames(rows, surname_text)
     result["surname_hits"] = surnames
     result["cn_surname"] = list({h["cn"] for h in surnames})[:3]
 
@@ -211,11 +327,21 @@ def trace_one(d, rows):
         return result
     if parsed:
         cands = parsed.get("candidates") or []
+        # 层4: DDG 联网验证每个候选（剧名真实存在 = verified）
+        for c in cands[:3]:
+            t = (c.get("cn_title") or "").strip("《》")
+            if t:
+                c["ddg"] = ddg_verify(t)
+        # 重排：验证通过的优先，其次按置信度
+        cands.sort(key=lambda c: (
+            -(1 if (c.get("ddg") or {}).get("verified") else 0),
+            -(c.get("confidence") or 0)))
         if cands:
             best = cands[0]
             result["cn_title_guess"] = best.get("cn_title")
             result["confidence"] = best.get("confidence")
             result["guess_reason"] = best.get("match_evidence", "")
+            result["ddg_verified"] = (best.get("ddg") or {}).get("verified")
             result["candidates"] = cands[:3]
         else:
             result["cn_title_guess"] = None
