@@ -56,6 +56,8 @@ DATA_PATHS = {
     "competitor_static":  ROOT / "data" / "competitors_50channels.json",
     "competitor_tiers":   ROOT / "data" / "competitor_tiers.json",
     "knowledge_graph":    ROOT / "data" / "knowledge_graph.json",
+    "subtitle_library_index":   ROOT / "data" / "subtitle_analysis" / "library_index.json",
+    "subtitle_library_details": ROOT / "data" / "subtitle_analysis" / "library_details.json",
     "alerts_latest":      ROOT / "data" / "alerts_latest.json",
     "video_views_history": ROOT / "data" / "video_views_history",
     # 快照（P3-10: 修正路径，与 channel_weekly_snapshot.py 的 SNAPSHOT_DIR 一致）
@@ -865,6 +867,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self._api_competitor_channels()
             if p.path == "/api/knowledge-graph":
                 return self._api_knowledge_graph()
+            if p.path == "/api/subtitle-library":
+                return self._api_subtitle_library()
+            if p.path == "/api/subtitle-detail":
+                return self._api_subtitle_detail()
             if p.path == "/api/blue-ocean":
                 return self._api_blue_ocean()
             if p.path == "/api/competitor-alerts":
@@ -2094,6 +2100,65 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as e:
             log.error(f"competitor_alerts read error: {e}\n{traceback.format_exc()}")
             return _json(self, {"error": str(e)}, status=500)
+
+    def _api_subtitle_library(self):
+        """内容库：字幕实证视频过滤分页列表（走 build_subtitle_library.py 的索引，~2MB 常驻）"""
+        qs = parse_qs(urlparse(self.path).query)
+        def q(k, default=""):
+            return (qs.get(k) or [default])[0]
+        try:
+            items = cached_json_read(DATA_PATHS["subtitle_library_index"])
+        except Exception as e:
+            log.error(f"subtitle_library read error: {e}")
+            return _json(self, {"error": str(e), "items": [], "total": 0})
+        items = items or []
+        lang, genre, hook, tier = q("lang"), q("genre"), q("hook"), q("tier")
+        trans, query = q("trans"), q("q").strip().lower()
+        try:
+            min_views = int(q("min_views", "0") or 0)
+        except ValueError:
+            min_views = 0
+        if lang:
+            items = [x for x in items if x.get("lang_code") == lang or x.get("language") == lang]
+        if genre:
+            items = [x for x in items if genre in (x.get("l1") or [])]
+        if hook:
+            items = [x for x in items if x.get("hook") == hook]
+        if tier:
+            items = [x for x in items if x.get("tier") == tier]
+        if trans == "1":
+            items = [x for x in items if x.get("translated")]
+        elif trans == "0":
+            items = [x for x in items if not x.get("translated")]
+        if min_views:
+            items = [x for x in items if (x.get("views") or 0) >= min_views]
+        if query:
+            items = [x for x in items if query in (x.get("title") or "").lower()
+                     or query in (x.get("channel") or "").lower()]
+        total = len(items)
+        try:
+            page = max(1, int(q("page", "1") or 1))
+            page_size = min(100, max(1, int(q("page_size", "50") or 50)))
+        except ValueError:
+            page, page_size = 1, 50
+        seg = items[(page - 1) * page_size: (page - 1) * page_size + page_size]
+        return _json(self, {"total": total, "page": page, "page_size": page_size, "items": seg})
+
+    def _api_subtitle_detail(self):
+        """单条字幕实证详情（走 library_details.json，~9MB 常驻缓存，按 video_id 查）"""
+        qs = parse_qs(urlparse(self.path).query)
+        vid = (qs.get("id") or [""])[0]
+        if not vid:
+            return _json(self, {"error": "missing id"}, status=400)
+        try:
+            details = cached_json_read(DATA_PATHS["subtitle_library_details"])
+            d = (details or {}).get(vid)
+        except Exception as e:
+            log.error(f"subtitle_detail read error: {e}")
+            return _json(self, {"error": str(e)}, status=500)
+        if not d:
+            return _json(self, {"error": "not found"}, status=404)
+        return _json(self, d)
 
     def _api_knowledge_graph(self):
         """竞品业务知识图谱（题材×语种×频道×钩子），读 competitor_knowledge_graph.py 产物"""
