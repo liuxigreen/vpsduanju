@@ -28,28 +28,52 @@ os.makedirs(OUT, exist_ok=True)
 
 SCHEMA_VERSION = "2.0"
 
-# ── 归一化（统一到 genre_vocab 单一来源）──
-VOCAB_PATH = ROOT / "scripts/l1_calibration/genre_vocab.yaml"
-_vocab = None
+# ── 归一化（统一到 genre_vocab_map v1.2 单一来源，与图谱v2/注入/市场洞察同规则）──
+# 旧 genre_vocab.yaml 仅保留 alias/non_genre 作为兼容层；规则主体走 vocab_map 的
+# l1_rules(contains) + channel_tag_to_l1(精确) + t2s + drop。
+VOCAB_MAP_PATH = ROOT / "data/subtitle_analysis/genre_vocab_map.json"
+LEGACY_YAML_PATH = ROOT / "scripts/l1_calibration/genre_vocab.yaml"
+_VN = None
 
-def _get_vocab():
-    global _vocab
-    if _vocab is None:
-        _vocab = yaml.safe_load(VOCAB_PATH.read_text(encoding="utf-8"))
-    return _vocab
+def _get_normalizer():
+    global _VN
+    if _VN is not None:
+        return _VN
+    v = json.load(open(VOCAB_MAP_PATH, encoding="utf-8"))
+    assert v.get("l1_rules"), "genre_vocab_map.json 缺 l1_rules"
+    rules = [(r["pattern"], r["target"]) for r in v["l1_rules"]]
+    tag2l1 = v.get("channel_tag_to_l1", {})
+    drop = set(v.get("drop", []))
+    try:
+        y = yaml.safe_load(open(LEGACY_YAML_PATH, encoding="utf-8")) or {}
+        alias = y.get("alias", {})
+        drop |= {x for x in (y.get("non_genre") or []) if x}
+    except Exception:
+        alias = {}
+    t2s = str.maketrans(v.get("t2s", {}))
+
+    def norm(label):
+        s = (label or "").strip()
+        if not s:
+            return None
+        if s in drop:
+            return None
+        if s in tag2l1:
+            return tag2l1[s]
+        s = alias.get(s, s)
+        s = s.translate(t2s)
+        if s in tag2l1:
+            return tag2l1[s]
+        for pat, tgt in rules:
+            if pat in s:
+                return tgt
+        return s  # 未命中：原样保留，交长尾治理评审
+    _VN = norm
+    return _VN
 
 def norm_genre(label):
-    """别名归一化；非题材词返回 None。"""
-    if not label:
-        return None
-    s = label.strip()
-    v = _get_vocab()
-    alias = v.get("alias", {})
-    s = alias.get(s, alias.get(s.lower(), s))
-    ns = v.get("non_genre", [])
-    if s in ns or s.lower() in [x.lower() for x in ns]:
-        return None
-    return s
+    """题材归一化（genre_vocab_map 单一来源）；非题材词返回 None。"""
+    return _get_normalizer()(label)
 
 # ── 合辑双信号：标题正则 OR 时长>2h（1-2h多为多集连剪正片，不算合集 2026-09-03）──
 COMP_PAT = re.compile(

@@ -94,6 +94,17 @@
           </div>
         </div>
       </div>
+      <!-- 词表健康 -->
+      <div class="card" v-if="vocab" style="grid-column:2 / 3;">
+        <h3 style="margin:0 0 4px;font-size:14px;">📖 词表健康 <span style="font-size:10px;color:var(--text-muted);">v{{ vocab.vocab_version }}</span></h3>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">归一化标签 {{ vocab.distinct_labels }} · 词表靶 {{ vocab.vocab_targets }} · 覆盖 <b style="color:#2ecc71;">{{ Math.round((vocab.known_share || 0) * 100) }}%</b> · 长尾 {{ vocab.longtail_count }} 个({{ vocab.longtail_rows }}条)</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">待评审标签（出现≥3次，词表未覆盖）</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <span v-for="p in (vocab.pending || [])" :key="p.label"
+                :title="'出现 ' + p.n + ' 条 · 样例: ' + p.sample" style="font-size:10.5px;background:rgba(243,156,18,0.1);color:#f39c12;padding:2px 8px;border-radius:4px;">{{ p.label }} ×{{ p.n }}</span>
+          <span v-if="!(vocab.pending || []).length" style="font-size:10.5px;color:#2ecc71;">✅ 词表全覆盖</span>
+        </div>
+      </div>
     </div>
 
     <!-- 题材详情弹层 -->
@@ -210,6 +221,7 @@ async function load() {
     const d = await api('/knowledge-graph')
     if (d.error) { error.value = d.error; graph.value = null }
     else graph.value = d
+    api('/vocab-governance').then(v => { vocab.value = v && !v.error ? v : null }).catch(() => {})
   } catch (e) {
     error.value = '加载失败: ' + (e.message || e)
   } finally {
@@ -238,6 +250,8 @@ const hookRows = computed(() => {
     .sort((a, b) => b.n - a.n)
 })
 const hookMaxMedian = computed(() => Math.max(1, ...hookRows.value.map(h => h.median)))
+const vocab = ref(null)
+
 
 // 每行的题材统计(含avg/channels) + 矩阵行
 const rankByGenre = computed(() => {

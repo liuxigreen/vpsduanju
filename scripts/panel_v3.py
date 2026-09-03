@@ -867,6 +867,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._api_competitor_channels()
             if p.path == "/api/knowledge-graph":
                 return self._api_knowledge_graph()
+            if p.path == "/api/vocab-governance":
+                return self._api_vocab_governance()
             if p.path == "/api/subtitle-library":
                 return self._api_subtitle_library()
             if p.path == "/api/subtitle-detail":
@@ -2137,6 +2139,16 @@ class Handler(BaseHTTPRequestHandler):
             return _json(self, out)
         except Exception as e:
             log.error(f"competitor_alerts read error: {e}\n{traceback.format_exc()}")
+            return _json(self, {"error": str(e)}, status=500)
+
+    def _api_vocab_governance(self):
+        """词表健康（vocab_governance.py 产物）：归一化覆盖率/长尾/待评审标签"""
+        fp = ROOT / "data" / "vocab_governance.json"
+        if not fp.exists():
+            return _json(self, {"error": "run scripts/vocab_governance.py"}, status=404)
+        try:
+            return _json(self, cached_json_read(fp))
+        except Exception as e:
             return _json(self, {"error": str(e)}, status=500)
 
     def _api_subtitle_library(self):
