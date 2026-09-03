@@ -74,8 +74,8 @@
     </div>
 
     <!-- 题材详情弹层 -->
-    <div v-if="selected" class="modal-mask" @click.self="selected = null">
-      <div class="modal" style="max-width:720px;">
+    <div v-if="selected" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:1000;overflow-y:auto;padding:20px;" @click.self="selected = null">
+      <div style="background:var(--bg-card,#16213e);border:1px solid var(--border,#2a2a4a);border-radius:12px;max-width:720px;margin:40px auto;padding:20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
           <h3 style="margin:0;font-size:15px;">🎭 {{ selected.genre }} · {{ selected.channels }} 个频道</h3>
           <button class="btn btn-sm" @click="selected = null">✕</button>
@@ -116,7 +116,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { api } from '../api/index.js'
 
@@ -200,4 +200,7 @@ onMounted(async () => {
   // 深链接：蓝海雷达点击跳转 /knowledge-graph?genre=xx → 自动打开该题材详情
   if (route.query.genre) selectGenre(String(route.query.genre))
 })
+
+// 已在图谱页时再次从蓝海跳转（同组件复用，onMounted不再触发）
+watch(() => route.query.genre, (g) => { if (g) selectGenre(String(g)) })
 </script>
