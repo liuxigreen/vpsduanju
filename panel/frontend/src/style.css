@@ -470,14 +470,14 @@ textarea { min-height: 120px; resize: vertical; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
-/* ═══ Vue Transition 动画 ═══ */
-.fade-enter-active { animation: fadeIn 0.25s ease-out; }
-.fade-leave-active { animation: fadeIn 0.15s ease-in reverse; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ═══ Vue Transition 动画 ═══
+   用状态驱动 transition 替代 keyframes 动画：后台节流下 animationend 事件丢失时
+   keyframes 会冻结在半透明帧（首载发暗、行点击不稳定的根因）；
+   transition 的 from 态只在 .fade-enter-from 存在期间生效，事件丢失也能回到自然态。 */
+.fade-enter-active { transition: opacity 0.25s ease-out, transform 0.25s ease-out; }
+.fade-leave-active { transition: opacity 0.15s ease-in, transform 0.15s ease-in; }
+.fade-enter-from { opacity: 0; transform: translateY(8px); }
+.fade-leave-to { opacity: 0; transform: translateY(8px); }
 
 /* 骨架屏 */
 .skeleton {
