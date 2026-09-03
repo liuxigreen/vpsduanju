@@ -2094,6 +2094,26 @@ class Handler(BaseHTTPRequestHandler):
                 deltas.sort(key=lambda x: -x["delta_24h"])
                 ranking = deltas[:300]
             out = dict(alerts_data)
+            # 预警卡增强：字幕实证 chips（该视频的内容级标签）+ 近14天播放 sparkline
+            try:
+                lib_rows = cached_json_read(DATA_PATHS["subtitle_library_index"]) or []
+                lib = {x.get("video_id"): x for x in lib_rows if x.get("video_id")}
+            except Exception:
+                lib = {}
+            days_snaps = []
+            for f_ in files[-14:]:
+                try:
+                    days_snaps.append(json.loads(f_.read_text()))
+                except Exception:
+                    pass
+            for a_ in out.get("alerts") or []:
+                vid = a_.get("video_id")
+                sub = lib.get(vid)
+                if sub:
+                    a_["subtitle"] = {"l1": (sub.get("l1") or [])[:2], "hook": sub.get("hook"),
+                                      "translated": sub.get("translated")}
+                if vid:
+                    a_["spark"] = [snap.get(vid) for snap in days_snaps]
             out["ranking"] = ranking
             out["ranking_date"] = files[-1].stem if files else None
             return _json(self, out)

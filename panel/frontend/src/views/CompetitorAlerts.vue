@@ -31,10 +31,20 @@
             <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">
               {{ a.channel }} · {{ a.language }} · {{ a.age_days }}天前发布
             </div>
-            <div style="display:flex;gap:12px;margin-top:5px;font-size:11px;flex-wrap:wrap;">
+            <div style="display:flex;gap:12px;margin-top:5px;font-size:11px;flex-wrap:wrap;align-items:center;">
               <span style="color:#e67e22;font-weight:bold;">+{{ fmt(a.delta_24h) }} <span style="font-size:9px;">24h增量</span></span>
               <span style="color:var(--text-muted);">总 {{ fmt(a.views) }}</span>
               <span v-if="a.baseline_daily" style="color:var(--text-dim);">基线 {{ fmt(a.baseline_daily) }}/天</span>
+              <span v-if="a.spark && a.spark.some(v => v != null)" style="display:inline-flex;gap:1px;align-items:flex-end;height:16px;" title="近14天播放走势">
+                <span v-for="(v, i) in a.spark" :key="i" style="width:3px;background:#4ecdc4;border-radius:1px;"
+                      :style="{ height: (v == null ? 1 : Math.max(2, Math.round(v / Math.max(...a.spark.filter(x => x != null), 1) * 16))) + 'px', opacity: v == null ? 0.2 : (i === a.spark.length - 1 ? 1 : 0.45) }"></span>
+              </span>
+            </div>
+            <div v-if="a.subtitle" style="display:flex;gap:5px;margin-top:5px;font-size:10px;flex-wrap:wrap;align-items:center;">
+              <span style="font-size:9px;color:var(--text-dim);">字幕实证:</span>
+              <span v-for="g in (a.subtitle.l1 || [])" :key="g" style="background:rgba(52,152,219,0.12);color:#3498db;padding:0 6px;border-radius:3px;">{{ g }}</span>
+              <span v-if="a.subtitle.hook" style="background:rgba(230,126,34,0.12);color:#e67e22;padding:0 6px;border-radius:3px;">🪝 {{ a.subtitle.hook }}</span>
+              <span v-if="a.subtitle.translated" style="color:var(--text-dim);">翻译剧</span>
             </div>
           </div>
           <div style="font-size:9px;color:var(--text-dim);white-space:nowrap;">▶ YouTube</div>

@@ -147,6 +147,7 @@ def build(out_file: Path = OUT_FILE):
     # ---- 字幕层 genre / hook / language 统计 ----
     g_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(),
                                   "hooks": Counter(), "mainlines": Counter(), "vids": [],
+                                  "hook_views": defaultdict(list),
                                   "subs": defaultdict(lambda: {"n": 0, "views": []})})
     h_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(), "secs": []})
     l_stat = defaultdict(lambda: {"n": 0, "views": [], "trans": 0, "cliff": 0, "chs": set(), "genres": Counter()})
@@ -166,6 +167,7 @@ def build(out_file: Path = OUT_FILE):
                 s["subs"][l2g]["views"].append(r["views"])
             if r["hook"]:
                 s["hooks"][r["hook"]] += 1
+                s["hook_views"][r["hook"]].append(r["views"])
         if r["hook"]:
             hs = h_stat[r["hook"]]
             hs["n"] += 1
@@ -229,6 +231,10 @@ def build(out_file: Path = OUT_FILE):
             "subtitle_n": s["n"], "median_views": _med(s["views"]),
             "axis": axis_map.get(g, "母题"),
             "mainlines": dict(s["mainlines"].most_common()),
+            "hooks": [  # 题材×钩子交叉：该题材的实证视频用什么钩子开场、效果如何
+                {"name": h, "n": s["hooks"][h], "median_views": _med(s["hook_views"].get(h) or [])}
+                for h, _ in s["hooks"].most_common(6)
+            ],
             "subtypes": subtypes,
             "top_videos": [
                 {"title": v["title"][:80], "channel": v["channel"], "language": v["language"],

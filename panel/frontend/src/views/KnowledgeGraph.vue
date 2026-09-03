@@ -22,7 +22,7 @@
       <!-- 题材×语种 热力矩阵 -->
       <div class="card">
         <h3 style="margin:0 0 4px;font-size:14px;">🔥 题材 × 语种 热力矩阵</h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 悬停看中位播放/主线 · 点击行看详情</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 点题材名看详情 · 点格子看该题材×语种的视频列表</div>
         <div style="overflow-x:auto;">
           <table style="border-collapse:collapse;font-size:11px;min-width:100%;">
             <thead>
@@ -33,15 +33,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in matrixRows" :key="row.genre" @click="selectGenre(row.genre)"
-                  style="cursor:pointer;" @mouseenter="$event.currentTarget.style.background='var(--bg-elevated)'" @mouseleave="$event.currentTarget.style.background=''">
-                <td style="padding:4px 8px;position:sticky;left:0;background:inherit;font-weight:bold;white-space:nowrap;">
+              <tr v-for="row in matrixRows" :key="row.genre"
+                  @mouseenter="$event.currentTarget.style.background='var(--bg-elevated)'" @mouseleave="$event.currentTarget.style.background=''">
+                <td @click="selectGenre(row.genre)" style="padding:4px 8px;position:sticky;left:0;background:inherit;font-weight:bold;white-space:nowrap;cursor:pointer;" title="看题材详情">
                   {{ row.genre }}
                   <span v-if="row.rank.avg >= 5500 && row.rank.channels <= 60" style="font-size:9px;color:#3498db;margin-left:2px;" title="单频道效率高且玩家不多">🌊</span>
                   <span v-else-if="row.rank.channels >= 150" style="font-size:9px;color:#e74c3c;margin-left:2px;" title="频道数超150,竞争激烈">🔥</span>
                 </td>
                 <td v-for="l in matrixLangs" :key="l" style="padding:3px 6px;">
-                  <span v-if="cell(row.genre, l)" :style="cellStyle(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}${cell(row.genre,l)[2] ? ' · 主线' + cell(row.genre,l)[2] : ''}`">{{ cell(row.genre, l)[0] }}</span>
+                  <span v-if="cell(row.genre, l)" :style="[cellStyle(row.genre, l), { cursor: 'pointer' }]" @click.stop="gotoLibrary(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}${cell(row.genre,l)[2] ? ' · 主线' + cell(row.genre,l)[2] : ''} · 点击看视频列表`">{{ cell(row.genre, l)[0] }}</span>
                   <span v-else style="color:var(--text-dim);opacity:0.35;">·</span>
                 </td>
                 <td style="padding:4px 8px;color:#2ecc71;font-weight:bold;white-space:nowrap;">{{ fmt(row.rank.momentum_total) }}</td>
@@ -116,6 +116,27 @@
           <span style="color:var(--text-muted);font-size:10px;">内容主线</span>
           <span v-for="(n,k) in selected.mainlines" :key="k" :style="mainlineChip(k, n, selected.subtitle_n)">{{ k }} {{ Math.round(n / selected.subtitle_n * 100) }}%</span>
         </div>
+        <div v-if="(selected.hooks || []).length" style="margin:0 0 12px;">
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px;">开场钩子构成（该题材实证视频怎么开场 · 条长 = 该钩子中位播放）</div>
+          <div v-for="h in selected.hooks" :key="h.name" style="display:flex;align-items:center;gap:8px;margin-top:3px;">
+            <div style="width:70px;font-size:11px;flex-shrink:0;">{{ h.name }}</div>
+            <div style="flex:1;height:5px;background:var(--bg-elevated);border-radius:3px;">
+              <div :style="{ width: Math.max(h.median_views / ((selected.hooks[0].median_views) || 1) * 100, 3) + '%', height: '100%', borderRadius: '3px', background: 'linear-gradient(90deg,#8e44ad,#c39bd3)' }"></div>
+            </div>
+            <div style="width:130px;text-align:right;font-size:9.5px;color:var(--text-muted);flex-shrink:0;">{{ h.n }}条 · 中位 {{ fmt(h.median_views) }}</div>
+          </div>
+        </div>
+        <div v-if="(selected.subtypes || []).length" style="margin:0 0 12px;">
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px;">剧情模式链（L2 亚型 · 悬停看实证数与中位播放 · 点击进内容库）</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span v-for="st in selected.subtypes" :key="st.name" @click="gotoLibrary(selected.genre)"
+                  style="font-size:10.5px;background:rgba(46,204,113,0.1);color:#2ecc71;padding:2px 8px;border-radius:4px;cursor:pointer;"
+                  :title="'实证 ' + st.n + ' 条 · 中位播放 ' + fmt(st.median_views)">{{ st.name }} ×{{ st.n }}</span>
+          </div>
+        </div>
+        <div style="margin:0 0 12px;">
+          <router-link :to="{ path: '/library', query: { genre: selected.genre } }" style="font-size:11px;color:#3498db;">📚 查看全部 {{ selected.subtitle_n || 0 }} 条实证视频（内容库过滤视图）→</router-link>
+        </div>
         <table style="width:100%;border-collapse:collapse;font-size:12px;">
           <thead>
             <tr style="color:var(--text-muted);font-size:10px;">
@@ -164,10 +185,18 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api } from '../api/index.js'
 
 const route = useRoute()
+const router = useRouter()
+
+// 热力图格子/剧情模式链 → 内容库过滤视图
+function gotoLibrary(genre, lang) {
+  const q = { genre }
+  if (lang) q.lang = lang
+  router.push({ path: '/library', query: q })
+}
 
 const graph = ref(null)
 const loading = ref(false)
