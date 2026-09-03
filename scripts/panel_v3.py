@@ -2102,8 +2102,12 @@ class Handler(BaseHTTPRequestHandler):
             return _json(self, {"error": "graph not found — run scripts/competitor_knowledge_graph.py",
                                 "generated_at": None})
         try:
-            data = cached_json_read(fp)
+            raw = cached_json_read(fp)
             # 瘦身：矩阵和榜单全量给，频道节点只回传统计（前端点击题材再取 genre_rank.top_channels）
+            # 注意 cached_json_read 返回共享缓存对象，禁止原地 pop——先浅拷贝再改，否则首个请求
+            # pop 掉 nodes 后缓存永久缺 nodes（钩子统计随之消失）。
+            data = dict(raw)
+            data["hooks"] = (data.get("nodes") or {}).get("hooks") or []  # 钩子统计（8条，含出现时点分位）
             data.pop("nodes", None)
             return _json(self, data)
         except Exception as e:

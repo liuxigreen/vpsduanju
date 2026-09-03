@@ -70,6 +70,7 @@ def load_subtitle_rows(norm):
         l1 = [norm(g) for g in a["genre_l1"] if isinstance(g, str)]
         l2 = [g.strip() for g in (a.get("genre_l2") or []) if isinstance(g, str) and g.strip()]
         hook = (a.get("opening_hook") or {}).get("type")
+        hook_sec = (a.get("opening_hook") or {}).get("appears_at_sec")
         rows.append({
             "video_id": d.get("video_id"),
             "channel": (d.get("channel") or "").strip(),
@@ -78,6 +79,7 @@ def load_subtitle_rows(norm):
             "l1": [g for g in l1 if g],
             "l2": l2[:6],
             "hook": hook if isinstance(hook, str) else None,
+            "hook_sec": hook_sec if isinstance(hook_sec, (int, float)) else None,
             "translated": bool((a.get("origin_signals") or {}).get("feels_translated")),
             "cliff": bool(a.get("ending_cliffhanger")),
             "title": (d.get("title") or "").strip(),
@@ -146,7 +148,7 @@ def build(out_file: Path = OUT_FILE):
     g_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(),
                                   "hooks": Counter(), "mainlines": Counter(), "vids": [],
                                   "subs": defaultdict(lambda: {"n": 0, "views": []})})
-    h_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set()})
+    h_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(), "secs": []})
     l_stat = defaultdict(lambda: {"n": 0, "views": [], "trans": 0, "cliff": 0, "chs": set(), "genres": Counter()})
     for r in sub_rows:
         if r["language"] in EXCLUDE_LANGS:
@@ -170,6 +172,8 @@ def build(out_file: Path = OUT_FILE):
             hs["views"].append(r["views"])
             hs["langs"][r["language"]] += 1
             hs["chs"].add(r["channel"])
+            if r.get("hook_sec") is not None:
+                hs["secs"].append(r["hook_sec"])
         ls = l_stat[r["language"]]
         ls["n"] += 1
         ls["views"].append(r["views"])
@@ -245,11 +249,15 @@ def build(out_file: Path = OUT_FILE):
     for h, s in sorted(h_stat.items(), key=lambda kv: -kv[1]["n"]):
         if s["n"] < MIN_SUBTITLE_N:
             continue
+        secs = sorted(x for x in s["secs"] if x is not None)
         hook_nodes.append({
             "id": f"hook:{h}", "type": "hook", "label": h,
             "metrics": {"channels": len(s["chs"]), "subtitle_n": s["n"],
                         "median_views": _med(s["views"]),
-                        "top_languages": [l for l, _ in s["langs"].most_common(3)]},
+                        "top_languages": [l for l, _ in s["langs"].most_common(3)],
+                        "sec_p25": secs[len(secs) // 4] if secs else None,
+                        "sec_median": secs[len(secs) // 2] if secs else None,
+                        "sec_p75": secs[min(len(secs) * 3 // 4, len(secs) - 1)] if secs else None},
         })
     hook_ids = {n["id"] for n in hook_nodes}
 

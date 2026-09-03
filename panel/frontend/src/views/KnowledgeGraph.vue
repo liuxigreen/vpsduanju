@@ -53,7 +53,7 @@
 
       <!-- 题材效率榜 -->
       <div class="card">
-        <h3 style="margin:0 0 4px;font-size:14px;">💎 题材效率榜</h3>
+        <h3 style="margin:0 0 4px;font-size:14px;">💎 题材动量榜</h3>
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">单频道平均播放动量 · 高=蓝海机会 · 🌊=效率≥5500且玩家≤60</div>
         <div v-for="r in genreRank" :key="r.genre" @click="selectGenre(r.genre)"
              style="display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;"
@@ -72,6 +72,25 @@
           <div style="text-align:right;flex-shrink:0;">
             <div style="font-size:12px;font-weight:bold;" :style="{ color: r.momentum_avg >= 5500 ? '#3498db' : '#4ecdc4' }">{{ fmt(r.momentum_avg) }}</div>
             <div style="font-size:9px;color:var(--text-muted);">均/天</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 钩子效果区（左列第二行，填补热力图下方空白） -->
+      <div class="card" v-if="hookRows.length" style="grid-column:1 / 2;">
+        <h3 style="margin:0 0 4px;font-size:14px;">🪝 开场钩子 × 效果</h3>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">类型 = 前3分钟主导钩子 · 条 = 实证视频数 · 中位 = 该类视频中位播放 · 秒 = 钩子出现时点分布</div>
+        <div v-for="h in hookRows" :key="h.name" style="display:flex;align-items:center;gap:10px;padding:4px 2px;">
+          <div style="width:76px;flex-shrink:0;font-size:12px;font-weight:bold;">{{ h.name }}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="height:6px;background:var(--bg-elevated);border-radius:3px;">
+              <div :style="{ width: Math.max(h.median / hookMaxMedian * 100, 2) + '%', height: '100%', borderRadius: '3px', background: 'linear-gradient(90deg,#e67e22,#f39c12)' }"></div>
+            </div>
+            <div style="font-size:9px;color:var(--text-dim);margin-top:2px;">{{ h.langs }} · {{ h.secLabel }}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;width:118px;">
+            <div style="font-size:12px;font-weight:bold;color:#e67e22;">{{ fmt(h.median) }}</div>
+            <div style="font-size:9px;color:var(--text-muted);">中位播放 · {{ h.n }}条</div>
           </div>
         </div>
       </div>
@@ -172,6 +191,24 @@ async function load() {
 const matrixLangs = computed(() => (graph.value?.matrix?.languages || []).slice(0, 7))
 const genreRank = computed(() => graph.value?.genre_rank || [])
 const effMax = computed(() => Math.max(1, ...genreRank.value.map(r => r.momentum_avg)))
+
+// 钩子效果行：类型/实证数/中位播放/主语种/出现时点分位（API 顶层 hooks，graph v2.2）
+const hookRows = computed(() => {
+  const hs = graph.value?.hooks || []
+  return hs
+    .map(h => ({
+      name: h.label,
+      n: h.metrics.subtitle_n || 0,
+      median: h.metrics.median_views || 0,
+      langs: (h.metrics.top_languages || []).slice(0, 3).join('/'),
+      p25: h.metrics.sec_p25, p50: h.metrics.sec_median, p75: h.metrics.sec_p75,
+      secLabel: h.metrics.sec_median != null
+        ? `出现时点 ${h.metrics.sec_p25 ?? '–'}–${h.metrics.sec_p75 ?? '–'}s · 中位 ${h.metrics.sec_median}s`
+        : '出现时点未标注',
+    }))
+    .sort((a, b) => b.n - a.n)
+})
+const hookMaxMedian = computed(() => Math.max(1, ...hookRows.value.map(h => h.median)))
 
 // 每行的题材统计(含avg/channels) + 矩阵行
 const rankByGenre = computed(() => {
