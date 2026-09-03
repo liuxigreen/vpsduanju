@@ -2094,26 +2094,44 @@ class Handler(BaseHTTPRequestHandler):
                 deltas.sort(key=lambda x: -x["delta_24h"])
                 ranking = deltas[:300]
             out = dict(alerts_data)
-            # 预警卡增强：字幕实证 chips（该视频的内容级标签）+ 近14天播放 sparkline
+            # 预警卡增强：字幕实证（chips+折叠详情）+ 近14天播放 sparkline + 热榜重叠标记
             try:
                 lib_rows = cached_json_read(DATA_PATHS["subtitle_library_index"]) or []
                 lib = {x.get("video_id"): x for x in lib_rows if x.get("video_id")}
             except Exception:
                 lib = {}
+            try:
+                det_all = cached_json_read(DATA_PATHS["subtitle_library_details"]) or {}
+            except Exception:
+                det_all = {}
             days_snaps = []
             for f_ in files[-14:]:
                 try:
                     days_snaps.append(json.loads(f_.read_text()))
                 except Exception:
                     pass
+            alert_ids = {a_.get("video_id") for a_ in (out.get("alerts") or [])}
             for a_ in out.get("alerts") or []:
                 vid = a_.get("video_id")
                 sub = lib.get(vid)
                 if sub:
-                    a_["subtitle"] = {"l1": (sub.get("l1") or [])[:2], "hook": sub.get("hook"),
-                                      "translated": sub.get("translated")}
+                    d = det_all.get(vid) or {}
+                    hk = d.get("hook") or {}
+                    a_["subtitle"] = {"l1": (sub.get("l1") or [])[:3], "l2": (sub.get("l2") or [])[:3],
+                                      "hook": sub.get("hook"), "translated": sub.get("translated")}
+                    a_["content"] = {
+                        "synopsis": d.get("synopsis") or "",
+                        "hook_event": hk.get("event") or "",
+                        "hook_sec": hk.get("sec"),
+                        "reveals": (d.get("key_reveals") or [])[:5],
+                        "duration_sec": d.get("duration_sec"),
+                        "confidence": d.get("confidence"),
+                        "model_family": d.get("model_family"),
+                    }
                 if vid:
                     a_["spark"] = [snap.get(vid) for snap in days_snaps]
+            for r_ in ranking:
+                r_["alerted"] = r_.get("video_id") in alert_ids
             out["ranking"] = ranking
             out["ranking_date"] = files[-1].stem if files else None
             return _json(self, out)

@@ -8,6 +8,14 @@
         <option v-for="l in langs" :key="l" :value="l">{{ l }}</option>
       </select>
     </div>
+    <div style="font-size:10.5px;color:var(--text-dim);margin-bottom:10px;line-height:1.5;">
+      <template v-if="view === 'alerts'">
+        🔔 <b>爆款预警</b> = 新视频（≤7天）触发阈值才上榜，少而准、需要行动（跟拍选题）。数据与热榜有重叠属正常——热榜里同时触发预警的条目带 🚨 标记。
+      </template>
+      <template v-else>
+        🔥 <b>24h增量热榜</b> = 全部在追踪视频按昨日播放增量排序，含老视频和大盘头部，看风向用。带 🚨 = 同时触发了左侧预警规则。
+      </template>
+    </div>
 
     <!-- 数据状态条 -->
     <div v-if="data" style="display:flex;gap:14px;font-size:11px;color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;">
@@ -45,9 +53,32 @@
               <span v-for="g in (a.subtitle.l1 || [])" :key="g" style="background:rgba(52,152,219,0.12);color:#3498db;padding:0 6px;border-radius:3px;">{{ g }}</span>
               <span v-if="a.subtitle.hook" style="background:rgba(230,126,34,0.12);color:#e67e22;padding:0 6px;border-radius:3px;">🪝 {{ a.subtitle.hook }}</span>
               <span v-if="a.subtitle.translated" style="color:var(--text-dim);">翻译剧</span>
+              <span @click.stop="toggleExpand(a.video_id)" style="color:#3498db;cursor:pointer;font-size:10px;">{{ expanded[a.video_id] ? '▲ 收起' : '▼ 内容实证' }}</span>
+            </div>
+            <!-- 折叠的内容实证详情 -->
+            <div v-if="expanded[a.video_id] && a.content" style="margin-top:8px;border-top:1px solid var(--border-subtle);padding-top:8px;" @click.stop>
+              <div v-if="a.content.synopsis" style="font-size:11.5px;line-height:1.6;margin-bottom:6px;">{{ a.content.synopsis }}</div>
+              <div v-if="(a.subtitle.l2 || []).length" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;">
+                <span v-for="g in a.subtitle.l2" :key="g" style="font-size:10px;color:var(--text-muted);border:1px solid var(--border);padding:1px 6px;border-radius:3px;">{{ g }}</span>
+              </div>
+              <div v-if="a.content.hook_event" style="font-size:10.5px;margin-bottom:6px;">
+                <span style="background:rgba(230,126,34,0.15);color:#e67e22;padding:1px 8px;border-radius:4px;">🪝 {{ a.subtitle.hook }}<template v-if="a.content.hook_sec != null"> · 第 {{ a.content.hook_sec }} 秒</template></span>
+                <span style="color:var(--text-muted);margin-left:6px;">{{ a.content.hook_event }}</span>
+              </div>
+              <div v-if="(a.content.reveals || []).length" style="margin-bottom:6px;">
+                <div style="font-size:9.5px;color:var(--text-muted);margin-bottom:4px;">反转时间轴（按片长位置）</div>
+                <div style="position:relative;height:10px;background:var(--bg-elevated);border-radius:5px;">
+                  <div v-for="(rv, ri) in alertReveals(a)" :key="ri"
+                       :style="{ position: 'absolute', left: Math.min(Math.max(rv.pct, 2), 97) + '%', top: '0', width: '2px', height: '10px', background: '#e67e22' }"></div>
+                </div>
+                <div v-for="(rv, ri) in alertReveals(a)" :key="'r' + ri" style="font-size:10px;color:var(--text-muted);margin-top:3px;">
+                  <span style="color:#e67e22;">{{ rv.pct }}%</span> {{ rv.event }}
+                </div>
+              </div>
+              <div style="font-size:9.5px;color:var(--text-dim);">{{ a.content.model_family }} · conf {{ a.content.confidence }}</div>
             </div>
           </div>
-          <div style="font-size:9px;color:var(--text-dim);white-space:nowrap;">▶ YouTube</div>
+          <div style="font-size:9px;color:var(--text-dim);white-space:nowrap;text-align:right;">▶ YouTube<br /><span @click.stop="toggleExpand(a.video_id)" style="cursor:pointer;color:#3498db;" v-if="a.content">{{ expanded[a.video_id] ? '▲' : '▼' }}</span></div>
         </div>
       </div>
     </div>
@@ -74,7 +105,7 @@
               @click="openVideo(r)">
             <td style="padding:5px 6px;color:var(--text-dim);">{{ i + 1 }}</td>
             <td style="padding:5px 6px;max-width:340px;">
-              <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">{{ r.title || '(无标题)' }}</div>
+              <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;"><span v-if="r.alerted" title="同时触发了爆款预警" style="color:#e74c3c;">🚨 </span>{{ r.title || '(无标题)' }}</div>
             </td>
             <td style="padding:5px 6px;color:var(--text-muted);">{{ r.channel }}</td>
             <td style="padding:5px 6px;text-align:right;color:#e67e22;font-weight:bold;">+{{ fmt(r.delta_24h) }}</td>
@@ -120,6 +151,15 @@ function fmt(n) {
   if (n == null) return '—'
   if (n >= 10000) return (n / 10000).toFixed(1) + '万'
   return n.toLocaleString()
+}
+const expanded = ref({})
+function toggleExpand(vid) { expanded.value[vid] = !expanded.value[vid] }
+function alertReveals(a) {
+  const dur = a.content?.duration_sec || 0
+  return (a.content?.reveals || [])
+    .filter(rv => rv.at_sec != null)
+    .map(rv => ({ pct: dur ? Math.max(1, Math.round(rv.at_sec / dur * 100)) : 50, event: rv.event || '' }))
+    .slice(0, 5)
 }
 function openVideo(a) {
   window.open(`https://www.youtube.com/watch?v=${a.video_id}`, '_blank')
