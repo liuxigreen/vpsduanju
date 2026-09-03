@@ -69,7 +69,8 @@ def _load():
     # 兼容: 聚合脚本还没产出normalized时直接读原始回传
     if not files:
         files = sorted(glob.glob(str(ROOT / "output/subtitle_task/results_*.jsonl")))
-    for fp in files:
+    seen_vids = set()
+    for fp in sorted(files, key=os.path.getmtime, reverse=True):  # 新文件优先（full 覆盖旧 p0）
         for line in open(fp, encoding="utf-8"):
             line = line.strip()
             if not line:
@@ -80,6 +81,10 @@ def _load():
                 continue
             if not (d.get("analysis") or {}).get("genre_l1"):
                 continue
+            vid = d.get("video_id")
+            if vid and vid in seen_vids:
+                continue  # 跨文件去重：full_normalized 已含 P0，旧 p0_normalized 不再叠加
+            seen_vids.add(vid)
             _CACHE["rows"].append(d)
             name = (d.get("channel") or "").strip()
             if name:
@@ -178,8 +183,10 @@ def channel_subtitle_block(channel_name: str, lang_cn: str = "", max_lines: int 
 
 
 def market_subtitle_block(lang_code: str) -> str:
-    """市场层字幕实证 block（来自 p0_report.json 聚合）。"""
-    fp = POOL_DIR / "p0_report.json"
+    """市场层字幕实证 block（来自聚合报告：优先全量 full_report.json，回退旧 p0_report.json）。"""
+    fp = POOL_DIR / "full_report.json"
+    if not fp.exists():
+        fp = POOL_DIR / "p0_report.json"
     if not fp.exists():
         return ""
     rep = json.loads(fp.read_text())
@@ -199,9 +206,11 @@ def market_subtitle_block(lang_code: str) -> str:
     pay, l2, hooks = Counter(), Counter(), Counter()
     for d in rows:
         for p in d["analysis"].get("payoffs", []):
-            pay[p] += 1
+            if isinstance(p, (str, int, float)):  # 跨模型产出可能混入dict，跳过
+                pay[p] += 1
         for g in d["analysis"].get("genre_l2", []):
-            l2[g] += 1
+            if isinstance(g, (str, int, float)):
+                l2[g] += 1
         h = (d["analysis"].get("opening_hook") or {}).get("type")
         if h:
             hooks[h] += 1

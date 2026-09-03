@@ -25,7 +25,8 @@ ROOT = Path(__file__).resolve().parent.parent
 ALERTS = ROOT / "data" / "alerts_latest.json"
 HISTORY = ROOT / "data" / "video_views_history"
 KG = ROOT / "data" / "knowledge_graph.json"
-P0 = ROOT / "data" / "subtitle_analysis" / "p0_report.json"
+P0 = ROOT / "data" / "subtitle_analysis" / "full_report.json"  # 2026-09-03: 全量4497聚合(v2)，兼容旧p0_report.json结构
+P0_FALLBACK = ROOT / "data" / "subtitle_analysis" / "p0_report.json"
 DISTILL = ROOT / "distill" / "outputs"
 OUT = ROOT / "output" / "daily_report"
 
@@ -191,7 +192,7 @@ def build_report():
     alerts_data = _load_json(ALERTS)
     alerts = alerts_data.get("alerts", [])
     kg = _load_json(KG)
-    p0 = _load_json(P0)
+    p0 = _load_json(P0) or _load_json(P0_FALLBACK)
     ranking, rank_date = calc_24h_ranking()
 
     today = datetime.now().strftime("%Y-%m-%d")
