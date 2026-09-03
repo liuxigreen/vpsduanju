@@ -18,14 +18,22 @@
 
     <div v-if="error" class="empty-state"><div class="icon">⚠</div><div>{{ error }}</div></div>
 
-    <BlueOceanView style="margin-top:14px;" />
 
 
     <div v-if="graph && !error" style="display:grid;grid-template-columns:minmax(0,3fr) minmax(260px,2fr);gap:16px;margin-top:16px;">
       <!-- 题材×语种 热力矩阵 -->
       <div class="card">
-        <h3 style="margin:0 0 4px;font-size:14px;">🔥 题材 × 语种 热力矩阵</h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 点题材名看详情 · 点格子看该题材×语种的视频列表</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+          <h3 style="margin:0;font-size:14px;">🔥 题材 × 语种 热力矩阵</h3>
+          <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:11px;">
+            <span @click="matrixMode = 'heat'" :style="{ padding: '3px 10px', cursor: 'pointer', background: matrixMode === 'heat' ? 'var(--bg-elevated)' : 'transparent', color: matrixMode === 'heat' ? '#4ecdc4' : 'var(--text-muted)' }">🔥 供给热力</span>
+            <span @click="matrixMode = 'quad'" :style="{ padding: '3px 10px', cursor: 'pointer', background: matrixMode === 'quad' ? 'var(--bg-elevated)' : 'transparent', color: matrixMode === 'quad' ? '#4ecdc4' : 'var(--text-muted)' }">🧭 四象限决策</span>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">
+          <template v-if="matrixMode === 'heat'">格子 = 字幕实证视频数 · 越亮供给越多 · 点题材名看详情 · 点格子看该题材×语种的视频列表</template>
+          <template v-else>颜色 = 市场判定 · 数字 = 中位播放（需求） · 🟢蓝海=需求高供给少 🟡热战=供需双高 ⬜荒漠=双低 🔴红海=供给过剩 · 点格子下钻视频列表</template>
+        </div>
         <div style="overflow-x:auto;">
           <table style="border-collapse:collapse;font-size:11px;min-width:100%;">
             <thead>
@@ -44,7 +52,7 @@
                   <span v-else-if="row.rank.channels >= 150" style="font-size:9px;color:#e74c3c;margin-left:2px;" title="频道数超150,竞争激烈">🔥</span>
                 </td>
                 <td v-for="l in matrixLangs" :key="l" style="padding:3px 6px;">
-                  <span v-if="cell(row.genre, l)" :style="[cellStyle(row.genre, l), { cursor: 'pointer' }]" @click.stop="gotoLibrary(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}${cell(row.genre,l)[2] ? ' · 主线' + cell(row.genre,l)[2] : ''} · 点击看视频列表`">{{ cell(row.genre, l)[0] }}</span>
+                  <span v-if="cell(row.genre, l)" :style="[cellStyle(row.genre, l), { cursor: 'pointer' }]" @click.stop="gotoLibrary(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}${quadMap[row.genre+'|'+l] ? ' · ' + quadCN(quadMap[row.genre+'|'+l]) : ''}${cell(row.genre,l)[2] ? ' · 主线' + cell(row.genre,l)[2] : ''} · 点击看视频列表`">{{ matrixMode === 'quad' ? fmtWan(cell(row.genre, l)[1]) : cell(row.genre, l)[0] }}</span>
                   <span v-else style="color:var(--text-dim);opacity:0.35;">·</span>
                 </td>
                 <td style="padding:4px 8px;color:#2ecc71;font-weight:bold;white-space:nowrap;">{{ fmt(row.rank.momentum_total) }}</td>
@@ -200,7 +208,6 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '../api/index.js'
-import BlueOceanView from './BlueOcean.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -225,6 +232,7 @@ async function load() {
     if (d.error) { error.value = d.error; graph.value = null }
     else graph.value = d
     api('/vocab-governance').then(v => { vocab.value = v && !v.error ? v : null }).catch(() => {})
+    api('/blue-ocean').then(d => { quadData.value = d && !d.error ? d : null }).catch(() => {})
   } catch (e) {
     error.value = '加载失败: ' + (e.message || e)
   } finally {
@@ -276,9 +284,42 @@ function cell(genre, lang) {
   return null
 }
 
+const QUAD_COLORS = {
+  blue_ocean: { bg: 'rgba(46,204,113,0.30)', color: '#2ecc71' },
+  hot_war: { bg: 'rgba(241,196,15,0.25)', color: '#f1c40f' },
+  desert: { bg: 'rgba(149,165,166,0.18)', color: '#95a5a6' },
+  red_sea: { bg: 'rgba(231,76,60,0.28)', color: '#e74c3c' },
+}
+const matrixMode = ref('heat')
+const quadData = ref(null)
+const QUAD_CN = { blue_ocean: '蓝海', hot_war: '热战', desert: '荒漠', red_sea: '红海' }
+function quadCN(k) { return QUAD_CN[k] || k }
+function fmtWan(n) {
+  n = n || 0
+  if (n >= 10000) return (n / 10000).toFixed(n >= 100000 ? 0 : 1) + '万'
+  return String(n)
+}
+const quadMap = computed(() => {
+  const m = {}
+  const q = quadData.value?.quadrant || {}
+  for (const [quad, arr] of Object.entries(q)) {
+    for (const it of arr || []) m[`${it.genre}|${it.language}`] = quad
+  }
+  return m
+})
+
 function cellStyle(genre, lang) {
   const v = cell(genre, lang)
   if (!v) return {}
+  if (matrixMode.value === 'quad') {
+    const quad = quadMap.value[`${genre}|${lang}`]
+    const c = QUAD_COLORS[quad] || QUAD_COLORS.desert
+    return {
+      display: 'inline-block', minWidth: '34px', textAlign: 'center',
+      padding: '2px 5px', borderRadius: '4px',
+      background: c.bg, color: c.color, fontWeight: 'bold',
+    }
+  }
   // 列内归一化热度
   const langIdx = matrixLangs.value.indexOf(lang)
   let max = 1
