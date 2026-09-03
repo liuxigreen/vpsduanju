@@ -161,7 +161,7 @@ const allPoints = computed(() => {
   const out = []
   for (const [q, items] of Object.entries(data.value.quadrant)) {
     for (const i of items) {
-      out.push({ ...i, quadrant: q, color: QCOLOR[q], quadrantLabel: QLABEL[q], key: `${i.genre}|${i.language}` })
+      out.push({ ...i, mv: i.median_views, quadrant: q, color: QCOLOR[q], quadrantLabel: QLABEL[q], key: `${i.genre}|${i.language}` })
     }
   }
   return out
