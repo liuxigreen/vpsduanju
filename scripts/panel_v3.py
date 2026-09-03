@@ -2074,6 +2074,8 @@ class Handler(BaseHTTPRequestHandler):
                     prev = yday_snap.get(vid)
                     if prev is None:
                         continue
+                    if not isinstance(cur, (int, float)) or not isinstance(prev, (int, float)):
+                        continue  # 快照脏值守卫（历史bug: dict-int致500）
                     d = cur - prev
                     if d > 0:
                         m = meta.get(vid, {})

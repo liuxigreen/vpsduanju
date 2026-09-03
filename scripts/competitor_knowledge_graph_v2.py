@@ -68,6 +68,7 @@ def load_subtitle_rows(norm):
         if not a.get("genre_l1"):
             continue
         l1 = [norm(g) for g in a["genre_l1"] if isinstance(g, str)]
+        l2 = [g.strip() for g in (a.get("genre_l2") or []) if isinstance(g, str) and g.strip()]
         hook = (a.get("opening_hook") or {}).get("type")
         rows.append({
             "video_id": d.get("video_id"),
@@ -75,6 +76,7 @@ def load_subtitle_rows(norm):
             "language": d.get("language") or "未知",
             "views": d.get("views") or 0,
             "l1": [g for g in l1 if g],
+            "l2": l2[:6],
             "hook": hook if isinstance(hook, str) else None,
             "translated": bool((a.get("origin_signals") or {}).get("feels_translated")),
             "cliff": bool(a.get("ending_cliffhanger")),
@@ -142,7 +144,8 @@ def build(out_file: Path = OUT_FILE):
 
     # ---- 字幕层 genre / hook / language 统计 ----
     g_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(),
-                                  "hooks": Counter(), "mainlines": Counter(), "vids": []})
+                                  "hooks": Counter(), "mainlines": Counter(), "vids": [],
+                                  "subs": defaultdict(lambda: {"n": 0, "views": []})})
     h_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set()})
     l_stat = defaultdict(lambda: {"n": 0, "views": [], "trans": 0, "cliff": 0, "chs": set(), "genres": Counter()})
     for r in sub_rows:
@@ -156,6 +159,9 @@ def build(out_file: Path = OUT_FILE):
             s["chs"].add(r["channel"])
             s["mainlines"][r["mainline"]] += 1
             s["vids"].append(r)
+            for l2g in set(r.get("l2") or []):
+                s["subs"][l2g]["n"] += 1
+                s["subs"][l2g]["views"].append(r["views"])
             if r["hook"]:
                 s["hooks"][r["hook"]] += 1
         if r["hook"]:
@@ -206,6 +212,12 @@ def build(out_file: Path = OUT_FILE):
             },
         })
         top_vids = sorted(s["vids"], key=lambda r: -(r["views"] or 0))[:5]
+        # L2 亚型：出现≥2次的剧情模式，按频次排序，带中位播放
+        subtypes = [
+            {"name": k, "n": v["n"], "median_views": _med(v["views"])}
+            for k, v in sorted(s["subs"].items(), key=lambda kv: -kv[1]["n"])
+            if v["n"] >= 2
+        ][:8]
         genre_rank.append({
             "genre": g, "channels": len(s["chs"]), "momentum_total": mom_total,
             "momentum_avg": round(mom_total / n_ch), "subs_velocity_total": sv_total,
@@ -213,6 +225,7 @@ def build(out_file: Path = OUT_FILE):
             "subtitle_n": s["n"], "median_views": _med(s["views"]),
             "axis": axis_map.get(g, "母题"),
             "mainlines": dict(s["mainlines"].most_common()),
+            "subtypes": subtypes,
             "top_videos": [
                 {"title": v["title"][:80], "channel": v["channel"], "language": v["language"],
                  "views": v["views"], "hook": v["hook"], "mainline": v["mainline"],
@@ -329,7 +342,7 @@ def build(out_file: Path = OUT_FILE):
     matrix = {"genres": genre_order, "languages": lang_order, "cells": cells}
 
     out = {
-        "schema_version": "2.1",
+        "schema_version": "2.2",
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "source": {"subtitle_rows": len(sub_rows), "vocab_version": vocab.get("version"),
                    "merged_away_genres": dict(sorted(merged_away.items(), key=lambda x: -x[1])[:20])},

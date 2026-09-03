@@ -182,6 +182,8 @@ def compute_deltas_and_alerts(today: str, watch: dict):
         prev = yday_snap.get(vid)
         if prev is None:
             continue
+        if not isinstance(cur_views, (int, float)) or not isinstance(prev, (int, float)):
+            continue  # 快照脏值守卫（历史bug: dict-int致500）
         delta = cur_views - prev
         if delta <= 0:
             continue
@@ -193,7 +195,7 @@ def compute_deltas_and_alerts(today: str, watch: dict):
             age = 999
         # 基线日均 (前一天相对前二天)
         base_daily = None
-        if y2 and y2_snap.get(vid) is not None:
+        if y2 and isinstance(y2_snap.get(vid), (int, float)):
             base_daily = max((prev - y2_snap[vid]) / max(span_days - 1, 1), 0)
         alert = {
             "video_id": vid, "title": meta["title"], "channel": meta["channel"],

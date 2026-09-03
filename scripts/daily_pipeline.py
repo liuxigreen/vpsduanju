@@ -51,6 +51,11 @@ OUTPUT_DIR = DISTILL_DIR / "outputs"
 REGISTRY_FILE = DATA_DIR / "competitor_registry.json"
 SEEN_FILE = DATA_DIR / "discovered_channels" / "seen_channels.json"
 
+# 人工封禁频道（channel_id 级）：确认非短剧（如搬运电影）后加入，防止发现流程重新拉回
+CHANNEL_BLOCKLIST = {
+    "UCXhPKXcBaBwpwOjq4l8mHIw",  # FreshDramaPro — 搬运电影，非短剧 (2026-09-03)
+}
+
 for d in [COMPETITOR_DATA_DIR, EVIDENCE_DIR, OUTPUT_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
@@ -386,8 +391,8 @@ def discover_channels(limit: int = 10, months: int = 12) -> list[dict]:
                 
                 cid, ch_name, title, views = parts[0], parts[1], parts[2], parts[3]
                 
-                # 跳过无效ID
-                if not cid or cid == "NA" or cid in seen or cid in found:
+                # 跳过无效ID / 人工封禁频道
+                if not cid or cid == "NA" or cid in seen or cid in found or cid in CHANNEL_BLOCKLIST:
                     continue
                 
                 # 先用频道名快速过滤非短剧
@@ -665,6 +670,8 @@ def _append_to_registry(channels: list):
         registry = {"channels": {}}
 
     for ch in channels:
+        if ch.get("channel_id") in CHANNEL_BLOCKLIST:
+            continue  # 人工封禁频道，禁止回流注册表
         lang = ch.get("language", "未知")
         if lang not in registry["channels"]:
             registry["channels"][lang] = []
@@ -814,7 +821,14 @@ def collect_data(lang_filter: str = None, collect_all: bool = False, new_only: b
 
 def _load_registry() -> dict:
     if REGISTRY_FILE.exists():
-        return json.loads(REGISTRY_FILE.read_text())
+        registry = json.loads(REGISTRY_FILE.read_text())
+        # 消费侧兜底：剔除封禁频道（防历史残留被采集）
+        for lang in list(registry.get("channels", {})):
+            registry["channels"][lang] = [
+                c for c in registry["channels"][lang]
+                if c.get("channel_id") not in CHANNEL_BLOCKLIST
+            ]
+        return registry
     return {"channels": {}}
 
 

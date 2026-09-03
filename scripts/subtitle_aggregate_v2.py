@@ -51,13 +51,14 @@ def norm_genre(label):
         return None
     return s
 
-# ── 合辑双信号：标题正则 OR 时长>1h ──
+# ── 合辑双信号：标题正则 OR 时长>2h（1-2h多为多集连剪正片，不算合集 2026-09-03）──
 COMP_PAT = re.compile(
     r'(第?\s*\d+\s*[-—~至到]\s*\d+\s*季|合辑|合集|全集|完整版|一口气|[Hh]e\s*\d+|'
-    r'all episodes|compilation|marathon)', re.I)
+    r'all episodes|compilation|marathon|full\s+movie|'
+    r'ep[.\s]?\d+.{0,15}ep[.\s]?\d+)', re.I)
 
 def is_compilation(title, duration_sec):
-    return bool(COMP_PAT.search(title or "")) or (duration_sec or 0) > 3600
+    return bool(COMP_PAT.search(title or "")) or (duration_sec or 0) > 7200
 
 # ── 模型家族归一（38种model字符串→家族，标注实际来源不抹除）──
 def model_family(m):
