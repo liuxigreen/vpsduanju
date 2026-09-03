@@ -21,10 +21,12 @@ PROMPTS = Path(__file__).resolve().parent / "prompts.md"
 
 def extract_prompt_template():
     text = PROMPTS.read_text(encoding="utf-8")
-    m = re.search(r"--- prompt:extract ---\n(.*?)\n--- prompt:trace ---", text, re.S)
+    # v2 优先（增量批：全中文+多维），回退 v1
+    m = re.search(r"--- prompt:extract_v2 ---\n(.*)", text, re.S) or \
+        re.search(r"--- prompt:extract ---\n(.*?)\n--- prompt:trace ---", text, re.S)
     if not m:
         raise RuntimeError("prompts.md 缺少 extract/trace 分隔标记")
-    return m.group(1)
+    return m.group(1).rstrip() + "\n"
 
 
 def middle_sample(text, max_chars=6000):
