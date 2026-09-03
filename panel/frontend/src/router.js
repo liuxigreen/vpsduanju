@@ -8,6 +8,7 @@ const routes = [
   { path: '/channel-analysis', name: 'channel-analysis', component: () => import('./views/ChannelAnalysis.vue'), meta: { title: '自有账号分析', icon: '📊' } },
   { path: '/competitor-channels', name: 'competitor-channels', component: () => import('./views/CompetitorChannels.vue'), meta: { title: '竞品频道', icon: '🔎' } },
   { path: '/knowledge-graph', name: 'knowledge-graph', component: () => import('./views/KnowledgeGraph.vue'), meta: { title: '知识图谱', icon: '🕸' } },
+  { path: '/blue-ocean', name: 'blue-ocean', component: () => import('./views/BlueOcean.vue'), meta: { title: '蓝海雷达', icon: '🌊' } },
   { path: '/competitor-alerts', name: 'competitor-alerts', component: () => import('./views/CompetitorAlerts.vue'), meta: { title: '爆款预警', icon: '🔔' } },
   { path: '/distill', name: 'distill', component: () => import('./views/Distill.vue'), meta: { title: '蒸馏数据(已冻结)', icon: '🧪', hidden: true } },
   { path: '/review', name: 'review', component: () => import('./views/Review.vue'), meta: { title: '待审核', icon: '👁' } }

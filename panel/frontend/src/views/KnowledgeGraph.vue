@@ -8,7 +8,7 @@
         </div>
       </div>
       <div v-if="graph?.stats" style="display:flex;gap:14px;font-size:12px;">
-        <span>📺 {{ graph.stats.channels }} 频道</span>
+        <span>📺 {{ graph.stats.channels }} 频道<span v-if="graph.stats.evidenced_channels" style="color:var(--text-muted);font-size:10px;">（实证{{ graph.stats.evidenced_channels }}）</span></span>
         <span style="color:#4ecdc4;">🎭 {{ graph.stats.genres }} 题材</span>
         <span>🌐 {{ graph.stats.languages }} 语种</span>
         <span>🪝 {{ graph.stats.hooks }} 钩子</span>
@@ -22,7 +22,7 @@
       <!-- 题材×语种 热力矩阵 -->
       <div class="card">
         <h3 style="margin:0 0 4px;font-size:14px;">🔥 题材 × 语种 热力矩阵</h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 频道数 · 越亮越拥挤 · 点击行看题材详情</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 悬停看中位播放 · 点击行看详情</div>
         <div style="overflow-x:auto;">
           <table style="border-collapse:collapse;font-size:11px;min-width:100%;">
             <thead>
@@ -41,7 +41,7 @@
                   <span v-else-if="row.rank.channels >= 150" style="font-size:9px;color:#e74c3c;margin-left:2px;" title="频道数超150,竞争激烈">🔥</span>
                 </td>
                 <td v-for="l in matrixLangs" :key="l" style="padding:3px 6px;">
-                  <span v-if="cell(row.genre, l)" :style="cellStyle(row.genre, l)" :title="`${row.genre}×${l}: ${cell(row.genre,l)[0]}频道 · 动量${(cell(row.genre,l)[1]||0).toLocaleString()}/天`">{{ cell(row.genre, l)[0] }}</span>
+                  <span v-if="cell(row.genre, l)" :style="cellStyle(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}`">{{ cell(row.genre, l)[0] }}</span>
                   <span v-else style="color:var(--text-dim);opacity:0.35;">·</span>
                 </td>
                 <td style="padding:4px 8px;color:#2ecc71;font-weight:bold;white-space:nowrap;">{{ fmt(row.rank.momentum_total) }}</td>
@@ -60,7 +60,7 @@
              @mouseenter="$event.currentTarget.style.background='var(--bg-elevated)'" @mouseleave="$event.currentTarget.style.background=''">
           <div style="flex:1;min-width:0;">
             <div style="font-size:12px;">{{ r.genre }} <span v-if="r.momentum_avg>=5500 && r.channels<=60" style="font-size:9px;color:#3498db;">🌊</span></div>
-            <div style="font-size:9px;color:var(--text-dim);">{{ r.channels }}频道 · 主打 {{ r.top_languages.join('/') }}</div>
+            <div style="font-size:9px;color:var(--text-dim);">{{ r.channels }}频道 · 主打 {{ r.top_languages.join('/') }}<span v-if="r.subtitle_n" style="color:#4ecdc4;"> · 实证{{ r.subtitle_n }}条 中位{{ fmt(r.median_views) }}</span></div>
             <div style="height:3px;background:var(--bg-elevated);border-radius:2px;margin-top:2px;">
               <div :style="{ width: Math.min(r.momentum_avg / effMax * 100, 100) + '%', height: '100%', borderRadius: '2px', background: r.momentum_avg >= 5500 ? '#3498db' : '#4ecdc4' }"></div>
             </div>
@@ -84,6 +84,7 @@
           <span>动量合计 <b style="color:#2ecc71;">{{ fmt(selected.momentum_total) }}/天</b></span>
           <span>单频道均 <b style="color:#3498db;">{{ fmt(selected.momentum_avg) }}/天</b></span>
           <span>订阅涨速合计 <b style="color:#e67e22;">+{{ fmt(selected.subs_velocity_total) }}/周</b></span>
+          <span v-if="selected.subtitle_n">字幕实证 <b style="color:#4ecdc4;">{{ selected.subtitle_n }} 条</b> · 中位播放 <b style="color:#4ecdc4;">{{ fmt(selected.median_views) }}</b></span>
           <span>主语种 <b>{{ selected.top_languages.join(' / ') }}</b></span>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:12px;">
@@ -116,7 +117,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { api } from '../api/index.js'
+
+const route = useRoute()
 
 const graph = ref(null)
 const loading = ref(false)
@@ -191,5 +195,9 @@ function fmtSubs(n) {
   return n
 }
 
-onMounted(load)
+onMounted(async () => {
+  await load()
+  // 深链接：蓝海雷达点击跳转 /knowledge-graph?genre=xx → 自动打开该题材详情
+  if (route.query.genre) selectGenre(String(route.query.genre))
+})
 </script>

@@ -16,6 +16,7 @@ import argparse
 import json
 import os
 import re
+import sys
 import statistics
 from collections import Counter, defaultdict
 from datetime import datetime
@@ -108,44 +109,19 @@ def build_ranking_section(ranking, date):
 
 
 def build_blue_ocean_section(kg):
-    """蓝海速报：动量增速 vs 频道供给 → 四象限速判。"""
-    genres = kg.get("genre_rank", [])
-    matrix = kg.get("matrix", {})
-    cells = matrix.get("cells", [])  # [genre, lang, channel_count, momentum]
-
-    supply = {}
-    for c in cells:
-        g, l, cnt, mom = c[0], c[1], c[2], c[3] if len(c) > 3 else 0
-        supply[(g, l)] = {"channels": cnt, "momentum": mom}
-
-    if not genres:
-        # 从 cells 算
-        if not supply:
-            return ""
-        med_mom = statistics.median([v["momentum"] for v in supply.values()]) if supply else 0
-        lines = ["🌊 **蓝海速报**\n"]
-        blue = {k: v for k, v in supply.items()
-                if v["momentum"] > med_mom and v["channels"] <= 5}
-        for (g, l), v in sorted(blue.items(), key=lambda x: -x[1]["momentum"])[:5]:
-            lines.append(f"• **{g}×{l}** 动量 {fmt(v['momentum'])} 仅 {v['channels']} 频道 → 蓝海")
-        if not blue:
-            lines.append("• 当前无显著蓝海信号")
-        lines.append("")
-        return "\n".join(lines)
-
-    # 用 genre_rank 的 momentum_avg
-    med_mom = statistics.median([g.get("momentum_avg", 0) for g in genres]) if genres else 0
-    lines = ["🌊 **蓝海速报**\n"]
-    blue = []
-    for g in genres:
-        gn = g["genre"]
-        avg_mom = g.get("momentum_avg", 0)
-        ch_cnt = g["channels"]
-        if avg_mom > med_mom and ch_cnt <= 10:
-            top_lang = (g.get("top_languages") or ["?"])[0]
-            blue.append((gn, top_lang, avg_mom, ch_cnt))
-    for gn, tl, mom, cnt in sorted(blue, key=lambda x: -x[2])[:5]:
-        lines.append(f"• **{gn}×{tl}** 动量 {fmt(mom)} 仅 {cnt} 频道 → 蓝海")
+    """蓝海速报：复用 blue_ocean.compute_quadrant（v2 字幕实证语义，单一实现）。"""
+    try:
+        from blue_ocean import compute_quadrant
+    except ImportError:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from blue_ocean import compute_quadrant
+    q = compute_quadrant(kg)
+    if "error" in q:
+        return f"🌊 **蓝海速报**\n\n• （{q['error']}）\n"
+    blue = q.get("quadrant", {}).get("blue_ocean", [])[:5]
+    lines = ["🌊 **蓝海速报（字幕实证: 高播放×低供给）**\n"]
+    for i in blue:
+        lines.append(f"• **{i['genre']}×{i['language']}** 中位播放 {fmt(i['median_views'])} 仅 {i['n']} 条实证 → 蓝海")
     if not blue:
         lines.append("• 当前无显著蓝海信号")
     lines.append("")

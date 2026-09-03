@@ -865,6 +865,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._api_competitor_channels()
             if p.path == "/api/knowledge-graph":
                 return self._api_knowledge_graph()
+            if p.path == "/api/blue-ocean":
+                return self._api_blue_ocean()
             if p.path == "/api/competitor-alerts":
                 return self._api_competitor_alerts()
             if p.path.startswith("/api/competitor-detail"):
@@ -2105,6 +2107,16 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as e:
             log.error(f"knowledge_graph read error: {e}")
             return _json(self, {"error": str(e), "generated_at": None})
+
+    def _api_blue_ocean(self):
+        """蓝海雷达四象限（v2 字幕实证语义），复用 blue_ocean.compute_quadrant 实时计算"""
+        try:
+            kg = cached_json_read(DATA_PATHS["knowledge_graph"])
+            from blue_ocean import compute_quadrant
+            return _json(self, compute_quadrant(kg))
+        except Exception as e:
+            log.error(f"blue_ocean read error: {e}")
+            return _json(self, {"error": str(e)}, status=500)
 
     def _api_competitor_channels(self):
         """竞品频道列表（精简字段，去掉详情级大字段以减少响应体积）"""
