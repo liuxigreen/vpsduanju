@@ -41,14 +41,16 @@ def fmt(n):
 
 
 def compute_quadrant(kg):
-    """计算题材×语种四象限（v2: [n, median_views] 语义）。"""
-    cells = kg.get("matrix", {}).get("cells", [])  # [genre, language, subtitle_n, median_views]
+    """计算题材×语种四象限（v2: [n, median_views] 语义；v2.1 起 cell 带主线、genre_rank 带轴）。"""
+    cells = kg.get("matrix", {}).get("cells", [])  # [genre, language, subtitle_n, median_views, mainline?]
     if not cells:
         return {"error": "matrix.cells 为空"}
-    if kg.get("schema_version") != "2.0":
-        return {"error": f"需要 schema 2.0 图谱，当前 {kg.get('schema_version')!r}（先跑 competitor_knowledge_graph_v2.py）"}
+    if kg.get("schema_version") not in ("2.0", "2.1"):
+        return {"error": f"需要 schema 2.0/2.1 图谱，当前 {kg.get('schema_version')!r}（先跑 competitor_knowledge_graph_v2.py）"}
 
-    items = [{"genre": c[0], "language": c[1], "n": c[2], "median_views": c[3]}
+    axis_by_genre = {r["genre"]: r.get("axis") for r in kg.get("genre_rank", [])}
+    items = [{"genre": c[0], "language": c[1], "n": c[2], "median_views": c[3],
+              "mainline": c[4] if len(c) >= 5 else None, "axis": axis_by_genre.get(c[0])}
              for c in cells if len(c) >= 4 and c[2] >= MIN_N]
     if not items:
         return {"error": f"无 n>={MIN_N} 的有效 cell"}

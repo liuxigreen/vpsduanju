@@ -78,8 +78,28 @@ def load_subtitle_rows(norm):
             "hook": hook if isinstance(hook, str) else None,
             "translated": bool((a.get("origin_signals") or {}).get("feels_translated")),
             "cliff": bool(a.get("ending_cliffhanger")),
+            "title": (d.get("title") or "").strip(),
+            "synopsis": (a.get("synopsis") or "").strip(),
+            "hook_event": ((a.get("opening_hook") or {}).get("event") or "").strip(),
+            "payoffs": [p if isinstance(p, str) else (p.get("type") or p.get("name") or "")
+                        for p in (a.get("payoffs") or []) if isinstance(p, (str, dict))],
         })
     return rows
+
+
+def make_mainliner(vocab):
+    """主线四分类（感情/家庭/个人/职场），规则来自词表 mainline_rules，零硬编码。
+    按 感情>家庭>个人>职场 优先序取首个命中（关键词出现在 synopsis+hook事件+payoffs 拼接文本中）。"""
+    rules = vocab.get("mainline_rules") or {}
+    order = ["感情", "家庭", "个人", "职场"]  # 短剧语境：家庭词常为感情线背景，个人成长优先于职场标签
+
+    def mainline(r) -> str:
+        text = r["synopsis"] + r["hook_event"] + " ".join(r["payoffs"])
+        for k in order:
+            if any(w in text for w in rules.get(k, [])):
+                return k
+        return "其他"
+    return mainline
 
 
 def _med(xs):
@@ -101,7 +121,11 @@ def _subs_vel(ch):
 def build(out_file: Path = OUT_FILE):
     vocab = load_vocab()
     norm = make_normalizer(vocab)
+    mainline = make_mainliner(vocab)
+    axis_map = vocab.get("axis_map", {})
     sub_rows = load_subtitle_rows(norm)
+    for r in sub_rows:
+        r["mainline"] = mainline(r)
 
     channels = json.loads(PANEL_DATA.read_text(encoding="utf-8")).get("channels", [])
     ch_by_name = {}
@@ -117,7 +141,8 @@ def build(out_file: Path = OUT_FILE):
             by_channel[r["channel"]].append(r)
 
     # ---- 字幕层 genre / hook / language 统计 ----
-    g_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(), "hooks": Counter()})
+    g_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set(),
+                                  "hooks": Counter(), "mainlines": Counter(), "vids": []})
     h_stat = defaultdict(lambda: {"n": 0, "views": [], "langs": Counter(), "chs": set()})
     l_stat = defaultdict(lambda: {"n": 0, "views": [], "trans": 0, "cliff": 0, "chs": set(), "genres": Counter()})
     for r in sub_rows:
@@ -129,6 +154,8 @@ def build(out_file: Path = OUT_FILE):
             s["views"].append(r["views"])
             s["langs"][r["language"]] += 1
             s["chs"].add(r["channel"])
+            s["mainlines"][r["mainline"]] += 1
+            s["vids"].append(r)
             if r["hook"]:
                 s["hooks"][r["hook"]] += 1
         if r["hook"]:
@@ -173,14 +200,25 @@ def build(out_file: Path = OUT_FILE):
                 "top_languages": [l for l, _ in s["langs"].most_common(3)],
                 "subtitle_n": s["n"], "median_views": _med(s["views"]),
                 "top_hooks": [h for h, _ in s["hooks"].most_common(3)],
+                "axis": axis_map.get(g, "母题"),
+                "mainlines": dict(s["mainlines"].most_common()),
                 "evidence": "subtitle",
             },
         })
+        top_vids = sorted(s["vids"], key=lambda r: -(r["views"] or 0))[:5]
         genre_rank.append({
             "genre": g, "channels": len(s["chs"]), "momentum_total": mom_total,
             "momentum_avg": round(mom_total / n_ch), "subs_velocity_total": sv_total,
             "top_languages": [l for l, _ in s["langs"].most_common(3)],
             "subtitle_n": s["n"], "median_views": _med(s["views"]),
+            "axis": axis_map.get(g, "母题"),
+            "mainlines": dict(s["mainlines"].most_common()),
+            "top_videos": [
+                {"title": v["title"][:80], "channel": v["channel"], "language": v["language"],
+                 "views": v["views"], "hook": v["hook"], "mainline": v["mainline"],
+                 "synopsis": v["synopsis"][:120]}
+                for v in top_vids
+            ],
             "top_channels": [
                 {"name": c.get("name"), "channel_id": c.get("channel_id"), "url": c.get("url"),
                  "language": c.get("language"), "subscribers": c.get("subscribers"),
@@ -284,12 +322,14 @@ def build(out_file: Path = OUT_FILE):
         for l in lang_order:
             n = g_stat[g]["langs"].get(l, 0)
             if n:
-                vs = [r["views"] for r in sub_rows if r["language"] == l and g in r["l1"]]
-                cells.append([g, l, n, _med(vs)])
+                sel = [r for r in g_stat[g]["vids"] if r["language"] == l]
+                vs = [r["views"] for r in sel]
+                ml = Counter(r["mainline"] for r in sel).most_common(1)
+                cells.append([g, l, n, _med(vs), ml[0][0] if ml else "其他"])
     matrix = {"genres": genre_order, "languages": lang_order, "cells": cells}
 
     out = {
-        "schema_version": "2.0",
+        "schema_version": "2.1",
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "source": {"subtitle_rows": len(sub_rows), "vocab_version": vocab.get("version"),
                    "merged_away_genres": dict(sorted(merged_away.items(), key=lambda x: -x[1])[:20])},

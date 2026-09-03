@@ -46,14 +46,14 @@
                   :cx="pt.x" :cy="pt.y" :r="pt.r" :fill="pt.color" fill-opacity="0.75"
                   stroke="rgba(255,255,255,0.25)" stroke-width="0.5" style="cursor:pointer;"
                   @mouseenter="hover = pt" @mouseleave="hover = null" @click="pick(pt)">
-            <title>{{ pt.genre }}×{{ pt.language }}: 实证{{ pt.n }}条 · 中位播放{{ pt.mv.toLocaleString() }}</title>
+            <title>{{ pt.genre }}×{{ pt.language }}: 实证{{ pt.n }}条 · 中位播放{{ pt.mv.toLocaleString() }}{{ pt.mainline ? ' · 主线' + pt.mainline : '' }}</title>
           </circle>
           <!-- 蓝海/热战头部点标名 -->
           <text v-for="pt in labeled" :key="'t'+pt.key" :x="pt.x+pt.r+3" :y="pt.y+3"
                 :fill="pt.color" font-size="9" style="pointer-events:none;">{{ pt.genre }}×{{ pt.language }}</text>
         </svg>
         <div v-if="hover" style="font-size:11px;color:var(--text-muted);margin-top:4px;">
-          {{ hover.genre }}×{{ hover.language }} — 实证 {{ hover.n }} 条 · 中位播放 {{ hover.mv.toLocaleString() }} · {{ hover.quadrantLabel }}
+          {{ hover.genre }}<span v-if="hover.axis" style="color:#3498db;">（{{ hover.axis }}轴）</span>×{{ hover.language }} — 实证 {{ hover.n }} 条 · 中位播放 {{ hover.mv.toLocaleString() }}<span v-if="hover.mainline && hover.mainline !== '其他'" style="color:#e67e22;"> · 主线{{ hover.mainline }}</span> · {{ hover.quadrantLabel }}
         </div>
       </div>
 
@@ -63,11 +63,12 @@
           <h3 style="margin:0 0 8px;font-size:14px;color:#3498db;">🟢 蓝海区 Top10（高播放 · 低供给）</h3>
           <table style="width:100%;border-collapse:collapse;font-size:12px;">
             <thead><tr style="color:var(--text-muted);font-size:10px;">
-              <th style="text-align:left;padding:4px;">题材×语种</th><th style="padding:4px;">中位播放</th><th style="padding:4px;">实证数</th>
+              <th style="text-align:left;padding:4px;">题材×语种</th><th style="padding:4px;">主线</th><th style="padding:4px;">中位播放</th><th style="padding:4px;">实证数</th>
             </tr></thead>
             <tbody>
               <tr v-for="i in data.quadrant.blue_ocean.slice(0,10)" :key="i.genre+i.language" style="border-top:1px solid var(--border);cursor:pointer;" @click="pick(i,'blue_ocean')">
                 <td style="padding:5px 4px;">{{ i.genre }} × {{ i.language }}</td>
+                <td style="padding:5px 4px;text-align:center;"><span v-if="i.mainline && i.mainline !== '其他'" :style="mainlineChip(i.mainline)">{{ i.mainline }}</span><span v-else style="color:var(--text-dim);">·</span></td>
                 <td style="padding:5px 4px;text-align:center;color:#3498db;font-weight:bold;">{{ fmt(i.median_views) }}</td>
                 <td style="padding:5px 4px;text-align:center;color:var(--text-muted);">{{ i.n }}</td>
               </tr>
@@ -79,11 +80,12 @@
           <h3 style="margin:0 0 8px;font-size:14px;color:#e74c3c;">🔴 红海区 Top10（低播放 · 高供给 → 规避）</h3>
           <table style="width:100%;border-collapse:collapse;font-size:12px;">
             <thead><tr style="color:var(--text-muted);font-size:10px;">
-              <th style="text-align:left;padding:4px;">题材×语种</th><th style="padding:4px;">中位播放</th><th style="padding:4px;">实证数</th>
+              <th style="text-align:left;padding:4px;">题材×语种</th><th style="padding:4px;">主线</th><th style="padding:4px;">中位播放</th><th style="padding:4px;">实证数</th>
             </tr></thead>
             <tbody>
               <tr v-for="i in data.quadrant.red_sea.slice(0,10)" :key="i.genre+i.language" style="border-top:1px solid var(--border);cursor:pointer;" @click="pick(i,'red_sea')">
                 <td style="padding:5px 4px;">{{ i.genre }} × {{ i.language }}</td>
+                <td style="padding:5px 4px;text-align:center;"><span v-if="i.mainline && i.mainline !== '其他'" :style="mainlineChip(i.mainline)">{{ i.mainline }}</span><span v-else style="color:var(--text-dim);">·</span></td>
                 <td style="padding:5px 4px;text-align:center;color:#e74c3c;font-weight:bold;">{{ fmt(i.median_views) }}</td>
                 <td style="padding:5px 4px;text-align:center;color:var(--text-muted);">{{ i.n }}</td>
               </tr>
@@ -188,6 +190,13 @@ const labeled = computed(() => {
   const hot = points.value.filter(p => p.quadrant === 'hot_war').sort((a, b) => b.mv - a.mv).slice(0, 3)
   return [...blue, ...hot]
 })
+
+// 主线四分类配色，与 KnowledgeGraph/后端 mainline_rules 对齐
+const MAINLINE_COLORS = { '感情': '#e74c3c', '家庭': '#f1c40f', '个人': '#2ecc71', '职场': '#3498db', '其他': '#7f8c8d' }
+function mainlineChip(k) {
+  const c = MAINLINE_COLORS[k] || '#7f8c8d'
+  return { padding: '0 6px', borderRadius: '4px', background: c + '22', color: c, fontSize: '10px', whiteSpace: 'nowrap' }
+}
 
 // 点击 → 跳图谱页并打开该题材详情
 function pick(i, q) {

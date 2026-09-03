@@ -4,7 +4,7 @@
       <div>
         <h2 style="margin:0;font-size:16px;">🕸 竞品知识图谱</h2>
         <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
-          题材 × 语种 × 频道 × 钩子 关联网络 · 数据截至 {{ graph?.generated_at || '…' }}
+          题材 × 语种 × 频道 × 钩子 × 主线 关联网络 · 数据截至 {{ graph?.generated_at || '…' }}
         </div>
       </div>
       <div v-if="graph?.stats" style="display:flex;gap:14px;font-size:12px;">
@@ -22,7 +22,7 @@
       <!-- 题材×语种 热力矩阵 -->
       <div class="card">
         <h3 style="margin:0 0 4px;font-size:14px;">🔥 题材 × 语种 热力矩阵</h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 悬停看中位播放 · 点击行看详情</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">格子 = 字幕实证视频数 · 越亮内容越多 · 悬停看中位播放/主线 · 点击行看详情</div>
         <div style="overflow-x:auto;">
           <table style="border-collapse:collapse;font-size:11px;min-width:100%;">
             <thead>
@@ -41,7 +41,7 @@
                   <span v-else-if="row.rank.channels >= 150" style="font-size:9px;color:#e74c3c;margin-left:2px;" title="频道数超150,竞争激烈">🔥</span>
                 </td>
                 <td v-for="l in matrixLangs" :key="l" style="padding:3px 6px;">
-                  <span v-if="cell(row.genre, l)" :style="cellStyle(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}`">{{ cell(row.genre, l)[0] }}</span>
+                  <span v-if="cell(row.genre, l)" :style="cellStyle(row.genre, l)" :title="`${row.genre}×${l}: 实证${cell(row.genre,l)[0]}条 · 中位播放${(cell(row.genre,l)[1]||0).toLocaleString()}${cell(row.genre,l)[2] ? ' · 主线' + cell(row.genre,l)[2] : ''}`">{{ cell(row.genre, l)[0] }}</span>
                   <span v-else style="color:var(--text-dim);opacity:0.35;">·</span>
                 </td>
                 <td style="padding:4px 8px;color:#2ecc71;font-weight:bold;white-space:nowrap;">{{ fmt(row.rank.momentum_total) }}</td>
@@ -59,7 +59,11 @@
              style="display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;"
              @mouseenter="$event.currentTarget.style.background='var(--bg-elevated)'" @mouseleave="$event.currentTarget.style.background=''">
           <div style="flex:1;min-width:0;">
-            <div style="font-size:12px;">{{ r.genre }} <span v-if="r.momentum_avg>=5500 && r.channels<=60" style="font-size:9px;color:#3498db;">🌊</span></div>
+            <div style="font-size:12px;">{{ r.genre }}
+              <span v-if="r.axis" style="font-size:9px;padding:0 4px;border-radius:3px;background:rgba(52,152,219,0.15);color:#3498db;" :title="r.axis + '轴（设定=世界观，母题=故事引擎）'">{{ r.axis }}</span>
+              <span v-if="topMainline(r)" style="font-size:9px;color:#e67e22;">{{ topMainline(r) }}线</span>
+              <span v-if="r.momentum_avg>=5500 && r.channels<=60" style="font-size:9px;color:#3498db;">🌊</span>
+            </div>
             <div style="font-size:9px;color:var(--text-dim);">{{ r.channels }}频道 · 主打 {{ r.top_languages.join('/') }}<span v-if="r.subtitle_n" style="color:#4ecdc4;"> · 实证{{ r.subtitle_n }}条 中位{{ fmt(r.median_views) }}</span></div>
             <div style="height:3px;background:var(--bg-elevated);border-radius:2px;margin-top:2px;">
               <div :style="{ width: Math.min(r.momentum_avg / effMax * 100, 100) + '%', height: '100%', borderRadius: '2px', background: r.momentum_avg >= 5500 ? '#3498db' : '#4ecdc4' }"></div>
@@ -77,15 +81,21 @@
     <div v-if="selected" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:1000;overflow-y:auto;padding:20px;" @click.self="selected = null">
       <div style="background:var(--bg-card,#16213e);border:1px solid var(--border,#2a2a4a);border-radius:12px;max-width:720px;margin:40px auto;padding:20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <h3 style="margin:0;font-size:15px;">🎭 {{ selected.genre }} · {{ selected.channels }} 个频道</h3>
+          <h3 style="margin:0;font-size:15px;">🎭 {{ selected.genre }}
+            <span v-if="selected.axis" style="font-size:10px;font-weight:normal;padding:1px 6px;border-radius:4px;background:rgba(52,152,219,0.18);color:#3498db;margin-left:4px;">{{ selected.axis }}轴</span>
+            · {{ selected.channels }} 个频道</h3>
           <button class="btn btn-sm" @click="selected = null">✕</button>
         </div>
-        <div style="display:flex;gap:16px;font-size:12px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="display:flex;gap:16px;font-size:12px;margin-bottom:8px;flex-wrap:wrap;">
           <span>动量合计 <b style="color:#2ecc71;">{{ fmt(selected.momentum_total) }}/天</b></span>
           <span>单频道均 <b style="color:#3498db;">{{ fmt(selected.momentum_avg) }}/天</b></span>
           <span>订阅涨速合计 <b style="color:#e67e22;">+{{ fmt(selected.subs_velocity_total) }}/周</b></span>
           <span v-if="selected.subtitle_n">字幕实证 <b style="color:#4ecdc4;">{{ selected.subtitle_n }} 条</b> · 中位播放 <b style="color:#4ecdc4;">{{ fmt(selected.median_views) }}</b></span>
           <span>主语种 <b>{{ selected.top_languages.join(' / ') }}</b></span>
+        </div>
+        <div v-if="selected.mainlines && selected.subtitle_n" style="display:flex;gap:6px;font-size:11px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+          <span style="color:var(--text-muted);font-size:10px;">内容主线</span>
+          <span v-for="(n,k) in selected.mainlines" :key="k" :style="mainlineChip(k, n, selected.subtitle_n)">{{ k }} {{ Math.round(n / selected.subtitle_n * 100) }}%</span>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:12px;">
           <thead>
@@ -110,6 +120,24 @@
           </tbody>
         </table>
         <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">动量 = 近30天发布视频日均播放 · 涨速 = ≥14天窗口订阅周增量 · 点击 ▶ 跳转频道</div>
+
+        <template v-if="selected.top_videos && selected.top_videos.length">
+          <h4 style="margin:16px 0 6px;font-size:13px;">🎬 实证 Top{{ selected.top_videos.length }} 视频（按播放 · 含剧情模式链）</h4>
+          <div v-for="(v,i) in selected.top_videos" :key="i" style="border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;">
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;">
+              <div style="font-size:12px;font-weight:bold;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ i + 1 }}. {{ v.title }}</div>
+              <div style="font-size:11px;color:#2ecc71;flex-shrink:0;">{{ fmt(v.views) }}</div>
+            </div>
+            <div style="display:flex;gap:6px;font-size:10px;margin-top:4px;flex-wrap:wrap;align-items:center;">
+              <span v-if="v.hook" style="padding:1px 6px;border-radius:4px;background:rgba(230,126,34,0.15);color:#e67e22;">🪝 {{ v.hook }}</span>
+              <span v-if="v.mainline && v.mainline !== '其他'" :style="mainlineChip(v.mainline, 1, 1)">{{ v.mainline }}线</span>
+              <span style="color:var(--text-muted);">{{ v.language }}</span>
+              <span style="color:var(--text-dim);">{{ v.channel }}</span>
+            </div>
+            <div v-if="v.synopsis" style="font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.5;">{{ v.synopsis }}</div>
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">🪝 = 开场钩子类型 · 主线 = 剧情核心场域 · 摘要 = 字幕实证的一句话剧情（含剧情模式链）</div>
+        </template>
       </div>
     </div>
   </div>
@@ -159,7 +187,7 @@ function cell(genre, lang) {
   const c = graph.value?.matrix?.cells
   if (!c) return null
   for (const row of c) {
-    if (row[0] === genre && row[1] === lang) return [row[2], row[3]]
+    if (row[0] === genre && row[1] === lang) return [row[2], row[3], row[4]]
   }
   return null
 }
@@ -181,6 +209,24 @@ function cellStyle(genre, lang) {
     color: heat > 0.55 ? '#fff' : 'var(--text)',
     fontWeight: heat > 0.55 ? 'bold' : 'normal',
   }
+}
+
+// 主线四分类配色（感情/家庭/个人/职场），与后端 mainline_rules 对齐
+const MAINLINE_COLORS = { '感情': '#e74c3c', '家庭': '#f1c40f', '个人': '#2ecc71', '职场': '#3498db', '其他': '#7f8c8d' }
+function mainlineChip(k, n, total) {
+  const c = MAINLINE_COLORS[k] || '#7f8c8d'
+  const share = total ? n / total : 1
+  return {
+    padding: '1px 7px', borderRadius: '4px',
+    background: c + '22', color: c,
+    fontWeight: share >= 0.5 ? 'bold' : 'normal',
+  }
+}
+function topMainline(r) {
+  const m = r.mainlines || {}
+  let best = '', bn = 0
+  for (const k in m) { if (k !== '其他' && m[k] > bn) { best = k; bn = m[k] } }
+  return best
 }
 
 function selectGenre(genre) {
