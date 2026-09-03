@@ -107,20 +107,20 @@
   "emotion_tags": ["≤3个主导情绪：爽/虐/甜/燃/悬疑/哭/搞笑"],
   "cliffhanger_loop": {{
     "present": true/false,
-    "interval_sec": 卡点循环平均间隔秒数（估计；非循环结构null）,
+    "interval_sec": 卡点循环平均间隔秒数；**仅当字幕文本内可见≥2个卡点切黑/转场标记才填，禁止按抽样推算全片**（非循环结构null）,
     "desc": "卡点方式一句话（如'每段结尾主角命悬一线切黑'）"
   }},
   "episode_structure": {{
     "is_compilation": "true/false（判断依据=片头重复/回顾转场/剧情跳跃/集数标记，不以时长论）",
-    "episode_count_est": "估计集数或null",
-    "avg_episode_min": "估计单集分钟数或null",
+    "episode_count_est": "估计集数；**仅当字幕出现≥2个明确集边界标记（片头重复/集数字幕）才填，否则null**",
+    "avg_episode_min": "估计单集分钟数；同上门禁",
     "evidence": "判断依据（≤30字字幕原句）"
   }},
   "ending_cliffhanger": {{"present": true/false, "pattern": "结尾悬念句式一句话", "quote": "字幕原句（逐字）"}},
   "reversal_density": 每10分钟反转/冲突转折次数（整数估计）,
   "characters": [{{"name": "角色名（按发音还原最可能写法；字幕内出现中文原名时用'外文名（中文名）'格式）", "role": "主角/反派/配角+一句话中文身份", "cn_name": "能高置信还原的中文名；还原不了输出null，禁止编造"}}],
   "distinctive_lines": ["3-5句最有辨识度的台词原句（逐字，选专有名词/独特说法/情绪重句，避开泛泛表达）"],
-  "distinctive_lines_cn": ["与上数组同顺序的中文直译（逐句对应，不是意译）"],
+  "distinctive_lines_cn": ["与上数组**同顺序同长度**的中文直译（逐句对应，不是意译）；两条数组长度必须一致"],
   "origin_signals": {{
     "feels_translated": true/false,
     "reason": "中文判断依据：人名发音/货币单位/场景设定",
@@ -134,8 +134,9 @@
   "cn_title_guess": {{
     "title": "可能的中文原名；无把握输出null",
     "confidence": 0.0到1.0,
-    "basis": "判定依据（角色名中文标注/繁中字幕直给/高辨识台词直译可还原）；无依据禁止填"
+    "basis": "判定依据。**门禁：仅当字幕文本出现明确中文原名标注（如'袁毅'）或繁中字幕直给剧名时才允许填写；仅凭题材/剧情推测一律null**"
   }},
+  "antagonist": {{"archetype": "极品反派模板（如有）：恶毒婆婆/白莲花养女/势利丈母娘/绿茶闺蜜/黑心 uncle/小三/控制狂父亲…", "desc": "一句话中文画像（谁+使什么坏）"}},
   "hit_signals": ["为什么是它爆了：2-3个可见内容信号，每条'信号+出现时间'，如'第15秒女儿寻父泪点开场，情感钩子前置'；只写字幕里看得见的，禁止用播放数据反推"]
 }}
 

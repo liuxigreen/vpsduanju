@@ -76,6 +76,10 @@ def validate(parsed, d, vocab):
         h = parsed.get(hook_key) or {}
         q = re.sub(r"\s+", "", h.get("event", ""))
         # event 是描述句不强制回查；quote 类字段才回查
+    dl, dlc = parsed.get("distinctive_lines") or [], parsed.get("distinctive_lines_cn") or []
+    if dlc and len(dl) != len(dlc):
+        issues.append(f"distinctive_lines({len(dl)})与_cn({len(dlc)})长度不一致")
+        parsed.setdefault("_warnings", []).append("lines_cn_misaligned")
     cl = (parsed.get("ending_cliffhanger") or {}).get("quote", "")
     if cl and re.sub(r"\s+", "", cl) not in hay:
         issues.append("cliffhanger.quote不在字幕中(ASR容错降级为警告)")
