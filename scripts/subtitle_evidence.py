@@ -236,3 +236,38 @@ if __name__ == "__main__":
     lang = sys.argv[2] if len(sys.argv) > 2 else ""
     b = channel_subtitle_block(name, lang)
     print(b or f"(无字幕数据: {name})")
+
+
+# ── 共享题材归一器（词表规则单一实现，market_insights/blue_ocean/图谱v2 复用）──
+VOCAB_FILE = ROOT / "data" / "subtitle_analysis" / "genre_vocab_map.json"
+_VOCAB_NORM = None
+
+
+def get_genre_normalizer():
+    """返回 (norm, drop_set, valid_targets)。norm(未命中返回原值)；drop_set=非题材词；
+    valid_targets=归并主轴全集。规则全部来自 genre_vocab_map.json，代码零硬编码。"""
+    global _VOCAB_NORM
+    if _VOCAB_NORM is None:
+        v = json.load(open(VOCAB_FILE, encoding="utf-8"))
+        assert v.get("l1_rules"), "genre_vocab_map.json 缺 l1_rules"
+        t2s = str.maketrans(v.get("t2s", {}))
+        rules = [(r["pattern"], r["target"]) for r in v["l1_rules"]]
+        drop = set(v.get("drop", []))
+        tag2l1 = v.get("channel_tag_to_l1", {})
+        targets = {t for _, t in rules} | set(tag2l1.values())
+
+        def norm(g):
+            g = (g or "").strip()
+            if g in drop:
+                return ""  # 非题材词
+            if g in tag2l1:
+                return tag2l1[g]  # 频道tag精确映射（英文/旧词表优先）
+            g = g.translate(t2s)
+            if g in tag2l1:
+                return tag2l1[g]
+            for pat, tgt in rules:
+                if pat in g:
+                    return tgt
+            return g
+        _VOCAB_NORM = (norm, drop, targets)
+    return _VOCAB_NORM

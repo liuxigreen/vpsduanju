@@ -192,15 +192,13 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
 
     # 题材动量聚合（基于velocity实时数据，多题材频道均摊）— rising/declining 的真实依据
     # 注意: 聚合所有有动量数据的频道（入场门槛是"动量或均播≥1万"，低动量频道的动量同样有信号价值）
-    # 题材归一化：别名合并 + 非题材噪声过滤（频道名/泛化词/纯语言标签）
-    GENRE_ALIAS = {
-        "Cinderella": "灰姑娘", "cinderela": "灰姑娘", "灰姑娘": "灰姑娘",
-        "CEO": "霸总", "ceolovestory": "霸总", "浪漫爱情": "爱情", "amor": "爱情",
-        "drama de amor": "爱情", "Romansa": "爱情", "kiss": "爱情", "sweet": "甜宠",
-        "ação": "动作", "假身份": "秘密身份", "隐藏身份": "秘密身份",
-    }
-    NON_GENRE = {"剧情", "film cina", "Sinetron pendek", "Web drama", "Gado-Gado Clips",
-                 "filme completo", "中文短剧", "女频", "男频"}
+    # 题材归一化：统一走字幕词表 genre_vocab_map.json（v1.1，含别名/繁简/噪声drop，零硬编码）
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from subtitle_evidence import get_genre_normalizer
+        _norm, _drop, _valid = get_genre_normalizer()
+    except Exception:
+        _norm, _valid = (lambda g: g), set()
     genre_momentum = defaultdict(int)
     genre_channels = defaultdict(list)
     for ch in channels:
@@ -210,9 +208,9 @@ def prepare_market_data(lang: str, channels: list, latest_stats: dict) -> dict:
         raw_tags = [t.strip() for t in (rs.get("content_tags") or []) if t and t.strip()]
         tags = []
         for t in raw_tags:
-            if t in NON_GENRE:
+            g = _norm(t)
+            if not g or (_valid and g not in _valid):  # 噪声词/未命中主轴的丢弃
                 continue
-            g = GENRE_ALIAS.get(t, GENRE_ALIAS.get(t.lower(), t))
             if g not in tags:
                 tags.append(g)
         if mom > 0 and tags:

@@ -8,12 +8,13 @@
   - 每个 genre/language/channel 节点新增 subtitle_* 实证字段(n/中位播放/翻译率/证据边)
   - 无字幕证据的频道: 题材边回退 channel_tag_to_l1 映射, 打 inferred 角标(前端可显示⚠️)
 
-输出: data/knowledge_graph_v2.json (schema_version 2.0) —— 不覆盖现网 knowledge_graph.json
+输出: data/knowledge_graph.json (schema_version 2.0)；--out 可指定沙箱文件
 输入: data/subtitle_analysis/full_normalized.jsonl + data/competitors_channels_all.json
       + data/subtitle_analysis/genre_vocab_map.json (v1.1, 归并规则零硬编码)
 
-用法: python3 scripts/competitor_knowledge_graph_v2.py
+用法: python3 scripts/competitor_knowledge_graph_v2.py [--out PATH]
 """
+import argparse
 import json
 import sys
 from collections import Counter, defaultdict
@@ -24,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SUBS_FILE = ROOT / "data" / "subtitle_analysis" / "full_normalized.jsonl"
 PANEL_DATA = ROOT / "data" / "competitors_channels_all.json"
 VOCAB_FILE = ROOT / "data" / "subtitle_analysis" / "genre_vocab_map.json"
-OUT_FILE = ROOT / "data" / "knowledge_graph_v2.json"
+OUT_FILE = ROOT / "data" / "knowledge_graph.json"  # 现网产物；沙箱对比用 --out 覆盖
 
 MIN_SUBTITLE_N = 20          # 题材节点最少实证视频数（不足并入观察，不进图）
 TOP_GENRES_PER_CHANNEL = 5   # 每频道从字幕取前N题材
@@ -97,7 +98,7 @@ def _subs_vel(ch):
     return (ch.get("tracking") or {}).get("subs_velocity_weekly") or 0
 
 
-def build():
+def build(out_file: Path = OUT_FILE):
     vocab = load_vocab()
     norm = make_normalizer(vocab)
     sub_rows = load_subtitle_rows(norm)
@@ -301,8 +302,8 @@ def build():
         "genre_rank": genre_rank,
         "matrix": matrix,
     }
-    OUT_FILE.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"✅ 图谱v2(沙箱)已生成: {OUT_FILE.name}")
+    out_file.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"✅ 图谱v2已生成: {out_file.name}")
     print(f"   频道 {len(channel_nodes)}(实证{n_evidenced}) | 题材 {len(genre_nodes)} | "
           f"语种 {len(lang_nodes)} | 钩子 {len(hook_nodes)} | 边 {len(edges)}")
     print(f"   长尾题材被阈值过滤: {len(merged_away)} 值")
@@ -318,4 +319,7 @@ def build():
 
 
 if __name__ == "__main__":
-    sys.exit(build())
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=str(OUT_FILE), help="输出路径（默认覆盖现网 knowledge_graph.json）")
+    args = ap.parse_args()
+    sys.exit(build(Path(args.out)))
