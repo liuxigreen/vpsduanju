@@ -18,6 +18,9 @@
 
     <div v-if="error" class="empty-state"><div class="icon">⚠</div><div>{{ error }}</div></div>
 
+    <BlueOceanView style="margin-top:14px;" />
+
+
     <div v-if="graph && !error" style="display:grid;grid-template-columns:minmax(0,3fr) minmax(260px,2fr);gap:16px;margin-top:16px;">
       <!-- 题材×语种 热力矩阵 -->
       <div class="card">
@@ -79,7 +82,7 @@
       <!-- 钩子效果区（左列第二行，填补热力图下方空白） -->
       <div class="card" v-if="hookRows.length" style="grid-column:1 / 2;">
         <h3 style="margin:0 0 4px;font-size:14px;">🪝 开场钩子 × 效果</h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">类型 = 前3分钟主导钩子 · 条 = 实证视频数 · 中位 = 该类视频中位播放 · 秒 = 钩子出现时点分布</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">类型 = 前3分钟主导钩子 · 秒 = 钩子出现时点分布 · 数字来自字幕实证（原句回查），样本 n 越大越稳，⚠️样本少仅供参考</div>
         <div v-for="h in hookRows" :key="h.name" style="display:flex;align-items:center;gap:10px;padding:4px 2px;">
           <div style="width:76px;flex-shrink:0;font-size:12px;font-weight:bold;">{{ h.name }}</div>
           <div style="flex:1;min-width:0;">
@@ -89,16 +92,15 @@
             <div style="font-size:9px;color:var(--text-dim);margin-top:2px;">{{ h.langs }} · {{ h.secLabel }}</div>
           </div>
           <div style="text-align:right;flex-shrink:0;width:118px;">
-            <div style="font-size:12px;font-weight:bold;color:#e67e22;">{{ fmt(h.median) }}</div>
+            <div style="font-size:12px;font-weight:bold;color:#e67e22;">{{ fmt(h.median) }}<span v-if="h.thin" title="样本<200，数字仅供参考" style="font-size:9px;color:var(--text-dim);"> ⚠️样本少</span></div>
             <div style="font-size:9px;color:var(--text-muted);">中位播放 · {{ h.n }}条</div>
           </div>
         </div>
       </div>
       <!-- 词表健康 -->
       <div class="card" v-if="vocab" style="grid-column:2 / 3;">
-        <h3 style="margin:0 0 4px;font-size:14px;">📖 词表健康 <span style="font-size:10px;color:var(--text-muted);">v{{ vocab.vocab_version }}</span></h3>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">归一化标签 {{ vocab.distinct_labels }} · 词表靶 {{ vocab.vocab_targets }} · 覆盖 <b style="color:#2ecc71;">{{ Math.round((vocab.known_share || 0) * 100) }}%</b> · 长尾 {{ vocab.longtail_count }} 个({{ vocab.longtail_rows }}条)</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">待评审标签（出现≥3次，词表未覆盖）</div>
+        <h3 style="margin:0 0 4px;font-size:14px;">📖 题材命名一致性 <span style="font-size:10px;color:var(--text-muted);">v{{ vocab.vocab_version }}</span></h3>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">AI 分析里出现过的 {{ vocab.distinct_labels }} 种题材叫法，已归入 {{ vocab.vocab_targets }} 类，覆盖 <b style="color:#2ecc71;">{{ Math.round((vocab.known_share || 0) * 100) }}%</b>。下面是还没归类的叫法，你拍板后我会并进词表：</div>
         <div style="display:flex;gap:5px;flex-wrap:wrap;">
           <span v-for="p in (vocab.pending || [])" :key="p.label"
                 :title="'出现 ' + p.n + ' 条 · 样例: ' + p.sample" style="font-size:10.5px;background:rgba(243,156,18,0.1);color:#f39c12;padding:2px 8px;border-radius:4px;">{{ p.label }} ×{{ p.n }}</span>
@@ -198,6 +200,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '../api/index.js'
+import BlueOceanView from './BlueOcean.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -240,6 +243,7 @@ const hookRows = computed(() => {
     .map(h => ({
       name: h.label,
       n: h.metrics.subtitle_n || 0,
+      thin: (h.metrics.subtitle_n || 0) < 200,
       median: h.metrics.median_views || 0,
       langs: (h.metrics.top_languages || []).slice(0, 3).join('/'),
       p25: h.metrics.sec_p25, p50: h.metrics.sec_median, p75: h.metrics.sec_p75,
