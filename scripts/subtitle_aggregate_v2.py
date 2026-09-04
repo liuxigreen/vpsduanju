@@ -22,11 +22,12 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC_MERGED = ROOT / "data/subtitle_analysis/incoming/analyses_merged_4497.jsonl"
+# 2.1起 支持多源合并：incoming/ 下所有 analyses_*.jsonl，按文件名排序，同 video_id 后文件覆盖（增量批覆盖全量基线）
+SRC_DIR = ROOT / "data/subtitle_analysis/incoming"
 OUT = ROOT / "data/subtitle_analysis"
 os.makedirs(OUT, exist_ok=True)
 
-SCHEMA_VERSION = "2.0"
+SCHEMA_VERSION = "2.1"
 
 # ── 归一化（统一到 genre_vocab_map v1.2 单一来源，与图谱v2/注入/市场洞察同规则）──
 # 旧 genre_vocab.yaml 仅保留 alias/non_genre 作为兼容层；规则主体走 vocab_map 的
@@ -148,7 +149,20 @@ def load_meta(newids):
 # ── 读取合并文件 + 归一化 ──
 def load_rows():
     rows, bad = [], 0
-    raws = [json.loads(l) for l in SRC_MERGED.read_text(encoding="utf-8").splitlines() if l.strip()]
+    src_files = sorted(SRC_DIR.glob("analyses_*.jsonl"))
+    if not src_files:
+        raise FileNotFoundError(f"{SRC_DIR} 下无 analyses_*.jsonl")
+    merged = {}  # video_id -> record，后文件覆盖前文件
+    for f in src_files:
+        for l in f.read_text(encoding="utf-8").splitlines():
+            if not l.strip():
+                continue
+            try:
+                r = json.loads(l)
+                merged[r["video_id"]] = r
+            except Exception:
+                bad += 1
+    raws = list(merged.values())
     newids = {r["video_id"] for r in raws}
     meta = load_meta(newids)
     for r in raws:
@@ -195,11 +209,22 @@ def load_rows():
                     "key_reveals": a.get("key_reveals", []),
                     "origin_signals": a.get("origin_signals", {}),
                     "confidence": a.get("confidence"),
+                    # ── extract_v2 新维度（schema 2.1；v1 老记录 .get 缺省，不回填）──
+                    "audience": a.get("audience"),
+                    "opening_style": a.get("opening_style"),
+                    "emotion_tags": a.get("emotion_tags", []),
+                    "cliffhanger_loop": a.get("cliffhanger_loop"),
+                    "episode_structure": a.get("episode_structure"),
+                    "title_match": a.get("title_match"),
+                    "cn_title_guess": a.get("cn_title_guess"),
+                    "antagonist": a.get("antagonist"),
+                    "hit_signals": a.get("hit_signals", []),
+                    "distinctive_lines_cn": a.get("distinctive_lines_cn", []),
                 },
             })
         except Exception:
             bad += 1
-    return rows, bad
+    return rows, bad, [f.name for f in src_files], len(raws)
 
 # ── 质检门禁（放量前冻结校验）──
 def qc(rows):
@@ -283,7 +308,7 @@ def grp_stats(rows, keyfn):
 # 主流程
 # ══════════════════════════════════════════════
 
-rows, bad = load_rows()
+rows, bad, src_names, n_raw = load_rows()
 qc_res = qc(rows)
 
 with open(OUT / "full_normalized.jsonl", "w", encoding="utf-8") as f:
@@ -357,7 +382,7 @@ report = {
     "pipeline_version": "subtitle_aggregate_v2",
     "schema_version": SCHEMA_VERSION,
     "generated_at": datetime.now().isoformat(timespec="seconds"),
-    "input": {"merged": str(SRC_MERGED), "bad_lines_dropped": bad},
+    "input": {"sources": src_names, "records_after_dedupe": n_raw, "bad_lines_dropped": bad},
     "rows": len(rows),
     "qc": qc_res,
     "model_family_counts": dict(Counter(d["model_family"] for d in rows).most_common()),

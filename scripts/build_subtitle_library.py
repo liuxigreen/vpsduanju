@@ -65,6 +65,7 @@ def build():
             "translated": bool(origin.get("feels_translated")),
             "confidence": a.get("confidence"),
             "is_compilation": bool(d.get("is_compilation")),
+            "audience": a.get("audience"),
         })
         details[vid] = {
             "video_id": vid,
@@ -86,6 +87,16 @@ def build():
             "characters": [{"name": (c or {}).get("name"), "role": (c or {}).get("role")}
                            for c in (a.get("characters") or []) if isinstance(c, dict) and c.get("name")][:8],
             "distinctive_lines": [x for x in (a.get("distinctive_lines") or []) if isinstance(x, str)][:6],
+            "distinctive_lines_cn": [x for x in (a.get("distinctive_lines_cn") or []) if isinstance(x, str)][:6],
+            "audience": a.get("audience"),
+            "opening_style": a.get("opening_style"),
+            "emotion_tags": [x for x in (a.get("emotion_tags") or []) if isinstance(x, str)][:3],
+            "antagonist": a.get("antagonist") if isinstance(a.get("antagonist"), dict) else None,
+            "title_match": a.get("title_match") if isinstance(a.get("title_match"), dict) else None,
+            "cn_title_guess": a.get("cn_title_guess") if isinstance(a.get("cn_title_guess"), dict) else None,
+            "cliffhanger_loop": a.get("cliffhanger_loop") if isinstance(a.get("cliffhanger_loop"), dict) else None,
+            "hit_signals": [x for x in (a.get("hit_signals") or []) if isinstance(x, str)][:4],
+            "payoffs": [x for x in (a.get("payoffs") or []) if isinstance(x, str)][:4],
             "evidence": a.get("evidence") or {},
             "translated": bool(origin.get("feels_translated")),
             "origin_reason": (origin.get("reason") or "").strip(),

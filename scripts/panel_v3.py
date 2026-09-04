@@ -2129,6 +2129,14 @@ class Handler(BaseHTTPRequestHandler):
                         "duration_sec": d.get("duration_sec"),
                         "confidence": d.get("confidence"),
                         "model_family": d.get("model_family"),
+                        # ── extract_v2 新维度（老记录缺省为空，前端判空渲染）──
+                        "hit_signals": d.get("hit_signals") or [],
+                        "antagonist": d.get("antagonist"),
+                        "title_match": d.get("title_match"),
+                        "emotion_tags": d.get("emotion_tags") or [],
+                        "audience": d.get("audience"),
+                        "lines": (d.get("distinctive_lines") or [])[:4],
+                        "lines_cn": (d.get("distinctive_lines_cn") or [])[:4],
                     }
                 if vid:
                     a_["spark"] = [snap.get(vid) for snap in days_snaps]
