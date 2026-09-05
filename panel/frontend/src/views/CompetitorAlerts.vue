@@ -65,6 +65,24 @@
                 <span style="background:rgba(230,126,34,0.15);color:#e67e22;padding:1px 8px;border-radius:4px;">🪝 {{ a.subtitle.hook }}<template v-if="a.content.hook_sec != null"> · 第 {{ a.content.hook_sec }} 秒</template></span>
                 <span style="color:var(--text-muted);margin-left:6px;">{{ a.content.hook_event }}</span>
               </div>
+              <div v-if="(a.content.emotion_tags || []).length || a.content.audience" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;align-items:center;">
+                <span v-if="a.content.audience" style="font-size:10px;background:rgba(52,152,219,0.12);color:#3498db;padding:1px 6px;border-radius:3px;">{{ a.content.audience }}</span>
+                <span v-for="e in a.content.emotion_tags" :key="e" style="font-size:10px;color:var(--text-muted);border:1px solid var(--border);padding:1px 6px;border-radius:3px;">{{ e }}</span>
+              </div>
+              <div v-if="(a.content.hit_signals || []).length" style="margin-bottom:6px;">
+                <div style="font-size:9.5px;color:var(--text-muted);margin-bottom:3px;">🔥 爆款信号</div>
+                <div v-for="(s, si) in a.content.hit_signals" :key="si" style="font-size:10.5px;line-height:1.55;color:var(--text-main);">· {{ s }}</div>
+              </div>
+              <div v-if="a.content.antagonist && a.content.antagonist.desc" style="font-size:10.5px;margin-bottom:6px;color:var(--text-muted);">
+                <span style="color:#c0392b;">反派</span> {{ a.content.antagonist.archetype }} — {{ a.content.antagonist.desc }}
+              </div>
+              <div v-if="a.content.title_match && a.content.title_match.delivers === false" style="font-size:10px;margin-bottom:6px;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:4px;padding:3px 8px;color:#e74c3c;">
+                ⚠️ 标题承诺「{{ a.content.title_match.promise }}」字幕未兑现：{{ a.content.title_match.gap }}
+              </div>
+              <div v-if="(a.content.lines_cn || []).length" style="margin-bottom:6px;">
+                <div style="font-size:9.5px;color:var(--text-muted);margin-bottom:3px;">💬 标志性台词</div>
+                <div v-for="(ln, li) in a.content.lines_cn" :key="li" style="font-size:10.5px;line-height:1.55;color:var(--text-main);">“{{ ln }}”</div>
+              </div>
               <div v-if="(a.content.reveals || []).length" style="margin-bottom:6px;">
                 <div style="font-size:9.5px;color:var(--text-muted);margin-bottom:4px;">反转时间轴（按片长位置）</div>
                 <div style="position:relative;height:10px;background:var(--bg-elevated);border-radius:5px;">
