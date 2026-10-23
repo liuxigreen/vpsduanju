@@ -361,8 +361,10 @@ def write_daily_data(refs: dict, analysis_data: dict):
 
     if result.get("code") == 0:
         print(f"✅ 自有账号日报: 写入 {len(records)} 条记录")
+        return True
     else:
         print(f"❌ 自有账号日报写入失败: {result.get('msg', '')}")
+        return False
 
 
 def write_video_data(refs: dict, channel_name: str, videos: list):
@@ -398,7 +400,7 @@ def write_video_data(refs: dict, channel_name: str, videos: list):
         records.append(record)
 
     if not records:
-        return
+        return True
 
     result = _api_post(
         f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/records/batch_create",
@@ -408,8 +410,10 @@ def write_video_data(refs: dict, channel_name: str, videos: list):
 
     if result.get("code") == 0:
         print(f"  ✅ {channel_name}: 写入 {len(records)} 条视频")
+        return True
     else:
         print(f"  ❌ {channel_name} 视频写入失败: {result.get('msg', '')}")
+        return False
 
 
 def run_daily():
@@ -433,7 +437,9 @@ def run_daily():
     clear_table(refs, "both")
 
     # 写入自有账号日报
-    write_daily_data(refs, analysis_data)
+    failures = 0
+    if not write_daily_data(refs, analysis_data):
+        failures += 1
 
     # 写入视频明细（如果有）
     details = analysis_data.get("channel_details", {})
@@ -441,9 +447,15 @@ def run_daily():
         # 优先用 recent_videos（按发布时间倒排）
         videos = ch_data.get("recent_videos") or ch_data.get("top_videos", [])
         if videos:
-            write_video_data(refs, ch_name, videos)
+            if not write_video_data(refs, ch_name, videos):
+                failures += 1
 
     print(f"\n📎 多维表格: {refs.get('url', '')}")
+
+    if failures:
+        print(f"❌ 共 {failures} 个表写入失败")
+        sys.exit(1)
+    print("✅ 全部写入成功")
 
 
 if __name__ == "__main__":
