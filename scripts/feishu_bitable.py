@@ -295,6 +295,7 @@ def _api_get(url: str, token: str) -> dict:
         with urllib.request.urlopen(req, timeout=30) as resp:
             return json.loads(resp.read())
     except Exception as e:
+        print(f"  ⚠️ API GET 失败（可能无权限，数据未被清除）: {str(e)[:200]}")
         return {"error": str(e)}
 
 
